@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --brand-red: #ff0000;
+  --background: #ffffff;
+  --foreground: #000000;
+  --brand-red: #e5232a;
+  --brand-black: #000000;
   --brand-white: #ffffff;
 }
 
@@ -11,10 +12,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-brand-red: var(--brand-red);
+  --color-brand-black: var(--brand-black);
   --color-brand-white: var(--brand-white);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-almarai: var(--font-almarai);
 }
 
 body {
@@ -30,9 +31,4 @@ body {
 
 .text-brand-red {
   color: var(--brand-red);
-}
-
-.arabic-font,
-.arabic-font * {
-  font-family: var(--font-almarai), "Almarai", sans-serif !important;
 }

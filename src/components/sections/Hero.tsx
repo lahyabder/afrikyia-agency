@@ -1,0 +1,96 @@
+"use client";
+
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
+
+const Hero = () => {
+    const { t, isRTL } = useLanguage();
+
+    return (
+        <section className="relative min-h-screen bg-brand-black flex flex-col items-center justify-center text-center px-6 pt-20 overflow-hidden">
+            {/* Background Ambient Glow */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-[20%] left-[20%] w-[40rem] h-[40rem] bg-brand-red/5 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[20%] right-[20%] w-[40rem] h-[40rem] bg-brand-red/5 rounded-full blur-[120px]" />
+            </div>
+
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="z-10 flex flex-col items-center"
+            >
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                >
+                    <Image
+                        src="/logo.png"
+                        alt="Afrikyia Official Logo"
+                        width={600}
+                        height={200}
+                        className="max-w-[280px] md:max-w-[400px] mb-16"
+                        style={{ filter: 'invert(1) hue-rotate(180deg) saturate(20)', mixBlendMode: 'screen' }}
+                    />
+                </motion.div>
+
+                <div className="mb-16">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.6, duration: 0.8 }}
+                    >
+                        <span className="text-brand-red text-3xl md:text-5xl font-medium block" dir={isRTL ? "rtl" : "ltr"}>
+                            {t.hero.slogan}
+                        </span>
+                    </motion.div>
+                </div>
+
+                <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8, duration: 0.8 }}
+                    className="max-w-3xl mx-auto text-brand-white/80 text-lg md:text-2xl font-light leading-relaxed mb-16"
+                >
+                    {t.hero.desc}
+                </motion.p>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1, duration: 0.8 }}
+                >
+                    <motion.button
+                        whileHover={{ scale: 1.05, backgroundColor: "#E5232A" }}
+                        whileTap={{ scale: 0.95 }}
+                        className="bg-brand-red text-brand-white px-12 py-5 rounded-full text-lg font-semibold tracking-wide transition-all shadow-2xl shadow-brand-red/20 group overflow-hidden relative"
+                    >
+                        <span className="relative z-10">{t.hero.cta}</span>
+                        <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                    </motion.button>
+                </motion.div>
+            </motion.div>
+
+            {/* Scroll Indicator */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5, duration: 1 }}
+                className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+            >
+                <span className="text-brand-white/60 text-xs tracking-[0.3em] uppercase">{t.hero.scroll}</span>
+                <div className="w-[1px] h-16 bg-gradient-to-b from-brand-red to-transparent relative overflow-hidden">
+                    <motion.div
+                        animate={{ y: [0, 64] }}
+                        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                        className="absolute top-0 left-0 w-full h-1/2 bg-brand-white/50"
+                    />
+                </div>
+            </motion.div>
+        </section>
+    );
+};
+
+export default Hero;
