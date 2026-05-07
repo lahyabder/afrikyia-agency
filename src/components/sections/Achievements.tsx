@@ -10,6 +10,7 @@ type AchievementItem = {
     id: string;
     category: 'websites' | 'activities' | 'works';
     link: string;
+    image?: string;
     en: { title: string; categoryLabel: string; desc: string };
     fr: { title: string; categoryLabel: string; desc: string };
     ar: { title: string; categoryLabel: string; desc: string };
@@ -145,6 +146,17 @@ const Achievements = () => {
                                 >
                                     {/* Glowing red outline hover effect */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-brand-red/0 to-brand-red/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+
+                                    {item.image && (
+                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-white/5 bg-black/40">
+                                            <img 
+                                                src={item.image} 
+                                                alt={localized.title}
+                                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent pointer-events-none" />
+                                        </div>
+                                    )}
 
                                     <div>
                                         {/* Card Header Tag */}

@@ -27,6 +27,7 @@ type AchievementItem = {
     id: string;
     category: 'websites' | 'activities' | 'works';
     link: string;
+    image?: string;
     en: { title: string; categoryLabel: string; desc: string };
     fr: { title: string; categoryLabel: string; desc: string };
     ar: { title: string; categoryLabel: string; desc: string };
@@ -60,6 +61,9 @@ export default function AdminPage() {
     const [titleEn, setTitleEn] = useState<string>('');
     const [badgeEn, setBadgeEn] = useState<string>('');
     const [descEn, setDescEn] = useState<string>('');
+
+    // Form Inputs Image State
+    const [image, setImage] = useState<string>('');
 
     // Status Notifications
     const [notification, setNotification] = useState<{ type: 'success' | 'warn' | 'error'; message: string } | null>(null);
@@ -133,6 +137,7 @@ export default function AdminPage() {
             setEditingItem(item);
             setCategory(item.category);
             setLink(item.link);
+            setImage(item.image || '');
             setTitleAr(item.ar.title);
             setBadgeAr(item.ar.categoryLabel);
             setDescAr(item.ar.desc);
@@ -146,6 +151,7 @@ export default function AdminPage() {
             setEditingItem(null);
             setCategory('websites');
             setLink('');
+            setImage('');
             setTitleAr('');
             setBadgeAr('موقع ويب');
             setDescAr('');
@@ -158,6 +164,26 @@ export default function AdminPage() {
         }
         setFormLanguageTab('ar');
         setIsFormOpen(true);
+    };
+
+    // 5b. Handle Image Upload & Base64 conversion
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (file.size > 2 * 1024 * 1024) {
+            showNotification('error', 'حجم الصورة كبير جداً! يرجى اختيار صورة أقل من 2MB | Image too large');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            if (typeof reader.result === 'string') {
+                setImage(reader.result);
+                showNotification('success', 'تم تحميل الصورة بنجاح | Image uploaded successfully');
+            }
+        };
+        reader.readAsDataURL(file);
     };
 
     // 6. Save Achievement (Add or Edit)
@@ -174,6 +200,7 @@ export default function AdminPage() {
             id: editingItem ? editingItem.id : `ach-${Date.now()}`,
             category,
             link: link || '#',
+            image: image || '',
             ar: {
                 title: titleAr,
                 categoryLabel: badgeAr || (category === 'websites' ? 'موقع ويب' : category === 'activities' ? 'نشاط' : 'عمل إبداعي'),
@@ -611,6 +638,50 @@ export default function AdminPage() {
                                             placeholder="https://example.com"
                                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white text-left font-mono"
                                         />
+                                    </div>
+                                </div>
+
+                                {/* Project Image Upload Option */}
+                                <div className="bg-white/5 p-5 rounded-xl border border-white/10 space-y-4 text-right">
+                                    <label className="block text-xs font-bold text-white/60 uppercase tracking-wider text-right">صورة الغلاف للمشروع (Cover Image)</label>
+                                    
+                                    <div className="flex flex-col sm:flex-row gap-4 items-center">
+                                        {/* Image Preview Container */}
+                                        <div className="w-full sm:w-36 aspect-video bg-black/40 border border-white/10 rounded-xl flex items-center justify-center overflow-hidden relative">
+                                            {image ? (
+                                                <>
+                                                    <img src={image} alt="Cover Preview" className="w-full h-full object-cover" />
+                                                    <button 
+                                                        type="button"
+                                                        onClick={() => setImage('')}
+                                                        className="absolute top-1 right-1 bg-brand-red hover:bg-brand-red/90 text-white rounded-full w-5 h-5 flex items-center justify-center cursor-pointer text-xs"
+                                                        title="إزالة الصورة"
+                                                    >
+                                                        ✕
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <span className="text-[10px] text-white/30 text-center px-2">لا توجد صورة</span>
+                                            )}
+                                        </div>
+
+                                        {/* File Input Selection Trigger */}
+                                        <div className="flex-1 w-full text-right sm:text-right">
+                                            <input
+                                                type="file"
+                                                id="project-image-input"
+                                                accept="image/*"
+                                                onChange={handleImageUpload}
+                                                className="hidden"
+                                            />
+                                            <label
+                                                htmlFor="project-image-input"
+                                                className="inline-flex items-center gap-2 px-5 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-bold cursor-pointer transition-all text-white/80 hover:text-white"
+                                            >
+                                                <span>اختر صورة لرفعها (Select & Upload)</span>
+                                            </label>
+                                            <p className="text-[10px] text-white/40 mt-2">يرجى رفع صورة مناسبة للمشروع وبحجم لا يتعدى 2MB.</p>
+                                        </div>
                                     </div>
                                 </div>
 
