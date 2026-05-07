@@ -24,29 +24,33 @@ const Achievements = () => {
     // Fetch achievements on client mount
     useEffect(() => {
         const fetchAchievements = async () => {
+            const hasLocalModifications = localStorage.getItem('afrikyia-achievements-modified') === 'true';
+
+            // Check localStorage first
+            const localCached = localStorage.getItem('afrikyia-achievements');
+            if (localCached) {
+                try {
+                    setAchievements(JSON.parse(localCached));
+                    if (hasLocalModifications) {
+                        // Skip loading from API to keep the user's custom edits intact
+                        return;
+                    }
+                } catch (e) {
+                    // Ignore parsing error
+                }
+            }
+
             try {
                 const response = await fetch('/api/achievements');
                 if (response.ok) {
                     const data = await response.json();
                     if (Array.isArray(data) && data.length > 0) {
                         setAchievements(data);
-                        // Save to localStorage as cached version
                         localStorage.setItem('afrikyia-achievements', JSON.stringify(data));
-                        return;
                     }
                 }
             } catch (err) {
                 console.error("Failed to fetch achievements from API:", err);
-            }
-
-            // Fallback to localStorage if offline or API write warning occurred
-            const localCached = localStorage.getItem('afrikyia-achievements');
-            if (localCached) {
-                try {
-                    setAchievements(JSON.parse(localCached));
-                } catch (e) {
-                    // Ignore parsing error
-                }
             }
         };
 

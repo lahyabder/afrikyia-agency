@@ -19,7 +19,8 @@ import {
     AlertTriangle, 
     CheckCircle2, 
     Folder, 
-    Layers 
+    Layers,
+    Download
 } from 'lucide-react';
 import initialAchievements from '@/data/achievements.json';
 
@@ -65,8 +66,16 @@ export default function AdminPage() {
     // Form Inputs Image State
     const [image, setImage] = useState<string>('');
 
+    // Has local browser modifications flag
+    const [hasLocalModifications, setHasLocalModifications] = useState<boolean>(false);
+
     // Status Notifications
     const [notification, setNotification] = useState<{ type: 'success' | 'warn' | 'error'; message: string } | null>(null);
+
+    // Watch local modification flag state
+    useEffect(() => {
+        setHasLocalModifications(localStorage.getItem('afrikyia-achievements-modified') === 'true');
+    }, [achievements]);
 
     // 1. Check Authentication on Mount
     useEffect(() => {
@@ -77,11 +86,17 @@ export default function AdminPage() {
 
         // Fetch current database
         const loadAchievements = async () => {
+            const hasLocalMod = localStorage.getItem('afrikyia-achievements-modified') === 'true';
+
             // Check localStorage first
             const cached = localStorage.getItem('afrikyia-achievements');
             if (cached) {
                 try {
                     setAchievements(JSON.parse(cached));
+                    if (hasLocalMod) {
+                        // Skip loading from server API to avoid overwriting active edits or deletions
+                        return;
+                    }
                 } catch (e) {
                     // Ignore
                 }
@@ -271,8 +286,12 @@ export default function AdminPage() {
             if (response.ok) {
                 const resData = await response.json();
                 if (resData.error === 'ReadOnlyFileSystem') {
-                    showNotification('warn', 'تم الحفظ محلياً في المتصفح! السيرفر في وضع القراءة فقط (Vercel cloud). لمزامنة التغييرات بشكل دائم، يرجى تشغيل المشروع محلياً.');
+                    localStorage.setItem('afrikyia-achievements-modified', 'true');
+                    setHasLocalModifications(true);
+                    showNotification('warn', 'تم الحفظ محلياً في المتصفح! السيرفر في وضع القراءة فقط (Vercel cloud). يمكنك مزامنة التغييرات لاحقاً.');
                 } else {
+                    localStorage.setItem('afrikyia-achievements-modified', 'false');
+                    setHasLocalModifications(false);
                     showNotification('success', 'تم حفظ التغييرات بنجاح وكتابتها في ملف المشروع! | Saved and synced successfully');
                     // Sync with actual server data
                     if (resData.data) {
@@ -281,10 +300,14 @@ export default function AdminPage() {
                     }
                 }
             } else {
+                localStorage.setItem('afrikyia-achievements-modified', 'true');
+                setHasLocalModifications(true);
                 showNotification('warn', 'تعذر الحفظ في السيرفر، تم حفظ التغييرات محلياً في متصفحك فقط.');
             }
         } catch (err) {
             console.error("Save failed:", err);
+            localStorage.setItem('afrikyia-achievements-modified', 'true');
+            setHasLocalModifications(true);
             showNotification('warn', 'تم الحفظ محلياً في المتصفح (تعذر الاتصال بالخادم المزامنة).');
         }
     };
@@ -312,8 +335,12 @@ export default function AdminPage() {
             if (response.ok) {
                 const resData = await response.json();
                 if (resData.error === 'ReadOnlyFileSystem') {
+                    localStorage.setItem('afrikyia-achievements-modified', 'true');
+                    setHasLocalModifications(true);
                     showNotification('warn', 'تم الحذف من المتصفح محلياً! السيرفر حالياً في وضع القراءة فقط (Vercel cloud).');
                 } else {
+                    localStorage.setItem('afrikyia-achievements-modified', 'false');
+                    setHasLocalModifications(false);
                     showNotification('success', 'تم الحذف بنجاح وتحديث قاعدة البيانات! | Achievement deleted successfully');
                     if (resData.data) {
                         setAchievements(resData.data);
@@ -321,11 +348,48 @@ export default function AdminPage() {
                     }
                 }
             } else {
+                localStorage.setItem('afrikyia-achievements-modified', 'true');
+                setHasLocalModifications(true);
                 showNotification('warn', 'تعذر الحذف من السيرفر. تم تحديث العرض محلياً في متصفحك فقط.');
             }
         } catch (err) {
             console.error("Delete failed:", err);
+            localStorage.setItem('afrikyia-achievements-modified', 'true');
+            setHasLocalModifications(true);
             showNotification('warn', 'تم الحذف محلياً في متصفحك فقط (مشكلة في شبكة الاتصال).');
+        }
+    };
+
+    // 7b. Export modified achievements to a local downloadable achievements.json
+    const handleExportJSON = () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(achievements, null, 4));
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.setAttribute("href", dataStr);
+        downloadAnchor.setAttribute("download", "achievements.json");
+        document.body.appendChild(downloadAnchor);
+        downloadAnchor.click();
+        downloadAnchor.remove();
+        showNotification('success', 'تم تحميل ملف achievements.json الجديد بنجاح | Downloaded successfully');
+    };
+
+    // 7c. Reset Local Browser modifications and pull fresh server database
+    const handleResetLocal = async () => {
+        if (!confirm('هل أنت متأكد من استعادة النسخة الأصلية من السيرفر وإلغاء كافة التغييرات المحلية؟\nAre you sure you want to reset and overwrite local changes with the original database?')) {
+            return;
+        }
+        try {
+            const response = await fetch('/api/achievements');
+            if (response.ok) {
+                const data = await response.json();
+                setAchievements(data);
+                localStorage.setItem('afrikyia-achievements', JSON.stringify(data));
+                localStorage.setItem('afrikyia-achievements-modified', 'false');
+                setHasLocalModifications(false);
+                window.dispatchEvent(new Event('afrikyia-achievements-updated'));
+                showNotification('success', 'تمت استعادة النسخة الأصلية بنجاح | Reset to server database successfully');
+            }
+        } catch (err) {
+            showNotification('error', 'تعذر الاتصال بالسيرفر لاسترجاع البيانات الأصلية.');
         }
     };
 
@@ -467,6 +531,35 @@ export default function AdminPage() {
                             <AlertTriangle className="w-5 h-5 flex-shrink-0" />
                         )}
                         <p className="text-sm font-medium">{notification.message}</p>
+                    </div>
+                )}
+
+                {/* 2b. Local Modifications Warning Banner */}
+                {hasLocalModifications && (
+                    <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 text-right" dir="rtl">
+                        <div className="flex items-start gap-3">
+                            <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                            <div>
+                                <h4 className="font-bold text-amber-400 text-sm">تنبيه: وضع التعديل والمعاينة الحية نشط (الخادم في وضع القراءة فقط)</h4>
+                                <p className="text-xs text-white/70 mt-1 leading-relaxed">
+                                    التغييرات التي تجريها (إضافة، تعديل، أو حذف) يتم حفظها ومزامنتها محلياً في متصفحك بنجاح. لحفظها بشكل دائم على السيرفر، يرجى تشغيل المشروع محلياً، أو تنزيل ملف الإنجازات الجديد من الزر أدناه واستبداله في مجلد المشروع `src/data/achievements.json` ثم عمل Push إلى GitHub!
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex gap-2 flex-wrap justify-end w-full md:w-auto">
+                            <button
+                                onClick={handleExportJSON}
+                                className="px-4 py-2.5 bg-amber-500 hover:bg-amber-500/90 text-black text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-lg shadow-amber-500/25 active:scale-95 animate-pulse"
+                            >
+                                <Download className="w-4 h-4" /> تنزيل الملف المحدث (achievements.json)
+                            </button>
+                            <button
+                                onClick={handleResetLocal}
+                                className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white text-xs font-semibold rounded-xl transition-all cursor-pointer border border-white/10"
+                            >
+                                استعادة الأصلي
+                            </button>
+                        </div>
                     </div>
                 )}
 
