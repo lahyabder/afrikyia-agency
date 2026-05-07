@@ -190,11 +190,36 @@ export default function AdminPage() {
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         
-        // Validation check
-        if (!titleAr || !titleFr || !titleEn) {
-            showNotification('error', 'يرجى ملء العناوين بجميع اللغات | Please fill in the titles for all languages');
+        const trimmedAr = titleAr.trim();
+        const trimmedFr = titleFr.trim();
+        const trimmedEn = titleEn.trim();
+
+        // Ensure at least one title language is filled
+        const primaryTitle = trimmedAr || trimmedFr || trimmedEn;
+        if (!primaryTitle) {
+            showNotification('error', 'يرجى إدخال عنوان الإنجاز بلغة واحدة على الأقل | Please enter a title in at least one language');
             return;
         }
+
+        // Apply smart fallbacks so unfilled languages default to the filled language
+        const finalTitleAr = trimmedAr || primaryTitle;
+        const finalTitleFr = trimmedFr || primaryTitle;
+        const finalTitleEn = trimmedEn || primaryTitle;
+
+        // Apply fallback labels
+        const defaultBadgeAr = category === 'websites' ? 'موقع ويب' : category === 'activities' ? 'نشاط' : 'عمل إبداعي';
+        const defaultBadgeFr = category === 'websites' ? 'Site Web' : category === 'activities' ? 'Activité' : 'Œuvre Créative';
+        const defaultBadgeEn = category === 'websites' ? 'Website' : category === 'activities' ? 'Activity' : 'Creative Work';
+
+        const finalBadgeAr = badgeAr.trim() || defaultBadgeAr;
+        const finalBadgeFr = badgeFr.trim() || defaultBadgeFr;
+        const finalBadgeEn = badgeEn.trim() || defaultBadgeEn;
+
+        // Apply description fallbacks
+        const primaryDesc = descAr.trim() || descFr.trim() || descEn.trim();
+        const finalDescAr = descAr.trim() || primaryDesc;
+        const finalDescFr = descFr.trim() || primaryDesc;
+        const finalDescEn = descEn.trim() || primaryDesc;
 
         const payloadItem: AchievementItem = {
             id: editingItem ? editingItem.id : `ach-${Date.now()}`,
@@ -202,19 +227,19 @@ export default function AdminPage() {
             link: link || '#',
             image: image || '',
             ar: {
-                title: titleAr,
-                categoryLabel: badgeAr || (category === 'websites' ? 'موقع ويب' : category === 'activities' ? 'نشاط' : 'عمل إبداعي'),
-                desc: descAr
+                title: finalTitleAr,
+                categoryLabel: finalBadgeAr,
+                desc: finalDescAr
             },
             fr: {
-                title: titleFr,
-                categoryLabel: badgeFr || (category === 'websites' ? 'Site Web' : category === 'activities' ? 'Activité' : 'Œuvre Créative'),
-                desc: descFr
+                title: finalTitleFr,
+                categoryLabel: finalBadgeFr,
+                desc: finalDescFr
             },
             en: {
-                title: titleEn,
-                categoryLabel: badgeEn || (category === 'websites' ? 'Website' : category === 'activities' ? 'Activity' : 'Creative Work'),
-                desc: descEn
+                title: finalTitleEn,
+                categoryLabel: finalBadgeEn,
+                desc: finalDescEn
             }
         };
 
@@ -721,7 +746,6 @@ export default function AdminPage() {
                                                         onChange={(e) => setTitleAr(e.target.value)}
                                                         placeholder="مثال: بوابة TDM الرقمية"
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white"
-                                                        required={formLanguageTab === 'ar'}
                                                     />
                                                 </div>
                                                 <div>
@@ -758,7 +782,6 @@ export default function AdminPage() {
                                                         onChange={(e) => setTitleFr(e.target.value)}
                                                         placeholder="Ex: Portail Numérique TDM"
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white"
-                                                        required={formLanguageTab === 'fr'}
                                                     />
                                                 </div>
                                                 <div>
@@ -795,7 +818,6 @@ export default function AdminPage() {
                                                         onChange={(e) => setTitleEn(e.target.value)}
                                                         placeholder="Ex: TDM Digital Portal"
                                                         className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white"
-                                                        required={formLanguageTab === 'en'}
                                                     />
                                                 </div>
                                                 <div>
