@@ -31,6 +31,7 @@ const Header = () => {
         <div className="hidden lg:flex items-center gap-8 text-brand-white/90 text-sm uppercase tracking-widest font-medium">
           <Link href="#vision" className="hover:text-brand-red transition-colors">{t.nav.vision}</Link>
           <Link href="#services" className="hover:text-brand-red transition-colors">{t.nav.services}</Link>
+          <Link href="#achievements" className="hover:text-brand-red transition-colors">{t.nav.achievements}</Link>
           <a
             href="https://casting.afrikyia.com"
             target="_blank"

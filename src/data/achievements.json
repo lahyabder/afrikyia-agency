@@ -1,0 +1,122 @@
+[
+    {
+        "id": "tdm-portal",
+        "category": "websites",
+        "link": "https://tdm.mr",
+        "en": {
+            "title": "TDM Digital Portal",
+            "categoryLabel": "Website",
+            "desc": "A comprehensive high-performance digital gateway for telecommunications and media services, facilitating public and administrative interaction."
+        },
+        "fr": {
+            "title": "Portail Numérique TDM",
+            "categoryLabel": "Site Web",
+            "desc": "Un portail numérique complet et performant pour les services de télécommunications et de médias, facilitant l'interaction publique et administrative."
+        },
+        "ar": {
+            "title": "بوابة TDM الرقمية",
+            "categoryLabel": "موقع ويب",
+            "desc": "بوابة رقمية شاملة وعالية الأداء لخدمات الاتصالات والإعلام، تسهل التفاعل العمومي والإداري."
+        }
+    },
+    {
+        "id": "cultural-map",
+        "category": "websites",
+        "link": "https://culturalmap.org",
+        "en": {
+            "title": "Cultural Heritage Map",
+            "categoryLabel": "Platform",
+            "desc": "An interactive digital mapping platform documenting historical sites and cultural heritage using advanced GIS technologies."
+        },
+        "fr": {
+            "title": "Carte du Patrimoine Culturel",
+            "categoryLabel": "Plateforme",
+            "desc": "Une plateforme de cartographie numérique interactive documentant les sites historiques et le patrimoine culturel à l'aide de technologies SIG avancées."
+        },
+        "ar": {
+            "title": "خريطة التراث الثقافي",
+            "categoryLabel": "منصة رقمية",
+            "desc": "منصة خرائطية رقمية تفاعلية لتوثيق المواقع التاريخية والتراث الثقافي باستخدام تقنيات نظم المعلومات الجغرافية المتقدمة."
+        }
+    },
+    {
+        "id": "saudi-music",
+        "category": "websites",
+        "link": "https://saudimusic.gov.sa",
+        "en": {
+            "title": "Saudi Music Gateway",
+            "categoryLabel": "Digital Portal",
+            "desc": "A modern, high-contrast cultural gateway showcasing Saudi musical heritage and connecting industry professionals."
+        },
+        "fr": {
+            "title": "Portail de la Musique Saoudienne",
+            "categoryLabel": "Portail Numérique",
+            "desc": "Un portail culturel moderne à fort contraste mettant en valeur le patrimoine musical saoudien et connectant les professionnels de l'industrie."
+        },
+        "ar": {
+            "title": "بوابة الموسيقى السعودية",
+            "categoryLabel": "بوابة رقمية",
+            "desc": "بوابة ثقافية حديثة وذات تباين عالٍ تستعرض التراث الموسيقي السعودي وتربط بين محترفي هذا القطاع."
+        }
+    },
+    {
+        "id": "bankily-ledger",
+        "category": "works",
+        "link": "#",
+        "en": {
+            "title": "Bankily Agent Ledger",
+            "categoryLabel": "Web App",
+            "desc": "A secure offline-first digital agent ledger tracking financial transactions, commission brackets, and daily balances."
+        },
+        "fr": {
+            "title": "Carnet d'Agent Bankily",
+            "categoryLabel": "App Web",
+            "desc": "Un registre d'agent numérique sécurisé et offline-first pour le suivi des transactions financières, des tranches de commission et des soldes."
+        },
+        "ar": {
+            "title": "دفتر وكيل بنكيلي",
+            "categoryLabel": "تطبيق ويب",
+            "desc": "دفتر وكيل رقمي آمن للعمل دون اتصال بالإنترنت، يتتبع المعاملات المالية، وفئات العمولات، والأرصدة اليومية."
+        }
+    },
+    {
+        "id": "la-medina",
+        "category": "works",
+        "link": "#",
+        "en": {
+            "title": "La Medina Management",
+            "categoryLabel": "System",
+            "desc": "An advanced hotel and hospitality management system designed for seamless daily operations and booking administration."
+        },
+        "fr": {
+            "title": "Gestion de La Medina",
+            "categoryLabel": "Système",
+            "desc": "Un système avancé de gestion hôtelière et de réception conçu pour des opérations quotidiennes fluides et l'administration des réservations."
+        },
+        "ar": {
+            "title": "نظام إدارة لا مدينا",
+            "categoryLabel": "نظام تشغيل",
+            "desc": "نظام إدارة الفنادق والضيافة متطور مصمم لعمليات تشغيل يومية سلسة وإدارة الحجوزات بدقة وكفاءة."
+        }
+    },
+    {
+        "id": "digital-art",
+        "category": "activities",
+        "link": "#",
+        "en": {
+            "title": "Digital Art & Cultural Sovereignty",
+            "categoryLabel": "Activity",
+            "desc": "A digital initiative showcasing modern creative works and supporting local creators in asserting sovereignty in the global creator economy."
+        },
+        "fr": {
+            "title": "Art Numérique & Souveraineté Culturelle",
+            "categoryLabel": "Activité",
+            "desc": "Une initiative numérique présentant des œuvres créatives modernes et aidant les créateurs locaux à s'affirmer dans l'économie créative mondiale."
+        },
+        "ar": {
+            "title": "الفن الرقمي والسيادة الثقافية",
+            "categoryLabel": "نشاط",
+            "desc": "مبادرة رقمية تستعرض الأعمال الإبداعية الحديثة وتدعم المبدعين المحليين لفرض سيادتهم في الاقتصاد الإبداعي العالمي."
+        }
+    }
+]
