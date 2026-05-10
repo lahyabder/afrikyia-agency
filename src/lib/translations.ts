@@ -19,8 +19,8 @@ export const translations = {
         vision: {
             tag: "Our Philosophy",
             title: "Intelligent Making: Beyond Artificial Intelligence.",
-            desc1: "At Afrikyia, \"Intelligent Making\" is a fundamental shift in perception. Because true intelligence is not merely a product of algorithms — it is a deliberate act of cultural crafting.",
-            desc2: "It is the intentional use of technical and creative forces to reshape our digital reality through the lens of identity, heritage, and human action — transforming technology into a cultural vessel."
+            desc1: "At Afrikyia, \"Intelligent Making\" is a fundamental shift in perception. Because true intelligence is not merely a product of algorithms; it is a deliberate act of cultural crafting.",
+            desc2: "It is the intentional use of technical and creative forces to reshape our digital reality through the lens of identity, heritage, and human action, transforming technology into a cultural vessel."
         },
         services: {
             tag: "Our Expertise",
@@ -127,8 +127,8 @@ export const translations = {
         vision: {
             tag: "Notre Philosophie",
             title: "L'Artifice Intelligent : Au-delà de l'Intelligence Artificielle.",
-            desc1: "Chez Afrikyia, « L'Artifice Intelligent » est un changement fondamental de perception. Car la véritable intelligence n'est pas simplement un produit d'algorithmes — c'est un acte délibéré de façonnage culturel.",
-            desc2: "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine — pour transformer la technologie en un véhicule culturel."
+            desc1: "Chez Afrikyia, « L'Artifice Intelligent » est un changement fondamental de perception. Car la véritable intelligence n'est pas simplement un produit d'algorithmes ; c'est un acte délibéré de façonnage culturel.",
+            desc2: "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel."
         },
         services: {
             tag: "Notre Expertise",
