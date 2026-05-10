@@ -1,5 +1,25 @@
 [
     {
+        "id": "dar-mauritanie",
+        "category": "websites",
+        "link": "https://www.darmauritanie.art/",
+        "en": {
+            "title": "Dar Mauritanie",
+            "categoryLabel": "Platform",
+            "desc": "A specialized institution dedicated to the arts and cultural economy, promoting Mauritanian artistic heritage and supporting local creative industries."
+        },
+        "fr": {
+            "title": "Dar Mauritanie",
+            "categoryLabel": "Plateforme",
+            "desc": "Une institution spécialisée dans l'économie des arts et de la culture, valorisant le patrimoine artistique mauritanien et soutenant les industries créatives locales."
+        },
+        "ar": {
+            "title": "دار موريتانيا",
+            "categoryLabel": "منصة رقمية",
+            "desc": "مؤسسة متخصصة باقتصاد الفنون والثقافة، تُعنى بتعزيز الموروث الفني الموريتاني ودعم الصناعات الإبداعية المحلية."
+        }
+    },
+    {
         "id": "cinemasa",
         "category": "websites",
         "link": "https://cinemasa.darmauritanie.art/",
