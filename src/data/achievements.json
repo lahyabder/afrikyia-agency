@@ -1,5 +1,25 @@
 [
     {
+        "id": "maatamoulana",
+        "category": "websites",
+        "link": "https://maatamoulana.net/",
+        "en": {
+            "title": "Maatamoulana",
+            "categoryLabel": "Website",
+            "desc": "An integrated educational city in Mauritania combining Quranic education, academic learning, and professional development under one vision."
+        },
+        "fr": {
+            "title": "Maatamoulana",
+            "categoryLabel": "Site Web",
+            "desc": "Une cité éducative intégrée en Mauritanie alliant éducation coranique, enseignement académique et formation professionnelle sous une vision commune."
+        },
+        "ar": {
+            "title": "معطى مولانا",
+            "categoryLabel": "موقع ويب",
+            "desc": "مدينة تربوية متكاملة في موريتانيا تجمع بين التربية القرآنية والتعليم والعمل في منظومة واحدة متكاملة."
+        }
+    },
+    {
         "id": "dar-mauritanie",
         "category": "websites",
         "link": "https://www.darmauritanie.art/",
