@@ -1,5 +1,45 @@
 [
     {
+        "id": "pan-mauritania",
+        "category": "websites",
+        "link": "http://www.pan.mr/fr",
+        "en": {
+            "title": "Port of Nouadhibou — PAN",
+            "categoryLabel": "Website",
+            "desc": "The official digital platform of the Autonomous Port of Nouadhibou, offering port services, infrastructure information, and institutional communication."
+        },
+        "fr": {
+            "title": "Port de Nouadhibou — PAN",
+            "categoryLabel": "Site Web",
+            "desc": "La plateforme numérique officielle du Port Autonome de Nouadhibou, offrant les services portuaires, les informations sur les infrastructures et la communication institutionnelle."
+        },
+        "ar": {
+            "title": "ميناء نواذيبو المستقل — PAN",
+            "categoryLabel": "موقع ويب",
+            "desc": "المنصة الرقمية الرسمية للميناء المستقل لنواذيبو، تتضمن الخدمات الميناوية، معلومات البنية التحتية، والتواصل المؤسسي."
+        }
+    },
+    {
+        "id": "accespan",
+        "category": "websites",
+        "link": "https://www.accespan.com/",
+        "en": {
+            "title": "AcceSpan — Access Card System",
+            "categoryLabel": "System",
+            "desc": "A smart badge and access card management system for the Port of Nouadhibou, streamlining secure entry and identity verification for port personnel."
+        },
+        "fr": {
+            "title": "AcceSpan — Système de Badges",
+            "categoryLabel": "Système",
+            "desc": "Un système intelligent de gestion des badges et cartes d'accès pour le Port Autonome de Nouadhibou, facilitant le contrôle sécurisé des entrées et la vérification des identités."
+        },
+        "ar": {
+            "title": "AcceSpan — نظام بطاقات الوصول",
+            "categoryLabel": "نظام تشغيل",
+            "desc": "نظام ذكي لإدارة بطاقات الوصول والشارات الأمنية للميناء المستقل لنواذيبو، يضمن التحكم الآمن في الدخول والتحقق من هوية الموظفين."
+        }
+    },
+    {
         "id": "tdm-portal",
         "category": "websites",
         "link": "https://tdm.mr",
@@ -62,21 +102,21 @@
     {
         "id": "bankily-ledger",
         "category": "works",
-        "link": "#",
+        "link": "https://diftar.online/",
         "en": {
-            "title": "Bankily Agent Ledger",
+            "title": "Diftar Bankily",
             "categoryLabel": "Web App",
-            "desc": "A secure offline-first digital agent ledger tracking financial transactions, commission brackets, and daily balances."
+            "desc": "An all-in-one platform to log transactions, auto-calculate commissions, and track profits in real time. Say goodbye to paper ledgers and calculation errors."
         },
         "fr": {
-            "title": "Carnet d'Agent Bankily",
+            "title": "Diftar Bankily",
             "categoryLabel": "App Web",
-            "desc": "Un registre d'agent numérique sécurisé et offline-first pour le suivi des transactions financières, des tranches de commission et des soldes."
+            "desc": "Une plateforme tout-en-un pour enregistrer les opérations, calculer automatiquement les commissions et suivre les bénéfices en temps réel. Fini les cahiers papier et les erreurs de calcul."
         },
         "ar": {
-            "title": "دفتر وكيل بنكيلي",
+            "title": "دفتر بنكيلي",
             "categoryLabel": "تطبيق ويب",
-            "desc": "دفتر وكيل رقمي آمن للعمل دون اتصال بالإنترنت، يتتبع المعاملات المالية، وفئات العمولات، والأرصدة اليومية."
+            "desc": "منصة متكاملة لتسجيل العمليات، حساب العمولات تلقائياً، ومتابعة الأرباح لحظة بلحظة. وداعاً للدفاتر الورقية والأخطاء الحسابية."
         }
     },
     {
