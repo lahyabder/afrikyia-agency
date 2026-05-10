@@ -158,25 +158,5 @@
             "categoryLabel": "تطبيق ويب",
             "desc": "منصة متكاملة لتسجيل العمليات، حساب العمولات تلقائياً، ومتابعة الأرباح لحظة بلحظة. وداعاً للدفاتر الورقية والأخطاء الحسابية."
         }
-    },
-    {
-        "id": "digital-art",
-        "category": "activities",
-        "link": "#",
-        "en": {
-            "title": "Digital Art & Cultural Sovereignty",
-            "categoryLabel": "Activity",
-            "desc": "A digital initiative showcasing modern creative works and supporting local creators in asserting sovereignty in the global creator economy."
-        },
-        "fr": {
-            "title": "Art Numérique & Souveraineté Culturelle",
-            "categoryLabel": "Activité",
-            "desc": "Une initiative numérique présentant des œuvres créatives modernes et aidant les créateurs locaux à s'affirmer dans l'économie créative mondiale."
-        },
-        "ar": {
-            "title": "الفن الرقمي والسيادة الثقافية",
-            "categoryLabel": "نشاط",
-            "desc": "مبادرة رقمية تستعرض الأعمال الإبداعية الحديثة وتدعم المبدعين المحليين لفرض سيادتهم في الاقتصاد الإبداعي العالمي."
-        }
     }
 ]
