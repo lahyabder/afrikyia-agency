@@ -84,17 +84,17 @@
         "category": "works",
         "link": "https://diftar.online/",
         "en": {
-            "title": "Diftar Bankily",
+            "title": "Diftar",
             "categoryLabel": "Web App",
             "desc": "An all-in-one platform to log transactions, auto-calculate commissions, and track profits in real time. Say goodbye to paper ledgers and calculation errors."
         },
         "fr": {
-            "title": "Diftar Bankily",
+            "title": "Diftar",
             "categoryLabel": "App Web",
             "desc": "Une plateforme tout-en-un pour enregistrer les opérations, calculer automatiquement les commissions et suivre les bénéfices en temps réel. Fini les cahiers papier et les erreurs de calcul."
         },
         "ar": {
-            "title": "دفتر بنكيلي",
+            "title": "دفتر",
             "categoryLabel": "تطبيق ويب",
             "desc": "منصة متكاملة لتسجيل العمليات، حساب العمولات تلقائياً، ومتابعة الأرباح لحظة بلحظة. وداعاً للدفاتر الورقية والأخطاء الحسابية."
         }
