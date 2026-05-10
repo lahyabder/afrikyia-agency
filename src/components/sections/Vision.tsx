@@ -7,7 +7,7 @@ const Vision = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section id="vision" className="py-24 md:py-40 bg-black selection:bg-brand-red selection:text-white">
+        <section id="vision" className="py-16 md:py-32 bg-black selection:bg-brand-red selection:text-white">
             <div className="container mx-auto px-6">
                 <div className={`max-w-5xl ${isRTL ? 'text-right' : 'text-left'}`}>
                     <motion.div
@@ -40,7 +40,7 @@ const Vision = () => {
                         </h3>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-12 md:gap-24">
+                    <div className="grid md:grid-cols-2 gap-6 md:gap-24">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
