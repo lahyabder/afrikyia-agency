@@ -160,26 +160,6 @@
         }
     },
     {
-        "id": "la-medina",
-        "category": "works",
-        "link": "#",
-        "en": {
-            "title": "La Medina Management",
-            "categoryLabel": "System",
-            "desc": "An advanced hotel and hospitality management system designed for seamless daily operations and booking administration."
-        },
-        "fr": {
-            "title": "Gestion de La Medina",
-            "categoryLabel": "Système",
-            "desc": "Un système avancé de gestion hôtelière et de réception conçu pour des opérations quotidiennes fluides et l'administration des réservations."
-        },
-        "ar": {
-            "title": "نظام إدارة لا مدينا",
-            "categoryLabel": "نظام تشغيل",
-            "desc": "نظام إدارة الفنادق والضيافة متطور مصمم لعمليات تشغيل يومية سلسة وإدارة الحجوزات بدقة وكفاءة."
-        }
-    },
-    {
         "id": "digital-art",
         "category": "activities",
         "link": "#",
