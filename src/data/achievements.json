@@ -1,5 +1,25 @@
 [
     {
+        "id": "cinemasa",
+        "category": "websites",
+        "link": "https://cinemasa.darmauritanie.art/",
+        "en": {
+            "title": "Saudi Cinema Gateway",
+            "categoryLabel": "Digital Portal",
+            "desc": "The first dedicated platform for documenting Saudi cinema: films, filmmakers, production companies, theaters, and market statistics."
+        },
+        "fr": {
+            "title": "Portail du Cinéma Saoudien",
+            "categoryLabel": "Portail Numérique",
+            "desc": "La première plateforme dédiée à la documentation du cinéma saoudien : films, cinéastes, sociétés de production, salles de cinéma et statistiques du marché."
+        },
+        "ar": {
+            "title": "بوابة السينما السعودية",
+            "categoryLabel": "بوابة رقمية",
+            "desc": "المنصة الأولى لتوثيق السينما السعودية: أفلام، صناع أفلام، شركات إنتاج، دور عرض، وإحصائيات السوق."
+        }
+    },
+    {
         "id": "pan-mauritania",
         "category": "websites",
         "link": "http://www.pan.mr/fr",
