@@ -60,26 +60,6 @@
         }
     },
     {
-        "id": "saudi-music",
-        "category": "websites",
-        "link": "https://saudimusic.gov.sa",
-        "en": {
-            "title": "Saudi Music Gateway",
-            "categoryLabel": "Digital Portal",
-            "desc": "A modern, high-contrast cultural gateway showcasing Saudi musical heritage and connecting industry professionals."
-        },
-        "fr": {
-            "title": "Portail de la Musique Saoudienne",
-            "categoryLabel": "Portail Numérique",
-            "desc": "Un portail culturel moderne à fort contraste mettant en valeur le patrimoine musical saoudien et connectant les professionnels de l'industrie."
-        },
-        "ar": {
-            "title": "بوابة الموسيقى السعودية",
-            "categoryLabel": "بوابة رقمية",
-            "desc": "بوابة ثقافية حديثة وذات تباين عالٍ تستعرض التراث الموسيقي السعودي وتربط بين محترفي هذا القطاع."
-        }
-    },
-    {
         "id": "bankily-ledger",
         "category": "works",
         "link": "https://diftar.online/",
