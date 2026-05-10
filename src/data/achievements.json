@@ -1,5 +1,25 @@
 [
     {
+        "id": "nagha-festival",
+        "category": "websites",
+        "link": "https://nagha.art/ar",
+        "en": {
+            "title": "Festival NAGHA",
+            "categoryLabel": "Website",
+            "desc": "The Camel Festival of Desert Culture — a vibrant celebration of Saharan heritage, traditional arts, and the cultural identity of the desert world."
+        },
+        "fr": {
+            "title": "Festival NAGHA",
+            "categoryLabel": "Site Web",
+            "desc": "Le Festival du Chameau pour la Culture du Désert — une célébration vivante du patrimoine saharien, des arts traditionnels et de l'identité culturelle du monde désertique."
+        },
+        "ar": {
+            "title": "مهرجان الناقة",
+            "categoryLabel": "موقع ويب",
+            "desc": "مهرجان الناقة لثقافة الصحراء — احتفاء بالموروث الصحراوي والفنون التقليدية والهوية الثقافية لعالم الصحراء الكبرى."
+        }
+    },
+    {
         "id": "maatamoulana",
         "category": "websites",
         "link": "https://maatamoulana.net/",
