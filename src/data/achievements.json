@@ -40,26 +40,6 @@
         }
     },
     {
-        "id": "tdm-portal",
-        "category": "websites",
-        "link": "https://tdm.mr",
-        "en": {
-            "title": "TDM Digital Portal",
-            "categoryLabel": "Website",
-            "desc": "A comprehensive high-performance digital gateway for telecommunications and media services, facilitating public and administrative interaction."
-        },
-        "fr": {
-            "title": "Portail Numérique TDM",
-            "categoryLabel": "Site Web",
-            "desc": "Un portail numérique complet et performant pour les services de télécommunications et de médias, facilitant l'interaction publique et administrative."
-        },
-        "ar": {
-            "title": "بوابة TDM الرقمية",
-            "categoryLabel": "موقع ويب",
-            "desc": "بوابة رقمية شاملة وعالية الأداء لخدمات الاتصالات والإعلام، تسهل التفاعل العمومي والإداري."
-        }
-    },
-    {
         "id": "cultural-map",
         "category": "websites",
         "link": "https://culturalmap.org",
