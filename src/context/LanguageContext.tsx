@@ -16,10 +16,12 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     const [language, setLanguage] = useState<Language>('en');
 
     useEffect(() => {
-        const savedLang = localStorage.getItem('afrikyia-lang') as Language;
-        if (savedLang && (savedLang === 'en' || savedLang === 'fr' || savedLang === 'ar')) {
-            setLanguage(savedLang);
-        }
+        setTimeout(() => {
+            const savedLang = localStorage.getItem('afrikyia-lang') as Language;
+            if (savedLang && (savedLang === 'en' || savedLang === 'fr' || savedLang === 'ar')) {
+                setLanguage(savedLang);
+            }
+        }, 0);
     }, []);
 
     useEffect(() => {
