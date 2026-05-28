@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 import { 
     LayoutDashboard, 
     Users, 
@@ -27,6 +28,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     
     const pathname = usePathname();
     const router = useRouter();
+    const { t, language, setLanguage, isRTL } = useLanguage();
 
     useEffect(() => {
         setTimeout(() => {
@@ -45,7 +47,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
             setLoginError('');
             localStorage.setItem('afrikyia-admin-auth', 'true');
         } else {
-            setLoginError('كلمة المرور غير صحيحة | Incorrect Password');
+            setLoginError(t.admin.auth.incorrectPassword);
         }
     };
 
@@ -59,7 +61,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
 
     if (!isAuthenticated) {
         return (
-            <main className="min-h-screen bg-black text-white flex items-center justify-center p-6" dir="rtl">
+            <main className="min-h-screen bg-black text-white flex items-center justify-center p-6" dir={isRTL ? 'rtl' : 'ltr'}>
                 <div className="absolute inset-0 bg-radial-gradient from-yellow-500/10 to-transparent pointer-events-none" />
                 
                 <div className="w-full max-w-md relative z-10">
@@ -74,8 +76,8 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                                 style={{ filter: 'invert(1) hue-rotate(180deg) saturate(20)', mixBlendMode: 'screen' }}
                             />
                         </Link>
-                        <h1 className="text-2xl font-bold tracking-tight text-white mb-2">لوحة التحكم في الإنجازات</h1>
-                        <p className="text-sm text-white/50 uppercase tracking-widest font-mono">Admin Portal</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-white mb-2">{t.admin.auth.loginTitle}</h1>
+                        <p className="text-sm text-white/50 uppercase tracking-widest font-mono">{t.admin.auth.loginSub}</p>
                     </div>
 
                     <motion.div 
@@ -86,16 +88,16 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                         <form onSubmit={handleLogin} className="space-y-6">
                             <div>
                                 <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">
-                                    أدخل رمز التحقق (رمز الإدارة)
+                                    {t.admin.auth.enterCode}
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                                    <Lock className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 ${isRTL ? 'right-4' : 'left-4'}`} />
                                     <input
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="رمز التحقق (مثال: afrikyia2026)"
-                                        className="w-full bg-black/40 border border-white/10 rounded-xl py-3.5 pr-12 pl-4 text-center text-white focus:outline-none focus:border-yellow-400 transition-all"
+                                        placeholder={t.admin.auth.passwordPlaceholder}
+                                        className={`w-full bg-black/40 border border-white/10 rounded-xl py-3.5 ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-center text-white focus:outline-none focus:border-yellow-400 transition-all`}
                                         required
                                     />
                                 </div>
@@ -110,7 +112,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                                 type="submit"
                                 className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3.5 rounded-xl transition-all cursor-pointer shadow-lg shadow-yellow-400/20 active:scale-[0.98]"
                             >
-                                دخول لوحة الإدارة
+                                {t.admin.auth.loginButton}
                             </button>
                         </form>
                     </motion.div>
@@ -120,21 +122,21 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     }
 
     const menuItems = [
-        { name: 'لوحة التحكم', icon: LayoutDashboard, path: '/admin/dashboard' },
-        { name: 'العملاء', icon: Users, path: '/admin/clients' },
-        { name: 'العروض', icon: FileText, path: '/admin/offers' },
-        { name: 'الفواتير', icon: Receipt, path: '/admin/invoices' },
-        { name: 'سندات التسليم', icon: FileBox, path: '/admin/delivery-notes' },
-        { name: 'الملفات', icon: Files, path: '/admin/files' },
-        { name: 'إدارة الموقع', icon: Globe, path: '/admin/achievements' },
-        { name: 'المستخدمون', icon: Users, path: '/admin/users' },
-        { name: 'الإعدادات', icon: Settings, path: '/admin/settings' },
+        { name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard' },
+        { name: t.admin.menu.clients, icon: Users, path: '/admin/clients' },
+        { name: t.admin.menu.offers, icon: FileText, path: '/admin/offers' },
+        { name: t.admin.menu.invoices, icon: Receipt, path: '/admin/invoices' },
+        { name: t.admin.menu.deliveryNotes, icon: FileBox, path: '/admin/delivery-notes' },
+        { name: t.admin.menu.files, icon: Files, path: '/admin/files' },
+        { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements' },
+        { name: t.admin.menu.users, icon: Users, path: '/admin/users' },
+        { name: t.admin.menu.settings, icon: Settings, path: '/admin/settings' },
     ];
 
     return (
-        <div className="flex h-screen bg-[#111111] text-white font-sans arabic-font" dir="rtl">
+        <div className={`flex h-screen bg-[#111111] text-white font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Sidebar */}
-            <aside className="w-64 bg-[#0a0a0a] border-l border-white/5 flex flex-col hidden md:flex">
+            <aside className={`w-64 bg-[#0a0a0a] border-white/5 flex flex-col hidden md:flex ${isRTL ? 'border-l' : 'border-r'}`}>
                 <div className="p-6 border-b border-white/5">
                     <Link href="/">
                         <Image
@@ -171,13 +173,28 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                     </ul>
                 </nav>
 
-                <div className="p-4 border-t border-white/5">
+                <div className="p-4 border-t border-white/5 space-y-2">
+                    <div className="flex items-center gap-2 mb-4 bg-white/5 p-1 rounded-xl">
+                        {(['ar', 'fr', 'en'] as const).map((lang) => (
+                            <button
+                                key={lang}
+                                onClick={() => setLanguage(lang)}
+                                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                                    language === lang 
+                                        ? 'bg-yellow-400 text-black shadow-md' 
+                                        : 'text-white/40 hover:text-white hover:bg-white/10'
+                                }`}
+                            >
+                                {lang.toUpperCase()}
+                            </button>
+                        ))}
+                    </div>
                     <button
                         onClick={handleLogout}
                         className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
                     >
                         <LogOut className="w-5 h-5" />
-                        تسجيل الخروج
+                        {t.admin.menu.logout}
                     </button>
                 </div>
             </aside>

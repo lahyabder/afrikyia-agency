@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 
 type Client = {
     id: string;
@@ -14,6 +15,7 @@ type Client = {
 };
 
 export default function ClientsPage() {
+    const { t, isRTL } = useLanguage();
     const [clients, setClients] = useState<Client[]>([]);
 
     useEffect(() => {
@@ -39,7 +41,7 @@ export default function ClientsPage() {
     }, []);
 
     const handleDelete = (id: string) => {
-        if (confirm('هل أنت متأكد من حذف هذا العميل؟')) {
+        if (confirm('Are you sure? / هل أنت متأكد؟ / Êtes-vous sûr ?')) {
             const updated = clients.filter(c => c.id !== id);
             setClients(updated);
             localStorage.setItem('afrikyia-clients', JSON.stringify(updated));
@@ -48,31 +50,31 @@ export default function ClientsPage() {
 
     const getStatusBadge = (status: string) => {
         switch(status) {
-            case 'active': return <span className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full text-[10px] font-bold border border-emerald-500/20">نشط</span>;
-            case 'inactive': return <span className="bg-white/10 text-white/50 px-2 py-0.5 rounded-full text-[10px] font-bold border border-white/5">غير نشط</span>;
+            case 'active': return <span className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full text-[10px] font-bold border border-emerald-500/20">{t.admin.common.active}</span>;
+            case 'inactive': return <span className="bg-white/10 text-white/50 px-2 py-0.5 rounded-full text-[10px] font-bold border border-white/5">{t.admin.common.inactive}</span>;
             default: return null;
         }
     };
 
     return (
-        <div className="space-y-6 animate-fade-in text-white" dir="rtl">
+        <div className="space-y-6 animate-fade-in text-white" dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Header */}
-            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+            <div className={`flex justify-between items-center border-b border-white/5 pb-4 ${isRTL ? 'flex-row' : 'flex-row'}`}>
                 <h1 className="text-3xl font-bold flex items-center gap-3">
-                    العملاء
+                    {t.admin.clients.title}
                 </h1>
                 <Link 
                     href="/admin/clients/new"
                     className="bg-yellow-400 hover:bg-yellow-500 text-black px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-yellow-400/20"
                 >
-                    إضافة عميل
+                    {t.admin.clients.addClient}
                 </Link>
             </div>
 
             {/* List */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {clients.length === 0 ? (
-                    <div className="col-span-full text-center py-12 text-white/40">لا يوجد عملاء حالياً.</div>
+                    <div className="col-span-full text-center py-12 text-white/40">{t.admin.clients.noClients}</div>
                 ) : (
                     clients.map((client, i) => (
                         <motion.div 
@@ -103,12 +105,12 @@ export default function ClientsPage() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-4 border-t border-white/5 flex gap-2 justify-end">
+                            <div className={`mt-6 pt-4 border-t border-white/5 flex gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
                                 <button onClick={() => handleDelete(client.id)} className="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
-                                    حذف
+                                    {t.admin.common.delete}
                                 </button>
                                 <button className="bg-white/5 hover:bg-white/10 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all">
-                                    تعديل
+                                    {t.admin.common.edit}
                                 </button>
                             </div>
                         </motion.div>

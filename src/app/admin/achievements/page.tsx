@@ -23,6 +23,7 @@ import {
     Download
 } from 'lucide-react';
 import initialAchievements from '@/data/achievements.json';
+import { useLanguage } from '@/context/LanguageContext';
 
 type AchievementItem = {
     id: string;
@@ -35,6 +36,7 @@ type AchievementItem = {
 };
 
 export default function AdminPage() {
+    const { t, isRTL, language } = useLanguage();
     // Authentication State
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [password, setPassword] = useState<string>('');
@@ -415,7 +417,7 @@ export default function AdminPage() {
     // LOGIN SCREEN RENDER
     if (!isAuthenticated) {
         return (
-            <main className="min-h-screen bg-black text-white flex items-center justify-center p-6" dir="rtl">
+            <main className="min-h-screen bg-black text-white flex items-center justify-center p-6" dir={isRTL ? 'rtl' : 'ltr'}>
                 <div className="absolute inset-0 bg-radial-gradient from-brand-red/10 to-transparent pointer-events-none" />
                 
                 <div className="w-full max-w-md relative z-10">
@@ -430,8 +432,8 @@ export default function AdminPage() {
                                 style={{ filter: 'invert(1) hue-rotate(180deg) saturate(20)', mixBlendMode: 'screen' }}
                             />
                         </Link>
-                        <h1 className="text-2xl font-bold tracking-tight text-white mb-2">لوحة التحكم في الإنجازات</h1>
-                        <p className="text-sm text-white/50 uppercase tracking-widest font-mono">Admin Portal</p>
+                        <h1 className="text-2xl font-bold tracking-tight text-white mb-2">{t.admin.auth.loginTitle}</h1>
+                        <p className="text-sm text-white/50 uppercase tracking-widest font-mono">{t.admin.auth.loginSub}</p>
                     </div>
 
                     <motion.div 
@@ -442,16 +444,16 @@ export default function AdminPage() {
                         <form onSubmit={handleLogin} className="space-y-6">
                             <div>
                                 <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">
-                                    أدخل رمز التحقق (رمز الإدارة)
+                                    {t.admin.auth.enterCode}
                                 </label>
                                 <div className="relative">
-                                    <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+                                    <Lock className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 ${isRTL ? 'right-4' : 'left-4'}`} />
                                     <input
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="رمز التحقق (مثال: afrikyia2026)"
-                                        className="w-full bg-black/40 border border-white/10 rounded-xl py-3.5 pr-12 pl-4 text-center text-white focus:outline-none focus:border-brand-red transition-all"
+                                        placeholder={t.admin.auth.passwordPlaceholder}
+                                        className={`w-full bg-black/40 border border-white/10 rounded-xl py-3.5 ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-center text-white focus:outline-none focus:border-brand-red transition-all`}
                                         required
                                     />
                                 </div>
@@ -466,7 +468,7 @@ export default function AdminPage() {
                                 type="submit"
                                 className="w-full bg-brand-red hover:bg-brand-red/90 text-white font-bold py-3.5 rounded-xl transition-all cursor-pointer shadow-lg shadow-brand-red/20 active:scale-[0.98]"
                             >
-                                دخول لوحة الإدارة
+                                {t.admin.auth.loginButton}
                             </button>
                         </form>
                     </motion.div>
@@ -477,11 +479,11 @@ export default function AdminPage() {
 
     // MAIN ADMIN DASHBOARD RENDER
     return (
-        <main className="min-h-screen bg-[#080808] text-white p-6 md:p-12 font-sans" dir="rtl">
+        <main className={`min-h-screen bg-[#080808] text-white p-6 md:p-12 font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
             <div className="max-w-7xl mx-auto space-y-8">
                 
                 {/* 1. Header Row */}
-                <div className="flex flex-col md:flex-row justify-between items-center bg-black/40 border border-white/5 p-6 rounded-2xl gap-6">
+                <div className={`flex flex-col md:flex-row justify-between items-center bg-black/40 border border-white/5 p-6 rounded-2xl gap-6 ${isRTL ? 'flex-row' : 'flex-row'}`}>
                     <div className="flex items-center gap-4">
                         <Link href="/">
                             <Image
@@ -495,23 +497,23 @@ export default function AdminPage() {
                         </Link>
                         <div className="w-px h-6 bg-white/20 hidden md:block" />
                         <div>
-                            <h1 className="text-lg font-bold">لوحة إدارة الإنجازات</h1>
-                            <p className="text-xs text-white/50">تعديل وإضافة المواقع والأعمال المنجزة والأنشطة</p>
+                            <h1 className="text-lg font-bold">{t.admin.achievements.title}</h1>
+                            <p className="text-xs text-white/50">{t.admin.achievements.subtitle}</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
+                    <div className={`flex items-center gap-4 w-full md:w-auto justify-between ${isRTL ? 'md:justify-end' : 'md:justify-start'}`}>
                         <Link 
                             href="/"
                             className="text-xs font-semibold uppercase tracking-wider text-white/70 hover:text-white flex items-center gap-1 border border-white/10 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 transition-all"
                         >
-                            <ChevronLeft className="w-4 h-4" /> العودة للموقع
+                            <ChevronLeft className="w-4 h-4" /> {t.admin.menu.backToSite}
                         </Link>
                         <button
                             onClick={handleLogout}
                             className="bg-brand-red/10 border border-brand-red/20 hover:bg-brand-red/20 text-brand-red px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer transition-all flex items-center gap-2"
                         >
-                            <LogOut className="w-4 h-4" /> تسجيل الخروج
+                            <LogOut className="w-4 h-4" /> {t.admin.menu.logout}
                         </button>
                     </div>
                 </div>
@@ -571,7 +573,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                             <div className="text-2xl font-bold">{totalCount}</div>
-                            <div className="text-xs text-white/50 font-medium">إجمالي الإنجازات</div>
+                            <div className="text-xs text-white/50 font-medium">{t.admin.achievements.totalAchievements}</div>
                         </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
@@ -580,7 +582,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                             <div className="text-2xl font-bold">{websitesCount}</div>
-                            <div className="text-xs text-white/50 font-medium">مواقع إلكترونية</div>
+                            <div className="text-xs text-white/50 font-medium">{t.admin.achievements.websites}</div>
                         </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
@@ -589,7 +591,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                             <div className="text-2xl font-bold">{activitiesCount}</div>
-                            <div className="text-xs text-white/50 font-medium">أنشطة وفعاليات</div>
+                            <div className="text-xs text-white/50 font-medium">{t.admin.achievements.activities}</div>
                         </div>
                     </div>
                     <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all">
@@ -598,7 +600,7 @@ export default function AdminPage() {
                         </div>
                         <div>
                             <div className="text-2xl font-bold">{worksCount}</div>
-                            <div className="text-xs text-white/50 font-medium">تطبيقات وأعمال</div>
+                            <div className="text-xs text-white/50 font-medium">{t.admin.achievements.works}</div>
                         </div>
                     </div>
                 </div>
@@ -608,16 +610,16 @@ export default function AdminPage() {
                     {/* Search and Category Filters */}
                     <div className="flex flex-col sm:flex-row gap-4 flex-1">
                         <div className="relative flex-1">
-                            <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 w-5 h-5" />
+                            <Search className={`absolute ${isRTL ? 'right-4' : 'left-4'} top-1/2 -translate-y-1/2 text-white/40 w-5 h-5`} />
                             <input
                                 type="text"
-                                placeholder="ابحث في العناوين والوصف..."
+                                placeholder={t.admin.achievements.searchPlaceholder}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pr-12 pl-4 text-sm focus:outline-none focus:border-brand-red transition-all text-white"
+                                className={`w-full bg-white/5 border border-white/10 rounded-xl py-3 ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-sm focus:outline-none focus:border-brand-red transition-all text-white`}
                             />
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 flex-wrap">
                             {['all', 'websites', 'activities', 'works'].map((cat) => (
                                 <button
                                     key={cat}
@@ -628,7 +630,7 @@ export default function AdminPage() {
                                             : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:bg-white/10'
                                     }`}
                                 >
-                                    {cat === 'all' ? 'الكل' : cat === 'websites' ? 'مواقع' : cat === 'activities' ? 'أنشطة' : 'أعمال'}
+                                    {cat === 'all' ? t.admin.achievements.filterAll : cat === 'websites' ? t.admin.achievements.filterWebsites : cat === 'activities' ? t.admin.achievements.filterActivities : t.admin.achievements.filterWorks}
                                 </button>
                             ))}
                         </div>
@@ -639,7 +641,7 @@ export default function AdminPage() {
                         onClick={() => openForm()}
                         className="bg-brand-red hover:bg-brand-red/90 text-white px-6 py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-brand-red/25 cursor-pointer"
                     >
-                        <Plus className="w-5 h-5" /> إضافة إنجاز جديد
+                        <Plus className="w-5 h-5" /> {t.admin.achievements.addNew}
                     </button>
                 </div>
 
@@ -648,30 +650,32 @@ export default function AdminPage() {
                     {displayedAchievements.length === 0 ? (
                         <div className="text-center py-16 text-white/40">
                             <Folder className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                            <p className="text-sm">لم يتم العثور على أي أعمال أو أنشطة مطابقة.</p>
+                            <p className="text-sm">{t.admin.achievements.noMatches}</p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
-                            <table className="w-full text-right text-sm">
+                            <table className={`w-full ${isRTL ? 'text-right' : 'text-left'} text-sm`}>
                                 <thead className="bg-white/5 text-xs text-white/60 font-bold uppercase tracking-wider border-b border-white/10">
                                     <tr>
-                                        <th scope="col" className="px-6 py-4">اسم الإنجاز (العربية)</th>
-                                        <th scope="col" className="px-6 py-4">التصنيف</th>
-                                        <th scope="col" className="px-6 py-4 hidden md:table-cell">الرابط</th>
-                                        <th scope="col" className="px-6 py-4 text-left">التحكم</th>
+                                        <th scope="col" className="px-6 py-4">{t.admin.achievements.nameCol}</th>
+                                        <th scope="col" className="px-6 py-4">{t.admin.achievements.categoryCol}</th>
+                                        <th scope="col" className="px-6 py-4 hidden md:table-cell">{t.admin.achievements.linkCol}</th>
+                                        <th scope="col" className={`px-6 py-4 ${isRTL ? 'text-left' : 'text-right'}`}>{t.admin.achievements.actionsCol}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-white/5">
-                                    {displayedAchievements.map((item) => (
+                                    {displayedAchievements.map((item) => {
+                                        const displayItem = language === 'en' ? item.en : language === 'fr' ? item.fr : item.ar;
+                                        return (
                                         <tr key={item.id} className="hover:bg-white/5 transition-all">
                                             <td className="px-6 py-5">
-                                                <div className="font-bold text-white mb-1">{item.ar.title}</div>
-                                                <div className="text-xs text-white/40 max-w-sm truncate">{item.ar.desc}</div>
+                                                <div className="font-bold text-white mb-1">{displayItem.title}</div>
+                                                <div className="text-xs text-white/40 max-w-sm truncate">{displayItem.desc}</div>
                                             </td>
                                             <td className="px-6 py-5">
                                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-brand-red/10 text-brand-red`}>
                                                     {item.category === 'websites' ? <Globe className="w-3.5 h-3.5" /> : item.category === 'activities' ? <Activity className="w-3.5 h-3.5" /> : <Code2 className="w-3.5 h-3.5" />}
-                                                    {item.ar.categoryLabel}
+                                                    {displayItem.categoryLabel}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-5 hidden md:table-cell font-mono text-xs text-white/50">
@@ -680,11 +684,11 @@ export default function AdminPage() {
                                                         {item.link} <ExternalLink className="w-3 h-3" />
                                                     </a>
                                                 ) : (
-                                                    <span className="text-white/20">لا يوجد رابط</span>
+                                                    <span className="text-white/20">{t.admin.achievements.noLink}</span>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-5 text-left">
-                                                <div className="flex gap-2 justify-end">
+                                            <td className={`px-6 py-5 ${isRTL ? 'text-left' : 'text-right'}`}>
+                                                <div className={`flex gap-2 ${isRTL ? 'justify-end' : 'justify-end'}`}>
                                                     <button
                                                         onClick={() => openForm(item)}
                                                         className="p-2 bg-white/5 hover:bg-white/10 hover:text-brand-red rounded-lg transition-all text-white/80 cursor-pointer"
@@ -702,7 +706,8 @@ export default function AdminPage() {
                                                 </div>
                                             </td>
                                         </tr>
-                                    ))}
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         </div>

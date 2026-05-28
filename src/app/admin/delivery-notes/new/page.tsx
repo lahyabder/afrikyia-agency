@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function NewDeliveryNotePage() {
     const router = useRouter();
+    const { t, isRTL } = useLanguage();
     const [isLoading, setIsLoading] = useState(false);
     
     // Form state
@@ -62,20 +64,20 @@ export default function NewDeliveryNotePage() {
     };
 
     return (
-        <div className="space-y-6 animate-fade-in text-white" dir="rtl">
+        <div className="space-y-6 animate-fade-in text-white" dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Header */}
-            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+            <div className={`flex justify-between items-center border-b border-white/5 pb-4 ${isRTL ? 'flex-row' : 'flex-row'}`}>
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
-                        إضافة سند تسليم جديد
+                        {t.admin.deliveryNotes.newTitle}
                     </h1>
-                    <p className="text-white/40 text-sm mt-1">قم بتعبئة بيانات سند التسليم لإضافته.</p>
+                    <p className="text-white/40 text-sm mt-1">{t.admin.deliveryNotes.newSub}</p>
                 </div>
                 <Link 
                     href="/admin/delivery-notes"
                     className="bg-white/5 hover:bg-white/10 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all"
                 >
-                    العودة
+                    {t.admin.common.back}
                 </Link>
             </div>
 
@@ -89,25 +91,25 @@ export default function NewDeliveryNotePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Client Name */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">اسم العميل</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.offers.clientName}</label>
                         <input 
                             type="text" 
                             name="clientName"
-                            required
+
                             value={formData.clientName}
                             onChange={handleChange}
-                            placeholder="مثال: شركة النور"
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all"
+                            placeholder={t.admin.offers.clientNamePlaceholder}
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
 
                     {/* Reference */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">المرجع</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.reference}</label>
                         <input 
                             type="text" 
                             name="ref"
-                            required
+
                             value={formData.ref}
                             onChange={handleChange}
                             dir="ltr"
@@ -117,42 +119,42 @@ export default function NewDeliveryNotePage() {
 
                     {/* Date */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">التاريخ</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.date}</label>
                         <input 
                             type="date" 
                             name="date"
-                            required
+
                             value={formData.date}
                             onChange={handleChange}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all"
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
 
                     {/* Status */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">الحالة</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.status}</label>
                         <select 
                             name="status"
                             value={formData.status}
                             onChange={handleChange}
-                            className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all"
+                            className={`w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         >
-                            <option value="draft">مسودة</option>
-                            <option value="sent">مُرسَل</option>
-                            <option value="signed">مُوَقَّع</option>
+                            <option value="draft">{t.admin.common.draft}</option>
+                            <option value="sent">{t.admin.common.sent}</option>
+                            <option value="signed">{t.admin.common.signed}</option>
                         </select>
                     </div>
 
                     {/* Description */}
                     <div className="space-y-2 md:col-span-2">
-                        <label className="text-sm font-bold text-white/80">الملاحظات والتفاصيل</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.deliveryNotes.notesAndDetails}</label>
                         <textarea 
                             name="notes"
                             rows={4}
                             value={formData.notes}
                             onChange={handleChange}
-                            placeholder="تفاصيل المنتجات أو الخدمات المسلمة..."
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all resize-none"
+                            placeholder={t.admin.deliveryNotes.notesPlaceholder}
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all resize-none ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
                 </div>
@@ -163,7 +165,7 @@ export default function NewDeliveryNotePage() {
                         disabled={isLoading}
                         className={`bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-yellow-400/20 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                        {isLoading ? 'جاري الحفظ...' : 'حفظ سند التسليم'}
+                        {isLoading ? t.admin.deliveryNotes.saving : t.admin.deliveryNotes.saveNote}
                     </button>
                 </div>
             </motion.form>

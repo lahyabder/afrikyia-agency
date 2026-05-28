@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function NewInvoicePage() {
     const router = useRouter();
+    const { t, isRTL } = useLanguage();
     const [isLoading, setIsLoading] = useState(false);
     
     // Form state
@@ -66,20 +68,20 @@ export default function NewInvoicePage() {
     };
 
     return (
-        <div className="space-y-6 animate-fade-in text-white" dir="rtl">
+        <div className="space-y-6 animate-fade-in text-white" dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Header */}
-            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+            <div className={`flex justify-between items-center border-b border-white/5 pb-4 ${isRTL ? 'flex-row' : 'flex-row'}`}>
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
-                        إضافة فاتورة جديدة
+                        {t.admin.invoices.newTitle}
                     </h1>
-                    <p className="text-white/40 text-sm mt-1">قم بتعبئة بيانات الفاتورة لإضافتها للنظام.</p>
+                    <p className="text-white/40 text-sm mt-1">{t.admin.invoices.newSub}</p>
                 </div>
                 <Link 
                     href="/admin/invoices"
                     className="bg-white/5 hover:bg-white/10 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all"
                 >
-                    العودة
+                    {t.admin.common.back}
                 </Link>
             </div>
 
@@ -93,25 +95,25 @@ export default function NewInvoicePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Client Name */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">اسم العميل</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.offers.clientName}</label>
                         <input 
                             type="text" 
                             name="clientName"
-                            required
+
                             value={formData.clientName}
                             onChange={handleChange}
-                            placeholder="مثال: شركة النور"
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all"
+                            placeholder={t.admin.offers.clientNamePlaceholder}
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
 
                     {/* Reference */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">المرجع</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.reference}</label>
                         <input 
                             type="text" 
                             name="ref"
-                            required
+
                             value={formData.ref}
                             onChange={handleChange}
                             dir="ltr"
@@ -121,57 +123,57 @@ export default function NewInvoicePage() {
 
                     {/* Amount */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">المبلغ (MRU)</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.amount} (MRU)</label>
                         <input 
                             type="number" 
                             name="amount"
-                            required
+
                             min="0"
                             value={formData.amount}
                             onChange={handleChange}
-                            placeholder="مثال: 50000"
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all"
+                            placeholder={t.admin.offers.amountPlaceholder}
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
 
                     {/* Date */}
                     <div className="space-y-2">
-                        <label className="text-sm font-bold text-white/80">التاريخ</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.date}</label>
                         <input 
                             type="date" 
                             name="date"
-                            required
+
                             value={formData.date}
                             onChange={handleChange}
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all"
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
 
                     {/* Status */}
                     <div className="space-y-2 md:col-span-2">
-                        <label className="text-sm font-bold text-white/80">الحالة</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.common.status}</label>
                         <select 
                             name="status"
                             value={formData.status}
                             onChange={handleChange}
-                            className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all"
+                            className={`w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                         >
-                            <option value="unpaid">غير مدفوعة</option>
-                            <option value="paid">مدفوعة</option>
-                            <option value="overdue">متأخرة</option>
+                            <option value="unpaid">{t.admin.common.unpaid}</option>
+                            <option value="paid">{t.admin.common.paid}</option>
+                            <option value="overdue">{t.admin.common.overdue}</option>
                         </select>
                     </div>
 
                     {/* Description */}
                     <div className="space-y-2 md:col-span-2">
-                        <label className="text-sm font-bold text-white/80">الوصف التفصيلي</label>
+                        <label className="text-sm font-bold text-white/80">{t.admin.offers.description}</label>
                         <textarea 
                             name="description"
                             rows={4}
                             value={formData.description}
                             onChange={handleChange}
-                            placeholder="تفاصيل الخدمات والفاتورة..."
-                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all resize-none"
+                            placeholder={t.admin.offers.descriptionPlaceholder}
+                            className={`w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-yellow-400 transition-all resize-none ${isRTL ? 'text-right' : 'text-left'}`}
                         />
                     </div>
                 </div>
@@ -182,7 +184,7 @@ export default function NewInvoicePage() {
                         disabled={isLoading}
                         className={`bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-yellow-400/20 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                        {isLoading ? 'جاري الحفظ...' : 'حفظ الفاتورة'}
+                        {isLoading ? t.admin.invoices.saving : t.admin.invoices.saveInvoice}
                     </button>
                 </div>
             </motion.form>
