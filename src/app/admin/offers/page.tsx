@@ -19,6 +19,7 @@ type Offer = {
 export default function OffersPage() {
     const { t, isRTL } = useLanguage();
     const [offers, setOffers] = useState<Offer[]>([]);
+    const [previewOffer, setPreviewOffer] = useState<Offer | null>(null);
 
     useEffect(() => {
         // Load from local storage for now (or API)
