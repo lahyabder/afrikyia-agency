@@ -5,8 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
+import { useRouter, usePathname } from '@/i18n/routing';
+
 const LanguageSwitcher = () => {
-    const { language, setLanguage } = useLanguage();
+    const { language } = useLanguage();
+    const router = useRouter();
+    const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
 
     const langs = [
@@ -42,7 +46,7 @@ const LanguageSwitcher = () => {
                                 <button
                                     key={lang.code}
                                     onClick={() => {
-                                        setLanguage(lang.code as any);
+                                        router.replace(pathname, { locale: lang.code });
                                         setIsOpen(false);
                                     }}
                                     className={`w-full text-left px-5 py-3 text-xs uppercase tracking-widest hover:bg-white/10 transition-colors ${language === lang.code ? 'text-brand-red font-bold' : 'text-white/90'

@@ -29,24 +29,17 @@ const Header = () => {
           />
         </Link>
         <div className="hidden lg:flex items-center gap-8 text-brand-white/90 text-sm uppercase tracking-widest font-medium">
-          <Link href="#vision" className="hover:text-brand-red transition-colors">{t.nav.vision}</Link>
-          <Link href="#services" className="hover:text-brand-red transition-colors">{t.nav.services}</Link>
-          <Link href="#achievements" className="hover:text-brand-red transition-colors">{t.nav.achievements}</Link>
-          <a
-            href="https://casting.afrikyia.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-brand-red transition-colors flex items-center gap-1 group"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-red opacity-70 group-hover:opacity-100 transition-opacity" />
-            {t.nav.casting}
-          </a>
-          <Link href="#impact" className="hover:text-brand-red transition-colors">{t.nav.impact}</Link>
+          <Link href="/#about" className="hover:text-brand-red transition-colors">{t.nav.about}</Link>
+          <Link href="/#vision" className="hover:text-brand-red transition-colors">{t.nav.vision}</Link>
+          <Link href="/#services" className="hover:text-brand-red transition-colors">{t.nav.services}</Link>
+          <Link href="/#achievements" className="hover:text-brand-red transition-colors">{t.nav.achievements}</Link>
+
+          <Link href="/#impact" className="hover:text-brand-red transition-colors">{t.nav.impact}</Link>
         </div>
         <div className="flex items-center gap-4 md:gap-8">
           <LanguageSwitcher />
           <Link
-            href="#vision"
+            href="/#vision"
             className="hidden sm:block text-brand-white border border-brand-red px-6 py-2 rounded-full hover:bg-brand-red transition-all duration-300 text-sm font-medium"
           >
             {t.nav.discover}

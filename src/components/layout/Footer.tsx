@@ -3,7 +3,7 @@
 import { useLanguage } from '@/context/LanguageContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, Globe, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 
 const Footer = () => {
     const { t, isRTL } = useLanguage();
@@ -29,15 +29,21 @@ const Footer = () => {
                     <div className="flex flex-col gap-6">
                         <a
                             href="mailto:contact@afrikyia.com"
-                            className="flex items-center gap-4 text-2xl font-medium hover:text-brand-red transition-colors"
+                            className="flex items-center gap-4 text-xl md:text-2xl font-medium hover:text-brand-red transition-colors"
                         >
-                            <Mail className="w-6 h-6 text-brand-red" />
+                            <Mail className="w-5 h-5 md:w-6 md:h-6 text-brand-red flex-shrink-0" />
                             contact@afrikyia.com
                         </a>
-                        <div className={`flex gap-6 mt-4 ${isRTL ? 'justify-end' : ''}`}>
-                            <Linkedin className="w-5 h-5 text-white/60 hover:text-brand-red cursor-pointer transition-colors" />
-                            <Twitter className="w-5 h-5 text-white/60 hover:text-brand-red cursor-pointer transition-colors" />
-                            <Instagram className="w-5 h-5 text-white/60 hover:text-brand-red cursor-pointer transition-colors" />
+                        <a
+                            href="tel:0022224232202"
+                            className="flex items-center gap-4 text-xl md:text-2xl font-medium hover:text-brand-red transition-colors"
+                        >
+                            <Phone className="w-5 h-5 md:w-6 md:h-6 text-brand-red flex-shrink-0" />
+                            {t.footer.phone}
+                        </a>
+                        <div className="flex items-start gap-4 text-sm md:text-base font-light text-white/80 max-w-sm leading-relaxed mt-2">
+                            <MapPin className="w-5 h-5 text-brand-red flex-shrink-0 mt-1" />
+                            {t.footer.address}
                         </div>
                     </div>
                 </div>

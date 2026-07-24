@@ -28,7 +28,7 @@ const Services = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {t.services.list.map((service, idx) => {
+                    {t.services.list.map((service: any, idx: number) => {
                         const Icon = icons[idx];
                         return (
                             <motion.div

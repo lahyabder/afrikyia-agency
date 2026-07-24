@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from '@/i18n/routing';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { 
@@ -178,7 +178,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                         {(['ar', 'fr', 'en'] as const).map((lang) => (
                             <button
                                 key={lang}
-                                onClick={() => setLanguage(lang)}
+                                onClick={() => router.replace(pathname, { locale: lang })}
                                 className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
                                     language === lang 
                                         ? 'bg-yellow-400 text-black shadow-md' 

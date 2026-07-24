@@ -17,7 +17,10 @@
             "title": "مهرجان الناقة",
             "categoryLabel": "موقع ويب",
             "desc": "مهرجان الناقة لثقافة الصحراء — احتفاء بالموروث الصحراوي والفنون التقليدية والهوية الثقافية لعالم الصحراء الكبرى."
-        }
+        },
+        "year": "2023",
+        "client": "NAGHA Organizers",
+        "projectType": "Website"
     },
     {
         "id": "maatamoulana",
@@ -37,7 +40,10 @@
             "title": "معطى مولانا",
             "categoryLabel": "موقع ويب",
             "desc": "مدينة تربوية متكاملة في موريتانيا تجمع بين التربية القرآنية والتعليم والعمل في منظومة واحدة متكاملة."
-        }
+        },
+        "year": "2024",
+        "client": "Maatamoulana Org",
+        "projectType": "Website"
     },
     {
         "id": "dar-mauritanie",
@@ -57,7 +63,10 @@
             "title": "دار موريتانيا",
             "categoryLabel": "منصة رقمية",
             "desc": "مؤسسة متخصصة باقتصاد الفنون والثقافة، تُعنى بتعزيز الموروث الفني الموريتاني ودعم الصناعات الإبداعية المحلية."
-        }
+        },
+        "year": "2024",
+        "client": "Dar Mauritanie",
+        "projectType": "Platform"
     },
     {
         "id": "cinemasa",
@@ -77,12 +86,15 @@
             "title": "بوابة السينما السعودية",
             "categoryLabel": "بوابة رقمية",
             "desc": "المنصة الأولى لتوثيق السينما السعودية: أفلام، صناع أفلام، شركات إنتاج، دور عرض، وإحصائيات السوق."
-        }
+        },
+        "year": "2024",
+        "client": "Saudi Ministry of Culture",
+        "projectType": "Platform"
     },
     {
         "id": "pan-mauritania",
         "category": "websites",
-        "link": "http://www.pan.mr/fr",
+        "link": "https://www.pan.mr/fr",
         "en": {
             "title": "Port of Nouadhibou — PAN",
             "categoryLabel": "Website",
@@ -97,7 +109,10 @@
             "title": "ميناء نواذيبو المستقل — PAN",
             "categoryLabel": "موقع ويب",
             "desc": "المنصة الرقمية الرسمية للميناء المستقل لنواذيبو، تتضمن الخدمات الميناوية، معلومات البنية التحتية، والتواصل المؤسسي."
-        }
+        },
+        "year": "2023",
+        "client": "Port de Nouadhibou",
+        "projectType": "Website"
     },
     {
         "id": "accespan",
@@ -117,7 +132,10 @@
             "title": "AcceSpan — نظام بطاقات الوصول",
             "categoryLabel": "نظام تشغيل",
             "desc": "نظام ذكي لإدارة بطاقات الوصول والشارات الأمنية للميناء المستقل لنواذيبو، يضمن التحكم الآمن في الدخول والتحقق من هوية الموظفين."
-        }
+        },
+        "year": "2023",
+        "client": "Port de Nouadhibou",
+        "projectType": "System"
     },
     {
         "id": "cultural-map",
@@ -137,7 +155,10 @@
             "title": "خريطة التراث الثقافي",
             "categoryLabel": "منصة رقمية",
             "desc": "منصة خرائطية رقمية تفاعلية لتوثيق المواقع التاريخية والتراث الثقافي باستخدام تقنيات نظم المعلومات الجغرافية المتقدمة."
-        }
+        },
+        "year": "2024",
+        "client": "Cultural Map Project",
+        "projectType": "Platform"
     },
     {
         "id": "bankily-ledger",
@@ -157,6 +178,9 @@
             "title": "دفتر",
             "categoryLabel": "تطبيق ويب",
             "desc": "منصة متكاملة لتسجيل العمليات، حساب العمولات تلقائياً، ومتابعة الأرباح لحظة بلحظة. وداعاً للدفاتر الورقية والأخطاء الحسابية."
-        }
+        },
+        "year": "2024",
+        "client": "Diftar",
+        "projectType": "Web App"
     }
 ]

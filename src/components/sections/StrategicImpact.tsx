@@ -25,7 +25,7 @@ const StrategicImpact = () => {
                             viewport={{ once: true }}
                             className="text-4xl md:text-7xl font-bold leading-tight mb-12"
                         >
-                            {t.impact.title.split(' ').map((word, i) => (
+                            {t.impact.title.split(' ').map((word: string, i: number) => (
                                 <span key={i}>
                                     {i === 2 && <br />}
                                     {word === 'Global' || word === 'العالمية' || word === 'Mondial' ? (
@@ -42,7 +42,7 @@ const StrategicImpact = () => {
                     </div>
 
                     <div className="grid grid-cols-1 gap-6">
-                        {t.impact.list.map((impact, idx) => (
+                        {t.impact.list.map((impact: any, idx: number) => (
                             <motion.div
                                 key={idx}
                                 initial={{ opacity: 0, scale: 0.9 }}

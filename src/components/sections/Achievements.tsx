@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Globe, Activity, Code2 } from 'lucide-react';
+import { ExternalLink, Globe, Activity, Code2, ArrowRight } from 'lucide-react';
+import { Link } from '@/i18n/routing';
 import initialAchievements from '@/data/achievements.json';
 
 type AchievementItem = {
@@ -184,17 +185,15 @@ const Achievements = () => {
 
                                     {/* Link action if link is provided */}
                                     {item.link && item.link !== '#' ? (
-                                        <a
-                                            href={item.link}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                        <Link
+                                            href={`/works/${item.id}`}
                                             className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/85 group-hover:text-brand-red transition-all duration-300 ${
                                                 isRTL ? 'flex-row-reverse self-end' : 'self-start'
                                             }`}
                                         >
-                                            <span>{isRTL ? 'زيارة الموقع' : 'Visit Project'}</span>
-                                            <ExternalLink className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                                        </a>
+                                            <span>{isRTL ? 'عرض المشروع' : 'View Project'}</span>
+                                            <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                                        </Link>
                                     ) : (
                                         <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/30 ${
                                             isRTL ? 'flex-row-reverse self-end' : 'self-start'

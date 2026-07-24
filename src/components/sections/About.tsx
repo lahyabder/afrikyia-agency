@@ -3,21 +3,21 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 
-const Vision = () => {
+const About = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section id="vision" className="py-16 md:py-32 bg-black selection:bg-brand-red selection:text-white">
+        <section id="about" className="py-16 md:py-32 bg-black border-t border-white/5">
             <div className="container mx-auto px-6">
-                <div className={`max-w-5xl ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div className={`max-w-5xl mx-auto ${isRTL ? 'text-right' : 'text-left'}`}>
                     <motion.div
-                        initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
                         <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-8">
-                            {t.vision.tag}
+                            {t.about.tag}
                         </h2>
                     </motion.div>
 
@@ -27,28 +27,20 @@ const Vision = () => {
                         viewport={{ once: true }}
                         transition={{ delay: 0.2, duration: 1 }}
                     >
-                        <h3 className="text-white text-4xl md:text-7xl font-bold leading-[1.1] mb-12">
-                            {t.vision.title.split(':').map((part: string, i: number) => (
-                                <span key={i}>
-                                    {i === 0 ? (
-                                        <>{part}: <br /></>
-                                    ) : (
-                                        <span className="text-brand-red font-medium">{part}</span>
-                                    )}
-                                </span>
-                            ))}
+                        <h3 className="text-white text-4xl md:text-6xl font-bold leading-[1.2] mb-12">
+                            {t.about.title}
                         </h3>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-6 md:gap-24">
+                    <div className="grid md:grid-cols-2 gap-8 md:gap-16">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.4, duration: 0.8 }}
                         >
-                            <p className="text-white/80 text-xl md:text-2xl font-normal leading-relaxed">
-                                {t.vision.desc1}
+                            <p className="text-white/80 text-lg md:text-xl font-normal leading-relaxed">
+                                {t.about.desc1}
                             </p>
                         </motion.div>
 
@@ -58,8 +50,8 @@ const Vision = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.6, duration: 0.8 }}
                         >
-                            <p className="text-white/80 text-xl md:text-2xl font-normal leading-relaxed">
-                                {t.vision.desc2}
+                            <p className="text-white/80 text-lg md:text-xl font-normal leading-relaxed">
+                                {t.about.desc2}
                             </p>
                         </motion.div>
                     </div>
@@ -69,4 +61,4 @@ const Vision = () => {
     );
 };
 
-export default Vision;
+export default About;
