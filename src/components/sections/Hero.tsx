@@ -42,9 +42,9 @@ const Hero = () => {
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.6, duration: 0.8 }}
                     >
-                        <span className="text-brand-red text-3xl md:text-5xl font-medium block" dir={isRTL ? "rtl" : "ltr"}>
+                        <h1 className="text-brand-red text-3xl md:text-5xl font-medium block" dir={isRTL ? "rtl" : "ltr"}>
                             {t.hero.slogan}
-                        </span>
+                        </h1>
                     </motion.div>
                 </div>
 
