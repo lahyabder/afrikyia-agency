@@ -54,10 +54,11 @@ const TrustedBy = () => {
                             key={index} 
                             className="flex items-center justify-center min-w-max grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                         >
-                            {/* TODO: If actual logo images are available, replace this text with <img src="..." alt={client} /> */}
-                            <span className="text-2xl md:text-4xl font-extrabold tracking-widest text-white uppercase font-sans">
-                                {client}
-                            </span>
+                            {/* Empty Image Placeholder for Client Logo */}
+                            <div className="w-40 h-20 md:w-48 md:h-24 bg-white/5 border border-white/10 rounded flex items-center justify-center">
+                                {/* TODO: Replace this div with actual logo: <img src="..." alt={client} className="max-w-full max-h-full object-contain" /> */}
+                                <span className="text-white/20 text-xs font-mono text-center px-2">{client}<br/>Logo</span>
+                            </div>
                         </div>
                     ))}
                 </motion.div>
