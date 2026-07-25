@@ -1,354 +1,373 @@
 {
-  "nav": {
-    "vision": "Vision",
-    "services": "Services",
-    "achievements": "Réalisations",
-    "casting": "Casting",
-    "impact": "Impact",
-    "discover": "Découvrir Notre Vision",
-    "about": "À propos"
-  },
-  "hero": {
-    "slogan": "L'Artifice Intelligent",
-    "desc": "Une entreprise numérique qui fait converger héritage et technologies d'avenir.",
-    "cta": "Découvrir Notre Vision",
-    "scroll": "Défiler"
-  },
-  "vision": {
-    "tag": "Notre Philosophie",
-    "title": "L'Artifice Intelligent : Au-delà de l'Intelligence Artificielle.",
-    "desc1": "Chez Afrikyia, « L'Artifice Intelligent » est un changement fondamental de perception. Car la véritable intelligence n'est pas simplement un produit d'algorithmes ; c'est un acte délibéré de façonnage culturel.",
-    "desc2": "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel.",
-    "whatWeBuild": "Ce Que Nous Construisons",
-    "whatWeBuildDesc": "Nous concevons des solutions numériques tangibles : plateformes web intégrées, portails numériques et applications SaaS complexes pour répondre aux besoins modernes de transformation numérique.",
-    "forWhom": "Pour Qui",
-    "forWhomDesc": "Nous accompagnons les gouvernements, les institutions culturelles et les entreprises privées désireuses d'établir leur souveraineté numérique et de projeter leur identité à l'échelle mondiale.",
-    "stats": [
-      { "value": "+20", "label": "Projets Numériques" },
-      { "value": "+50K", "label": "Utilisateurs Actifs" },
-      { "value": "100%", "label": "Souveraineté Numérique" }
-    ]
-  },
-  "services": {
-    "tag": "Notre Expertise",
-    "title": "Solutions pour une Culture Numérique",
-    "list": [
-      {
-        "title": "Production et Développement de Contenu Culturel",
-        "desc": ""
-      },
-      {
-        "title": "Documentation de la Mémoire et de l'Identité",
-        "desc": ""
-      },
-      {
-        "title": "Solutions IA & Plateformes",
-        "desc": ""
-      },
-      {
-        "title": "Bibliothèques Audiovisuelles",
-        "desc": ""
-      },
-      {
-        "title": "Conseil Stratégique",
-        "desc": ""
-      },
-      {
-        "title": "Expositions & Événements",
-        "desc": ""
-      },
-      {
-        "title": "Édition Numérique & Papier",
-        "desc": ""
-      },
-      {
-        "title": "Formation et Éducation Créative",
-        "desc": ""
-      },
-      {
-        "title": "Gestion de Projet",
-        "desc": ""
-      }
-    ]
-  },
-  "achievements": {
-    "tag": "Nos Réalisations",
-    "title": "Projets et Activités Réalisés",
-    "filters": {
-      "all": "Tout",
-      "websites": "Sites Web",
-      "activities": "Activités",
-      "works": "Œuvres Créatives"
+    "nav": {
+        "vision": "Vision",
+        "services": "Services",
+        "achievements": "Réalisations",
+        "casting": "Casting",
+        "impact": "Impact",
+        "discover": "Découvrir Notre Vision",
+        "about": "À propos"
     },
-    "list": [
-      {
-        "title": "Portail Numérique TDM",
-        "category": "websites",
-        "categoryLabel": "Site Web",
-        "desc": "Un portail numérique complet et performant pour les services de télécommunications et de médias, facilitant l'interaction publique et administrative.",
-        "link": "https://tdm.mr"
-      },
-      {
-        "title": "Carte du Patrimoine Culturel",
-        "category": "websites",
-        "categoryLabel": "Plateforme",
-        "desc": "Une plateforme de cartographie numérique interactive documentant les sites historiques et le patrimoine culturel à l'aide de technologies SIG avancées.",
-        "link": "https://culturalmap.org"
-      },
-      {
-        "title": "Portail de la Musique Saoudienne",
-        "category": "websites",
-        "categoryLabel": "Portail Numérique",
-        "desc": "Un portail culturel moderne à fort contraste mettant en valeur le patrimoine musical saoudien et connectant les professionnels de l'industrie.",
-        "link": "https://saudimusic.gov.sa"
-      },
-      {
-        "title": "Carnet d'Agent Bankily",
-        "category": "works",
-        "categoryLabel": "App Web",
-        "desc": "Un registre d'agent numérique sécurisé et offline-first pour le suivi des transactions financières, des tranches de commission et des soldes.",
-        "link": "#"
-      },
-      {
-        "title": "Gestion de La Medina",
-        "category": "works",
-        "categoryLabel": "Système",
-        "desc": "Un système avancé de gestion hôtelière et de réception conçu pour des opérations quotidiennes fluides et l'administration des réservations.",
-        "link": "#"
-      },
-      {
-        "title": "Art Numérique & Souveraineté Culturelle",
-        "category": "activities",
-        "categoryLabel": "Activité",
-        "desc": "Une initiative numérique présentant des œuvres créatives modernes et aidant les créateurs locaux à s'affirmer dans l'économie créative mondiale.",
-        "link": "#"
-      }
-    ]
-  },
-  "impact": {
-    "tag": "Impact Stratégique",
-    "title": "Façonner le Récit Mondial",
-    "desc": "Afrikyia opère à l'intersection de l'économie créative et de la souveraineté numérique, construisant un écosystème durable pour l'expression culturelle.",
-    "list": [
-      {
-        "label": "Culturel",
-        "value": "Relier Patrimoine & Futur"
-      },
-      {
-        "label": "Économique",
-        "value": "Transformation Créative"
-      },
-      {
-        "label": "Numérique",
-        "value": "L'Artifice Intelligent"
-      },
-      {
-        "label": "Mondial",
-        "value": "Identité sans Frontières"
-      }
-    ]
-  },
-  "footer": {
-    "motto": "Un horizon numérique pour la souveraineté créative.",
-    "rights": "© 2026 AFRIKYia – TOUS DROITS RÉSERVÉS",
-    "privacy": "Politique de Confidentialité",
-    "terms": "Mentions Légales",
-    "phone": "0022224232202",
-    "address": "Adresse : Tevragh Zeina – ilot Z, 0003P – Tél 20797924 – 36305215 – RC. 136293/1270 NIF 01697101"
-  },
-  "admin": {
-    "menu": {
-      "dashboard": "Tableau de Bord",
-      "clients": "Clients",
-      "offers": "Offres",
-      "invoices": "Factures",
-      "deliveryNotes": "Bons de Livraison",
-      "files": "Fichiers",
-      "achievements": "Réalisations",
-      "users": "Utilisateurs",
-      "settings": "Paramètres",
-      "logout": "Se Déconnecter",
-      "backToSite": "Retour au Site"
+    "hero": {
+        "slogan": "L'Artifice Intelligent",
+        "desc": "Une entreprise numérique qui fait converger héritage et technologies d'avenir.",
+        "cta": "Découvrir Notre Vision",
+        "scroll": "Défiler"
     },
-    "common": {
-      "search": "Rechercher...",
-      "add": "Ajouter",
-      "save": "Enregistrer",
-      "cancel": "Annuler",
-      "delete": "Supprimer",
-      "edit": "Modifier",
-      "actions": "Actions",
-      "status": "Statut",
-      "date": "Date",
-      "amount": "Montant",
-      "back": "Retour",
-      "soon": "Bientôt Disponible",
-      "preview": "Aperçu",
-      "convertToInvoice": "Convertir en Facture",
-      "draft": "Brouillon",
-      "sent": "Envoyé",
-      "accepted": "Accepté",
-      "rejected": "Rejeté",
-      "paid": "Payé",
-      "unpaid": "Non Payé",
-      "overdue": "En Retard",
-      "signed": "Signé",
-      "active": "Actif",
-      "inactive": "Inactif",
-      "reference": "Référence"
+    "vision": {
+        "tag": "Notre Philosophie",
+        "title": "L'Artifice Intelligent : Au-delà de l'Intelligence Artificielle.",
+        "desc1": "Chez Afrikyia, « L'Artifice Intelligent » est un changement fondamental de perception. Car la véritable intelligence n'est pas simplement un produit d'algorithmes ; c'est un acte délibéré de façonnage culturel.",
+        "desc2": "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel.",
+        "whatWeBuild": "Ce Que Nous Construisons",
+        "whatWeBuildDesc": "Nous concevons des solutions numériques tangibles : plateformes web intégrées, portails numériques et applications SaaS complexes pour répondre aux besoins modernes de transformation numérique.",
+        "forWhom": "Pour Qui",
+        "forWhomDesc": "Nous accompagnons les gouvernements, les institutions culturelles et les entreprises privées désireuses d'établir leur souveraineté numérique et de projeter leur identité à l'échelle mondiale.",
+        "stats": [
+            {
+                "value": "+20",
+                "label": "Projets Numériques"
+            },
+            {
+                "value": "+50K",
+                "label": "Utilisateurs Actifs"
+            },
+            {
+                "value": "100%",
+                "label": "Souveraineté Numérique"
+            }
+        ]
     },
-    "dashboard": {
-      "title": "Tableau de Bord",
-      "subtitle": "Aperçu de l'agence Afrikyia",
-      "createOffer": "Créer une Nouvelle Offre",
-      "recentActivity": "Activité Récente",
-      "noActivity": "Aucune activité récente à afficher.",
-      "statClients": "Clients",
-      "statOffers": "Offres Ouvertes",
-      "statInvoices": "Total des Factures",
-      "statAchievements": "Projets & Réalisations"
-    },
-    "clients": {
-      "title": "Clients",
-      "addClient": "Ajouter un Client",
-      "noClients": "Aucun client disponible actuellement.",
-      "noClientsSub": "Tous les clients enregistrés apparaîtront ici.",
-      "newTitle": "Ajouter un Nouveau Client",
-      "newSub": "Saisissez les détails du client pour l'ajouter au système.",
-      "clientName": "Nom du Client (Représentant)",
-      "clientNamePlaceholder": "ex: Jean Dupont",
-      "companyName": "Nom de l'Entreprise / Organisation",
-      "companyNamePlaceholder": "ex: TDM",
-      "email": "Adresse E-mail",
-      "emailPlaceholder": "email@exemple.com",
-      "phone": "Numéro de Téléphone",
-      "phonePlaceholder": "+222 40 00 00 00",
-      "clientStatus": "Statut du Client",
-      "saveClient": "Enregistrer le Client",
-      "saving": "Enregistrement..."
-    },
-    "offers": {
-      "title": "Offres",
-      "addOffer": "Nouvelle Offre",
-      "noOffers": "Aucune offre disponible actuellement.",
-      "noOffersSub": "Toutes les offres apparaîtront ici.",
-      "newTitle": "Ajouter une Nouvelle Offre",
-      "newSub": "Remplissez les détails de l'offre pour l'ajouter.",
-      "clientName": "Nom du Client",
-      "clientNamePlaceholder": "ex: Entreprise Al Noor",
-      "refPlaceholder": "Q-2026-...",
-      "amountPlaceholder": "ex: 50000",
-      "description": "Description Détaillée",
-      "descriptionPlaceholder": "Détails de l'offre et du projet...",
-      "saveOffer": "Enregistrer l'Offre",
-      "saving": "Enregistrement..."
-    },
-    "invoices": {
-      "title": "Factures",
-      "addInvoice": "Nouvelle Facture",
-      "noInvoices": "Aucune facture disponible actuellement.",
-      "noInvoicesSub": "Toutes les factures apparaîtront ici.",
-      "newTitle": "Ajouter une Nouvelle Facture",
-      "newSub": "Remplissez les détails de la facture pour l'ajouter.",
-      "saveInvoice": "Enregistrer la Facture",
-      "saving": "Enregistrement...",
-      "confirmPayment": "Confirmer le Paiement",
-      "downloadPDF": "Télécharger PDF"
-    },
-    "deliveryNotes": {
-      "title": "Bons de Livraison",
-      "addNote": "Nouveau Bon de Livraison",
-      "noNotes": "Aucun bon de livraison disponible actuellement.",
-      "noNotesSub": "Tous les bons de livraison apparaîtront ici une fois ajoutés.",
-      "newTitle": "Ajouter un Nouveau Bon de Livraison",
-      "newSub": "Remplissez les détails du bon de livraison pour l'ajouter.",
-      "notesAndDetails": "Notes et Détails",
-      "notesPlaceholder": "Détails des produits ou services livrés...",
-      "saveNote": "Enregistrer le Bon",
-      "saving": "Enregistrement..."
-    },
-    "files": {
-      "title": "Fichiers",
-      "addFile": "Téléverser un Nouveau Fichier",
-      "noFiles": "Aucun fichier téléversé actuellement.",
-      "noFilesSub": "Tous les documents et fichiers apparaîtront ici.",
-      "newTitle": "Téléverser un Nouveau Fichier",
-      "newSub": "Sélectionnez un fichier et entrez les détails pour téléverser.",
-      "chooseFile": "Choisir un Fichier",
-      "uploadHintTitle": "Cliquez ici pour sélectionner un fichier ou glissez-déposez",
-      "uploadHintSub": "Prend en charge PDF, DOCX, Images (Max 10Mo)",
-      "fileName": "Nom du Fichier",
-      "fileNamePlaceholder": "ex: Contrat de Partenariat - TDM",
-      "category": "Catégorie",
-      "catDocument": "Documents & Contrats",
-      "catInvoice": "Pièces Jointes de Factures",
-      "catDesign": "Designs & Ressources",
-      "catOther": "Autre",
-      "description": "Description (Optionnel)",
-      "descriptionPlaceholder": "Brève description du fichier...",
-      "saveFile": "Téléverser le Fichier",
-      "saving": "Téléversement..."
-    },
-    "users": {
-      "title": "Utilisateurs",
-      "addUser": "Ajouter un Utilisateur",
-      "editPermissions": "Modifier les Permissions",
-      "adminRole": "Administrateur"
-    },
-    "settings": {
-      "title": "Paramètres",
-      "saveChanges": "Enregistrer les Modifications",
-      "accountSettings": "Paramètres du Compte",
-      "username": "Nom d'Utilisateur",
-      "newPassword": "Nouveau Mot de Passe",
-      "passwordHint": "Laissez vide pour conserver le mot de passe actuel",
-      "systemPrefs": "Préférences Système",
-      "notifications": "Notifications",
-      "notificationsHint": "Recevoir des notifications pour les nouvelles offres",
-      "darkMode": "Mode Sombre",
-      "darkModeHint": "Activer le mode sombre en permanence"
-    },
-    "auth": {
-      "loginTitle": "Portail d'Administration",
-      "loginSub": "Tableau de Bord",
-      "enterCode": "Entrez le code de vérification",
-      "passwordPlaceholder": "Code de vérification (ex: afrikyia2026)",
-      "incorrectPassword": "Mot de passe incorrect",
-      "loginButton": "Entrer dans l'Administration"
+    "services": {
+        "tag": "Notre Expertise",
+        "title": "Solutions pour une Culture Numérique",
+        "list": [
+            {
+                "title": "Production et Développement de Contenu Culturel",
+                "desc": ""
+            },
+            {
+                "title": "Documentation de la Mémoire et de l'Identité",
+                "desc": ""
+            },
+            {
+                "title": "Solutions IA & Plateformes",
+                "desc": ""
+            },
+            {
+                "title": "Bibliothèques Audiovisuelles",
+                "desc": ""
+            },
+            {
+                "title": "Conseil Stratégique",
+                "desc": ""
+            },
+            {
+                "title": "Expositions & Événements",
+                "desc": ""
+            },
+            {
+                "title": "Édition Numérique & Papier",
+                "desc": ""
+            },
+            {
+                "title": "Formation et Éducation Créative",
+                "desc": ""
+            },
+            {
+                "title": "Gestion de Projet",
+                "desc": ""
+            }
+        ]
     },
     "achievements": {
-      "title": "Gestion des Réalisations",
-      "subtitle": "Modifier et ajouter des sites web, des œuvres et des activités réalisés",
-      "totalAchievements": "Total des Réalisations",
-      "websites": "Sites Web",
-      "activities": "Activités & Événements",
-      "works": "Apps & Œuvres",
-      "searchPlaceholder": "Rechercher titres et descriptions...",
-      "filterAll": "Tout",
-      "filterWebsites": "Sites Web",
-      "filterActivities": "Activités",
-      "filterWorks": "Œuvres",
-      "addNew": "Ajouter une Nouvelle Réalisation",
-      "noMatches": "Aucune œuvre ou activité correspondante trouvée.",
-      "nameCol": "Nom de la Réalisation",
-      "categoryCol": "Catégorie",
-      "linkCol": "Lien",
-      "actionsCol": "Actions",
-      "noLink": "Pas de lien"
+        "tag": "Nos Réalisations",
+        "title": "Projets et Activités Réalisés",
+        "filters": {
+            "all": "Tout",
+            "websites": "Sites Web",
+            "activities": "Activités",
+            "works": "Œuvres Créatives"
+        },
+        "list": [
+            {
+                "title": "Portail Numérique TDM",
+                "category": "websites",
+                "categoryLabel": "Site Web",
+                "desc": "Un portail numérique complet et performant pour les services de télécommunications et de médias, facilitant l'interaction publique et administrative.",
+                "link": "https://tdm.mr"
+            },
+            {
+                "title": "Carte du Patrimoine Culturel",
+                "category": "websites",
+                "categoryLabel": "Plateforme",
+                "desc": "Une plateforme de cartographie numérique interactive documentant les sites historiques et le patrimoine culturel à l'aide de technologies SIG avancées.",
+                "link": "https://culturalmap.org"
+            },
+            {
+                "title": "Portail de la Musique Saoudienne",
+                "category": "websites",
+                "categoryLabel": "Portail Numérique",
+                "desc": "Un portail culturel moderne à fort contraste mettant en valeur le patrimoine musical saoudien et connectant les professionnels de l'industrie.",
+                "link": "https://saudimusic.gov.sa"
+            },
+            {
+                "title": "Carnet d'Agent Bankily",
+                "category": "works",
+                "categoryLabel": "App Web",
+                "desc": "Un registre d'agent numérique sécurisé et offline-first pour le suivi des transactions financières, des tranches de commission et des soldes.",
+                "link": "#"
+            },
+            {
+                "title": "Gestion de La Medina",
+                "category": "works",
+                "categoryLabel": "Système",
+                "desc": "Un système avancé de gestion hôtelière et de réception conçu pour des opérations quotidiennes fluides et l'administration des réservations.",
+                "link": "#"
+            },
+            {
+                "title": "Art Numérique & Souveraineté Culturelle",
+                "category": "activities",
+                "categoryLabel": "Activité",
+                "desc": "Une initiative numérique présentant des œuvres créatives modernes et aidant les créateurs locaux à s'affirmer dans l'économie créative mondiale.",
+                "link": "#"
+            }
+        ]
+    },
+    "impact": {
+        "tag": "Impact Stratégique",
+        "title": "Façonner le Récit Mondial",
+        "desc": "Afrikyia opère à l'intersection de l'économie créative et de la souveraineté numérique, construisant un écosystème durable pour l'expression culturelle.",
+        "list": [
+            {
+                "label": "Culturel",
+                "value": "Relier Patrimoine & Futur"
+            },
+            {
+                "label": "Économique",
+                "value": "Transformation Créative"
+            },
+            {
+                "label": "Numérique",
+                "value": "L'Artifice Intelligent"
+            },
+            {
+                "label": "Mondial",
+                "value": "Identité sans Frontières"
+            }
+        ]
+    },
+    "footer": {
+        "motto": "Un horizon numérique pour la souveraineté créative.",
+        "rights": "© 2026 AFRIKYia – TOUS DROITS RÉSERVÉS",
+        "privacy": "Politique de Confidentialité",
+        "terms": "Mentions Légales",
+        "phone": "0022224232202",
+        "address": "Adresse : Tevragh Zeina – ilot Z, 0003P – Tél 20797924 – 36305215 – RC. 136293/1270 NIF 01697101"
+    },
+    "admin": {
+        "menu": {
+            "dashboard": "Tableau de Bord",
+            "clients": "Clients",
+            "offers": "Offres",
+            "invoices": "Factures",
+            "deliveryNotes": "Bons de Livraison",
+            "files": "Fichiers",
+            "achievements": "Réalisations",
+            "users": "Utilisateurs",
+            "settings": "Paramètres",
+            "logout": "Se Déconnecter",
+            "backToSite": "Retour au Site"
+        },
+        "common": {
+            "search": "Rechercher...",
+            "add": "Ajouter",
+            "save": "Enregistrer",
+            "cancel": "Annuler",
+            "delete": "Supprimer",
+            "edit": "Modifier",
+            "actions": "Actions",
+            "status": "Statut",
+            "date": "Date",
+            "amount": "Montant",
+            "back": "Retour",
+            "soon": "Bientôt Disponible",
+            "preview": "Aperçu",
+            "convertToInvoice": "Convertir en Facture",
+            "draft": "Brouillon",
+            "sent": "Envoyé",
+            "accepted": "Accepté",
+            "rejected": "Rejeté",
+            "paid": "Payé",
+            "unpaid": "Non Payé",
+            "overdue": "En Retard",
+            "signed": "Signé",
+            "active": "Actif",
+            "inactive": "Inactif",
+            "reference": "Référence"
+        },
+        "dashboard": {
+            "title": "Tableau de Bord",
+            "subtitle": "Aperçu de l'agence Afrikyia",
+            "createOffer": "Créer une Nouvelle Offre",
+            "recentActivity": "Activité Récente",
+            "noActivity": "Aucune activité récente à afficher.",
+            "statClients": "Clients",
+            "statOffers": "Offres Ouvertes",
+            "statInvoices": "Total des Factures",
+            "statAchievements": "Projets & Réalisations"
+        },
+        "clients": {
+            "title": "Clients",
+            "addClient": "Ajouter un Client",
+            "noClients": "Aucun client disponible actuellement.",
+            "noClientsSub": "Tous les clients enregistrés apparaîtront ici.",
+            "newTitle": "Ajouter un Nouveau Client",
+            "newSub": "Saisissez les détails du client pour l'ajouter au système.",
+            "clientName": "Nom du Client (Représentant)",
+            "clientNamePlaceholder": "ex: Jean Dupont",
+            "companyName": "Nom de l'Entreprise / Organisation",
+            "companyNamePlaceholder": "ex: TDM",
+            "email": "Adresse E-mail",
+            "emailPlaceholder": "email@exemple.com",
+            "phone": "Numéro de Téléphone",
+            "phonePlaceholder": "+222 40 00 00 00",
+            "clientStatus": "Statut du Client",
+            "saveClient": "Enregistrer le Client",
+            "saving": "Enregistrement..."
+        },
+        "offers": {
+            "title": "Offres",
+            "addOffer": "Nouvelle Offre",
+            "noOffers": "Aucune offre disponible actuellement.",
+            "noOffersSub": "Toutes les offres apparaîtront ici.",
+            "newTitle": "Ajouter une Nouvelle Offre",
+            "newSub": "Remplissez les détails de l'offre pour l'ajouter.",
+            "clientName": "Nom du Client",
+            "clientNamePlaceholder": "ex: Entreprise Al Noor",
+            "refPlaceholder": "Q-2026-...",
+            "amountPlaceholder": "ex: 50000",
+            "description": "Description Détaillée",
+            "descriptionPlaceholder": "Détails de l'offre et du projet...",
+            "saveOffer": "Enregistrer l'Offre",
+            "saving": "Enregistrement..."
+        },
+        "invoices": {
+            "title": "Factures",
+            "addInvoice": "Nouvelle Facture",
+            "noInvoices": "Aucune facture disponible actuellement.",
+            "noInvoicesSub": "Toutes les factures apparaîtront ici.",
+            "newTitle": "Ajouter une Nouvelle Facture",
+            "newSub": "Remplissez les détails de la facture pour l'ajouter.",
+            "saveInvoice": "Enregistrer la Facture",
+            "saving": "Enregistrement...",
+            "confirmPayment": "Confirmer le Paiement",
+            "downloadPDF": "Télécharger PDF"
+        },
+        "deliveryNotes": {
+            "title": "Bons de Livraison",
+            "addNote": "Nouveau Bon de Livraison",
+            "noNotes": "Aucun bon de livraison disponible actuellement.",
+            "noNotesSub": "Tous les bons de livraison apparaîtront ici une fois ajoutés.",
+            "newTitle": "Ajouter un Nouveau Bon de Livraison",
+            "newSub": "Remplissez les détails du bon de livraison pour l'ajouter.",
+            "notesAndDetails": "Notes et Détails",
+            "notesPlaceholder": "Détails des produits ou services livrés...",
+            "saveNote": "Enregistrer le Bon",
+            "saving": "Enregistrement..."
+        },
+        "files": {
+            "title": "Fichiers",
+            "addFile": "Téléverser un Nouveau Fichier",
+            "noFiles": "Aucun fichier téléversé actuellement.",
+            "noFilesSub": "Tous les documents et fichiers apparaîtront ici.",
+            "newTitle": "Téléverser un Nouveau Fichier",
+            "newSub": "Sélectionnez un fichier et entrez les détails pour téléverser.",
+            "chooseFile": "Choisir un Fichier",
+            "uploadHintTitle": "Cliquez ici pour sélectionner un fichier ou glissez-déposez",
+            "uploadHintSub": "Prend en charge PDF, DOCX, Images (Max 10Mo)",
+            "fileName": "Nom du Fichier",
+            "fileNamePlaceholder": "ex: Contrat de Partenariat - TDM",
+            "category": "Catégorie",
+            "catDocument": "Documents & Contrats",
+            "catInvoice": "Pièces Jointes de Factures",
+            "catDesign": "Designs & Ressources",
+            "catOther": "Autre",
+            "description": "Description (Optionnel)",
+            "descriptionPlaceholder": "Brève description du fichier...",
+            "saveFile": "Téléverser le Fichier",
+            "saving": "Téléversement..."
+        },
+        "users": {
+            "title": "Utilisateurs",
+            "addUser": "Ajouter un Utilisateur",
+            "editPermissions": "Modifier les Permissions",
+            "adminRole": "Administrateur"
+        },
+        "settings": {
+            "title": "Paramètres",
+            "saveChanges": "Enregistrer les Modifications",
+            "accountSettings": "Paramètres du Compte",
+            "username": "Nom d'Utilisateur",
+            "newPassword": "Nouveau Mot de Passe",
+            "passwordHint": "Laissez vide pour conserver le mot de passe actuel",
+            "systemPrefs": "Préférences Système",
+            "notifications": "Notifications",
+            "notificationsHint": "Recevoir des notifications pour les nouvelles offres",
+            "darkMode": "Mode Sombre",
+            "darkModeHint": "Activer le mode sombre en permanence"
+        },
+        "auth": {
+            "loginTitle": "Portail d'Administration",
+            "loginSub": "Tableau de Bord",
+            "enterCode": "Entrez le code de vérification",
+            "passwordPlaceholder": "Code de vérification (ex: afrikyia2026)",
+            "incorrectPassword": "Mot de passe incorrect",
+            "loginButton": "Entrer dans l'Administration"
+        },
+        "achievements": {
+            "title": "Gestion des Réalisations",
+            "subtitle": "Modifier et ajouter des sites web, des œuvres et des activités réalisés",
+            "totalAchievements": "Total des Réalisations",
+            "websites": "Sites Web",
+            "activities": "Activités & Événements",
+            "works": "Apps & Œuvres",
+            "searchPlaceholder": "Rechercher titres et descriptions...",
+            "filterAll": "Tout",
+            "filterWebsites": "Sites Web",
+            "filterActivities": "Activités",
+            "filterWorks": "Œuvres",
+            "addNew": "Ajouter une Nouvelle Réalisation",
+            "noMatches": "Aucune œuvre ou activité correspondante trouvée.",
+            "nameCol": "Nom de la Réalisation",
+            "categoryCol": "Catégorie",
+            "linkCol": "Lien",
+            "actionsCol": "Actions",
+            "noLink": "Pas de lien"
+        }
+    },
+    "metadata": {
+        "title": "AFRIKYia | L’Artifice Intelligent - Plateforme Culturelle Numérique",
+        "description": "Afrikyia est une plateforme culturelle numérique mondiale qui redéfinit l'intelligence à travers la fusion de la culture, de la créativité et de la technologie."
+    },
+    "about": {
+        "tag": "À Propos de Nous",
+        "title": "Qui Sommes-Nous",
+        "desc1": "Fondée en 2020, Afrikyia est animée par une équipe passionnée de consultants stratégiques, de technologues et de conservateurs culturels. Notre mission est de combler le fossé entre l'innovation numérique et le patrimoine culturel.",
+        "desc2": "Nous fournissons des conseils stratégiques de haut niveau pour aider les organisations à naviguer dans le paysage numérique. En combinant des connaissances culturelles approfondies avec une expertise technologique avancée, nous donnons aux créateurs et aux institutions les moyens de façonner le récit mondial et d'établir une véritable souveraineté numérique."
+    },
+    "trusted": {
+        "tag": "Ils Nous Font Confiance",
+        "title": "Nos Partenaires & Clients"
+    },
+    "contact": {
+        "tag": "Contactez-nous",
+        "title": "Démarrons Votre Prochain Projet",
+        "desc": "Vous avez une idée ou un défi numérique ? Notre équipe est prête à transformer votre vision en réalité. Contactez-nous pour une consultation gratuite.",
+        "name": "Nom Complet",
+        "email": "Adresse Email",
+        "message": "Comment pouvons-nous vous aider ?",
+        "submit": "Envoyer le Message",
+        "sticky": "Réserver une Consultation"
     }
-  },
-  "metadata": {
-    "title": "AFRIKYia | L’Artifice Intelligent - Plateforme Culturelle Numérique",
-    "description": "Afrikyia est une plateforme culturelle numérique mondiale qui redéfinit l'intelligence à travers la fusion de la culture, de la créativité et de la technologie."
-  },
-  "about": {
-    "tag": "À Propos de Nous",
-    "title": "Qui Sommes-Nous",
-    "desc1": "Fondée en 2020, Afrikyia est animée par une équipe passionnée de consultants stratégiques, de technologues et de conservateurs culturels. Notre mission est de combler le fossé entre l'innovation numérique et le patrimoine culturel.",
-    "desc2": "Nous fournissons des conseils stratégiques de haut niveau pour aider les organisations à naviguer dans le paysage numérique. En combinant des connaissances culturelles approfondies avec une expertise technologique avancée, nous donnons aux créateurs et aux institutions les moyens de façonner le récit mondial et d'établir une véritable souveraineté numérique."
-  },
-  "trusted": {
-    "tag": "Ils Nous Font Confiance",
-    "title": "Nos Partenaires & Clients"
-  }
 }
