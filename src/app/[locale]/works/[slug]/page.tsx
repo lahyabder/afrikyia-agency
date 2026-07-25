@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import initialAchievements from '@/data/achievements.json';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { getTranslations } from 'next-intl/server';
-import { ExternalLink, Calendar, User, LayoutTemplate } from 'lucide-react';
+import { ExternalLink, Calendar, User, LayoutTemplate, ArrowLeft, ArrowRight } from 'lucide-react';
 
 export async function generateMetadata({ params }: any) {
     const { locale, slug } = await params;
@@ -61,6 +62,14 @@ export default async function ProjectPage({ params }: any) {
                     <div className="flex flex-col gap-12">
                         {/* Header Section */}
                         <div className={`flex flex-col gap-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+                            <Link 
+                                href={`/${locale}`}
+                                className="w-fit flex items-center gap-2 text-white/60 hover:text-white transition-colors bg-white/5 hover:bg-white/10 px-4 py-2 rounded-xl border border-white/5"
+                            >
+                                {isRTL ? <ArrowRight className="w-5 h-5" /> : <ArrowLeft className="w-5 h-5" />}
+                                <span className="font-medium">{isRTL ? 'العودة' : locale === 'fr' ? 'Retour' : 'Back'}</span>
+                            </Link>
+
                             <div className={`flex items-center gap-3 ${isRTL ? 'justify-start flex-row-reverse' : ''}`}>
                                 <span className="text-brand-red bg-brand-red/10 px-4 py-2 rounded-lg text-xs md:text-sm font-bold uppercase tracking-widest flex items-center gap-2">
                                     <LayoutTemplate className="w-4 h-4" />
