@@ -95,14 +95,73 @@ export default async function ProjectPage({ params }: any) {
 
                         {/* Content Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-8">
-                            {/* Main Description */}
-                            <div className="md:col-span-2 space-y-8">
-                                <h3 className="text-2xl font-bold border-b border-white/10 pb-4">
-                                    {isRTL ? 'عن المشروع' : locale === 'fr' ? 'À propos du projet' : 'About the Project'}
-                                </h3>
-                                <p className="text-white/70 text-lg md:text-xl leading-relaxed font-light">
-                                    {localized.desc}
-                                </p>
+                            {/* Main Description & Case Study */}
+                            <div className="md:col-span-2 space-y-12">
+                                <div className="space-y-4">
+                                    <h3 className="text-2xl font-bold border-b border-white/10 pb-4">
+                                        {isRTL ? 'عن المشروع' : locale === 'fr' ? 'À propos du projet' : 'About the Project'}
+                                    </h3>
+                                    <p className="text-white/70 text-lg md:text-xl leading-relaxed font-light">
+                                        {localized.desc}
+                                    </p>
+                                </div>
+
+                                {localized.challenge && (
+                                    <div className="space-y-4">
+                                        <h3 className="text-2xl font-bold border-b border-white/10 pb-4 text-brand-red">
+                                            {isRTL ? 'التحدي' : locale === 'fr' ? 'Le Défi' : 'The Challenge'}
+                                        </h3>
+                                        <p className="text-white/70 text-lg md:text-xl leading-relaxed font-light">
+                                            {localized.challenge}
+                                        </p>
+                                    </div>
+                                )}
+
+                                {localized.solution && (
+                                    <div className="space-y-4">
+                                        <h3 className="text-2xl font-bold border-b border-white/10 pb-4 text-brand-red">
+                                            {isRTL ? 'الحل' : locale === 'fr' ? 'La Solution' : 'The Solution'}
+                                        </h3>
+                                        <p className="text-white/70 text-lg md:text-xl leading-relaxed font-light">
+                                            {localized.solution}
+                                        </p>
+                                    </div>
+                                )}
+
+                                {localized.result && (
+                                    <div className="space-y-4">
+                                        <h3 className="text-2xl font-bold border-b border-white/10 pb-4 text-brand-red">
+                                            {isRTL ? 'النتيجة' : locale === 'fr' ? 'Le Résultat' : 'The Result'}
+                                        </h3>
+                                        <p className="text-white/70 text-lg md:text-xl leading-relaxed font-light">
+                                            {localized.result}
+                                        </p>
+                                    </div>
+                                )}
+
+                                {localized.stats && (
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-white/10">
+                                        {localized.stats.map((stat: any, idx: number) => (
+                                            <div key={idx} className="flex flex-col gap-2">
+                                                <span className="text-3xl md:text-4xl font-bold text-white">{stat.value}</span>
+                                                <span className="text-white/60 text-xs md:text-sm font-medium uppercase tracking-wider">{stat.label}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {localized.quote && (
+                                    <blockquote className="mt-8 p-8 bg-white/5 rounded-2xl border border-white/10 relative">
+                                        <span className={`text-brand-red text-6xl absolute top-4 ${isRTL ? 'right-6' : 'left-6'} opacity-50 font-serif leading-none`}>"</span>
+                                        <p className="text-white/90 text-xl md:text-2xl italic leading-relaxed relative z-10 font-light mb-6">
+                                            {localized.quote.text}
+                                        </p>
+                                        <footer className="text-brand-red font-bold text-sm uppercase tracking-wider flex items-center gap-2 relative z-10">
+                                            <div className="w-6 h-[1px] bg-brand-red"></div>
+                                            {localized.quote.author}
+                                        </footer>
+                                    </blockquote>
+                                )}
                             </div>
 
                             {/* Meta Info Sidebar */}

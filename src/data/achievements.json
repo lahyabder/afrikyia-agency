@@ -75,17 +75,80 @@
         "en": {
             "title": "Saudi Cinema Gateway",
             "categoryLabel": "Digital Portal",
-            "desc": "The first dedicated platform for documenting Saudi cinema: films, filmmakers, production companies, theaters, and market statistics."
+            "desc": "The first dedicated platform for documenting Saudi cinema: films, filmmakers, production companies, theaters, and market statistics.",
+            "challenge": "The Saudi cultural scene lacked a centralized, reliable platform to document and archive the rapidly growing cinema industry.",
+            "solution": "Developed an integrated digital portal with advanced cataloging features, enabling researchers to explore the cinematic archive and visually track statistics with high performance.",
+            "result": "The portal became the primary reference for Saudi cinema, with a massive increase in user engagement and ease of access to cultural data.",
+            "stats": [
+                {
+                    "value": "+1000",
+                    "label": "Documented Films"
+                },
+                {
+                    "value": "+50",
+                    "label": "Production Companies"
+                },
+                {
+                    "value": "3 Months",
+                    "label": "Execution Time"
+                }
+            ],
+            "quote": {
+                "text": "The Saudi Cinema Gateway is a historic step to preserve our cultural memory and present it to the world in a modern, professional manner.",
+                "author": "Project Management"
+            }
         },
         "fr": {
             "title": "Portail du Cinéma Saoudien",
             "categoryLabel": "Portail Numérique",
-            "desc": "La première plateforme dédiée à la documentation du cinéma saoudien : films, cinéastes, sociétés de production, salles de cinéma et statistiques du marché."
+            "desc": "La première plateforme dédiée à la documentation du cinéma saoudien : films, cinéastes, sociétés de production, salles de cinéma et statistiques du marché.",
+            "challenge": "La scène culturelle saoudienne manquait d'une plateforme centralisée pour documenter et archiver l'industrie cinématographique en pleine croissance.",
+            "solution": "Développement d'un portail numérique intégré avec des fonctionnalités de catalogage avancées, permettant aux chercheurs d'explorer l'archive et de suivre visuellement les statistiques.",
+            "result": "Le portail est devenu la référence première pour le cinéma saoudien, avec une augmentation massive de l'engagement des utilisateurs.",
+            "stats": [
+                {
+                    "value": "+1000",
+                    "label": "Films Documentés"
+                },
+                {
+                    "value": "+50",
+                    "label": "Sociétés de Production"
+                },
+                {
+                    "value": "3 Mois",
+                    "label": "Délai d'exécution"
+                }
+            ],
+            "quote": {
+                "text": "Le Portail du Cinéma Saoudien est une étape historique pour préserver notre mémoire culturelle et la présenter au monde de manière moderne.",
+                "author": "Direction du Projet"
+            }
         },
         "ar": {
             "title": "بوابة السينما السعودية",
             "categoryLabel": "بوابة رقمية",
-            "desc": "المنصة الأولى لتوثيق السينما السعودية: أفلام، صناع أفلام، شركات إنتاج، دور عرض، وإحصائيات السوق."
+            "desc": "المنصة الأولى لتوثيق السينما السعودية: أفلام، صناع أفلام، شركات إنتاج، دور عرض، وإحصائيات السوق.",
+            "challenge": "افتقار الساحة الثقافية السعودية لمنصة مركزية موثوقة لتوثيق وأرشفة صناعة السينما المتنامية بسرعة، مما يصعب وصول الباحثين للمعلومات.",
+            "solution": "تطوير بوابة رقمية متكاملة بخصائص الفهرسة المتقدمة، تتيح استكشاف الأرشيف السينمائي وتتبع الإحصائيات بصرياً بأداء فائق.",
+            "result": "أصبحت البوابة المرجع الأول للسينما السعودية مع زيادة هائلة في التفاعل وسهولة الوصول للبيانات الثقافية.",
+            "stats": [
+                {
+                    "value": "+1000",
+                    "label": "فيلم موثق"
+                },
+                {
+                    "value": "+50",
+                    "label": "شركة إنتاج"
+                },
+                {
+                    "value": "3 أشهر",
+                    "label": "مدة التنفيذ"
+                }
+            ],
+            "quote": {
+                "text": "بوابة السينما السعودية خطوة تاريخية لحفظ ذاكرتنا الثقافية وعرضها للعالم بأسلوب عصري واحترافي.",
+                "author": "إدارة المشروع"
+            }
         },
         "year": "2024",
         "client": "Saudi Ministry of Culture",
@@ -98,17 +161,80 @@
         "en": {
             "title": "Port of Nouadhibou — PAN",
             "categoryLabel": "Website",
-            "desc": "The official digital platform of the Autonomous Port of Nouadhibou, offering port services, infrastructure information, and institutional communication."
+            "desc": "The official digital platform of the Autonomous Port of Nouadhibou, offering port services, infrastructure information, and institutional communication.",
+            "challenge": "The port's old website lacked interactive digital services, suffered from slow loading times, and poorly organized information flow for investors.",
+            "solution": "Completely rebuilt the platform using modern web technologies (Next.js) to deliver a fast, interactive, and multi-lingual interface supporting the port's strategic needs.",
+            "result": "A 300% improvement in load speed and easier access to logistics information, significantly boosting the confidence of international investors and partners.",
+            "stats": [
+                {
+                    "value": "300%",
+                    "label": "Performance Boost"
+                },
+                {
+                    "value": "+20K",
+                    "label": "Monthly Visitors"
+                },
+                {
+                    "value": "2 Months",
+                    "label": "Execution Time"
+                }
+            ],
+            "quote": {
+                "text": "The new platform perfectly reflects the modern vision of the Port of Nouadhibou as a global logistics hub.",
+                "author": "Port Authority"
+            }
         },
         "fr": {
             "title": "Port de Nouadhibou — PAN",
             "categoryLabel": "Site Web",
-            "desc": "La plateforme numérique officielle du Port Autonome de Nouadhibou, offrant les services portuaires, les informations sur les infrastructures et la communication institutionnelle."
+            "desc": "La plateforme numérique officielle du Port Autonome de Nouadhibou, offrant les services portuaires, les informations sur les infrastructures et la communication institutionnelle.",
+            "challenge": "L'ancien site du port manquait de services numériques interactifs, souffrait de lenteurs et d'une mauvaise organisation de l'information pour les investisseurs.",
+            "solution": "Reconstruction complète de la plateforme avec des technologies modernes (Next.js) pour offrir une interface rapide, interactive et multilingue.",
+            "result": "Une amélioration de 300 % de la vitesse de chargement et un accès facilité aux informations logistiques, renforçant la confiance des investisseurs internationaux.",
+            "stats": [
+                {
+                    "value": "300%",
+                    "label": "Gain de Performance"
+                },
+                {
+                    "value": "+20K",
+                    "label": "Visiteurs Mensuels"
+                },
+                {
+                    "value": "2 Mois",
+                    "label": "Délai d'exécution"
+                }
+            ],
+            "quote": {
+                "text": "La nouvelle plateforme reflète parfaitement la vision moderne du Port de Nouadhibou en tant que hub logistique mondial.",
+                "author": "Autorité Portuaire"
+            }
         },
         "ar": {
             "title": "ميناء نواذيبو المستقل — PAN",
             "categoryLabel": "موقع ويب",
-            "desc": "المنصة الرقمية الرسمية للميناء المستقل لنواذيبو، تتضمن الخدمات الميناوية، معلومات البنية التحتية، والتواصل المؤسسي."
+            "desc": "المنصة الرقمية الرسمية للميناء المستقل لنواذيبو، تتضمن الخدمات الميناوية، معلومات البنية التحتية، والتواصل المؤسسي.",
+            "challenge": "كان الموقع القديم للميناء يفتقر للخدمات الرقمية التفاعلية ويعاني من بطء التحميل وضعف في تنظيم تدفق المعلومات للمستثمرين.",
+            "solution": "إعادة بناء المنصة بالكامل باستخدام تقنيات الويب الحديثة (Next.js) لتقديم واجهة سريعة، تفاعلية، ومتعددة اللغات تدعم احتياجات الميناء الاستراتيجية.",
+            "result": "تحسن ملحوظ بنسبة 300% في سرعة التحميل، وتسهيل الوصول للمعلومات اللوجستية، مما زاد من ثقة المستثمرين والشركاء الدوليين.",
+            "stats": [
+                {
+                    "value": "300%",
+                    "label": "تحسن الأداء"
+                },
+                {
+                    "value": "+20K",
+                    "label": "زائر شهرياً"
+                },
+                {
+                    "value": "شهران",
+                    "label": "مدة التنفيذ"
+                }
+            ],
+            "quote": {
+                "text": "المنصة الجديدة تعكس الرؤية العصرية لميناء نواذيبو كمحور لوجستي عالمي.",
+                "author": "سلطة الميناء"
+            }
         },
         "year": "2023",
         "client": "Port de Nouadhibou",
