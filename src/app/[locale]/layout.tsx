@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { headers } from 'next/headers';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,18 @@ export default async function RootLayout({
 
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
+  const headersList = await headers();
+  const fullPathname = headersList.get('x-pathname') || '';
+  let pathWithoutLocale = fullPathname;
+  routing.locales.forEach((l) => {
+    if (pathWithoutLocale === `/${l}` || pathWithoutLocale.startsWith(`/${l}/`)) {
+      pathWithoutLocale = pathWithoutLocale.substring(l.length + 1);
+    }
+  });
+  if (!pathWithoutLocale.startsWith('/')) {
+    pathWithoutLocale = '/' + pathWithoutLocale;
+  }
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -92,6 +105,19 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="no-js">
       <head>
+        {routing.locales.map((l) => (
+          <link
+            key={l}
+            rel="alternate"
+            hreflang={l}
+            href={`https://www.afrikyia.com/${l}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`}
+          />
+        ))}
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={`https://www.afrikyia.com/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`}
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
