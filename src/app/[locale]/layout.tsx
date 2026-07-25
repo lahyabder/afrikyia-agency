@@ -9,17 +9,20 @@ import { headers } from 'next/headers';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const almarai = Almarai({
   variable: "--font-almarai",
   subsets: ["arabic"],
-  weight: ["300", "400", "700", "800"],
+  weight: ["300", "400", "700"],
+  display: "swap",
 });
 
 export async function generateMetadata({
