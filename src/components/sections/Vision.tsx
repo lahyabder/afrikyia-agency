@@ -13,7 +13,7 @@ const Vision = () => {
                     <motion.div
                         initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                         transition={{ duration: 0.8 }}
                     >
                         <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-8">
@@ -24,7 +24,7 @@ const Vision = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                         transition={{ delay: 0.2, duration: 1 }}
                     >
                         <h3 className="text-white text-4xl md:text-7xl font-bold leading-[1.1] mb-12">
@@ -44,7 +44,7 @@ const Vision = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                             transition={{ delay: 0.4, duration: 0.8 }}
                         >
                             <p className="text-white/80 text-xl md:text-2xl font-normal leading-relaxed">
@@ -55,7 +55,7 @@ const Vision = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                             transition={{ delay: 0.6, duration: 0.8 }}
                         >
                             <p className="text-white/80 text-xl md:text-2xl font-normal leading-relaxed">

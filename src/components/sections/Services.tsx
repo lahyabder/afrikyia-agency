@@ -35,7 +35,7 @@ const Services = () => {
                                 key={idx}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
+                                viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                                 transition={{ delay: idx * 0.1, duration: 0.5 }}
                                 whileHover={{ y: -10 }}
                                 className={`group bg-white/5 p-10 rounded-2xl border border-white/10 hover:border-brand-red transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-brand-red/10 ${isRTL ? 'text-right' : 'text-left'}`}

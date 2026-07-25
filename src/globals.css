@@ -1,0 +1,18 @@
+
+/* Fallback for preferences reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Guaranteed fallback: Ensure elements become visible if JS or IntersectionObserver fails */
+.no-js [style*="opacity: 0"],
+.motion-fallback [style*="opacity: 0"] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out !important;
+}

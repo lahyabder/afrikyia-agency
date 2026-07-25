@@ -62,7 +62,7 @@ export default function NewClientPage() {
                     <h1 className="text-3xl font-bold flex items-center gap-3">
                         {t.admin.clients.newTitle}
                     </h1>
-                    <p className="text-white/40 text-sm mt-1">{t.admin.clients.newSub}</p>
+                    <p className="text-white/60 text-sm mt-1">{t.admin.clients.newSub}</p>
                 </div>
                 <Link 
                     href="/admin/clients"

@@ -76,7 +76,7 @@ export default function InvoicesPage() {
             {/* List */}
             <div className="space-y-4">
                 {invoices.length === 0 ? (
-                    <div className="text-center py-12 text-white/40">{t.admin.invoices.noInvoices}</div>
+                    <div className="text-center py-12 text-white/60">{t.admin.invoices.noInvoices}</div>
                 ) : (
                     invoices.map((invoice, i) => (
                         <motion.div 
@@ -95,11 +95,11 @@ export default function InvoicesPage() {
                                     </div>
                                     <div className="text-white/60 text-sm font-semibold">{invoice.clientName}</div>
                                     {invoice.description && (
-                                        <div className="text-white/40 text-xs mt-1 max-w-md line-clamp-1" dir="ltr">
+                                        <div className="text-white/60 text-xs mt-1 max-w-md line-clamp-1" dir="ltr">
                                             {invoice.description}
                                         </div>
                                     )}
-                                    <div className="text-white/30 text-[10px] mt-2">{invoice.date}</div>
+                                    <div className="text-white/70 text-[10px] mt-2">{invoice.date}</div>
                                 </div>
 
                                 {/* Actions & Amount side */}

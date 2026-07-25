@@ -51,7 +51,7 @@ export default function ClientsPage() {
     const getStatusBadge = (status: string) => {
         switch(status) {
             case 'active': return <span className="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full text-[10px] font-bold border border-emerald-500/20">{t.admin.common.active}</span>;
-            case 'inactive': return <span className="bg-white/10 text-white/50 px-2 py-0.5 rounded-full text-[10px] font-bold border border-white/5">{t.admin.common.inactive}</span>;
+            case 'inactive': return <span className="bg-white/10 text-white/70 px-2 py-0.5 rounded-full text-[10px] font-bold border border-white/5">{t.admin.common.inactive}</span>;
             default: return null;
         }
     };
@@ -74,7 +74,7 @@ export default function ClientsPage() {
             {/* List */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {clients.length === 0 ? (
-                    <div className="col-span-full text-center py-12 text-white/40">{t.admin.clients.noClients}</div>
+                    <div className="col-span-full text-center py-12 text-white/60">{t.admin.clients.noClients}</div>
                 ) : (
                     clients.map((client, i) => (
                         <motion.div 
@@ -93,7 +93,7 @@ export default function ClientsPage() {
                                     {getStatusBadge(client.status)}
                                 </div>
                                 
-                                <div className="space-y-2 text-sm text-white/50">
+                                <div className="space-y-2 text-sm text-white/70">
                                     <div className="flex items-center gap-2" dir="ltr">
                                         <span className="flex-1 text-right">{client.email}</span>
                                         <span className="text-white/20">@</span>

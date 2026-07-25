@@ -77,7 +77,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                             />
                         </Link>
                         <h1 className="text-2xl font-bold tracking-tight text-white mb-2">{t.admin.auth.loginTitle}</h1>
-                        <p className="text-sm text-white/50 uppercase tracking-widest font-mono">{t.admin.auth.loginSub}</p>
+                        <p className="text-sm text-white/70 uppercase tracking-widest font-mono">{t.admin.auth.loginSub}</p>
                     </div>
 
                     <motion.div 
@@ -91,7 +91,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                                     {t.admin.auth.enterCode}
                                 </label>
                                 <div className="relative">
-                                    <Lock className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 ${isRTL ? 'right-4' : 'left-4'}`} />
+                                    <Lock className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 ${isRTL ? 'right-4' : 'left-4'}`} />
                                     <input
                                         type="password"
                                         value={password}
@@ -182,7 +182,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                                 className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
                                     language === lang 
                                         ? 'bg-yellow-400 text-black shadow-md' 
-                                        : 'text-white/40 hover:text-white hover:bg-white/10'
+                                        : 'text-white/60 hover:text-white hover:bg-white/10'
                                 }`}
                             >
                                 {lang.toUpperCase()}

@@ -14,7 +14,7 @@ const StrategicImpact = () => {
                         <motion.h2
                             initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                             className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-8"
                         >
                             {t.impact.tag}
@@ -22,7 +22,7 @@ const StrategicImpact = () => {
                         <motion.h3
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                             className="text-4xl md:text-7xl font-bold leading-tight mb-12"
                         >
                             {t.impact.title.split(' ').map((word: string, i: number) => (
@@ -47,7 +47,7 @@ const StrategicImpact = () => {
                                 key={idx}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
+                                viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                                 transition={{ delay: idx * 0.2 }}
                                 className={`p-8 bg-white/10 hover:bg-white/20 transition-colors ${isRTL ? 'border-r-2 pr-10 border-brand-red text-right' : 'border-l-2 pl-10 border-brand-red text-left'}`}
                             >

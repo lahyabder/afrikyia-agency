@@ -62,7 +62,7 @@ export default function TermsPage() {
                 </Link>
 
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">{c.title}</h1>
-                <p className="text-white/40 text-sm mb-16 uppercase tracking-widest">{c.updated}</p>
+                <p className="text-white/60 text-sm mb-16 uppercase tracking-widest">{c.updated}</p>
 
                 <div className="space-y-12">
                     {c.sections.map((section, i) => (

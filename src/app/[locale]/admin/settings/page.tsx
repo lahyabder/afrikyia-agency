@@ -60,7 +60,7 @@ export default function SettingsPage() {
                         <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
                             <div>
                                 <h4 className="font-bold">{t.admin.settings.notifications}</h4>
-                                <p className="text-xs text-white/50">{t.admin.settings.notificationsHint}</p>
+                                <p className="text-xs text-white/70">{t.admin.settings.notificationsHint}</p>
                             </div>
                             <div className="w-12 h-6 bg-yellow-400 rounded-full relative cursor-pointer">
                                 <div className={`absolute top-1 w-4 h-4 bg-black rounded-full transition-all ${isRTL ? 'right-1' : 'right-7'}`}></div>
@@ -70,7 +70,7 @@ export default function SettingsPage() {
                         <div className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
                             <div>
                                 <h4 className="font-bold">{t.admin.settings.darkMode}</h4>
-                                <p className="text-xs text-white/50">{t.admin.settings.darkModeHint}</p>
+                                <p className="text-xs text-white/70">{t.admin.settings.darkModeHint}</p>
                             </div>
                             <div className="w-12 h-6 bg-yellow-400 rounded-full relative cursor-pointer">
                                 <div className={`absolute top-1 w-4 h-4 bg-black rounded-full transition-all ${isRTL ? 'right-1' : 'right-7'}`}></div>

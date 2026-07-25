@@ -28,7 +28,7 @@ export default function FilesPage() {
             <div className="space-y-4">
                 {files.length === 0 ? (
                     <div className="text-center py-20 bg-[#1a1a1a] border border-white/5 rounded-2xl">
-                        <div className="text-white/40 mb-2">{t.admin.files.noFiles}</div>
+                        <div className="text-white/60 mb-2">{t.admin.files.noFiles}</div>
                         <p className="text-white/20 text-sm">{t.admin.files.noFilesSub}</p>
                     </div>
                 ) : (

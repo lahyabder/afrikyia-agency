@@ -78,7 +78,7 @@ export default function OffersPage() {
             {/* List */}
             <div className="space-y-4">
                 {offers.length === 0 ? (
-                    <div className="text-center py-12 text-white/40">{t.admin.offers.noOffers}</div>
+                    <div className="text-center py-12 text-white/60">{t.admin.offers.noOffers}</div>
                 ) : (
                     offers.map((offer, i) => (
                         <motion.div 
@@ -98,11 +98,11 @@ export default function OffersPage() {
                                     </div>
                                     <div className="text-white/60 text-sm font-semibold">{offer.clientName}</div>
                                     {offer.description && (
-                                        <div className="text-white/40 text-xs mt-1 max-w-md line-clamp-1" dir="ltr">
+                                        <div className="text-white/60 text-xs mt-1 max-w-md line-clamp-1" dir="ltr">
                                             {offer.description}
                                         </div>
                                     )}
-                                    <div className="text-white/30 text-[10px] mt-2">{offer.date}</div>
+                                    <div className="text-white/70 text-[10px] mt-2">{offer.date}</div>
                                 </div>
 
                                 {/* Actions & Amount side */}
@@ -147,28 +147,28 @@ export default function OffersPage() {
                         <div className="flex justify-between items-start border-b border-white/10 pb-6 mb-6">
                             <div>
                                 <h2 className="text-2xl font-bold mb-2">{t.admin.offers.title} - {previewOffer.ref}</h2>
-                                <div className="text-white/50 text-sm flex items-center gap-2">
+                                <div className="text-white/70 text-sm flex items-center gap-2">
                                     {previewOffer.date} • {getStatusBadge(previewOffer.status)}
                                 </div>
                             </div>
-                            <button onClick={() => setPreviewOffer(null)} className="text-white/40 hover:text-white p-2">✕</button>
+                            <button onClick={() => setPreviewOffer(null)} className="text-white/60 hover:text-white p-2">✕</button>
                         </div>
                         
                         <div className="space-y-6">
                             <div className="grid grid-cols-2 gap-4 bg-white/5 p-4 rounded-xl border border-white/10">
                                 <div>
-                                    <div className="text-xs text-white/40 uppercase tracking-wider mb-1">{t.admin.offers.clientName}</div>
+                                    <div className="text-xs text-white/60 uppercase tracking-wider mb-1">{t.admin.offers.clientName}</div>
                                     <div className="font-bold">{previewOffer.clientName}</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-white/40 uppercase tracking-wider mb-1">{t.admin.common.amount}</div>
+                                    <div className="text-xs text-white/60 uppercase tracking-wider mb-1">{t.admin.common.amount}</div>
                                     <div className="font-bold text-yellow-400 text-lg">MRU {previewOffer.amount.toLocaleString()}</div>
                                 </div>
                             </div>
 
                             {previewOffer.description && (
                                 <div>
-                                    <div className="text-xs text-white/40 uppercase tracking-wider mb-2">{t.admin.offers.description}</div>
+                                    <div className="text-xs text-white/60 uppercase tracking-wider mb-2">{t.admin.offers.description}</div>
                                     <div className="bg-black/40 p-4 rounded-xl border border-white/5 text-sm leading-relaxed text-white/80" dir="ltr">
                                         {previewOffer.description}
                                     </div>

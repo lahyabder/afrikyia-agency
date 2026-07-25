@@ -63,7 +63,7 @@ const Hero = () => {
                     transition={{ delay: 1, duration: 0.8 }}
                 >
                     <motion.button
-                        whileHover={{ scale: 1.05, backgroundColor: "#E5232A" }}
+                        whileHover={{ scale: 1.05, backgroundColor: "#EB2F36" }}
                         whileTap={{ scale: 0.95 }}
                         className="bg-brand-red text-brand-white px-12 py-5 rounded-full text-lg font-semibold tracking-wide transition-all shadow-2xl shadow-brand-red/20 group overflow-hidden relative"
                     >
@@ -80,7 +80,7 @@ const Hero = () => {
                 transition={{ delay: 1.5, duration: 1 }}
                 className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
             >
-                <span className="text-brand-white/60 text-xs tracking-[0.3em] uppercase">{t.hero.scroll}</span>
+                <span className="text-brand-white/80 text-xs tracking-[0.3em] uppercase">{t.hero.scroll}</span>
                 <div className="w-[1px] h-16 bg-gradient-to-b from-brand-red to-transparent relative overflow-hidden">
                     <motion.div
                         animate={{ y: [0, 64] }}

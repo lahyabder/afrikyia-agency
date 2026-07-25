@@ -45,7 +45,7 @@ export default function NewFilePage() {
                     <h1 className="text-3xl font-bold flex items-center gap-3">
                         {t.admin.files.newTitle}
                     </h1>
-                    <p className="text-white/40 text-sm mt-1">{t.admin.files.newSub}</p>
+                    <p className="text-white/60 text-sm mt-1">{t.admin.files.newSub}</p>
                 </div>
                 <Link 
                     href="/admin/files"
@@ -71,7 +71,7 @@ export default function NewFilePage() {
                             <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center gap-3">
                                 <span className="text-4xl">📄</span>
                                 <span className="text-white/60 font-semibold">{t.admin.files.uploadHintTitle}</span>
-                                <span className="text-white/30 text-xs">{t.admin.files.uploadHintSub}</span>
+                                <span className="text-white/70 text-xs">{t.admin.files.uploadHintSub}</span>
                             </label>
                         </div>
                     </div>

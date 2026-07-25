@@ -20,7 +20,7 @@ const TrustedBy = () => {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                     >
                         <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
                             {t.trusted.tag}

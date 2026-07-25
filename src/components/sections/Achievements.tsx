@@ -195,7 +195,7 @@ const Achievements = () => {
                                             <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                                         </Link>
                                     ) : (
-                                        <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/30 ${
+                                        <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/70 ${
                                             isRTL ? 'flex-row-reverse self-end' : 'self-start'
                                         }`}>
                                             <span>{isRTL ? 'عمل منجز' : 'Completed Work'}</span>

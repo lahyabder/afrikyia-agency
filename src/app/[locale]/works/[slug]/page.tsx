@@ -110,7 +110,7 @@ export default async function ProjectPage({ params }: any) {
                             <div className="space-y-8 bg-white/5 p-8 rounded-3xl border border-white/10 h-fit">
                                 <div className="space-y-6">
                                     <div>
-                                        <p className="text-white/40 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <p className="text-white/60 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
                                             <Calendar className="w-4 h-4" /> 
                                             {isRTL ? 'سنة الإنجاز' : locale === 'fr' ? 'Année' : 'Year'}
                                         </p>
@@ -118,7 +118,7 @@ export default async function ProjectPage({ params }: any) {
                                     </div>
                                     
                                     <div>
-                                        <p className="text-white/40 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
+                                        <p className="text-white/60 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
                                             <User className="w-4 h-4" /> 
                                             {isRTL ? 'العميل' : locale === 'fr' ? 'Client' : 'Client'}
                                         </p>

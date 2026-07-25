@@ -90,8 +90,20 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="no-js">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              document.documentElement.classList.remove('no-js');
+              window.addEventListener('load', function() {
+                setTimeout(function() {
+                  document.documentElement.classList.add('motion-fallback');
+                }, 3500);
+              });
+            `
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
