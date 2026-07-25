@@ -6,8 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { ExternalLink, Calendar, User, LayoutTemplate } from 'lucide-react';
 
 export async function generateMetadata({ params }: any) {
-    const locale = params.locale;
-    const slug = params.slug;
+    const { locale, slug } = await params;
     
     const t = await getTranslations({ locale });
     const item = initialAchievements.find(i => i.id === slug);
@@ -42,8 +41,7 @@ export async function generateStaticParams() {
 }
 
 export default async function ProjectPage({ params }: any) {
-    const locale = params.locale;
-    const slug = params.slug;
+    const { locale, slug } = await params;
     
     const item = initialAchievements.find(i => i.id === slug);
     
