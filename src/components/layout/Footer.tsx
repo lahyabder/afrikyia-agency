@@ -41,6 +41,13 @@ const Footer = () => {
                             <Phone className="w-5 h-5 md:w-6 md:h-6 text-brand-red flex-shrink-0" />
                             {t.footer.phone}
                         </a>
+                        <a
+                            href="tel:00222797924"
+                            className="flex items-center gap-4 text-xl md:text-2xl font-medium hover:text-brand-red transition-colors"
+                        >
+                            <Phone className="w-5 h-5 md:w-6 md:h-6 text-brand-red flex-shrink-0" />
+                            00222797924
+                        </a>
                         <div className="flex items-start gap-4 text-sm md:text-base font-light text-white/80 max-w-sm leading-relaxed mt-2">
                             <MapPin className="w-5 h-5 text-brand-red flex-shrink-0 mt-1" />
                             {t.footer.address}
