@@ -9,7 +9,6 @@ import { ExternalLink, Calendar, User, LayoutTemplate, ArrowLeft, ArrowRight } f
 export async function generateMetadata({ params }: any) {
     const { locale, slug } = await params;
     
-    const t = await getTranslations({ locale });
     const item = initialAchievements.find(i => i.id === slug);
     if (!item) {
         return {

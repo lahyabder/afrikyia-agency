@@ -109,13 +109,13 @@ export default async function RootLayout({
           <link
             key={l}
             rel="alternate"
-            hreflang={l}
+            hrefLang={l}
             href={`https://www.afrikyia.com/${l}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`}
           />
         ))}
         <link
           rel="alternate"
-          hreflang="x-default"
+          hrefLang="x-default"
           href={`https://www.afrikyia.com/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`}
         />
         <script
