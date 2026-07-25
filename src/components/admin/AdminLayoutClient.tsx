@@ -17,11 +17,13 @@ import {
     Globe, 
     LogOut,
     Lock,
+    Mail,
     AlertTriangle
 } from 'lucide-react';
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loginError, setLoginError] = useState<string>('');
     const [isMounted, setIsMounted] = useState(false);
@@ -42,12 +44,12 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === 'afrikyia2026' || password === 'admin') {
+        if (email === 'lahy.abderrahmane@gmail.com' && password === 'Bismillah@2026') {
             setIsAuthenticated(true);
             setLoginError('');
             localStorage.setItem('afrikyia-admin-auth', 'true');
         } else {
-            setLoginError(t.admin.auth.incorrectPassword);
+            setLoginError(t.admin.auth.incorrectCredentials);
         }
     };
 
@@ -86,20 +88,38 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                         className="bg-white/5 border border-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl shadow-yellow-500/5"
                     >
                         <form onSubmit={handleLogin} className="space-y-6">
-                            <div>
-                                <label className="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">
-                                    {t.admin.auth.enterCode}
-                                </label>
-                                <div className="relative">
-                                    <Lock className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 ${isRTL ? 'right-4' : 'left-4'}`} />
-                                    <input
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder={t.admin.auth.passwordPlaceholder}
-                                        className={`w-full bg-black/40 border border-white/10 rounded-xl py-3.5 ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-center text-white focus:outline-none focus:border-yellow-400 transition-all`}
-                                        required
-                                    />
+                            <div className="space-y-4">
+                                <div>
+                                    <label className={`block text-xs font-bold uppercase tracking-wider text-white/70 mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                        {t.admin.auth.emailLabel}
+                                    </label>
+                                    <div className="relative">
+                                        <Mail className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 ${isRTL ? 'right-4' : 'left-4'}`} />
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder={t.admin.auth.emailPlaceholder}
+                                            className={`w-full bg-black/40 border border-white/10 rounded-xl py-3.5 ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-white focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className={`block text-xs font-bold uppercase tracking-wider text-white/70 mb-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                        {t.admin.auth.passwordLabel}
+                                    </label>
+                                    <div className="relative">
+                                        <Lock className={`absolute top-1/2 -translate-y-1/2 w-5 h-5 text-white/60 ${isRTL ? 'right-4' : 'left-4'}`} />
+                                        <input
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder={t.admin.auth.passwordPlaceholder}
+                                            className={`w-full bg-black/40 border border-white/10 rounded-xl py-3.5 ${isRTL ? 'pr-12 pl-4' : 'pl-12 pr-4'} text-white focus:outline-none focus:border-yellow-400 transition-all ${isRTL ? 'text-right' : 'text-left'}`}
+                                            required
+                                        />
+                                    </div>
                                 </div>
                                 {loginError && (
                                     <p className="text-yellow-500 text-xs mt-2 font-semibold flex items-center gap-1.5 justify-center">

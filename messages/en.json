@@ -320,10 +320,12 @@
         "auth": {
             "loginTitle": "Admin Portal",
             "loginSub": "Dashboard",
-            "enterCode": "Enter verification code (Admin code)",
-            "passwordPlaceholder": "Verification code (e.g: afrikyia2026)",
-            "incorrectPassword": "Incorrect Password",
-            "loginButton": "Enter Admin Panel"
+            "emailLabel": "Email Address",
+            "emailPlaceholder": "admin@example.com",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "********",
+            "incorrectCredentials": "Incorrect Email or Password",
+            "loginButton": "Login to Dashboard"
         },
         "achievements": {
             "title": "Achievements Management",

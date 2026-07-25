@@ -320,10 +320,12 @@
         "auth": {
             "loginTitle": "Portail d'Administration",
             "loginSub": "Tableau de Bord",
-            "enterCode": "Entrez le code de vérification",
-            "passwordPlaceholder": "Code de vérification (ex: afrikyia2026)",
-            "incorrectPassword": "Mot de passe incorrect",
-            "loginButton": "Entrer dans l'Administration"
+            "emailLabel": "Adresse Email",
+            "emailPlaceholder": "admin@exemple.com",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "********",
+            "incorrectCredentials": "Email ou Mot de passe incorrect",
+            "loginButton": "Connexion"
         },
         "achievements": {
             "title": "Gestion des Réalisations",

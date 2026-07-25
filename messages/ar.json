@@ -320,9 +320,11 @@
         "auth": {
             "loginTitle": "لوحة التحكم في الإنجازات",
             "loginSub": "Admin Portal",
-            "enterCode": "أدخل رمز التحقق (رمز الإدارة)",
-            "passwordPlaceholder": "رمز التحقق (مثال: afrikyia2026)",
-            "incorrectPassword": "كلمة المرور غير صحيحة",
+            "emailLabel": "البريد الإلكتروني",
+            "emailPlaceholder": "admin@example.com",
+            "passwordLabel": "كلمة المرور",
+            "passwordPlaceholder": "********",
+            "incorrectCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
             "loginButton": "دخول لوحة الإدارة"
         },
         "achievements": {
