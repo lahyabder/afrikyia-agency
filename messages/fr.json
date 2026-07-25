@@ -18,7 +18,16 @@
     "tag": "Notre Philosophie",
     "title": "L'Artifice Intelligent : Au-delà de l'Intelligence Artificielle.",
     "desc1": "Chez Afrikyia, « L'Artifice Intelligent » est un changement fondamental de perception. Car la véritable intelligence n'est pas simplement un produit d'algorithmes ; c'est un acte délibéré de façonnage culturel.",
-    "desc2": "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel."
+    "desc2": "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel.",
+    "whatWeBuild": "Ce Que Nous Construisons",
+    "whatWeBuildDesc": "Nous concevons des solutions numériques tangibles : plateformes web intégrées, portails numériques et applications SaaS complexes pour répondre aux besoins modernes de transformation numérique.",
+    "forWhom": "Pour Qui",
+    "forWhomDesc": "Nous accompagnons les gouvernements, les institutions culturelles et les entreprises privées désireuses d'établir leur souveraineté numérique et de projeter leur identité à l'échelle mondiale.",
+    "stats": [
+      { "value": "+20", "label": "Projets Numériques" },
+      { "value": "+50K", "label": "Utilisateurs Actifs" },
+      { "value": "100%", "label": "Souveraineté Numérique" }
+    ]
   },
   "services": {
     "tag": "Notre Expertise",

@@ -40,7 +40,7 @@ const Vision = () => {
                         </h3>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-6 md:gap-24">
+                    <div className="grid md:grid-cols-2 gap-6 md:gap-24 mb-16">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -63,6 +63,38 @@ const Vision = () => {
                             </p>
                         </motion.div>
                     </div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
+                        transition={{ delay: 0.8, duration: 0.8 }}
+                        className="grid md:grid-cols-2 gap-12 pt-16 border-t border-white/10"
+                    >
+                        <div>
+                            <h4 className="text-brand-red text-xl font-bold mb-4">{t.vision.whatWeBuild}</h4>
+                            <p className="text-white/70 text-lg leading-relaxed">{t.vision.whatWeBuildDesc}</p>
+                        </div>
+                        <div>
+                            <h4 className="text-brand-red text-xl font-bold mb-4">{t.vision.forWhom}</h4>
+                            <p className="text-white/70 text-lg leading-relaxed">{t.vision.forWhomDesc}</p>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
+                        transition={{ delay: 1, duration: 0.8 }}
+                        className="grid grid-cols-2 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-white/10"
+                    >
+                        {t.vision.stats.map((stat: any, index: number) => (
+                            <div key={index} className="flex flex-col gap-2">
+                                <span className="text-4xl md:text-6xl font-bold text-white">{stat.value}</span>
+                                <span className="text-white/60 text-sm md:text-base font-medium uppercase tracking-wider">{stat.label}</span>
+                            </div>
+                        ))}
+                    </motion.div>
                 </div>
             </div>
         </section>

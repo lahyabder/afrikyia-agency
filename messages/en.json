@@ -18,7 +18,16 @@
     "tag": "Our Philosophy",
     "title": "Intelligent Making: Beyond Artificial Intelligence.",
     "desc1": "At Afrikyia, \"Intelligent Making\" is a fundamental shift in perception. Because true intelligence is not merely a product of algorithms; it is a deliberate act of cultural crafting.",
-    "desc2": "It is the intentional use of technical and creative forces to reshape our digital reality through the lens of identity, heritage, and human action, transforming technology into a cultural vessel."
+    "desc2": "It is the intentional use of technical and creative forces to reshape our digital reality through the lens of identity, heritage, and human action, transforming technology into a cultural vessel.",
+    "whatWeBuild": "What We Actually Build",
+    "whatWeBuildDesc": "We engineer tangible digital solutions: integrated web platforms, digital portals, and complex SaaS applications that meet modern digital transformation needs.",
+    "forWhom": "Who We Serve",
+    "forWhomDesc": "We serve governments, cultural institutions, and private enterprises seeking to establish digital sovereignty and project their identity globally.",
+    "stats": [
+      { "value": "+20", "label": "Digital Projects" },
+      { "value": "+50K", "label": "Active Users" },
+      { "value": "100%", "label": "Digital Sovereignty" }
+    ]
   },
   "services": {
     "tag": "Our Expertise",
