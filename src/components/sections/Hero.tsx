@@ -55,20 +55,6 @@ const Hero = () => {
                     {t.hero.desc}
                 </motion.p>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                    className="mb-12 md:mb-0"
-                >
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-brand-red text-white px-10 py-4 md:px-14 md:py-5 rounded-full text-base md:text-lg font-medium tracking-wide transition-all shadow-xl shadow-brand-red/20 hover:shadow-2xl hover:shadow-brand-red/30 hover:bg-[#EB2F36]"
-                    >
-                        {t.hero.cta}
-                    </motion.button>
-                </motion.div>
             </motion.div>
 
             {/* Scroll Indicator */}
