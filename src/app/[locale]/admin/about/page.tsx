@@ -5,9 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { Save, AlertTriangle, CheckCircle2, ChevronLeft, LogOut, RotateCcw } from 'lucide-react';
-import arMessages from '../../../../messages/ar.json';
-import frMessages from '../../../../messages/fr.json';
-import enMessages from '../../../../messages/en.json';
+import arMessages from '../../../../../messages/ar.json';
+import frMessages from '../../../../../messages/fr.json';
+import enMessages from '../../../../../messages/en.json';
 
 type AboutContent = {
     tag: string;
