@@ -103,3 +103,68 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
     }
 }
+
+export async function DELETE(request: Request) {
+    try {
+        const { id } = await request.json();
+        let data = readData();
+        
+        const fileIndex = data.findIndex((f: any) => f.id === id);
+        if (fileIndex === -1) {
+            return NextResponse.json({ error: 'File not found' }, { status: 404 });
+        }
+        
+        // Try to delete physical file
+        try {
+            const fileUrl = data[fileIndex].url;
+            const filename = fileUrl.split('/').pop();
+            const filePath = path.join(uploadDir, filename);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+        } catch (e) {
+            console.warn("Could not delete physical file:", e);
+        }
+
+        data = data.filter((f: any) => f.id !== id);
+        const success = writeData(data);
+
+        if (!success) {
+            return NextResponse.json({ 
+                error: 'ReadOnlyFileSystem', 
+                message: 'Running in read-only environment. Modifications will persist in browser localStorage.' 
+            }, { status: 200 });
+        }
+
+        return NextResponse.json({ success: true });
+    } catch (error: any) {
+        return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
+    }
+}
+
+export async function PUT(request: Request) {
+    try {
+        const { id, updates } = await request.json();
+        let data = readData();
+        
+        const fileIndex = data.findIndex((f: any) => f.id === id);
+        if (fileIndex === -1) {
+            return NextResponse.json({ error: 'File not found' }, { status: 404 });
+        }
+        
+        data[fileIndex] = { ...data[fileIndex], ...updates };
+        const success = writeData(data);
+
+        if (!success) {
+            return NextResponse.json({ 
+                error: 'ReadOnlyFileSystem', 
+                message: 'Running in read-only environment. Modifications will persist in browser localStorage.',
+                data: data[fileIndex]
+            }, { status: 200 });
+        }
+
+        return NextResponse.json({ success: true, data: data[fileIndex] });
+    } catch (error: any) {
+        return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
+    }
+}
