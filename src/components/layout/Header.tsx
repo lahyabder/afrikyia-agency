@@ -27,7 +27,7 @@ const Header = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-md py-4 md:py-6 border-b border-white/5"
+      className="fixed top-0 left-0 w-full z-50 bg-black/40 backdrop-blur-2xl py-4 md:py-6 border-b border-white/5"
     >
       <div className="container mx-auto px-6 flex justify-between items-center relative z-20">
         <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>

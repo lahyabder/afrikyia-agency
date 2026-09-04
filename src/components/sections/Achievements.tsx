@@ -145,12 +145,12 @@ const Achievements = () => {
                                     exit={{ opacity: 0, scale: 0.9, y: 10 }}
                                     transition={{ duration: 0.4 }}
                                     whileHover={{ y: -10 }}
-                                    className={`group relative bg-white/5 p-8 md:p-10 rounded-2xl border border-white/10 hover:border-brand-red/50 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-2xl hover:shadow-brand-red/5 ${
+                                    className={`group relative bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/5 hover:border-brand-red/30 hover:bg-white/10 transition-all duration-500 flex flex-col justify-between shadow-2xl hover:shadow-[0_0_50px_rgba(225,29,72,0.15)] ${
                                         isRTL ? 'text-right' : 'text-left'
                                     }`}
                                 >
                                     {/* Glowing red outline hover effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-red/0 to-brand-red/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-red/0 to-brand-red/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none" />
 
                                     {item.image && (
                                         <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-white/5 bg-black/40">

@@ -9,8 +9,10 @@ const Footer = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <footer className="bg-black border-t border-white/10 py-20 text-white">
-            <div className="container mx-auto px-6">
+        <footer className="bg-brand-black relative border-t border-white/5 py-20 text-white overflow-hidden">
+            {/* Subtle glow at the bottom of the footer */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-brand-red/5 blur-[100px] pointer-events-none" />
+            <div className="container mx-auto px-6 relative z-10">
                 <div className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mb-20 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <div>
                         <Image
