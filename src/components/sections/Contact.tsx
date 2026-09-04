@@ -80,17 +80,17 @@ const Contact = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 className="flex flex-col gap-4 pt-6"
                             >
-                                <a href="mailto:contact@afrikyia.com" className={`flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group ${isRTL ? 'self-end' : 'self-start'}`}>
-                                    <span className="text-sm md:text-base font-medium">contact@afrikyia.com</span>
+                                <a href="mailto:contact@afrikyia.com" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
                                     <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
                                         <Mail className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
                                     </div>
+                                    <span className="text-sm md:text-base font-medium" dir="ltr">contact@afrikyia.com</span>
                                 </a>
-                                <a href="tel:+22224232202" className={`flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group ${isRTL ? 'self-start' : 'self-start'}`} dir="ltr">
+                                <a href="tel:+22224232202" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
                                     <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
                                         <Phone className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
                                     </div>
-                                    <span className="text-sm md:text-base font-medium">+222 24 23 22 02</span>
+                                    <span className="text-sm md:text-base font-medium" dir="ltr">+222 24 23 22 02</span>
                                 </a>
                             </motion.div>
                         </div>
