@@ -93,7 +93,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ 
                 error: 'ReadOnlyFileSystem', 
                 message: 'Running in read-only environment. Modifications will persist in browser localStorage.',
-                data 
+                data: newFile 
             }, { status: 200 });
         }
 

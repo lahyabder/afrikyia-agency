@@ -17,10 +17,16 @@ export default function FilesPage() {
             
             if (cached) {
                 try {
-                    setFiles(JSON.parse(cached));
-                    if (hasLocalMod) {
-                        setIsLoading(false);
-                        return;
+                    let parsedCache = JSON.parse(cached);
+                    if (Array.isArray(parsedCache)) {
+                        // Sanitize: remove any nested arrays caused by previous bug
+                        parsedCache = parsedCache.flat().filter(item => item && typeof item === 'object' && !Array.isArray(item) && item.id);
+                        
+                        setFiles(parsedCache);
+                        if (hasLocalMod) {
+                            setIsLoading(false);
+                            return;
+                        }
                     }
                 } catch(e) {
                     console.error("Failed to parse cached files");
@@ -81,11 +87,11 @@ export default function FilesPage() {
                                             {file.category === 'document' ? '📄' : file.category === 'design' ? '🎨' : file.category === 'invoice' ? '🧾' : '📁'}
                                         </div>
                                         <span className="text-xs font-medium text-white/40 bg-white/5 px-2 py-1 rounded">
-                                            {(file.size / 1024 / 1024).toFixed(2)} MB
+                                            {file.size ? (file.size / 1024 / 1024).toFixed(2) + ' MB' : '0.00 MB'}
                                         </span>
                                     </div>
-                                    <h3 className="font-bold text-lg text-white mb-1 truncate">{file.name}</h3>
-                                    <p className="text-sm text-white/50 mb-4">{new Date(file.date).toLocaleDateString()}</p>
+                                    <h3 className="font-bold text-lg text-white mb-1 truncate">{file.name || 'Unknown File'}</h3>
+                                    <p className="text-sm text-white/50 mb-4">{file.date ? new Date(file.date).toLocaleDateString() : 'N/A'}</p>
                                     
                                     {file.description && (
                                         <p className="text-sm text-white/70 mb-6 line-clamp-2">{file.description}</p>
