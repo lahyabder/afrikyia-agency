@@ -5,7 +5,6 @@ import Vision from '@/components/sections/Vision';
 import Services from '@/components/sections/Services';
 import Achievements from '@/components/sections/Achievements';
 import TrustedBy from '@/components/sections/TrustedBy';
-import StrategicImpact from '@/components/sections/StrategicImpact';
 import Contact from '@/components/sections/Contact';
 import Footer from '@/components/layout/Footer';
 
@@ -19,7 +18,6 @@ export default function Home() {
       <Services />
       <Achievements />
       <TrustedBy />
-      <StrategicImpact />
       <Contact />
       <Footer />
     </main>
