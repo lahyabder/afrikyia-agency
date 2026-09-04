@@ -120,6 +120,12 @@
             }
         ]
     },
+    "projects": {
+        "tag": "Our Projects",
+        "title": "Projects",
+        "watchVideo": "Watch Video",
+        "viewProject": "View Project"
+    },
     "impact": {
         "tag": "Strategic Impact",
         "title": "Shaping the Global Narrative",
@@ -160,6 +166,7 @@
             "deliveryNotes": "Delivery Notes",
             "files": "Files",
             "achievements": "Achievements",
+            "projects": "Projects",
             "about": "About Us",
             "vision": "Vision",
             "services": "Services",
@@ -334,6 +341,18 @@
             "noMatches": "No matching works or activities found.",
             "nameCol": "Achievement Name",
             "categoryCol": "Category",
+            "linkCol": "Link",
+            "actionsCol": "Actions",
+            "noLink": "No link"
+        },
+        "projects": {
+            "title": "Projects Management",
+            "subtitle": "Edit and add projects",
+            "totalProjects": "Total Projects",
+            "searchPlaceholder": "Search titles and descriptions...",
+            "addNew": "Add New Project",
+            "noMatches": "No matching projects found.",
+            "nameCol": "Project Name",
             "linkCol": "Link",
             "actionsCol": "Actions",
             "noLink": "No link"
