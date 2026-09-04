@@ -52,23 +52,23 @@ const Contact = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="max-w-6xl mx-auto">
-                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                    <div className="grid lg:grid-cols-2 gap-10 md:gap-12 items-center">
                         
                         {/* Text and Info */}
-                        <div className={`space-y-8 ${isRTL ? 'text-right' : 'text-left'}`}>
+                        <div className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8 }}
                             >
-                                <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-4">
+                                <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
                                     {t.contact.tag}
                                 </h2>
-                                <h3 className="text-4xl md:text-6xl font-bold text-slate-900 leading-[1.1] mb-6">
+                                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] mb-6">
                                     {t.contact.title}
                                 </h3>
-                                <p className="text-slate-600 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+                                <p className="text-slate-600 text-base md:text-lg font-light leading-relaxed max-w-lg">
                                     {t.contact.desc}
                                 </p>
                             </motion.div>
@@ -78,19 +78,19 @@ const Contact = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
-                                className="space-y-6 pt-8"
+                                className="flex flex-col gap-4 pt-6"
                             >
-                                <a href="mailto:contact@afrikyia.com" className="flex items-center gap-4 text-slate-700 hover:text-brand-red transition-colors group">
-                                    <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:border-brand-red/50 transition-colors shadow-sm">
-                                        <Mail className="w-5 h-5" />
+                                <a href="mailto:contact@afrikyia.com" className={`flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group ${isRTL ? 'self-end' : 'self-start'}`}>
+                                    <span className="text-sm md:text-base font-medium">contact@afrikyia.com</span>
+                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
+                                        <Mail className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
                                     </div>
-                                    <span className="text-lg font-medium">contact@afrikyia.com</span>
                                 </a>
-                                <a href="tel:+22224232202" className="flex items-center gap-4 text-slate-700 hover:text-brand-red transition-colors group" dir="ltr">
-                                    <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:border-brand-red/50 transition-colors shadow-sm">
-                                        <Phone className="w-5 h-5" />
+                                <a href="tel:+22224232202" className={`flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group ${isRTL ? 'self-start' : 'self-start'}`} dir="ltr">
+                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
+                                        <Phone className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
                                     </div>
-                                    <span className="text-lg font-medium">+222 24 23 22 02</span>
+                                    <span className="text-sm md:text-base font-medium">+222 24 23 22 02</span>
                                 </a>
                             </motion.div>
                         </div>
@@ -104,52 +104,52 @@ const Contact = () => {
                         >
                             <form 
                                 onSubmit={handleSubmit}
-                                className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 space-y-6 shadow-xl shadow-slate-200/50 relative"
+                                className="bg-white border border-slate-200 rounded-3xl p-6 md:p-10 space-y-5 shadow-xl shadow-slate-200/50 relative"
                             >
-                                <div className="space-y-2">
-                                    <label className={`block text-sm font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                <div className="space-y-1.5">
+                                    <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.name}
                                     </label>
                                     <input 
                                         type="text" 
                                         name="name" 
                                         required
-                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                                         placeholder="John Doe"
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className={`block text-sm font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                <div className="space-y-1.5">
+                                    <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.email}
                                     </label>
                                     <input 
                                         type="email" 
                                         name="email" 
                                         required
-                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                                         placeholder="contact@example.com"
                                     />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className={`block text-sm font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                <div className="space-y-1.5">
+                                    <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.message}
                                     </label>
                                     <textarea 
                                         name="message" 
                                         rows={4}
                                         required
-                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all resize-none ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all resize-none ${isRTL ? 'text-right' : 'text-left'}`}
                                         placeholder="..."
                                     ></textarea>
                                 </div>
                                 <button 
                                     type="submit"
                                     disabled={status === "loading"}
-                                    className="w-full bg-brand-red hover:bg-[#EB2F36] disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold text-lg py-5 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-brand-red/20 group"
+                                    className="w-full bg-brand-red hover:bg-[#EB2F36] disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold text-base py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-brand-red/20 group mt-2"
                                 >
                                     <span>{status === "loading" ? "..." : t.contact.submit}</span>
                                     {status !== "loading" && (
-                                        <Send className={`w-5 h-5 transition-transform ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
+                                        <Send className={`w-4 h-4 transition-transform ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
                                     )}
                                 </button>
                                 
