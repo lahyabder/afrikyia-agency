@@ -1,10 +1,46 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 
 const About = () => {
-    const { t, isRTL } = useLanguage();
+    const { t, isRTL, language } = useLanguage();
+
+    const [content, setContent] = useState({
+        tag: t.about.tag,
+        title: t.about.title,
+        desc1: t.about.desc1,
+        desc2: t.about.desc2
+    });
+
+    useEffect(() => {
+        const loadContent = () => {
+            const cached = localStorage.getItem('afrikyia-about');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed[language]) {
+                        setContent(parsed[language]);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                setContent({
+                    tag: t.about.tag,
+                    title: t.about.title,
+                    desc1: t.about.desc1,
+                    desc2: t.about.desc2
+                });
+            }
+        };
+
+        loadContent();
+
+        window.addEventListener('afrikyia-about-updated', loadContent);
+        return () => window.removeEventListener('afrikyia-about-updated', loadContent);
+    }, [language, t]);
 
     return (
         <section id="about" className="py-12 md:py-24 bg-black border-t border-white/5">
@@ -17,7 +53,7 @@ const About = () => {
                         transition={{ duration: 0.8 }}
                     >
                         <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-8">
-                            {t.about.tag}
+                            {content.tag}
                         </h2>
                     </motion.div>
 
@@ -28,7 +64,7 @@ const About = () => {
                         transition={{ delay: 0.2, duration: 1 }}
                     >
                         <h3 className="text-white text-4xl md:text-6xl font-bold leading-[1.2] mb-12">
-                            {t.about.title}
+                            {content.title}
                         </h3>
                     </motion.div>
 
@@ -40,7 +76,7 @@ const About = () => {
                             transition={{ delay: 0.4, duration: 0.8 }}
                         >
                             <p className="text-white/80 text-lg md:text-xl font-normal leading-relaxed">
-                                {t.about.desc1}
+                                {content.desc1}
                             </p>
                         </motion.div>
 
@@ -51,7 +87,7 @@ const About = () => {
                             transition={{ delay: 0.6, duration: 0.8 }}
                         >
                             <p className="text-white/80 text-lg md:text-xl font-normal leading-relaxed">
-                                {t.about.desc2}
+                                {content.desc2}
                             </p>
                         </motion.div>
                     </div>
