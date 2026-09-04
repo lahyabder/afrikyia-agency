@@ -1,10 +1,8 @@
 "use client";
 
 import { useLanguage } from '@/context/LanguageContext';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, ChevronDown } from 'lucide-react';
-import { useState } from 'react';
-
+import { useState, useRef, useEffect } from 'react';
 import { useRouter, usePathname } from '@/i18n/routing';
 
 const LanguageSwitcher = () => {
@@ -12,6 +10,7 @@ const LanguageSwitcher = () => {
     const router = useRouter();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const langs = [
         { code: 'en', label: 'English' },
@@ -21,44 +20,53 @@ const LanguageSwitcher = () => {
 
     const currentLang = langs.find(l => l.code === language);
 
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [isOpen]);
+
     return (
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 text-white/90 hover:text-brand-red transition-colors text-xs uppercase tracking-widest font-medium group"
+                className="flex items-center gap-2 text-white/90 hover:text-brand-red transition-colors text-xs uppercase tracking-widest font-medium group focus:outline-none"
+                aria-haspopup="listbox"
+                aria-expanded={isOpen}
             >
                 <Globe className="w-4 h-4" />
                 <span>{currentLang?.label}</span>
                 <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 
-            <AnimatePresence>
-                {isOpen && (
-                    <>
-                        <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
-                        <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute top-full mt-4 right-0 md:left-auto min-w-[140px] bg-black border border-white/20 rounded-xl overflow-hidden z-20 shadow-2xl"
+            {isOpen && (
+                <div className="absolute top-full mt-4 right-0 min-w-[140px] bg-black border border-white/20 rounded-xl overflow-hidden z-50 shadow-2xl">
+                    {langs.map((lang) => (
+                        <button
+                            key={lang.code}
+                            onClick={() => {
+                                router.replace(pathname, { locale: lang.code });
+                                setIsOpen(false);
+                            }}
+                            className={`w-full text-left px-5 py-3 text-xs uppercase tracking-widest hover:bg-white/10 transition-colors ${
+                                language === lang.code ? 'text-brand-red font-bold' : 'text-white/90'
+                            }`}
+                            role="option"
+                            aria-selected={language === lang.code}
                         >
-                            {langs.map((lang) => (
-                                <button
-                                    key={lang.code}
-                                    onClick={() => {
-                                        router.replace(pathname, { locale: lang.code });
-                                        setIsOpen(false);
-                                    }}
-                                    className={`w-full text-left px-5 py-3 text-xs uppercase tracking-widest hover:bg-white/10 transition-colors ${language === lang.code ? 'text-brand-red font-bold' : 'text-white/90'
-                                        }`}
-                                >
-                                    {lang.label}
-                                </button>
-                            ))}
-                        </motion.div>
-                    </>
-                )}
-            </AnimatePresence>
+                            {lang.label}
+                        </button>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
