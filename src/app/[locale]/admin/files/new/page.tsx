@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
+import { Link, useRouter } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function NewFilePage() {
     const router = useRouter();
     const { t, isRTL } = useLanguage();
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     
     // Form state
     const [formData, setFormData] = useState({
@@ -22,17 +22,45 @@ export default function NewFilePage() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setSelectedFile(e.target.files[0]);
+            if (!formData.fileName) {
+                setFormData(prev => ({ ...prev, fileName: e.target.files![0].name }));
+            }
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        if (!selectedFile) {
+            alert(isRTL ? "الرجاء اختيار ملف أولاً" : "Please select a file first");
+            return;
+        }
+
         setIsLoading(true);
 
-        // Simulation
         try {
-            setTimeout(() => {
+            const data = new FormData();
+            data.append('file', selectedFile);
+            data.append('fileName', formData.fileName);
+            data.append('category', formData.category);
+            data.append('description', formData.description);
+
+            const res = await fetch('/api/files', {
+                method: 'POST',
+                body: data,
+            });
+
+            if (res.ok) {
                 router.push('/admin/files');
-            }, 500);
+            } else {
+                throw new Error("Failed to upload file");
+            }
         } catch (error) {
             console.error('Error saving file:', error);
+            alert(isRTL ? "حدث خطأ أثناء رفع الملف" : "An error occurred while uploading the file");
             setIsLoading(false);
         }
     };
@@ -63,15 +91,26 @@ export default function NewFilePage() {
                 className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-6 md:p-8 space-y-6"
             >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* File Upload Mock */}
+                    {/* File Upload Area */}
                     <div className="space-y-2 md:col-span-2">
                         <label className="text-sm font-bold text-white/80">{t.admin.files.chooseFile}</label>
-                        <div className="w-full border-2 border-dashed border-white/10 rounded-xl p-8 text-center hover:border-yellow-400/50 transition-all cursor-pointer bg-white/5">
-                            <input type="file" className="hidden" id="file-upload" />
-                            <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center gap-3">
-                                <span className="text-4xl">📄</span>
-                                <span className="text-white/60 font-semibold">{t.admin.files.uploadHintTitle}</span>
-                                <span className="text-white/70 text-xs">{t.admin.files.uploadHintSub}</span>
+                        <div className={`w-full border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer bg-white/5 ${selectedFile ? 'border-yellow-400 bg-yellow-400/5' : 'border-white/10 hover:border-yellow-400/50'}`}>
+                            <input type="file" className="hidden" id="file-upload" onChange={handleFileChange} />
+                            <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center gap-3 w-full h-full">
+                                {selectedFile ? (
+                                    <>
+                                        <span className="text-4xl">📎</span>
+                                        <span className="text-yellow-400 font-semibold">{selectedFile.name}</span>
+                                        <span className="text-white/50 text-xs">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</span>
+                                        <span className="text-white/40 text-xs mt-2 underline">{isRTL ? 'تغيير الملف' : 'Change file'}</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span className="text-4xl">📄</span>
+                                        <span className="text-white/60 font-semibold">{t.admin.files.uploadHintTitle}</span>
+                                        <span className="text-white/70 text-xs">{t.admin.files.uploadHintSub}</span>
+                                    </>
+                                )}
                             </label>
                         </div>
                     </div>
@@ -82,7 +121,6 @@ export default function NewFilePage() {
                         <input 
                             type="text" 
                             name="fileName"
-
                             value={formData.fileName}
                             onChange={handleChange}
                             placeholder={t.admin.files.fileNamePlaceholder}
@@ -123,8 +161,8 @@ export default function NewFilePage() {
                 <div className="pt-4 border-t border-white/5 flex justify-end">
                     <button 
                         type="submit"
-                        disabled={isLoading}
-                        className={`bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-yellow-400/20 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                        disabled={isLoading || !selectedFile}
+                        className={`bg-yellow-400 hover:bg-yellow-500 text-black px-8 py-3 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-yellow-400/20 ${(isLoading || !selectedFile) ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
                         {isLoading ? t.admin.files.saving : t.admin.files.saveFile}
                     </button>
