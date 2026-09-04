@@ -1,11 +1,48 @@
 "use client";
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { Send, Mail, Phone, MapPin } from 'lucide-react';
+import { Send, Mail, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
 
 const Contact = () => {
     const { t, isRTL } = useLanguage();
+    const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        setStatus("loading");
+        setErrorMessage("");
+        
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const url = process.env.NEXT_PUBLIC_FORMSPREE_URL || "https://formspree.io/f/YOUR_FORM_ID";
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                setStatus("success");
+                form.reset();
+            } else {
+                const errData = await response.text();
+                setStatus("error");
+                setErrorMessage(`Status: ${response.status}. Details: ${errData}`);
+            }
+        } catch (error: any) {
+            setStatus("error");
+            setErrorMessage(error.message || String(error));
+        }
+    };
 
     return (
         <section id="contact" className="py-24 md:py-32 bg-[#080808] relative overflow-hidden">
@@ -66,10 +103,8 @@ const Contact = () => {
                             transition={{ duration: 0.8, delay: 0.4 }}
                         >
                             <form 
-                                action="mailto:contact@afrikyia.com" 
-                                method="POST" 
-                                encType="text/plain"
-                                className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 space-y-6 backdrop-blur-sm"
+                                onSubmit={handleSubmit}
+                                className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 space-y-6 backdrop-blur-sm relative"
                             >
                                 <div className="space-y-2">
                                     <label className={`block text-sm font-medium text-white/70 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -109,11 +144,39 @@ const Contact = () => {
                                 </div>
                                 <button 
                                     type="submit"
-                                    className="w-full bg-brand-red hover:bg-[#EB2F36] text-white font-bold text-lg py-5 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-brand-red/20 group"
+                                    disabled={status === "loading"}
+                                    className="w-full bg-brand-red hover:bg-[#EB2F36] disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold text-lg py-5 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-brand-red/20 group"
                                 >
-                                    <span>{t.contact.submit}</span>
-                                    <Send className={`w-5 h-5 transition-transform ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
+                                    <span>{status === "loading" ? "..." : t.contact.submit}</span>
+                                    {status !== "loading" && (
+                                        <Send className={`w-5 h-5 transition-transform ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
+                                    )}
                                 </button>
+                                
+                                {status === "success" && (
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="flex items-center gap-3 text-emerald-400 bg-emerald-400/10 p-4 rounded-xl border border-emerald-400/20"
+                                    >
+                                        <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+                                        <p className="text-sm font-medium">Your message has been sent successfully. We will get back to you soon.</p>
+                                    </motion.div>
+                                )}
+
+                                {status === "error" && (
+                                    <motion.div 
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="flex flex-col gap-2 text-red-400 bg-red-400/10 p-4 rounded-xl border border-red-400/20"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                                            <p className="text-sm font-medium">Something went wrong. Please try again later.</p>
+                                        </div>
+                                        <p className="text-xs opacity-80 mt-1 break-all">{errorMessage}</p>
+                                    </motion.div>
+                                )}
                             </form>
                         </motion.div>
                         
