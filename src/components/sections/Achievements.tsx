@@ -100,29 +100,9 @@ const Achievements = () => {
                 {/* Header */}
                 <div className={`mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <div>
-                        <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
-                            {t.achievements.tag}
-                        </h2>
-                        <h3 className="text-slate-900 text-4xl md:text-6xl font-bold tracking-tight">
+                        <h2 className="text-slate-900 text-4xl md:text-6xl font-bold tracking-tight">
                             {t.achievements.title}
-                        </h3>
-                    </div>
-
-                    {/* Filter buttons */}
-                    <div className={`flex flex-wrap gap-3 mt-4 lg:mt-0 ${isRTL ? 'flex-row-reverse justify-start' : 'justify-start'}`}>
-                        {filterOptions.map((option) => (
-                            <button
-                                key={option.key}
-                                onClick={() => setActiveFilter(option.key)}
-                                className={`px-5 py-2.5 min-h-[44px] flex items-center justify-center rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-300 border cursor-pointer ${
-                                    activeFilter === option.key
-                                        ? 'bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20'
-                                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-brand-red hover:border-brand-red/50 hover:bg-red-50'
-                                }`}
-                            >
-                                {option.label}
-                            </button>
-                        ))}
+                        </h2>
                     </div>
                 </div>
 
