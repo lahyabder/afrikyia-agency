@@ -33,31 +33,47 @@ export async function generateMetadata({
 }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'metadata' });
+  const headersList = await headers();
+  const fullPathname = headersList.get('x-pathname') || '';
+  
+  let pathWithoutLocale = fullPathname;
+  routing.locales.forEach((l) => {
+    if (pathWithoutLocale === `/${l}` || pathWithoutLocale.startsWith(`/${l}/`)) {
+      pathWithoutLocale = pathWithoutLocale.substring(l.length + 1);
+    }
+  });
+  if (!pathWithoutLocale.startsWith('/')) {
+    pathWithoutLocale = '/' + pathWithoutLocale;
+  }
+  
+  const path = pathWithoutLocale === '/' ? '' : pathWithoutLocale;
   
   return {
     metadataBase: new URL('https://www.afrikyia.com'),
     title: t('title'),
     description: t('description'),
+    alternates: {
+      canonical: `https://www.afrikyia.com/${locale}${path}`,
+      languages: {
+        en: `https://www.afrikyia.com/en${path}`,
+        fr: `https://www.afrikyia.com/fr${path}`,
+        ar: `https://www.afrikyia.com/ar${path}`,
+        'x-default': `https://www.afrikyia.com/en${path}`,
+      },
+    },
     openGraph: {
       title: t('title'),
       description: t('description'),
-      url: 'https://www.afrikyia.com',
+      url: `https://www.afrikyia.com/${locale}${path}`,
       siteName: 'AFRIKYia',
-      images: [
-        {
-          url: '/logo.png',
-          width: 1200,
-          height: 630,
-        },
-      ],
       locale: locale,
       type: 'website',
+      // images are handled by opengraph-image.tsx automatically
     },
     twitter: {
       card: 'summary_large_image',
       title: t('title'),
       description: t('description'),
-      images: ['/logo.png'],
     },
   };
 }
@@ -79,18 +95,6 @@ export default async function RootLayout({
 
   const t = await getTranslations({ locale, namespace: 'metadata' });
 
-  const headersList = await headers();
-  const fullPathname = headersList.get('x-pathname') || '';
-  let pathWithoutLocale = fullPathname;
-  routing.locales.forEach((l) => {
-    if (pathWithoutLocale === `/${l}` || pathWithoutLocale.startsWith(`/${l}/`)) {
-      pathWithoutLocale = pathWithoutLocale.substring(l.length + 1);
-    }
-  });
-  if (!pathWithoutLocale.startsWith('/')) {
-    pathWithoutLocale = '/' + pathWithoutLocale;
-  }
-
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -109,19 +113,6 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className="no-js">
       <head>
-        {routing.locales.map((l) => (
-          <link
-            key={l}
-            rel="alternate"
-            hrefLang={l}
-            href={`https://www.afrikyia.com/${l}${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`}
-          />
-        ))}
-        <link
-          rel="alternate"
-          hrefLang="x-default"
-          href={`https://www.afrikyia.com/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`}
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
