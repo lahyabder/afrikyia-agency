@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
+import { Trash2, Download, FileSpreadsheet, FileText, Plus } from 'lucide-react';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 type Invoice = {
     id: string;
@@ -23,16 +27,11 @@ export default function InvoicesPage() {
     const [invoices, setInvoices] = useState<Invoice[]>([]);
 
     useEffect(() => {
-        // Load from local storage for now
         const load = () => {
             try {
                 const data = localStorage.getItem('afrikyia-invoices');
                 if (data) {
                     setInvoices(JSON.parse(data));
-                } else {
-                    // Mock data
-                    const mockData: Invoice[] = [];
-                    setInvoices(mockData);
                 }
             } catch(e) {}
         };
@@ -40,7 +39,7 @@ export default function InvoicesPage() {
     }, []);
 
     const handleDelete = (id: string) => {
-        if (confirm('Are you sure? / هل أنت متأكد؟ / Êtes-vous sûr ?')) {
+        if (confirm('هل أنت متأكد من حذف هذه الفاتورة؟')) {
             const updated = invoices.filter(i => i.id !== id);
             setInvoices(updated);
             localStorage.setItem('afrikyia-invoices', JSON.stringify(updated));
@@ -49,93 +48,165 @@ export default function InvoicesPage() {
 
     const getStatusBadge = (status: string) => {
         switch(status) {
-            case 'paid': return <span className="bg-emerald-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">{t.admin.common.paid}</span>;
-            case 'unpaid': return <span className="bg-white/10 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">{t.admin.common.unpaid}</span>;
-            case 'overdue': return <span className="bg-red-500 text-white px-2 py-0.5 rounded-full text-[10px] font-bold">{t.admin.common.overdue}</span>;
+            case 'paid': return <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-md text-[11px] font-bold">مدفوعة</span>;
+            case 'unpaid': return <span className="bg-white/5 text-white/70 border border-white/10 px-2.5 py-1 rounded-md text-[11px] font-bold">غير مدفوعة</span>;
+            case 'overdue': return <span className="bg-red-500/10 text-red-400 border border-red-500/20 px-2.5 py-1 rounded-md text-[11px] font-bold">متأخرة</span>;
             default: return null;
         }
+    };
+
+    const exportToExcel = () => {
+        const data = invoices.map(inv => ({
+            'رقم الفاتورة': inv.ref,
+            'التاريخ': inv.date,
+            'اسم العميل': inv.clientName,
+            'العنوان': inv.clientAddress || '',
+            'طبيعة الخدمة': inv.description || '',
+            'المبلغ الصافي': inv.netAmount || 0,
+            'الضريبة': inv.vatAmount || 0,
+            'الإجمالي': inv.totalAmount || 0,
+            'الحالة': inv.status === 'paid' ? 'مدفوعة' : inv.status === 'unpaid' ? 'غير مدفوعة' : 'متأخرة السداد'
+        }));
+        
+        const ws = XLSX.utils.json_to_sheet(data);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "الفواتير");
+        XLSX.writeFile(wb, "invoices_report.xlsx");
+    };
+
+    const exportToPDF = () => {
+        const doc = new jsPDF('landscape');
+        
+        // Use english headers to avoid Arabic rendering issues in default jsPDF fonts
+        const tableColumn = ["Total", "VAT", "Net Amount", "Service", "Client Name", "Date", "Ref"];
+        const tableRows: any[] = [];
+
+        invoices.forEach(inv => {
+            const invData = [
+                inv.totalAmount || 0,
+                inv.vatAmount || 0,
+                inv.netAmount || 0,
+                inv.description || '-',
+                inv.clientName || '-',
+                inv.date || '-',
+                inv.ref || '-'
+            ];
+            tableRows.push(invData);
+        });
+
+        // Add a title
+        doc.setFontSize(14);
+        doc.text("Invoices Report", 14, 22);
+        
+        autoTable(doc, {
+            head: [tableColumn],
+            body: tableRows,
+            startY: 30,
+            theme: 'grid',
+            styles: { fontSize: 8 },
+            headStyles: { fillColor: [20, 20, 20] }
+        });
+
+        doc.save('invoices_report.pdf');
     };
 
     return (
         <div className="space-y-6 animate-fade-in text-white" dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Header */}
-            <div className={`flex justify-between items-center border-b border-white/5 pb-4 ${isRTL ? 'flex-row' : 'flex-row'}`}>
-                <h1 className="text-3xl font-bold flex items-center gap-3">
-                    {t.admin.invoices.title || 'النظام المحاسبي (الفواتير)'}
-                </h1>
-                <Link 
-                    href="/admin/invoices/new"
-                    className="bg-brand-red hover:bg-brand-red/90 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 transition-all shadow-lg shadow-brand-red/20"
-                >
-                    {t.admin.invoices.addInvoice || 'إضافة فاتورة جديدة'}
-                </Link>
+            <div className={`flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/5 pb-4 gap-4 ${isRTL ? 'md:flex-row' : 'md:flex-row'}`}>
+                <div>
+                    <h1 className="text-3xl font-bold flex items-center gap-3">
+                        {t.admin.invoices.title || 'النظام المحاسبي (الفواتير)'}
+                    </h1>
+                    <p className="text-white/60 text-sm mt-1">سجل فواتير العملاء والضرائب المستحقة</p>
+                </div>
+                <div className="flex items-center gap-3 w-full md:w-auto">
+                    <button 
+                        onClick={exportToExcel}
+                        className="bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-4 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all flex-1 md:flex-none"
+                    >
+                        <FileSpreadsheet className="w-4 h-4" /> Excel
+                    </button>
+                    <button 
+                        onClick={exportToPDF}
+                        className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-4 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all flex-1 md:flex-none"
+                    >
+                        <FileText className="w-4 h-4" /> PDF
+                    </button>
+                    <Link 
+                        href="/admin/invoices/new"
+                        className="bg-brand-red hover:bg-brand-red/90 text-white px-5 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-brand-red/20 flex-1 md:flex-none"
+                    >
+                        <Plus className="w-4 h-4" /> إضافة فاتورة
+                    </Link>
+                </div>
             </div>
 
-            {/* List */}
-            <div className="space-y-4">
-                {invoices.length === 0 ? (
-                    <div className="text-center py-12 text-white/60 bg-[#1a1a1a] rounded-2xl border border-white/5">لا توجد فواتير مسجلة بعد.</div>
-                ) : (
-                    invoices.map((invoice, i) => (
-                        <motion.div 
-                            key={invoice.id}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: i * 0.05 }}
-                            className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 hover:border-white/10 transition-all"
-                        >
-                            <div className={`flex flex-col gap-3 w-full md:w-auto ${isRTL ? 'text-right' : 'text-left'}`}>
-                                <div className={`flex items-center gap-3 mb-1 ${isRTL ? 'justify-start' : 'justify-start'}`}>
-                                    <span className="font-bold text-lg text-brand-red">{invoice.ref}</span>
-                                    {getStatusBadge(invoice.status)}
-                                    <span className="text-white/40 text-xs px-2 border-r border-white/10">{invoice.date}</span>
-                                </div>
-                                
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 mt-2">
-                                    <div>
-                                        <div className="text-white/40 text-[10px] uppercase tracking-wider mb-1">اسم العميل</div>
-                                        <div className="text-white/90 text-sm font-semibold">{invoice.clientName}</div>
-                                    </div>
-                                    {invoice.clientAddress && (
-                                        <div>
-                                            <div className="text-white/40 text-[10px] uppercase tracking-wider mb-1">عنوان العميل</div>
-                                            <div className="text-white/70 text-sm truncate max-w-[200px]">{invoice.clientAddress}</div>
-                                        </div>
-                                    )}
-                                    {invoice.description && (
-                                        <div className="md:col-span-2">
-                                            <div className="text-white/40 text-[10px] uppercase tracking-wider mb-1">طبيعة الخدمة</div>
-                                            <div className="text-white/70 text-sm line-clamp-1">{invoice.description}</div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Actions & Amount side */}
-                            <div className={`flex flex-col gap-4 w-full md:w-auto ${isRTL ? 'items-start md:items-end' : 'items-start md:items-end'} bg-black/30 p-4 rounded-xl border border-white/5`}>
-                                <div className="w-full space-y-1">
-                                    <div className="flex justify-between items-center gap-8 text-sm">
-                                        <span className="text-white/50">المبلغ الصافي:</span>
-                                        <span className="font-mono">{invoice.netAmount?.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center gap-8 text-sm">
-                                        <span className="text-white/50">الضريبة (16%):</span>
-                                        <span className="font-mono text-amber-400/80">{invoice.vatAmount?.toLocaleString()}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center gap-8 text-base font-bold pt-2 border-t border-white/10 mt-2">
-                                        <span className="text-white/80">الإجمالي:</span>
-                                        <span className="font-mono text-emerald-400">{invoice.totalAmount?.toLocaleString()}</span>
-                                    </div>
-                                </div>
-                                <div className={`flex gap-2 w-full mt-2 ${isRTL ? 'justify-end' : 'justify-end'}`}>
-                                    <button onClick={() => handleDelete(invoice.id)} className="bg-red-500/10 hover:bg-red-500/20 text-red-500 px-4 py-2 rounded-lg text-xs font-bold transition-all w-full md:w-auto text-center">
-                                        {t.admin.common.delete}
-                                    </button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    ))
-                )}
+            {/* Table */}
+            <div className="bg-[#1a1a1a] border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-right text-white/70">
+                        <thead className="text-xs text-white/50 uppercase bg-black/40 border-b border-white/5">
+                            <tr>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider">رقم الفاتورة</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider">التاريخ</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider">العميل</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider">طبيعة الخدمة</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider">المبلغ الصافي</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-amber-400">الضريبة (16%)</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-emerald-400">الإجمالي</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-center">الحالة</th>
+                                <th scope="col" className="px-6 py-4 font-semibold tracking-wider text-center">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {invoices.length === 0 ? (
+                                <tr>
+                                    <td colSpan={9} className="px-6 py-12 text-center text-white/50 bg-[#1a1a1a]">
+                                        لا توجد فواتير مسجلة بعد.
+                                    </td>
+                                </tr>
+                            ) : (
+                                invoices.map((invoice, i) => (
+                                    <motion.tr 
+                                        key={invoice.id}
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: i * 0.05 }}
+                                        className="border-b border-white/5 bg-[#1a1a1a] hover:bg-white/[0.02] transition-colors"
+                                    >
+                                        <td className="px-6 py-4 font-bold text-white whitespace-nowrap">{invoice.ref}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-white/60">{invoice.date}</td>
+                                        <td className="px-6 py-4">
+                                            <div className="font-semibold text-white truncate max-w-[150px]">{invoice.clientName}</div>
+                                            {invoice.clientAddress && <div className="text-xs text-white/40 truncate max-w-[150px] mt-0.5">{invoice.clientAddress}</div>}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="text-white/70 line-clamp-2 max-w-[200px] text-xs leading-relaxed">{invoice.description || '-'}</div>
+                                        </td>
+                                        <td className="px-6 py-4 font-mono">{invoice.netAmount?.toLocaleString()}</td>
+                                        <td className="px-6 py-4 font-mono text-amber-400/80">{invoice.vatAmount?.toLocaleString()}</td>
+                                        <td className="px-6 py-4 font-mono text-emerald-400 font-bold">{invoice.totalAmount?.toLocaleString()}</td>
+                                        <td className="px-6 py-4 text-center">
+                                            {getStatusBadge(invoice.status)}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-center justify-center">
+                                                <button 
+                                                    onClick={() => handleDelete(invoice.id)} 
+                                                    className="p-2 text-white/40 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"
+                                                    title="حذف الفاتورة"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </motion.tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
