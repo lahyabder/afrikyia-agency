@@ -93,6 +93,21 @@ export default async function ProjectPage({ params }: any) {
                             </div>
                         )}
 
+                        {/* Gallery Section */}
+                        {(item as any).gallery && (item as any).gallery.length > 0 && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                                {(item as any).gallery.map((img: string, idx: number) => (
+                                    <div key={idx} className="w-full aspect-[16/9] md:aspect-[4/3] rounded-2xl overflow-hidden border border-white/10">
+                                        <img 
+                                            src={img} 
+                                            alt={`${localized.title} gallery image ${idx + 1}`}
+                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
                         {/* Content Grid */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-8">
                             {/* Main Description & Case Study */}

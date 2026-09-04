@@ -3,20 +3,35 @@
         "id": "nagha-festival",
         "category": "websites",
         "link": "https://nagha.art/ar",
+        "image": "https://images.unsplash.com/photo-1542317148-8b4bdccb33ea?q=80&w=2000&auto=format&fit=crop",
+        "gallery": [
+            "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2000&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2000&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1504198458649-3128b932f49e?q=80&w=2000&auto=format&fit=crop"
+        ],
         "en": {
             "title": "Festival NAGHA",
             "categoryLabel": "Website",
-            "desc": "The Camel Festival of Desert Culture — a vibrant celebration of Saharan heritage, traditional arts, and the cultural identity of the desert world."
+            "desc": "The Camel Festival of Desert Culture — a vibrant celebration of Saharan heritage, traditional arts, and the cultural identity of the desert world.",
+            "challenge": "The rich cultural heritage of the Saharan desert was facing a decline in youth engagement and lacked a centralized digital presence to attract global tourism.",
+            "solution": "We designed a comprehensive digital platform and branding strategy for the Nagha Festival, integrating interactive schedules, virtual tours, and a multimedia archive of desert traditions.",
+            "result": "The festival saw a 150% increase in international attendees and the digital platform reached over 50,000 unique visitors in its first month, successfully reviving interest in Saharan culture."
         },
         "fr": {
             "title": "Festival NAGHA",
             "categoryLabel": "Site Web",
-            "desc": "Le Festival du Chameau pour la Culture du Désert — une célébration vivante du patrimoine saharien, des arts traditionnels et de l'identité culturelle du monde désertique."
+            "desc": "Le Festival du Chameau pour la Culture du Désert — une célébration vivante du patrimoine saharien, des arts traditionnels et de l'identité culturelle du monde désertique.",
+            "challenge": "Le riche patrimoine culturel du désert du Sahara faisait face à un déclin de l'engagement des jeunes et manquait d'une présence numérique centralisée pour attirer le tourisme mondial.",
+            "solution": "Nous avons conçu une plateforme numérique complète et une stratégie de marque pour le Festival Nagha, intégrant des programmes interactifs, des visites virtuelles et des archives multimédias des traditions du désert.",
+            "result": "Le festival a connu une augmentation de 150 % du nombre de participants internationaux et la plateforme numérique a atteint plus de 50 000 visiteurs uniques dès son premier mois, ravivant ainsi l'intérêt pour la culture saharienne."
         },
         "ar": {
             "title": "مهرجان الناقة",
             "categoryLabel": "موقع ويب",
-            "desc": "مهرجان الناقة لثقافة الصحراء — احتفاء بالموروث الصحراوي والفنون التقليدية والهوية الثقافية لعالم الصحراء الكبرى."
+            "desc": "مهرجان الناقة لثقافة الصحراء — احتفاء بالموروث الصحراوي والفنون التقليدية والهوية الثقافية لعالم الصحراء الكبرى.",
+            "challenge": "كان التراث الثقافي الغني للصحراء الكبرى يواجه تراجعاً في اهتمام الشباب، وافتقر إلى حضور رقمي مركزي لجذب السياحة العالمية وتسليط الضوء على هويته الأصيلة.",
+            "solution": "قمنا بتصميم منصة رقمية شاملة واستراتيجية هوية بصرية لمهرجان الناقة، تتضمن جداول تفاعلية، جولات افتراضية، وأرشيفاً متعدد الوسائط للتقاليد الصحراوية.",
+            "result": "شهد المهرجان زيادة بنسبة 150% في الحضور الدولي، ووصلت المنصة الرقمية إلى أكثر من 50,000 زائر فريد في شهرها الأول، مما أدى بنجاح إلى إحياء الاهتمام بالثقافة الصحراوية."
         },
         "year": "2023",
         "client": "NAGHA Organizers",

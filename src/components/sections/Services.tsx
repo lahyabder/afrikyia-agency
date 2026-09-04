@@ -46,7 +46,11 @@ const Services = () => {
                                 <h4 className="text-white text-xl font-bold mb-4 group-hover:text-brand-red transition-colors">
                                     {service.title}
                                 </h4>
-
+                                {service.desc && (
+                                    <p className="text-white/60 text-sm leading-relaxed font-light">
+                                        {service.desc}
+                                    </p>
+                                )}
                             </motion.div>
                         );
                     })}
