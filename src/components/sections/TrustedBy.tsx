@@ -5,11 +5,12 @@ import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import achievements from '@/data/achievements.json';
 
-// Unique clients extracted from the achievements array
-const clients = Array.from(new Set(achievements.map(a => a.client))).filter(Boolean);
-
-// Duplicate the array to create a seamless infinite loop
-const marqueeItems = [...clients, ...clients, ...clients, ...clients];
+// Fallback clients
+const defaultClients = Array.from(new Set(achievements.map(a => a.client))).filter(Boolean).map((name, i) => ({
+    id: String(i),
+    name: name as string,
+    logoUrl: ""
+}));
 
 const TrustedBy = () => {
     const { t, isRTL, language } = useLanguage();
@@ -18,6 +19,8 @@ const TrustedBy = () => {
         tag: t.trusted.tag,
         title: t.trusted.title
     });
+    
+    const [partners, setPartners] = useState(defaultClients);
 
     useEffect(() => {
         const loadContent = () => {
@@ -28,6 +31,11 @@ const TrustedBy = () => {
                     if (parsed[language]) {
                         setContent(parsed[language]);
                     }
+                    if (parsed.partners && Array.isArray(parsed.partners)) {
+                        setPartners(parsed.partners);
+                    } else {
+                        setPartners(defaultClients);
+                    }
                 } catch (e) {
                     console.error(e);
                 }
@@ -36,6 +44,7 @@ const TrustedBy = () => {
                     tag: t.trusted.tag,
                     title: t.trusted.title
                 });
+                setPartners(defaultClients);
             }
         };
 
@@ -44,6 +53,9 @@ const TrustedBy = () => {
         window.addEventListener('afrikyia-trusted-updated', loadContent);
         return () => window.removeEventListener('afrikyia-trusted-updated', loadContent);
     }, [language, t]);
+
+    // Duplicate the array to create a seamless infinite loop
+    const marqueeItems = [...partners, ...partners, ...partners, ...partners];
 
     return (
         <section className="py-10 md:py-16 bg-white border-t border-slate-200 overflow-hidden">
@@ -84,13 +96,15 @@ const TrustedBy = () => {
                     {marqueeItems.map((client, index) => (
                         <div 
                             key={index} 
-                            aria-hidden={index >= clients.length}
+                            aria-hidden={index >= partners.length}
                             className="flex items-center justify-center min-w-max hover:scale-105 transition-transform duration-300"
                         >
-                            {/* Empty Image Placeholder for Client Logo */}
-                            <div className="w-40 h-16 md:w-48 md:h-20 bg-white border border-slate-100 shadow-sm rounded-xl flex items-center justify-center px-4">
-                                {/* TODO: Replace this div with actual logo: <img src="..." alt={client} className="max-w-full max-h-full object-contain" /> */}
-                                <span className="text-slate-800 text-sm md:text-base font-bold text-center leading-snug">{client}</span>
+                            <div className="w-40 h-16 md:w-48 md:h-20 bg-white border border-slate-100 shadow-sm rounded-xl flex items-center justify-center px-4 overflow-hidden">
+                                {client.logoUrl ? (
+                                    <img src={client.logoUrl} alt={client.name} className="max-w-full max-h-full object-contain" />
+                                ) : (
+                                    <span className="text-slate-800 text-sm md:text-base font-bold text-center leading-snug">{client.name}</span>
+                                )}
                             </div>
                         </div>
                     ))}
