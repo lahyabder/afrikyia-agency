@@ -37,4 +37,5 @@ body {
 .arabic-font,
 .arabic-font * {
   font-family: var(--font-almarai), "Almarai", sans-serif !important;
+  letter-spacing: normal !important;
 }
