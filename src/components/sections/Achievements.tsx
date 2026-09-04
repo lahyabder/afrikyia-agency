@@ -70,8 +70,8 @@ const Achievements = () => {
     }, []);
 
     // Filter items based on activeFilter
-    const filteredList = activeFilter === 'all' 
-        ? achievements 
+    const filteredList = activeFilter === 'all'
+        ? achievements
         : achievements.filter(item => item.category === activeFilter);
 
     // Categories filter options
@@ -107,7 +107,7 @@ const Achievements = () => {
                 </div>
 
                 {/* Achievements Cards Grid */}
-                <motion.div 
+                <motion.div
                     layout
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
                 >
@@ -115,7 +115,7 @@ const Achievements = () => {
                         {filteredList.map((item, idx) => {
                             // Extract localized item properties safely
                             const localized = item[language] || item['en'] || { title: "", categoryLabel: "", desc: "" };
-                            
+
                             return (
                                 <motion.div
                                     key={item.id}
@@ -125,14 +125,13 @@ const Achievements = () => {
                                     exit={{ opacity: 0, scale: 0.9, y: 10 }}
                                     transition={{ duration: 0.4 }}
                                     whileHover={{ y: -5 }}
-                                    className={`group relative bg-white p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-brand-red/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl overflow-hidden ${
-                                        isRTL ? 'text-right' : 'text-left'
-                                    }`}
+                                    className="group relative bg-white p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-brand-red/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl overflow-hidden text-start"
+                                    dir={isRTL ? "rtl" : "ltr"}
                                 >
                                     {item.image && (
                                         <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-slate-100 bg-slate-50">
-                                            <img 
-                                                src={item.image} 
+                                            <img
+                                                src={item.image}
                                                 alt={localized.title}
                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                             />
@@ -140,44 +139,35 @@ const Achievements = () => {
                                         </div>
                                     )}
 
-                                    <div className="flex-1">
-                                        {/* Card Header Tag */}
-                                        <div className={`flex items-center gap-2 mb-6 ${isRTL ? 'flex-row-reverse justify-start' : 'justify-start'}`}>
-                                            <span className="text-brand-red bg-brand-red/10 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
+                                    <div className="flex-1 flex flex-col">
+                                        {/* Project Title */}
+                                        <h4 className="text-slate-900 text-2xl font-bold mb-3 group-hover:text-brand-red transition-colors duration-300">
+                                            {localized.title}
+                                        </h4>
+
+                                        {/* Project Category */}
+                                        <div className="flex items-center gap-2 mb-4 justify-start">
+                                            <span className="text-brand-red bg-brand-red/10 px-3 py-1 rounded-lg text-xs font-bold uppercase flex items-center gap-1.5">
                                                 {getCategoryIcon(item.category)}
                                                 {localized.categoryLabel}
                                             </span>
                                         </div>
 
-                                        {/* Card Title */}
-                                        <h4 className="text-slate-900 text-2xl font-bold mb-4 group-hover:text-brand-red transition-colors duration-300">
-                                            {localized.title}
-                                        </h4>
-
-                                        {/* Card Description */}
+                                        {/* Project Description */}
                                         <p className="text-slate-600 text-sm leading-relaxed mb-8">
                                             {localized.desc}
                                         </p>
                                     </div>
 
                                     {/* Link action if link is provided */}
-                                    {item.link && item.link !== '#' ? (
+                                    {item.link && item.link !== '#' && (
                                         <Link
                                             href={`/works/${item.id}`}
-                                            className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-brand-red transition-all duration-300 py-3 ${
-                                                isRTL ? 'flex-row-reverse self-end' : 'self-start'
-                                            }`}
+                                            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-brand-red transition-all duration-300 py-3 self-start"
                                         >
                                             <span>{isRTL ? 'عرض المشروع' : 'View Project'}</span>
-                                            <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                                            <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
                                         </Link>
-                                    ) : (
-                                        <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 py-3 ${
-                                            isRTL ? 'flex-row-reverse self-end' : 'self-start'
-                                        }`}>
-                                            <span>{isRTL ? 'عمل منجز' : 'Completed Work'}</span>
-                                            <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
-                                        </span>
                                     )}
                                 </motion.div>
                             );
