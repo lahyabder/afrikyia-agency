@@ -154,6 +154,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision' },
         { name: t.admin.menu.services, icon: Briefcase, path: '/admin/services' },
         { name: t.admin.menu.trusted, icon: Users, path: '/admin/trusted' },
+        { name: t.admin.menu.contact, icon: Mail, path: '/admin/contact' },
         { name: t.admin.menu.users, icon: Users, path: '/admin/users' },
         { name: t.admin.menu.settings, icon: Settings, path: '/admin/settings' },
     ];

@@ -7,9 +7,42 @@ import { Send, Mail, Phone, CheckCircle2, AlertCircle, Facebook } from 'lucide-r
 import { TiktokIcon } from '@/components/icons/TiktokIcon';
 
 const Contact = () => {
-    const { t, isRTL } = useLanguage();
+    const { t, isRTL, language } = useLanguage();
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState<string>("");
+
+    const [content, setContent] = useState({
+        tag: t.contact.tag,
+        title: t.contact.title,
+        desc: t.contact.desc
+    });
+
+    useEffect(() => {
+        const loadContent = () => {
+            const cached = localStorage.getItem('afrikyia-contact');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed[language]) {
+                        setContent(parsed[language]);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                setContent({
+                    tag: t.contact.tag,
+                    title: t.contact.title,
+                    desc: t.contact.desc
+                });
+            }
+        };
+
+        loadContent();
+
+        window.addEventListener('afrikyia-contact-updated', loadContent);
+        return () => window.removeEventListener('afrikyia-contact-updated', loadContent);
+    }, [language, t]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -64,13 +97,13 @@ const Contact = () => {
                                 transition={{ duration: 0.8 }}
                             >
                                 <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
-                                    {t.contact.tag}
+                                    {content.tag}
                                 </h2>
                                 <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] mb-6">
-                                    {t.contact.title}
+                                    {content.title}
                                 </h3>
                                 <p className="text-slate-600 text-base md:text-lg font-light leading-relaxed max-w-lg">
-                                    {t.contact.desc}
+                                    {content.desc}
                                 </p>
                             </motion.div>
 
