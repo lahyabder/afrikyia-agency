@@ -254,20 +254,46 @@ export default function AdminTrustedPage() {
                                                 required
                                             />
                                         </div>
-                                        <div>
-                                            <div className="relative">
-                                                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                                                    <ImageIcon className="w-4 h-4 text-white/30" />
+                                        <div className="flex items-center gap-4">
+                                            {partner.logoUrl ? (
+                                                <div className="w-16 h-12 bg-white/10 rounded-lg flex items-center justify-center overflow-hidden border border-white/20 p-1">
+                                                    <img src={partner.logoUrl} alt="Logo" className="max-w-full max-h-full object-contain" />
                                                 </div>
+                                            ) : (
+                                                <div className="w-16 h-12 bg-white/5 rounded-lg flex items-center justify-center border border-white/10 border-dashed">
+                                                    <ImageIcon className="w-5 h-5 text-white/30" />
+                                                </div>
+                                            )}
+                                            <div className="flex-1 relative">
                                                 <input
-                                                    type="url"
-                                                    value={partner.logoUrl}
-                                                    onChange={(e) => updatePartner(partner.id, 'logoUrl', e.target.value)}
-                                                    placeholder="رابط الشعار (https://.../logo.png)"
-                                                    className="w-full bg-white/5 border border-white/10 rounded-lg py-2 pl-3 pr-9 text-sm focus:outline-none focus:border-brand-red text-white text-left"
-                                                    dir="ltr"
+                                                    type="file"
+                                                    accept="image/*"
+                                                    onChange={(e) => {
+                                                        const file = e.target.files?.[0];
+                                                        if (!file) return;
+                                                        const reader = new FileReader();
+                                                        reader.onload = (event) => {
+                                                            const base64 = event.target?.result as string;
+                                                            updatePartner(partner.id, 'logoUrl', base64);
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    }}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                                 />
+                                                <div className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg py-2 px-3 text-sm text-center text-white/70 transition-colors cursor-pointer flex justify-center items-center gap-2">
+                                                    <ImageIcon className="w-4 h-4" />
+                                                    {partner.logoUrl ? 'تغيير الشعار' : 'رفع الشعار (PNG, JPG, SVG)'}
+                                                </div>
                                             </div>
+                                            {partner.logoUrl && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() => updatePartner(partner.id, 'logoUrl', '')}
+                                                    className="text-red-400 hover:text-red-300 text-xs font-medium px-2 py-1 rounded bg-red-500/10 hover:bg-red-500/20 transition-colors"
+                                                >
+                                                    إزالة
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                     <button
