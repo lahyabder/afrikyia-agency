@@ -96,10 +96,10 @@ const Achievements = () => {
     };
 
     return (
-        <section id="achievements" className="py-16 md:py-24 bg-white border-t border-slate-200">
+        <section id="achievements" className="py-12 md:py-16 bg-white border-t border-slate-200">
             <div className="container mx-auto px-6">
                 {/* Header */}
-                <div className={`mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div className={`mb-10 flex flex-col lg:flex-row lg:items-end justify-between gap-8 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <div>
                         <h2 className="text-slate-900 text-4xl md:text-6xl font-bold tracking-tight">
                             {t.achievements.title}
@@ -110,7 +110,7 @@ const Achievements = () => {
                 {/* Achievements Cards Grid */}
                 <motion.div
                     layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
                 >
                     <AnimatePresence mode="popLayout">
                         {filteredList.map((item, idx) => {
@@ -126,7 +126,7 @@ const Achievements = () => {
                                     exit={{ opacity: 0, scale: 0.9, y: 10 }}
                                     transition={{ duration: 0.4 }}
                                     whileHover={{ y: -5 }}
-                                    className="group relative bg-white p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-brand-red/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl overflow-hidden text-start"
+                                    className="group relative bg-white p-5 md:p-6 rounded-2xl border border-slate-200 hover:border-brand-red/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl overflow-hidden text-start"
                                     dir={isRTL ? "rtl" : "ltr"}
                                 >
                                     {item.video ? (
@@ -150,12 +150,12 @@ const Achievements = () => {
 
                                     <div className="flex-1 flex flex-col">
                                         {/* Project Title */}
-                                        <h4 className="text-slate-900 text-2xl font-bold mb-3 group-hover:text-brand-red transition-colors duration-300">
+                                        <h4 className="text-slate-900 text-xl font-bold mb-2 group-hover:text-brand-red transition-colors duration-300">
                                             {localized.title}
                                         </h4>
 
                                         {/* Project Category */}
-                                        <div className="flex items-center gap-2 mb-4 justify-start">
+                                        <div className="flex items-center gap-2 mb-3 justify-start">
                                             <span className="text-brand-red bg-brand-red/10 px-3 py-1 rounded-lg text-xs font-bold uppercase flex items-center gap-1.5">
                                                 {getCategoryIcon(item.category)}
                                                 {localized.categoryLabel}
@@ -163,7 +163,7 @@ const Achievements = () => {
                                         </div>
 
                                         {/* Project Description */}
-                                        <p className="text-slate-600 text-sm leading-relaxed mb-8">
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-4">
                                             {localized.desc}
                                         </p>
                                     </div>
@@ -174,7 +174,7 @@ const Achievements = () => {
                                             href={item.link}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-brand-red transition-all duration-300 py-3 self-start"
+                                            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-brand-red transition-all duration-300 py-2 self-start"
                                         >
                                             <span>{isRTL ? 'رابط المشروع' : 'Project Link'}</span>
                                             <ExternalLink className="w-4 h-4" />
