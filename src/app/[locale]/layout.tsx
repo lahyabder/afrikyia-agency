@@ -5,7 +5,6 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 import { headers } from 'next/headers';
-import StickyCTA from '@/components/layout/StickyCTA';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -141,7 +140,6 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           {children}
-          <StickyCTA />
         </NextIntlClientProvider>
       </body>
     </html>

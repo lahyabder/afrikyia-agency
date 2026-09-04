@@ -52,13 +52,7 @@ const Header = () => {
         
         <div className="flex items-center gap-4 md:gap-8">
           <LanguageSwitcher />
-          <Link
-            href="/#vision"
-            className="hidden sm:block text-white bg-brand-red border border-brand-red px-6 py-2 rounded-full hover:bg-red-700 transition-all duration-300 text-sm font-medium shadow-md shadow-brand-red/20"
-          >
-            {t.nav.discover}
-          </Link>
-          
+
           {/* Mobile Menu Toggle */}
           <button 
             className="lg:hidden text-slate-800 p-2 focus:outline-none"
@@ -98,20 +92,7 @@ const Header = () => {
                 </motion.div>
               ))}
               
-              <motion.div
-                initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: navLinks.length * 0.1 }}
-                className="pt-4 border-t border-slate-100"
-              >
-                <Link
-                  href="/#vision"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="inline-block text-white bg-brand-red px-8 py-3 rounded-full hover:bg-[#EB2F36] transition-all duration-300 text-base font-medium shadow-md"
-                >
-                  {t.nav.discover}
-                </Link>
-              </motion.div>
+
             </div>
           </motion.div>
         )}
