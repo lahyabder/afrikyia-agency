@@ -14,7 +14,7 @@ const TrustedBy = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section className="py-20 md:py-32 bg-black border-t border-white/5 overflow-hidden">
+        <section className="py-20 md:py-32 bg-white border-t border-slate-200 overflow-hidden">
             <div className="container mx-auto px-6 mb-16">
                 <div className="flex flex-col items-center justify-center text-center">
                     <motion.div
@@ -25,7 +25,7 @@ const TrustedBy = () => {
                         <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
                             {t.trusted.tag}
                         </h2>
-                        <h3 className="text-white text-3xl md:text-5xl font-bold tracking-tight">
+                        <h3 className="text-slate-900 text-3xl md:text-5xl font-bold tracking-tight">
                             {t.trusted.title}
                         </h3>
                     </motion.div>
@@ -35,8 +35,8 @@ const TrustedBy = () => {
             {/* Logo Strip (Marquee) */}
             <div className="relative w-full flex overflow-hidden py-10">
                 {/* Gradient Masks for smooth fading edges */}
-                <div className="absolute top-0 bottom-0 left-0 w-24 md:w-64 z-10 bg-gradient-to-r from-black to-transparent pointer-events-none" />
-                <div className="absolute top-0 bottom-0 right-0 w-24 md:w-64 z-10 bg-gradient-to-l from-black to-transparent pointer-events-none" />
+                <div className="absolute top-0 bottom-0 left-0 w-24 md:w-64 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+                <div className="absolute top-0 bottom-0 right-0 w-24 md:w-64 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" />
                 
                 <motion.div
                     className="flex items-center gap-16 md:gap-32 whitespace-nowrap px-8"
@@ -56,9 +56,9 @@ const TrustedBy = () => {
                             className="flex items-center justify-center min-w-max grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                         >
                             {/* Empty Image Placeholder for Client Logo */}
-                            <div className="w-40 h-20 md:w-48 md:h-24 bg-white/5 border border-white/10 rounded flex items-center justify-center">
+                            <div className="w-40 h-20 md:w-48 md:h-24 bg-slate-50 border border-slate-200 rounded flex items-center justify-center">
                                 {/* TODO: Replace this div with actual logo: <img src="..." alt={client} className="max-w-full max-h-full object-contain" /> */}
-                                <span className="text-white/20 text-xs font-mono text-center px-2">{client}<br/>Logo</span>
+                                <span className="text-slate-400 text-xs font-mono text-center px-2">{client}<br/>Logo</span>
                             </div>
                         </div>
                     ))}

@@ -22,21 +22,7 @@
         "whatWeBuild": "Ce Que Nous Construisons",
         "whatWeBuildDesc": "Nous concevons des solutions numériques tangibles : plateformes web intégrées, portails numériques et applications SaaS complexes pour répondre aux besoins modernes de transformation numérique.",
         "forWhom": "Pour Qui",
-        "forWhomDesc": "Nous accompagnons les gouvernements, les institutions culturelles et les entreprises privées désireuses d'établir leur souveraineté numérique et de projeter leur identité à l'échelle mondiale.",
-        "stats": [
-            {
-                "value": "+20",
-                "label": "Projets Numériques"
-            },
-            {
-                "value": "+50K",
-                "label": "Utilisateurs Actifs"
-            },
-            {
-                "value": "100%",
-                "label": "Souveraineté Numérique"
-            }
-        ]
+        "forWhomDesc": "Nous accompagnons les gouvernements, les institutions culturelles et les entreprises privées désireuses d'établir leur souveraineté numérique et de projeter leur identité à l'échelle mondiale."
     },
     "services": {
         "tag": "Notre Expertise",
@@ -355,7 +341,7 @@
     "about": {
         "tag": "À Propos de Nous",
         "title": "Qui Sommes-Nous",
-        "desc1": "Fondée en 2020, Afrikyia est animée par une équipe passionnée de consultants stratégiques, de technologues et de conservateurs culturels. Notre mission est de combler le fossé entre l'innovation numérique et le patrimoine culturel.",
+        "desc1": "Fondée en 2025, Afrikyia est animée par une équipe passionnée de consultants stratégiques, de technologues et de conservateurs culturels. Notre mission est de combler le fossé entre l'innovation numérique et le patrimoine culturel.",
         "desc2": "Nous fournissons des conseils stratégiques de haut niveau pour aider les organisations à naviguer dans le paysage numérique. En combinant des connaissances culturelles approfondies avec une expertise technologique avancée, nous donnons aux créateurs et aux institutions les moyens de façonner le récit mondial et d'établir une véritable souveraineté numérique."
     },
     "trusted": {

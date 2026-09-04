@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0A0A0A;
-  --foreground: #F8FAFC;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
   --brand-red: #E11D48;
-  --brand-white: #F8FAFC;
+  --brand-white: #FFFFFF;
   --brand-black: #050505;
 }
 
@@ -14,7 +14,7 @@
   --color-brand-red: var(--brand-red);
   --color-brand-white: var(--brand-white);
   --color-brand-black: var(--brand-black);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-outfit), var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-almarai: var(--font-almarai);
 }
@@ -22,7 +22,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
 }
 

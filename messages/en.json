@@ -22,21 +22,7 @@
         "whatWeBuild": "What We Actually Build",
         "whatWeBuildDesc": "We engineer tangible digital solutions: integrated web platforms, digital portals, and complex SaaS applications that meet modern digital transformation needs.",
         "forWhom": "Who We Serve",
-        "forWhomDesc": "We serve governments, cultural institutions, and private enterprises seeking to establish digital sovereignty and project their identity globally.",
-        "stats": [
-            {
-                "value": "+20",
-                "label": "Digital Projects"
-            },
-            {
-                "value": "+50K",
-                "label": "Active Users"
-            },
-            {
-                "value": "100%",
-                "label": "Digital Sovereignty"
-            }
-        ]
+        "forWhomDesc": "We serve governments, cultural institutions, and private enterprises seeking to establish digital sovereignty and project their identity globally."
     },
     "services": {
         "tag": "Our Expertise",
@@ -355,7 +341,7 @@
     "about": {
         "tag": "About Us",
         "title": "Who We Are",
-        "desc1": "Founded in 2020, Afrikyia is driven by a passionate team of strategic consultants, technologists, and cultural curators. Our mission is to bridge the gap between digital innovation and cultural heritage.",
+        "desc1": "Founded in 2025, Afrikyia is driven by a passionate team of strategic consultants, technologists, and cultural curators. Our mission is to bridge the gap between digital innovation and cultural heritage.",
         "desc2": "We provide high-level strategic consulting to help organizations navigate the digital landscape. By combining deep cultural insights with advanced technological expertise, we empower creators and institutions to shape the global narrative and establish true digital sovereignty."
     },
     "trusted": {

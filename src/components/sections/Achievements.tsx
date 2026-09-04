@@ -95,7 +95,7 @@ const Achievements = () => {
     };
 
     return (
-        <section id="achievements" className="py-24 md:py-40 bg-black border-t border-white/5">
+        <section id="achievements" className="py-24 md:py-40 bg-white border-t border-slate-200">
             <div className="container mx-auto px-6">
                 {/* Header */}
                 <div className={`mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8 ${isRTL ? 'text-right' : 'text-left'}`}>
@@ -103,7 +103,7 @@ const Achievements = () => {
                         <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
                             {t.achievements.tag}
                         </h2>
-                        <h3 className="text-white text-4xl md:text-6xl font-bold tracking-tight">
+                        <h3 className="text-slate-900 text-4xl md:text-6xl font-bold tracking-tight">
                             {t.achievements.title}
                         </h3>
                     </div>
@@ -117,7 +117,7 @@ const Achievements = () => {
                                 className={`px-5 py-2.5 min-h-[44px] flex items-center justify-center rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-300 border cursor-pointer ${
                                     activeFilter === option.key
                                         ? 'bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20'
-                                        : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:border-white/30 hover:bg-white/10'
+                                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-brand-red hover:border-brand-red/50 hover:bg-red-50'
                                 }`}
                             >
                                 {option.label}
@@ -129,7 +129,7 @@ const Achievements = () => {
                 {/* Achievements Cards Grid */}
                 <motion.div 
                     layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
                 >
                     <AnimatePresence mode="popLayout">
                         {filteredList.map((item, idx) => {
@@ -144,26 +144,23 @@ const Achievements = () => {
                                     animate={{ opacity: 1, scale: 1, y: 0 }}
                                     exit={{ opacity: 0, scale: 0.9, y: 10 }}
                                     transition={{ duration: 0.4 }}
-                                    whileHover={{ y: -10 }}
-                                    className={`group relative bg-white/5 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-white/5 hover:border-brand-red/30 hover:bg-white/10 transition-all duration-500 flex flex-col justify-between shadow-2xl hover:shadow-[0_0_50px_rgba(225,29,72,0.15)] ${
+                                    whileHover={{ y: -5 }}
+                                    className={`group relative bg-white p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-brand-red/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl overflow-hidden ${
                                         isRTL ? 'text-right' : 'text-left'
                                     }`}
                                 >
-                                    {/* Glowing red outline hover effect */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-red/0 to-brand-red/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl pointer-events-none" />
-
                                     {item.image && (
-                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-white/5 bg-black/40">
+                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-slate-100 bg-slate-50">
                                             <img 
                                                 src={item.image} 
                                                 alt={localized.title}
                                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                             />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent pointer-events-none" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent pointer-events-none" />
                                         </div>
                                     )}
 
-                                    <div>
+                                    <div className="flex-1">
                                         {/* Card Header Tag */}
                                         <div className={`flex items-center gap-2 mb-6 ${isRTL ? 'flex-row-reverse justify-start' : 'justify-start'}`}>
                                             <span className="text-brand-red bg-brand-red/10 px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5">
@@ -173,12 +170,12 @@ const Achievements = () => {
                                         </div>
 
                                         {/* Card Title */}
-                                        <h4 className="text-white text-2xl font-bold mb-4 group-hover:text-brand-red transition-colors duration-300">
+                                        <h4 className="text-slate-900 text-2xl font-bold mb-4 group-hover:text-brand-red transition-colors duration-300">
                                             {localized.title}
                                         </h4>
 
                                         {/* Card Description */}
-                                        <p className="text-white/70 text-sm leading-relaxed mb-8">
+                                        <p className="text-slate-600 text-sm leading-relaxed mb-8">
                                             {localized.desc}
                                         </p>
                                     </div>
@@ -187,7 +184,7 @@ const Achievements = () => {
                                     {item.link && item.link !== '#' ? (
                                         <Link
                                             href={`/works/${item.id}`}
-                                            className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/85 group-hover:text-brand-red transition-all duration-300 py-3 ${
+                                            className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-brand-red transition-all duration-300 py-3 ${
                                                 isRTL ? 'flex-row-reverse self-end' : 'self-start'
                                             }`}
                                         >
@@ -195,11 +192,11 @@ const Achievements = () => {
                                             <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                                         </Link>
                                     ) : (
-                                        <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/70 ${
+                                        <span className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 py-3 ${
                                             isRTL ? 'flex-row-reverse self-end' : 'self-start'
                                         }`}>
                                             <span>{isRTL ? 'عمل منجز' : 'Completed Work'}</span>
-                                            <span className="w-1.5 h-1.5 rounded-full bg-brand-red/50" />
+                                            <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
                                         </span>
                                     )}
                                 </motion.div>

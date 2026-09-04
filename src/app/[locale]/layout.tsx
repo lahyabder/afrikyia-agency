@@ -1,4 +1,4 @@
-import { Geist, Geist_Mono, Almarai } from "next/font/google";
+import { Geist, Geist_Mono, Almarai, Outfit } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
@@ -9,6 +9,12 @@ import StickyCTA from '@/components/layout/StickyCTA';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
   display: "swap",
 });
@@ -131,7 +137,7 @@ export default async function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${almarai.variable} antialiased ${locale === 'ar' ? 'arabic-font' : ''}`}
+        className={`${outfit.variable} ${geistSans.variable} ${geistMono.variable} ${almarai.variable} antialiased ${locale === 'ar' ? 'arabic-font' : ''}`}
       >
         <NextIntlClientProvider messages={messages}>
           {children}

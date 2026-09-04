@@ -7,7 +7,7 @@ const StrategicImpact = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section id="impact" className="py-24 md:py-40 bg-black text-white">
+        <section id="impact" className="py-24 md:py-40 bg-[#F8FAFC]">
             <div className="container mx-auto px-6">
                 <div className="grid lg:grid-cols-2 gap-24 items-center">
                     <div className={isRTL ? 'text-right' : 'text-left'}>
@@ -23,7 +23,7 @@ const StrategicImpact = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                            className="text-4xl md:text-7xl font-bold leading-tight mb-12"
+                            className="text-slate-900 text-4xl md:text-7xl font-bold leading-tight mb-12"
                         >
                             {t.impact.title.split(' ').map((word: string, i: number) => (
                                 <span key={i}>
@@ -36,7 +36,7 @@ const StrategicImpact = () => {
                                 </span>
                             ))}
                         </motion.h3>
-                        <p className="text-white/80 text-xl font-light leading-relaxed mb-12">
+                        <p className="text-slate-600 text-xl font-light leading-relaxed mb-12">
                             {t.impact.desc}
                         </p>
                     </div>
@@ -49,10 +49,10 @@ const StrategicImpact = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                                 transition={{ delay: idx * 0.2 }}
-                                className={`p-8 bg-white/10 hover:bg-white/20 transition-colors ${isRTL ? 'border-r-2 pr-10 border-brand-red text-right' : 'border-l-2 pl-10 border-brand-red text-left'}`}
+                                className={`p-8 bg-white border border-slate-200 hover:border-brand-red/30 shadow-sm hover:shadow-md transition-all ${isRTL ? 'border-r-4 pr-8 border-r-brand-red text-right' : 'border-l-4 pl-8 border-l-brand-red text-left'}`}
                             >
                                 <div className="text-brand-red text-xs uppercase tracking-widest mb-2 font-bold">{impact.label}</div>
-                                <div className="text-2xl md:text-3xl font-medium tracking-tight">{impact.value}</div>
+                                <div className="text-slate-900 text-2xl md:text-3xl font-bold tracking-tight">{impact.value}</div>
                             </motion.div>
                         ))}
                     </div>

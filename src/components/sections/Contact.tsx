@@ -45,9 +45,9 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-24 md:py-32 bg-[#080808] relative overflow-hidden">
+        <section id="contact" className="py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
             {/* Background elements */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
             <div className="absolute top-[20%] right-[10%] w-[30rem] h-[30rem] bg-brand-red/5 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container mx-auto px-6 relative z-10">
@@ -65,10 +65,10 @@ const Contact = () => {
                                 <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-4">
                                     {t.contact.tag}
                                 </h2>
-                                <h3 className="text-4xl md:text-6xl font-bold text-white leading-[1.1] mb-6">
+                                <h3 className="text-4xl md:text-6xl font-bold text-slate-900 leading-[1.1] mb-6">
                                     {t.contact.title}
                                 </h3>
-                                <p className="text-white/70 text-lg md:text-xl font-light leading-relaxed max-w-xl">
+                                <p className="text-slate-600 text-lg md:text-xl font-light leading-relaxed max-w-xl">
                                     {t.contact.desc}
                                 </p>
                             </motion.div>
@@ -80,14 +80,14 @@ const Contact = () => {
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 className="space-y-6 pt-8"
                             >
-                                <a href="mailto:contact@afrikyia.com" className="flex items-center gap-4 text-white/80 hover:text-brand-red transition-colors group">
-                                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-brand-red/50 transition-colors">
+                                <a href="mailto:contact@afrikyia.com" className="flex items-center gap-4 text-slate-700 hover:text-brand-red transition-colors group">
+                                    <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:border-brand-red/50 transition-colors shadow-sm">
                                         <Mail className="w-5 h-5" />
                                     </div>
                                     <span className="text-lg font-medium">contact@afrikyia.com</span>
                                 </a>
-                                <a href="tel:+22224232202" className="flex items-center gap-4 text-white/80 hover:text-brand-red transition-colors group" dir="ltr">
-                                    <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-brand-red/50 transition-colors">
+                                <a href="tel:+22224232202" className="flex items-center gap-4 text-slate-700 hover:text-brand-red transition-colors group" dir="ltr">
+                                    <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center group-hover:border-brand-red/50 transition-colors shadow-sm">
                                         <Phone className="w-5 h-5" />
                                     </div>
                                     <span className="text-lg font-medium">+222 24 23 22 02</span>
@@ -104,41 +104,41 @@ const Contact = () => {
                         >
                             <form 
                                 onSubmit={handleSubmit}
-                                className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 space-y-6 backdrop-blur-sm relative"
+                                className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 space-y-6 shadow-xl shadow-slate-200/50 relative"
                             >
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-medium text-white/70 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className={`block text-sm font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.name}
                                     </label>
                                     <input 
                                         type="text" 
                                         name="name" 
                                         required
-                                        className={`w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-brand-red transition-colors ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                                         placeholder="John Doe"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-medium text-white/70 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className={`block text-sm font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.email}
                                     </label>
                                     <input 
                                         type="email" 
                                         name="email" 
                                         required
-                                        className={`w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-brand-red transition-colors ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
                                         placeholder="contact@example.com"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className={`block text-sm font-medium text-white/70 ${isRTL ? 'text-right' : 'text-left'}`}>
+                                    <label className={`block text-sm font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.message}
                                     </label>
                                     <textarea 
                                         name="message" 
                                         rows={4}
                                         required
-                                        className={`w-full bg-black/50 border border-white/10 rounded-xl px-4 py-4 text-white placeholder:text-white/30 focus:outline-none focus:border-brand-red transition-colors resize-none ${isRTL ? 'text-right' : 'text-left'}`}
+                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all resize-none ${isRTL ? 'text-right' : 'text-left'}`}
                                         placeholder="..."
                                     ></textarea>
                                 </div>
@@ -157,7 +157,7 @@ const Contact = () => {
                                     <motion.div 
                                         initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-3 text-emerald-400 bg-emerald-400/10 p-4 rounded-xl border border-emerald-400/20"
+                                        className="flex items-center gap-3 text-emerald-600 bg-emerald-50 p-4 rounded-xl border border-emerald-200"
                                     >
                                         <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
                                         <p className="text-sm font-medium">Your message has been sent successfully. We will get back to you soon.</p>
@@ -168,7 +168,7 @@ const Contact = () => {
                                     <motion.div 
                                         initial={{ opacity: 0, y: -10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="flex flex-col gap-2 text-red-400 bg-red-400/10 p-4 rounded-xl border border-red-400/20"
+                                        className="flex flex-col gap-2 text-red-600 bg-red-50 p-4 rounded-xl border border-red-200"
                                     >
                                         <div className="flex items-center gap-3">
                                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
