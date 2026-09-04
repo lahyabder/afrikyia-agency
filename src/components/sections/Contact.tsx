@@ -115,7 +115,7 @@ const Contact = () => {
                                         name="name" 
                                         required
                                         className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
-                                        placeholder="John Doe"
+                                        placeholder="Mohamed Mahmoud"
                                     />
                                 </div>
                                 <div className="space-y-1.5">
