@@ -19,6 +19,7 @@ const Header = () => {
     { href: '/#vision', label: t.nav.vision },
     { href: '/#services', label: t.nav.services },
     { href: '/#achievements', label: t.nav.achievements },
+    { href: '/#projects', label: t.nav.projects || t.projects?.title || 'Projects' },
     { href: '/#impact', label: t.nav.impact },
   ];
 

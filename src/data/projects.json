@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "id": "proj-dummy-1",
+        "link": "https://example.com",
+        "video": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "image": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80",
+        "ar": {
+            "title": "مشروع تجريبي",
+            "desc": "هذا مشروع تجريبي يظهر كعينة فقط لاختبار عمل القسم والتصميم. يمكنك حذفه وإضافة مشاريعك الحقيقية من الداشبورد."
+        },
+        "en": {
+            "title": "Demo Project",
+            "desc": "This is a demo project to test the section layout and functionality. You can delete it from the dashboard."
+        },
+        "fr": {
+            "title": "Projet de Démo",
+            "desc": "Ceci est un projet de démonstration pour tester la section."
+        }
+    }
+]
