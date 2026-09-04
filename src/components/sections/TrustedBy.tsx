@@ -53,12 +53,12 @@ const TrustedBy = () => {
                         <div 
                             key={index} 
                             aria-hidden={index >= clients.length}
-                            className="flex items-center justify-center min-w-max grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                            className="flex items-center justify-center min-w-max hover:scale-105 transition-transform duration-300"
                         >
                             {/* Empty Image Placeholder for Client Logo */}
-                            <div className="w-40 h-20 md:w-48 md:h-24 bg-slate-50 border border-slate-200 rounded flex items-center justify-center">
+                            <div className="w-48 h-20 md:w-56 md:h-24 bg-white border border-slate-100 shadow-sm rounded-xl flex items-center justify-center px-4">
                                 {/* TODO: Replace this div with actual logo: <img src="..." alt={client} className="max-w-full max-h-full object-contain" /> */}
-                                <span className="text-slate-400 text-xs font-mono text-center px-2">{client}<br/>Logo</span>
+                                <span className="text-slate-800 text-sm md:text-base font-bold text-center leading-snug">{client}</span>
                             </div>
                         </div>
                     ))}
