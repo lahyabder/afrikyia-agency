@@ -9,47 +9,46 @@ const Footer = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <footer className="bg-[#F8FAFC] relative border-t border-slate-200 py-12 md:py-16 overflow-hidden">
+        <footer className="bg-[#F8FAFC] relative border-t border-slate-200 py-8 md:py-12 overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
-                <div className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-10 mb-12 md:mb-16 ${isRTL ? 'text-right' : 'text-left'}`}>
+                <div className={`flex flex-col md:flex-row justify-between items-start md:items-center gap-8 md:gap-10 mb-8 md:mb-12 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <div>
                         <Image
                             src="/logo.png"
                             alt="Afrikyia"
-                            width={140}
-                            height={35}
-                            className={`mb-6 ${isRTL ? 'mr-0' : 'ml-0'}`}
+                            width={120}
+                            height={30}
+                            className={`mb-4 ${isRTL ? 'mr-0' : 'ml-0'}`}
                         />
-                        <p className="text-slate-600 max-w-sm font-light text-sm md:text-base">
+                        <p className="text-slate-500 max-w-sm font-light text-xs md:text-sm">
                             {t.footer.motto}
                         </p>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-3">
                         <a
                             href="mailto:contact@afrikyia.com"
-                            className="flex items-center gap-3 text-base md:text-lg font-medium text-slate-900 hover:text-brand-red transition-colors"
+                            className="flex items-center gap-3 text-sm md:text-base font-medium text-slate-700 hover:text-brand-red transition-colors"
                         >
-                            <Mail className="w-4 h-4 md:w-5 md:h-5 text-brand-red flex-shrink-0" />
-                            contact@afrikyia.com
+                            <Mail className="w-4 h-4 text-brand-red flex-shrink-0" />
+                            <span dir="ltr">contact@afrikyia.com</span>
                         </a>
                         <a
                             href="tel:+22224232202"
-                            className="flex items-center gap-3 text-base md:text-lg font-medium text-slate-900 hover:text-brand-red transition-colors"
-                            dir="ltr"
+                            className="flex items-center gap-3 text-sm md:text-base font-medium text-slate-700 hover:text-brand-red transition-colors"
                         >
-                            <Phone className="w-4 h-4 md:w-5 md:h-5 text-brand-red flex-shrink-0" />
-                            +222 24 23 22 02
+                            <Phone className="w-4 h-4 text-brand-red flex-shrink-0" />
+                            <span dir="ltr">+222 24 23 22 02</span>
                         </a>
 
-                        <div className="flex items-start gap-3 text-xs md:text-sm font-light text-slate-600 max-w-sm leading-relaxed mt-1">
-                            <MapPin className="w-4 h-4 md:w-5 md:h-5 text-brand-red flex-shrink-0 mt-0.5" />
-                            {t.footer.address}
+                        <div className="flex items-start gap-3 text-xs font-light text-slate-500 max-w-xs leading-relaxed mt-1">
+                            <MapPin className="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5" />
+                            <span>{t.footer.address}</span>
                         </div>
                     </div>
                 </div>
 
-                <div className={`flex flex-col md:flex-row justify-between items-center pt-6 md:pt-8 border-t border-slate-200 text-xs text-slate-500 uppercase tracking-[0.2em] ${isRTL ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex flex-col md:flex-row justify-between items-center pt-6 border-t border-slate-200 text-[10px] md:text-xs text-slate-400 uppercase tracking-[0.2em] ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <div>{t.footer.rights}</div>
                     <div className="mt-4 md:mt-0 flex gap-6">
                         <Link href="/privacy" className="hover:text-brand-red transition-colors">{t.footer.privacy}</Link>
