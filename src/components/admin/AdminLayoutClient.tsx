@@ -18,7 +18,8 @@ import {
     LogOut,
     Lock,
     Mail,
-    AlertTriangle
+    AlertTriangle,
+    Briefcase
 } from 'lucide-react';
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
