@@ -1,10 +1,54 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 
 const Vision = () => {
-    const { t, isRTL } = useLanguage();
+    const { t, isRTL, language } = useLanguage();
+
+    const [content, setContent] = useState({
+        tag: t.vision.tag,
+        title: t.vision.title,
+        desc1: t.vision.desc1,
+        desc2: t.vision.desc2,
+        whatWeBuild: t.vision.whatWeBuild,
+        whatWeBuildDesc: t.vision.whatWeBuildDesc,
+        forWhom: t.vision.forWhom,
+        forWhomDesc: t.vision.forWhomDesc
+    });
+
+    useEffect(() => {
+        const loadContent = () => {
+            const cached = localStorage.getItem('afrikyia-vision');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed[language]) {
+                        setContent(parsed[language]);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                setContent({
+                    tag: t.vision.tag,
+                    title: t.vision.title,
+                    desc1: t.vision.desc1,
+                    desc2: t.vision.desc2,
+                    whatWeBuild: t.vision.whatWeBuild,
+                    whatWeBuildDesc: t.vision.whatWeBuildDesc,
+                    forWhom: t.vision.forWhom,
+                    forWhomDesc: t.vision.forWhomDesc
+                });
+            }
+        };
+
+        loadContent();
+
+        window.addEventListener('afrikyia-vision-updated', loadContent);
+        return () => window.removeEventListener('afrikyia-vision-updated', loadContent);
+    }, [language, t]);
 
     return (
         <section id="vision" className="py-12 md:py-24 bg-white selection:bg-brand-red selection:text-white">
@@ -17,7 +61,7 @@ const Vision = () => {
                         transition={{ duration: 0.8 }}
                     >
                         <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-8">
-                            {t.vision.tag}
+                            {content.tag}
                         </h2>
                     </motion.div>
 
@@ -28,7 +72,7 @@ const Vision = () => {
                         transition={{ delay: 0.2, duration: 1 }}
                     >
                         <h3 className="text-slate-900 text-4xl md:text-7xl font-bold leading-[1.1] mb-12">
-                            {t.vision.title.split(':').map((part: string, i: number) => (
+                            {content.title.split(':').map((part: string, i: number) => (
                                 <span key={i}>
                                     {i === 0 ? (
                                         <>{part}: <br /></>
@@ -48,7 +92,7 @@ const Vision = () => {
                             transition={{ delay: 0.4, duration: 0.8 }}
                         >
                             <p className="text-slate-700 text-xl md:text-2xl font-normal leading-relaxed">
-                                {t.vision.desc1}
+                                {content.desc1}
                             </p>
                         </motion.div>
 
@@ -59,7 +103,7 @@ const Vision = () => {
                             transition={{ delay: 0.6, duration: 0.8 }}
                         >
                             <p className="text-slate-700 text-xl md:text-2xl font-normal leading-relaxed">
-                                {t.vision.desc2}
+                                {content.desc2}
                             </p>
                         </motion.div>
                     </div>
@@ -72,12 +116,12 @@ const Vision = () => {
                         className="grid md:grid-cols-2 gap-12 pt-16 border-t border-slate-200"
                     >
                         <div>
-                            <h4 className="text-brand-red text-xl font-bold mb-4">{t.vision.whatWeBuild}</h4>
-                            <p className="text-slate-600 text-lg leading-relaxed">{t.vision.whatWeBuildDesc}</p>
+                            <h4 className="text-brand-red text-xl font-bold mb-4">{content.whatWeBuild}</h4>
+                            <p className="text-slate-600 text-lg leading-relaxed">{content.whatWeBuildDesc}</p>
                         </div>
                         <div>
-                            <h4 className="text-brand-red text-xl font-bold mb-4">{t.vision.forWhom}</h4>
-                            <p className="text-slate-600 text-lg leading-relaxed">{t.vision.forWhomDesc}</p>
+                            <h4 className="text-brand-red text-xl font-bold mb-4">{content.forWhom}</h4>
+                            <p className="text-slate-600 text-lg leading-relaxed">{content.forWhomDesc}</p>
                         </div>
                     </motion.div>
 

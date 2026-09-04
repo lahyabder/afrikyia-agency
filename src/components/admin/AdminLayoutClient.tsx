@@ -150,6 +150,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         { name: t.admin.menu.files, icon: Files, path: '/admin/files' },
         { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements' },
         { name: t.admin.menu.about, icon: FileText, path: '/admin/about' },
+        { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision' },
         { name: t.admin.menu.users, icon: Users, path: '/admin/users' },
         { name: t.admin.menu.settings, icon: Settings, path: '/admin/settings' },
     ];
