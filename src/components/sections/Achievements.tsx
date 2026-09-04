@@ -12,6 +12,7 @@ type AchievementItem = {
     category: 'websites' | 'activities' | 'works';
     link: string;
     image?: string;
+    video?: string;
     en: { title: string; categoryLabel: string; desc: string };
     fr: { title: string; categoryLabel: string; desc: string };
     ar: { title: string; categoryLabel: string; desc: string };
@@ -128,7 +129,15 @@ const Achievements = () => {
                                     className="group relative bg-white p-6 md:p-8 rounded-2xl border border-slate-200 hover:border-brand-red/30 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl overflow-hidden text-start"
                                     dir={isRTL ? "rtl" : "ltr"}
                                 >
-                                    {item.image && (
+                                    {item.video ? (
+                                        <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-slate-100 bg-slate-50">
+                                            <video
+                                                src={item.video}
+                                                controls
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    ) : item.image ? (
                                         <div className="relative aspect-video w-full overflow-hidden rounded-xl mb-6 border border-slate-100 bg-slate-50">
                                             <img
                                                 src={item.image}
@@ -137,7 +146,7 @@ const Achievements = () => {
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/10 via-transparent to-transparent pointer-events-none" />
                                         </div>
-                                    )}
+                                    ) : null}
 
                                     <div className="flex-1 flex flex-col">
                                         {/* Project Title */}
@@ -161,13 +170,15 @@ const Achievements = () => {
 
                                     {/* Link action if link is provided */}
                                     {item.link && item.link !== '#' && (
-                                        <Link
-                                            href={`/works/${item.id}`}
+                                        <a
+                                            href={item.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700 group-hover:text-brand-red transition-all duration-300 py-3 self-start"
                                         >
-                                            <span>{isRTL ? 'عرض المشروع' : 'View Project'}</span>
-                                            <ArrowRight className={`w-4 h-4 transition-transform duration-300 ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
-                                        </Link>
+                                            <span>{isRTL ? 'رابط المشروع' : 'Project Link'}</span>
+                                            <ExternalLink className="w-4 h-4" />
+                                        </a>
                                     )}
                                 </motion.div>
                             );
