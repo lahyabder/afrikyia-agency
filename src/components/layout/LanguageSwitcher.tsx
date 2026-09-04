@@ -38,7 +38,7 @@ const LanguageSwitcher = () => {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 text-white/90 hover:text-brand-red transition-colors text-xs uppercase tracking-widest font-medium group focus:outline-none"
+                className="flex items-center gap-2 text-slate-700 hover:text-brand-red transition-colors text-xs uppercase tracking-widest font-semibold group focus:outline-none"
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
             >
@@ -48,7 +48,7 @@ const LanguageSwitcher = () => {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full mt-4 right-0 min-w-[140px] bg-black border border-white/20 rounded-xl overflow-hidden z-50 shadow-2xl">
+                <div className="absolute top-full mt-4 right-0 min-w-[140px] bg-white border border-slate-200 rounded-xl overflow-hidden z-50 shadow-xl">
                     {langs.map((lang) => (
                         <button
                             key={lang.code}
@@ -56,8 +56,8 @@ const LanguageSwitcher = () => {
                                 router.replace(pathname, { locale: lang.code });
                                 setIsOpen(false);
                             }}
-                            className={`w-full text-left px-5 py-3 text-xs uppercase tracking-widest hover:bg-white/10 transition-colors ${
-                                language === lang.code ? 'text-brand-red font-bold' : 'text-white/90'
+                            className={`w-full text-left px-5 py-3 text-xs uppercase tracking-widest hover:bg-slate-50 transition-colors ${
+                                language === lang.code ? 'text-brand-red font-bold' : 'text-slate-700 font-semibold'
                             }`}
                             role="option"
                             aria-selected={language === lang.code}
