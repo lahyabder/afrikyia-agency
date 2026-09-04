@@ -114,7 +114,7 @@ const Achievements = () => {
                             <button
                                 key={option.key}
                                 onClick={() => setActiveFilter(option.key)}
-                                className={`px-5 py-2.5 rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-300 border cursor-pointer ${
+                                className={`px-5 py-2.5 min-h-[44px] flex items-center justify-center rounded-full text-xs font-semibold uppercase tracking-widest transition-all duration-300 border cursor-pointer ${
                                     activeFilter === option.key
                                         ? 'bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20'
                                         : 'bg-white/5 border-white/10 text-white/70 hover:text-white hover:border-white/30 hover:bg-white/10'
@@ -178,7 +178,7 @@ const Achievements = () => {
                                         </h4>
 
                                         {/* Card Description */}
-                                        <p className="text-white/60 text-sm leading-relaxed mb-8">
+                                        <p className="text-white/70 text-sm leading-relaxed mb-8">
                                             {localized.desc}
                                         </p>
                                     </div>
@@ -187,7 +187,7 @@ const Achievements = () => {
                                     {item.link && item.link !== '#' ? (
                                         <Link
                                             href={`/works/${item.id}`}
-                                            className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/85 group-hover:text-brand-red transition-all duration-300 ${
+                                            className={`inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white/85 group-hover:text-brand-red transition-all duration-300 py-3 ${
                                                 isRTL ? 'flex-row-reverse self-end' : 'self-start'
                                             }`}
                                         >

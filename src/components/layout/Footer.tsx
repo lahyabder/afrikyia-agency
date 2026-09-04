@@ -35,7 +35,7 @@ const Footer = () => {
                             contact@afrikyia.com
                         </a>
                         <a
-                            href="tel:+222 24 23 22 02"
+                            href="tel:+22224232202"
                             className="flex items-center gap-4 text-xl md:text-2xl font-medium hover:text-brand-red transition-colors"
                             dir="ltr"
                         >

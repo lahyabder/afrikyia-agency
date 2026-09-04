@@ -47,7 +47,7 @@ const Services = () => {
                                     {service.title}
                                 </h4>
                                 {service.desc && (
-                                    <p className="text-white/60 text-sm leading-relaxed font-light">
+                                    <p className="text-white/70 text-sm leading-relaxed font-light">
                                         {service.desc}
                                     </p>
                                 )}

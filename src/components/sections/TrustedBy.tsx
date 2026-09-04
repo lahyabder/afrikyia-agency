@@ -52,6 +52,7 @@ const TrustedBy = () => {
                     {marqueeItems.map((client, index) => (
                         <div 
                             key={index} 
+                            aria-hidden={index >= clients.length}
                             className="flex items-center justify-center min-w-max grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
                         >
                             {/* Empty Image Placeholder for Client Logo */}

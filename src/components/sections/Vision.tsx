@@ -91,7 +91,7 @@ const Vision = () => {
                         {t.vision.stats.map((stat: any, index: number) => (
                             <div key={index} className="flex flex-col gap-2">
                                 <span className="text-4xl md:text-6xl font-bold text-white">{stat.value}</span>
-                                <span className="text-white/60 text-sm md:text-base font-medium uppercase tracking-wider">{stat.label}</span>
+                                <span className="text-white/70 text-sm md:text-base font-medium uppercase tracking-wider">{stat.label}</span>
                             </div>
                         ))}
                     </motion.div>
