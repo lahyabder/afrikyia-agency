@@ -3,7 +3,7 @@
 import { useLanguage } from '@/context/LanguageContext';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook } from 'lucide-react';
 
 const Footer = () => {
     const { t, isRTL } = useLanguage();
@@ -44,6 +44,12 @@ const Footer = () => {
                         <div className="flex items-start gap-3 text-xs font-light text-slate-500 max-w-xs leading-relaxed mt-1">
                             <MapPin className="w-4 h-4 text-brand-red flex-shrink-0 mt-0.5" />
                             <span>{t.footer.address}</span>
+                        </div>
+
+                        <div className="mt-2 flex items-center gap-3">
+                            <a href="https://www.facebook.com/profile.php?id=61594179056891" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-brand-red hover:text-white transition-all shadow-sm">
+                                <Facebook className="w-4 h-4" />
+                            </a>
                         </div>
                     </div>
                 </div>

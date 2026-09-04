@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { Send, Mail, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, Mail, Phone, CheckCircle2, AlertCircle, Facebook } from 'lucide-react';
 
 const Contact = () => {
     const { t, isRTL } = useLanguage();
@@ -91,6 +91,12 @@ const Contact = () => {
                                         <Phone className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
                                     </div>
                                     <span className="text-sm md:text-base font-medium" dir="ltr">+222 24 23 22 02</span>
+                                </a>
+                                <a href="https://www.facebook.com/profile.php?id=61594179056891" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
+                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
+                                        <Facebook className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
+                                    </div>
+                                    <span className="text-sm md:text-base font-medium" dir="ltr">Afrikyia Facebook</span>
                                 </a>
                             </motion.div>
                         </div>
