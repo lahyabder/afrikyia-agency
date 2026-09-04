@@ -95,7 +95,7 @@ const Achievements = () => {
     };
 
     return (
-        <section id="achievements" className="py-24 md:py-40 bg-white border-t border-slate-200">
+        <section id="achievements" className="py-16 md:py-24 bg-white border-t border-slate-200">
             <div className="container mx-auto px-6">
                 {/* Header */}
                 <div className={`mb-16 flex flex-col lg:flex-row lg:items-end justify-between gap-8 ${isRTL ? 'text-right' : 'text-left'}`}>

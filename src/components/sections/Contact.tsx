@@ -45,7 +45,7 @@ const Contact = () => {
     };
 
     return (
-        <section id="contact" className="py-24 md:py-32 bg-[#F8FAFC] relative overflow-hidden">
+        <section id="contact" className="py-16 md:py-24 bg-[#F8FAFC] relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
             <div className="absolute top-[20%] right-[10%] w-[30rem] h-[30rem] bg-brand-red/5 rounded-full blur-[100px] pointer-events-none" />

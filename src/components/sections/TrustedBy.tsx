@@ -14,7 +14,7 @@ const TrustedBy = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section className="py-20 md:py-32 bg-white border-t border-slate-200 overflow-hidden">
+        <section className="py-12 md:py-20 bg-white border-t border-slate-200 overflow-hidden">
             <div className="container mx-auto px-6 mb-16">
                 <div className="flex flex-col items-center justify-center text-center">
                     <motion.div

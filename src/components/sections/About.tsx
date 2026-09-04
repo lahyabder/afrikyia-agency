@@ -7,7 +7,7 @@ const About = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section id="about" className="py-16 md:py-32 bg-black border-t border-white/5">
+        <section id="about" className="py-12 md:py-24 bg-black border-t border-white/5">
             <div className="container mx-auto px-6">
                 <div className={`max-w-5xl mx-auto ${isRTL ? 'text-right' : 'text-left'}`}>
                     <motion.div

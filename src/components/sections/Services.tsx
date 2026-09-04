@@ -20,7 +20,7 @@ const Services = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section id="services" className="py-24 md:py-40 bg-[#F8FAFC] relative overflow-hidden">
+        <section id="services" className="py-16 md:py-24 bg-[#F8FAFC] relative overflow-hidden">
             <div className="container mx-auto px-6 relative z-10">
                 <div className={`mb-20 ${isRTL ? 'text-right' : 'text-left'}`}>
                     <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">{t.services.tag}</h2>
