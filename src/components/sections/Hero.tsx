@@ -8,7 +8,7 @@ const Hero = () => {
     const { t, isRTL } = useLanguage();
 
     return (
-        <section className="relative min-h-screen bg-brand-black flex flex-col items-center justify-center text-center px-6 pt-20 overflow-hidden">
+        <section className="relative w-full min-h-[100dvh] bg-brand-black flex flex-col items-center justify-center text-center px-6 py-24 overflow-hidden">
             {/* Background Ambient Glow */}
             <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-[20%] left-[20%] w-[40rem] h-[40rem] bg-brand-red/5 rounded-full blur-[120px]" />
@@ -19,7 +19,7 @@ const Hero = () => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
-                className="z-10 flex flex-col items-center"
+                className="z-10 flex flex-col items-center w-full max-w-7xl mx-auto"
             >
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -31,18 +31,18 @@ const Hero = () => {
                         alt="Afrikyia Official Logo"
                         width={600}
                         height={200}
-                        className="max-w-[280px] md:max-w-[400px] mb-16"
+                        className="max-w-[240px] sm:max-w-[280px] md:max-w-[400px] mb-8 md:mb-12"
                         style={{ filter: 'invert(1) hue-rotate(180deg) saturate(20)', mixBlendMode: 'screen' }}
                     />
                 </motion.div>
 
-                <div className="mb-16">
+                <div className="mb-6 md:mb-10 w-full">
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.6, duration: 0.8 }}
                     >
-                        <h1 className="text-brand-red text-3xl md:text-5xl font-medium block" dir={isRTL ? "rtl" : "ltr"}>
+                        <h1 className="text-brand-red text-2xl sm:text-3xl md:text-5xl font-medium block" dir={isRTL ? "rtl" : "ltr"}>
                             {t.hero.slogan}
                         </h1>
                     </motion.div>
@@ -52,7 +52,7 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.8, duration: 0.8 }}
-                    className="max-w-3xl mx-auto text-brand-white/80 text-lg md:text-2xl font-light leading-relaxed mb-16"
+                    className="max-w-3xl mx-auto text-brand-white/80 text-base md:text-2xl font-light leading-relaxed mb-10 md:mb-16"
                 >
                     {t.hero.desc}
                 </motion.p>
@@ -61,11 +61,12 @@ const Hero = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1, duration: 0.8 }}
+                    className="mb-12 md:mb-0"
                 >
                     <motion.button
                         whileHover={{ scale: 1.05, backgroundColor: "#EB2F36" }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-brand-red text-brand-white px-12 py-5 rounded-full text-lg font-semibold tracking-wide transition-all shadow-2xl shadow-brand-red/20 group overflow-hidden relative"
+                        className="bg-brand-red text-brand-white px-8 py-4 md:px-12 md:py-5 rounded-full text-base md:text-lg font-semibold tracking-wide transition-all shadow-2xl shadow-brand-red/20 group overflow-hidden relative"
                     >
                         <span className="relative z-10">{t.hero.cta}</span>
                         <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
