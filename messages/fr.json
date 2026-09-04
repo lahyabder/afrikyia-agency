@@ -153,19 +153,20 @@
     },
     "admin": {
         "menu": {
-            "dashboard": "Tableau de Bord",
+            "dashboard": "Tableau de bord",
             "clients": "Clients",
             "offers": "Offres",
             "invoices": "Factures",
-            "deliveryNotes": "Bons de Livraison",
+            "deliveryNotes": "Bons de livraison",
             "files": "Fichiers",
             "achievements": "Réalisations",
             "about": "À propos",
             "vision": "Philosophie",
+            "services": "Nos services",
             "users": "Utilisateurs",
             "settings": "Paramètres",
-            "logout": "Se Déconnecter",
-            "backToSite": "Retour au Site"
+            "logout": "Déconnexion",
+            "backToSite": "Retour au site"
         },
         "common": {
             "search": "Rechercher...",
