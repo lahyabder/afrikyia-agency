@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import achievements from '@/data/achievements.json';
@@ -11,7 +12,38 @@ const clients = Array.from(new Set(achievements.map(a => a.client))).filter(Bool
 const marqueeItems = [...clients, ...clients, ...clients, ...clients];
 
 const TrustedBy = () => {
-    const { t, isRTL } = useLanguage();
+    const { t, isRTL, language } = useLanguage();
+
+    const [content, setContent] = useState({
+        tag: t.trusted.tag,
+        title: t.trusted.title
+    });
+
+    useEffect(() => {
+        const loadContent = () => {
+            const cached = localStorage.getItem('afrikyia-trusted');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed[language]) {
+                        setContent(parsed[language]);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+            } else {
+                setContent({
+                    tag: t.trusted.tag,
+                    title: t.trusted.title
+                });
+            }
+        };
+
+        loadContent();
+
+        window.addEventListener('afrikyia-trusted-updated', loadContent);
+        return () => window.removeEventListener('afrikyia-trusted-updated', loadContent);
+    }, [language, t]);
 
     return (
         <section className="py-10 md:py-16 bg-white border-t border-slate-200 overflow-hidden">
@@ -23,10 +55,10 @@ const TrustedBy = () => {
                         viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
                     >
                         <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
-                            {t.trusted.tag}
+                            {content.tag}
                         </h2>
                         <h3 className="text-slate-900 text-3xl md:text-5xl font-bold tracking-tight">
-                            {t.trusted.title}
+                            {content.title}
                         </h3>
                     </motion.div>
                 </div>
