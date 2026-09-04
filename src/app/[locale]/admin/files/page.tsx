@@ -12,11 +12,29 @@ export default function FilesPage() {
 
     useEffect(() => {
         const fetchFiles = async () => {
+            const hasLocalMod = localStorage.getItem('afrikyia-files-modified') === 'true';
+            const cached = localStorage.getItem('afrikyia-files');
+            
+            if (cached) {
+                try {
+                    setFiles(JSON.parse(cached));
+                    if (hasLocalMod) {
+                        setIsLoading(false);
+                        return;
+                    }
+                } catch(e) {
+                    console.error("Failed to parse cached files");
+                }
+            }
+
             try {
                 const res = await fetch('/api/files');
                 if (res.ok) {
                     const data = await res.json();
-                    setFiles(data);
+                    if (!hasLocalMod || !cached) {
+                        setFiles(data);
+                        localStorage.setItem('afrikyia-files', JSON.stringify(data));
+                    }
                 }
             } catch (error) {
                 console.error("Failed to fetch files", error);

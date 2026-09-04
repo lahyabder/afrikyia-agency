@@ -54,6 +54,14 @@ export default function NewFilePage() {
             });
 
             if (res.ok) {
+                const resData = await res.json();
+                if (resData.error === 'ReadOnlyFileSystem' || resData.success) {
+                    const newFile = resData.data;
+                    const existingFiles = JSON.parse(localStorage.getItem('afrikyia-files') || '[]');
+                    existingFiles.push(newFile);
+                    localStorage.setItem('afrikyia-files', JSON.stringify(existingFiles));
+                    localStorage.setItem('afrikyia-files-modified', 'true');
+                }
                 router.push('/admin/files');
             } else {
                 throw new Error("Failed to upload file");
