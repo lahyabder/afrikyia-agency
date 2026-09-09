@@ -268,15 +268,43 @@ export default function AdminTrustedPage() {
                                                 <input
                                                     type="file"
                                                     accept="image/*"
-                                                    onChange={(e) => {
+                                                    onChange={async (e) => {
                                                         const file = e.target.files?.[0];
                                                         if (!file) return;
-                                                        const reader = new FileReader();
-                                                        reader.onload = (event) => {
-                                                            const base64 = event.target?.result as string;
-                                                            updatePartner(partner.id, 'logoUrl', base64);
-                                                        };
-                                                        reader.readAsDataURL(file);
+
+                                                        if (file.size > 2 * 1024 * 1024) {
+                                                            showNotification('error', 'حجم الشعار كبير جداً! يرجى اختيار صورة أقل من 2MB | Logo too large');
+                                                            return;
+                                                        }
+
+                                                        showNotification('success', 'جاري رفع الشعار... | Uploading...');
+                                                        
+                                                        const formData = new FormData();
+                                                        formData.append('file', file);
+                                                        formData.append('fileName', file.name);
+                                                        formData.append('category', 'partners');
+
+                                                        try {
+                                                            const response = await fetch('/api/files', {
+                                                                method: 'POST',
+                                                                body: formData
+                                                            });
+
+                                                            if (response.ok) {
+                                                                const data = await response.json();
+                                                                if (data.success && data.data && data.data.url) {
+                                                                    updatePartner(partner.id, 'logoUrl', data.data.url);
+                                                                    showNotification('success', 'تم رفع الشعار بنجاح | Logo uploaded successfully');
+                                                                } else {
+                                                                    showNotification('error', 'فشل في رفع الشعار | Failed to upload logo');
+                                                                }
+                                                            } else {
+                                                                showNotification('error', 'خطأ في الخادم أثناء رفع الشعار | Server error during upload');
+                                                            }
+                                                        } catch (error) {
+                                                            console.error('Upload error:', error);
+                                                            showNotification('error', 'حدث خطأ أثناء رفع الشعار | Upload error occurred');
+                                                        }
                                                     }}
                                                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                                 />
