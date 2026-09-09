@@ -55,7 +55,7 @@ export async function POST(request: Request) {
         const arrayBuffer = await file.arrayBuffer();
         const buffer = new Uint8Array(arrayBuffer);
 
-        const { data: uploadData, error: uploadError } = await supabaseAdmin
+        let { data: uploadData, error: uploadError } = await supabaseAdmin
             .storage
             .from('media')
             .upload(storagePath, buffer, {
@@ -64,8 +64,29 @@ export async function POST(request: Request) {
             });
 
         if (uploadError) {
-            console.error('Supabase storage upload error:', uploadError);
-            return NextResponse.json({ error: 'UploadError', message: uploadError.message }, { status: 500 });
+            // If the bucket doesn't exist (common when first migrating to Supabase)
+            // Attempt to create the public bucket and retry
+            const { error: createBucketError } = await supabaseAdmin.storage.createBucket('media', {
+                public: true,
+                allowedMimeTypes: ['image/*', 'video/*', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+            });
+            
+            if (!createBucketError) {
+                // Retry upload after bucket creation
+                const retryUpload = await supabaseAdmin
+                    .storage
+                    .from('media')
+                    .upload(storagePath, buffer, {
+                        contentType: file.type,
+                        upsert: false
+                    });
+                uploadError = retryUpload.error;
+            }
+
+            if (uploadError) {
+                console.error('Supabase storage upload error:', uploadError);
+                return NextResponse.json({ error: 'UploadError', message: uploadError.message }, { status: 500 });
+            }
         }
 
         // Get public URL
