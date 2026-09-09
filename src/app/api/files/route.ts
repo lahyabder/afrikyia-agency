@@ -1,50 +1,43 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { supabaseAdmin } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'files.json');
-const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-
-// Helper to read data safely
-function readData() {
-    try {
-        if (!fs.existsSync(dataFilePath)) {
-            return [];
-        }
-        const fileContent = fs.readFileSync(dataFilePath, 'utf8');
-        return JSON.parse(fileContent);
-    } catch (error) {
-        console.error('Error reading files data:', error);
-        return [];
-    }
-}
-
-// Helper to write data safely
-function writeData(data: any) {
-    try {
-        const dir = path.dirname(dataFilePath);
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir, { recursive: true });
-        }
-        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 4), 'utf8');
-        return true;
-    } catch (error) {
-        console.error('Error writing files data:', error);
-        return false;
-    }
-}
-
 export async function GET() {
-    const data = readData();
-    return NextResponse.json(data);
+    try {
+        const { data, error } = await supabaseAdmin
+            .from('uploaded_files')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error('Supabase GET files error:', error.message);
+            return NextResponse.json([]);
+        }
+
+        // Transform to match expected format
+        const files = (data || []).map(row => ({
+            id: row.id,
+            name: row.name,
+            originalName: row.original_name,
+            url: row.url,
+            size: row.size,
+            type: row.type,
+            category: row.category,
+            description: row.description,
+            date: row.created_at
+        }));
+
+        return NextResponse.json(files);
+    } catch (err) {
+        console.error('GET files error:', err);
+        return NextResponse.json([]);
+    }
 }
 
 export async function POST(request: Request) {
     try {
         const formData = await request.formData();
-        
         const file = formData.get('file') as File | null;
         const fileName = formData.get('fileName') as string;
         const category = formData.get('category') as string;
@@ -54,54 +47,72 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 });
         }
 
-        // Save file physically
+        // Upload file to Supabase Storage
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        const originalExtension = path.extname(file.name);
-        const safeFileName = `${uniqueSuffix}${originalExtension}`;
-        const filePath = path.join(uploadDir, safeFileName);
-        
-        try {
-            // Ensure upload directory exists
-            if (!fs.existsSync(uploadDir)) {
-                fs.mkdirSync(uploadDir, { recursive: true });
-            }
-            const arrayBuffer = await file.arrayBuffer();
-            const buffer = Buffer.from(arrayBuffer);
-            fs.writeFileSync(filePath, buffer);
-        } catch (fileWriteError) {
-            console.warn("Could not save physical file (likely read-only environment):", fileWriteError);
-            // We continue processing to allow the mock UI to update even if we can't save the physical file
+        const ext = file.name.split('.').pop() || 'bin';
+        const storagePath = `uploads/${category || 'general'}/${uniqueSuffix}.${ext}`;
+
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = new Uint8Array(arrayBuffer);
+
+        const { data: uploadData, error: uploadError } = await supabaseAdmin
+            .storage
+            .from('media')
+            .upload(storagePath, buffer, {
+                contentType: file.type,
+                upsert: false
+            });
+
+        if (uploadError) {
+            console.error('Supabase storage upload error:', uploadError);
+            return NextResponse.json({ error: 'UploadError', message: uploadError.message }, { status: 500 });
         }
 
-        // Save metadata
-        let data = readData();
-        
-        const newFile = {
+        // Get public URL
+        const { data: urlData } = supabaseAdmin
+            .storage
+            .from('media')
+            .getPublicUrl(storagePath);
+
+        const publicUrl = urlData.publicUrl;
+
+        // Save file metadata to DB
+        const fileRecord = {
             id: `file-${Date.now()}`,
             name: fileName || file.name,
-            originalName: file.name,
-            url: `/uploads/${safeFileName}`,
+            original_name: file.name,
+            url: publicUrl,
             size: file.size,
             type: file.type,
             category: category || 'other',
-            description: description || '',
-            date: new Date().toISOString()
+            description: description || ''
         };
-        
-        data.push(newFile);
-        
-        const success = writeData(data);
-        if (!success) {
-            return NextResponse.json({ 
-                error: 'ReadOnlyFileSystem', 
-                message: 'Running in read-only environment. Modifications will persist in browser localStorage.',
-                data: newFile 
-            }, { status: 200 });
+
+        const { error: dbError } = await supabaseAdmin
+            .from('uploaded_files')
+            .insert(fileRecord);
+
+        if (dbError) {
+            console.error('Supabase DB insert file error:', dbError);
+            // File was uploaded to storage but metadata failed - still return the URL
         }
 
-        return NextResponse.json({ success: true, data: newFile });
+        return NextResponse.json({
+            success: true,
+            data: {
+                id: fileRecord.id,
+                name: fileRecord.name,
+                originalName: fileRecord.original_name,
+                url: publicUrl,
+                size: fileRecord.size,
+                type: fileRecord.type,
+                category: fileRecord.category,
+                description: fileRecord.description,
+                date: new Date().toISOString()
+            }
+        });
     } catch (error: any) {
-        console.error("API files error:", error);
+        console.error('POST files error:', error);
         return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
     }
 }
@@ -109,33 +120,36 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
     try {
         const { id } = await request.json();
-        let data = readData();
-        
-        const fileIndex = data.findIndex((f: any) => f.id === id);
-        if (fileIndex === -1) {
-            return NextResponse.json({ error: 'File not found' }, { status: 404 });
+
+        // Get file info for storage deletion
+        const { data: fileData } = await supabaseAdmin
+            .from('uploaded_files')
+            .select('url')
+            .eq('id', id)
+            .single();
+
+        // Delete from DB
+        const { error } = await supabaseAdmin
+            .from('uploaded_files')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Supabase delete file error:', error);
+            return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
         }
-        
-        // Try to delete physical file
-        try {
-            const fileUrl = data[fileIndex].url;
-            const filename = fileUrl.split('/').pop();
-            const filePath = path.join(uploadDir, filename);
-            if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
+
+        // Try to delete from storage
+        if (fileData?.url) {
+            try {
+                const urlPath = new URL(fileData.url).pathname;
+                const storagePath = urlPath.split('/storage/v1/object/public/media/')[1];
+                if (storagePath) {
+                    await supabaseAdmin.storage.from('media').remove([storagePath]);
+                }
+            } catch (e) {
+                console.warn('Could not delete file from storage:', e);
             }
-        } catch (e) {
-            console.warn("Could not delete physical file:", e);
-        }
-
-        data = data.filter((f: any) => f.id !== id);
-        const success = writeData(data);
-
-        if (!success) {
-            return NextResponse.json({ 
-                error: 'ReadOnlyFileSystem', 
-                message: 'Running in read-only environment. Modifications will persist in browser localStorage.' 
-            }, { status: 200 });
         }
 
         return NextResponse.json({ success: true });
@@ -147,25 +161,41 @@ export async function DELETE(request: Request) {
 export async function PUT(request: Request) {
     try {
         const { id, updates } = await request.json();
-        let data = readData();
-        
-        const fileIndex = data.findIndex((f: any) => f.id === id);
-        if (fileIndex === -1) {
-            return NextResponse.json({ error: 'File not found' }, { status: 404 });
-        }
-        
-        data[fileIndex] = { ...data[fileIndex], ...updates };
-        const success = writeData(data);
 
-        if (!success) {
-            return NextResponse.json({ 
-                error: 'ReadOnlyFileSystem', 
-                message: 'Running in read-only environment. Modifications will persist in browser localStorage.',
-                data: data[fileIndex]
-            }, { status: 200 });
+        const { error } = await supabaseAdmin
+            .from('uploaded_files')
+            .update({
+                name: updates.name,
+                category: updates.category,
+                description: updates.description
+            })
+            .eq('id', id);
+
+        if (error) {
+            console.error('Supabase update file error:', error);
+            return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
         }
 
-        return NextResponse.json({ success: true, data: data[fileIndex] });
+        const { data: updated } = await supabaseAdmin
+            .from('uploaded_files')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        return NextResponse.json({
+            success: true,
+            data: updated ? {
+                id: updated.id,
+                name: updated.name,
+                originalName: updated.original_name,
+                url: updated.url,
+                size: updated.size,
+                type: updated.type,
+                category: updated.category,
+                description: updated.description,
+                date: updated.created_at
+            } : null
+        });
     } catch (error: any) {
         return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
     }

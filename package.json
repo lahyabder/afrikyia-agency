@@ -10,6 +10,7 @@
     "check:health": "npx tsx scripts/healthcheck.ts"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
     "framer-motion": "^12.34.3",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
