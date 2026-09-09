@@ -183,8 +183,7 @@ export default function AdminPage() {
         setIsFormOpen(true);
     };
 
-    // 5b. Handle Image Upload & Base64 conversion
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
@@ -193,14 +192,32 @@ export default function AdminPage() {
             return;
         }
 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            if (typeof reader.result === 'string') {
-                setImage(reader.result);
-                showNotification('success', 'تم تحميل الصورة بنجاح | Image uploaded successfully');
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('fileName', file.name);
+        formData.append('category', 'achievements');
+
+        try {
+            const response = await fetch('/api/files', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.success && data.data && data.data.url) {
+                    setImage(data.data.url);
+                    showNotification('success', 'تم رفع الصورة بنجاح | Image uploaded successfully');
+                } else {
+                    showNotification('error', 'فشل في رفع الصورة | Failed to upload image');
+                }
+            } else {
+                showNotification('error', 'خطأ في الخادم أثناء رفع الصورة | Server error during upload');
             }
-        };
-        reader.readAsDataURL(file);
+        } catch (error) {
+            console.error('Upload error:', error);
+            showNotification('error', 'حدث خطأ أثناء رفع الصورة | Upload error occurred');
+        }
     };
 
     // 6. Save Achievement (Add or Edit)
