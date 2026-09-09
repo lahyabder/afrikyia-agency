@@ -31,20 +31,43 @@ function transformRow(row: any) {
 
 export async function GET() {
     try {
-        const { data, error } = await supabaseAdmin
+        const localData = readLocalData();
+        let { data, error } = await supabaseAdmin
             .from('projects')
             .select('*')
             .order('created_at', { ascending: true });
 
-        if (!error && data && data.length > 0) {
+        if (error) {
+            console.error('Supabase GET projects error:', error.message);
+            return NextResponse.json(localData);
+        }
+
+        // Auto-seed Supabase if empty
+        if ((!data || data.length === 0) && localData.length > 0) {
+            const dbRows = localData.map((item: any) => ({
+                id: item.id,
+                link: item.link || '#',
+                video: item.video || null,
+                image: item.image || null,
+                en: item.en || {},
+                fr: item.fr || {},
+                ar: item.ar || {}
+            }));
+            
+            const { error: seedError } = await supabaseAdmin.from('projects').insert(dbRows);
+            if (seedError) {
+                console.error('Failed to seed projects:', seedError.message);
+            } else {
+                const refetch = await supabaseAdmin.from('projects').select('*').order('created_at', { ascending: true });
+                data = refetch.data || [];
+            }
+        }
+
+        if (data && data.length > 0) {
             return NextResponse.json(data.map(transformRow));
         }
 
-        if (error) {
-            console.error('Supabase GET projects error:', error.message);
-        }
-
-        return NextResponse.json(readLocalData());
+        return NextResponse.json(localData);
     } catch (err) {
         console.error('GET projects error:', err);
         return NextResponse.json(readLocalData());
@@ -66,21 +89,10 @@ export async function POST(request: Request) {
             ar: project.ar
         };
 
-        if (action === 'add') {
-            const { error } = await supabaseAdmin.from('projects').insert(dbRow);
+        if (action === 'add' || action === 'edit') {
+            const { error } = await supabaseAdmin.from('projects').upsert(dbRow);
             if (error) {
-                console.error('Supabase insert project error:', error);
-                return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
-            }
-        } else if (action === 'edit') {
-            const { id, ...updateFields } = dbRow;
-            const { error } = await supabaseAdmin
-                .from('projects')
-                .update(updateFields)
-                .eq('id', project.id);
-
-            if (error) {
-                console.error('Supabase update project error:', error);
+                console.error(`Supabase ${action} project error:`, error);
                 return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
             }
         } else if (action === 'delete') {

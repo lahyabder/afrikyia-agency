@@ -15,35 +15,14 @@ export default function FilesPage() {
 
     useEffect(() => {
         const fetchFiles = async () => {
-            const hasLocalMod = localStorage.getItem('afrikyia-files-modified') === 'true';
-            const cached = localStorage.getItem('afrikyia-files');
-            
-            if (cached) {
-                try {
-                    let parsedCache = JSON.parse(cached);
-                    if (Array.isArray(parsedCache)) {
-                        // Sanitize: remove any nested arrays caused by previous bug
-                        parsedCache = parsedCache.flat().filter(item => item && typeof item === 'object' && !Array.isArray(item) && item.id);
-                        
-                        setFiles(parsedCache);
-                        if (hasLocalMod) {
-                            setIsLoading(false);
-                            return;
-                        }
-                    }
-                } catch(e) {
-                    console.error("Failed to parse cached files");
-                }
-            }
-
             try {
-                const res = await fetch('/api/files');
+                localStorage.removeItem('afrikyia-files');
+                localStorage.removeItem('afrikyia-files-modified');
+
+                const res = await fetch('/api/files', { cache: 'no-store' });
                 if (res.ok) {
                     const data = await res.json();
-                    if (!hasLocalMod || !cached) {
-                        setFiles(data);
-                        localStorage.setItem('afrikyia-files', JSON.stringify(data));
-                    }
+                    setFiles(data);
                 }
             } catch (error) {
                 console.error("Failed to fetch files", error);
@@ -60,8 +39,6 @@ export default function FilesPage() {
         // Optimistic update
         const updatedFiles = files.filter(f => f.id !== id);
         setFiles(updatedFiles);
-        localStorage.setItem('afrikyia-files', JSON.stringify(updatedFiles));
-        localStorage.setItem('afrikyia-files-modified', 'true');
 
         try {
             await fetch('/api/files', {
@@ -92,8 +69,6 @@ export default function FilesPage() {
         });
         
         setFiles(updatedFiles);
-        localStorage.setItem('afrikyia-files', JSON.stringify(updatedFiles));
-        localStorage.setItem('afrikyia-files-modified', 'true');
         setEditingFile(null);
 
         try {

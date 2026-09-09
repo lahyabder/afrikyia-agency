@@ -35,21 +35,48 @@ function transformRow(row: any) {
 
 export async function GET() {
     try {
-        const { data, error } = await supabaseAdmin
+        const localData = readLocalData();
+        let { data, error } = await supabaseAdmin
             .from('achievements')
             .select('*')
             .order('created_at', { ascending: true });
 
-        if (!error && data && data.length > 0) {
+        if (error) {
+            console.error('Supabase GET error:', error.message);
+            return NextResponse.json(localData);
+        }
+
+        // Auto-seed Supabase if empty
+        if ((!data || data.length === 0) && localData.length > 0) {
+            const dbRows = localData.map((item: any) => ({
+                id: item.id,
+                category: item.category,
+                link: item.link,
+                image: item.image,
+                gallery: item.gallery || [],
+                en: item.en || {},
+                fr: item.fr || {},
+                ar: item.ar || {},
+                year: item.year,
+                client: item.client,
+                project_type: item.projectType
+            }));
+            
+            const { error: seedError } = await supabaseAdmin.from('achievements').insert(dbRows);
+            if (seedError) {
+                console.error('Failed to seed achievements:', seedError.message);
+            } else {
+                const refetch = await supabaseAdmin.from('achievements').select('*').order('created_at', { ascending: true });
+                data = refetch.data || [];
+            }
+        }
+
+        if (data && data.length > 0) {
             return NextResponse.json(data.map(transformRow));
         }
 
-        if (error) {
-            console.error('Supabase GET error:', error.message);
-        }
-
         // Fallback to local JSON
-        return NextResponse.json(readLocalData());
+        return NextResponse.json(localData);
     } catch (err) {
         console.error('GET achievements error:', err);
         return NextResponse.json(readLocalData());
@@ -75,21 +102,10 @@ export async function POST(request: Request) {
             project_type: achievement.projectType
         };
 
-        if (action === 'add') {
-            const { error } = await supabaseAdmin.from('achievements').insert(dbRow);
+        if (action === 'add' || action === 'edit') {
+            const { error } = await supabaseAdmin.from('achievements').upsert(dbRow);
             if (error) {
-                console.error('Supabase insert error:', error);
-                return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
-            }
-        } else if (action === 'edit') {
-            const { id, ...updateFields } = dbRow;
-            const { error } = await supabaseAdmin
-                .from('achievements')
-                .update(updateFields)
-                .eq('id', achievement.id);
-
-            if (error) {
-                console.error('Supabase update error:', error);
+                console.error(`Supabase ${action} error:`, error);
                 return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
             }
         } else if (action === 'delete') {
@@ -110,6 +126,8 @@ export async function POST(request: Request) {
             .select('*')
             .order('created_at', { ascending: true });
 
+        // If the database is still empty after a delete (e.g., deleted the last item), 
+        // we should probably return empty array rather than triggering a re-seed on next GET.
         return NextResponse.json({
             success: true,
             data: (updatedData || []).map(transformRow)

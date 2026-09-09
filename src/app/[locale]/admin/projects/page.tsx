@@ -62,16 +62,8 @@ export default function ProjectsAdminPage() {
     // Form Inputs Image State
     const [image, setImage] = useState<string>('');
 
-    // Has local browser modifications flag
-    const [hasLocalModifications, setHasLocalModifications] = useState<boolean>(false);
-
     // Status Notifications
     const [notification, setNotification] = useState<{ type: 'success' | 'warn' | 'error'; message: string } | null>(null);
-
-    // Watch local modification flag state
-    useEffect(() => {
-        setHasLocalModifications(localStorage.getItem('afrikyia-projects-modified') === 'true');
-    }, [projects]);
 
     // 1. Check Authentication on Mount
     useEffect(() => {
@@ -84,28 +76,16 @@ export default function ProjectsAdminPage() {
 
         // Fetch current database
         const loadProjects = async () => {
-            const hasLocalMod = localStorage.getItem('afrikyia-projects-modified') === 'true';
-
-            // Check localStorage first
-            const cached = localStorage.getItem('afrikyia-projects');
-            if (cached) {
-                try {
-                    setProjects(JSON.parse(cached));
-                    if (hasLocalMod) {
-                        return;
-                    }
-                } catch (e) {
-                    // Ignore
-                }
-            }
-
             try {
-                const response = await fetch('/api/projects');
+                // Clear old legacy local storage caches
+                localStorage.removeItem('afrikyia-projects');
+                localStorage.removeItem('afrikyia-projects-modified');
+
+                const response = await fetch('/api/projects', { cache: 'no-store' });
                 if (response.ok) {
                     const data = await response.json();
                     if (Array.isArray(data)) {
                         setProjects(data);
-                        localStorage.setItem('afrikyia-projects', JSON.stringify(data));
                     }
                 }
             } catch (err) {
@@ -242,9 +222,8 @@ export default function ProjectsAdminPage() {
             updatedList = updatedList.map(item => item.id === payloadItem.id ? payloadItem : item);
         }
 
-        // Optimistically update state and localStorage
+        // Optimistically update state
         setProjects(updatedList);
-        localStorage.setItem('afrikyia-projects', JSON.stringify(updatedList));
         
         window.dispatchEvent(new Event('afrikyia-projects-updated'));
         setIsFormOpen(false);
@@ -258,29 +237,16 @@ export default function ProjectsAdminPage() {
 
             if (response.ok) {
                 const resData = await response.json();
-                if (resData.error === 'ReadOnlyFileSystem') {
-                    localStorage.setItem('afrikyia-projects-modified', 'true');
-                    setHasLocalModifications(true);
-                    showNotification('warn', 'تم الحفظ محلياً في المتصفح! السيرفر في وضع القراءة فقط.');
-                } else {
-                    localStorage.setItem('afrikyia-projects-modified', 'false');
-                    setHasLocalModifications(false);
-                    showNotification('success', 'تم حفظ التغييرات بنجاح | Saved successfully');
-                    if (resData.data) {
-                        setProjects(resData.data);
-                        localStorage.setItem('afrikyia-projects', JSON.stringify(resData.data));
-                    }
+                showNotification('success', 'تم حفظ التغييرات بنجاح | Saved successfully');
+                if (resData.data) {
+                    setProjects(resData.data);
                 }
             } else {
-                localStorage.setItem('afrikyia-projects-modified', 'true');
-                setHasLocalModifications(true);
-                showNotification('warn', 'تعذر الحفظ في السيرفر، تم حفظ التغييرات محلياً في متصفحك فقط.');
+                showNotification('error', 'تعذر الحفظ في السيرفر.');
             }
         } catch (err) {
             console.error("Save failed:", err);
-            localStorage.setItem('afrikyia-projects-modified', 'true');
-            setHasLocalModifications(true);
-            showNotification('warn', 'تم الحفظ محلياً في المتصفح (تعذر الاتصال بالخادم المزامنة).');
+            showNotification('error', 'حدث خطأ في الاتصال بالخادم.');
         }
     };
 
@@ -292,9 +258,8 @@ export default function ProjectsAdminPage() {
 
         const updatedList = projects.filter(item => item.id !== itemToDelete.id);
         
-        // Optimistically update state & local cache
+        // Optimistically update state
         setProjects(updatedList);
-        localStorage.setItem('afrikyia-projects', JSON.stringify(updatedList));
         window.dispatchEvent(new Event('afrikyia-projects-updated'));
 
         try {
@@ -306,64 +271,19 @@ export default function ProjectsAdminPage() {
 
             if (response.ok) {
                 const resData = await response.json();
-                if (resData.error === 'ReadOnlyFileSystem') {
-                    localStorage.setItem('afrikyia-projects-modified', 'true');
-                    setHasLocalModifications(true);
-                    showNotification('warn', 'تم الحذف محلياً! السيرفر في وضع القراءة فقط.');
-                } else {
-                    localStorage.setItem('afrikyia-projects-modified', 'false');
-                    setHasLocalModifications(false);
-                    showNotification('success', 'تم الحذف بنجاح | Deleted successfully');
-                    if (resData.data) {
-                        setProjects(resData.data);
-                        localStorage.setItem('afrikyia-projects', JSON.stringify(resData.data));
-                    }
+                showNotification('success', 'تم الحذف بنجاح | Deleted successfully');
+                if (resData.data) {
+                    setProjects(resData.data);
                 }
             } else {
-                localStorage.setItem('afrikyia-projects-modified', 'true');
-                setHasLocalModifications(true);
-                showNotification('warn', 'تعذر الحذف من السيرفر. تم التحديث محلياً فقط.');
+                showNotification('error', 'تعذر الحذف من السيرفر.');
             }
         } catch (err) {
             console.error("Delete failed:", err);
-            localStorage.setItem('afrikyia-projects-modified', 'true');
-            setHasLocalModifications(true);
-            showNotification('warn', 'تم الحذف محلياً في متصفحك فقط.');
+            showNotification('error', 'حدث خطأ في الاتصال بالخادم.');
         }
     };
 
-    // 7b. Export modified JSON
-    const handleExportJSON = () => {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projects, null, 4));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", "projects.json");
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-        showNotification('success', 'تم تحميل ملف projects.json بنجاح');
-    };
-
-    // 7c. Reset Local modifications
-    const handleResetLocal = async () => {
-        if (!confirm('هل أنت متأكد من استعادة النسخة الأصلية من السيرفر وإلغاء التغييرات المحلية؟')) {
-            return;
-        }
-        try {
-            const response = await fetch('/api/projects');
-            if (response.ok) {
-                const data = await response.json();
-                setProjects(data);
-                localStorage.setItem('afrikyia-projects', JSON.stringify(data));
-                localStorage.setItem('afrikyia-projects-modified', 'false');
-                setHasLocalModifications(false);
-                window.dispatchEvent(new Event('afrikyia-projects-updated'));
-                showNotification('success', 'تمت الاستعادة بنجاح');
-            }
-        } catch (err) {
-            showNotification('error', 'تعذر الاتصال بالسيرفر لاسترجاع البيانات الأصلية.');
-        }
-    };
 
     // Filtered
     const displayedProjects = projects.filter(item => {
@@ -399,25 +319,6 @@ export default function ProjectsAdminPage() {
                 </div>
             )}
 
-            {/* Local Modifications Warning Banner */}
-            {hasLocalModifications && (
-                <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 text-right" dir="rtl">
-                    <div className="flex items-start gap-3">
-                        <AlertTriangle className="w-5 h-5 text-amber-400 mt-0.5" />
-                        <div>
-                            <h4 className="font-bold text-amber-400 text-sm">تنبيه: وضع التعديل والمعاينة الحية نشط (الخادم في وضع القراءة فقط)</h4>
-                            <p className="text-xs text-white/70 mt-1">
-                                التغييرات محفوظة محلياً. لتحديث السيرفر، قم بتنزيل الملف واستبداله في المشروع ثم عمل Push إلى GitHub.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex gap-2">
-                        <button onClick={handleExportJSON} className="px-4 py-2 bg-amber-500 text-black text-xs font-bold rounded-xl flex items-center gap-1.5 shadow-lg shadow-amber-500/25">
-                            <Download className="w-4 h-4" /> تنزيل
-                        </button>
-                        <button onClick={handleResetLocal} className="px-4 py-2 bg-white/5 text-white/70 hover:text-white text-xs font-semibold rounded-xl border border-white/10">
-                            استعادة
-                        </button>
                     </div>
                 </div>
             )}
