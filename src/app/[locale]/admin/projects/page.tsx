@@ -319,9 +319,7 @@ export default function ProjectsAdminPage() {
                 </div>
             )}
 
-                    </div>
-                </div>
-            )}
+
 
             {/* Controls Section */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
