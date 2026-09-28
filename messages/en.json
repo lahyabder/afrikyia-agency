@@ -176,7 +176,13 @@
             "users": "Users",
             "settings": "Settings",
             "logout": "Logout",
-            "backToSite": "Back to Site"
+            "backToSite": "Back to Site",
+            "groupPublishing": "Publishing & content",
+            "groupManagement": "Management & accounting",
+            "erp": "ERP (ERPNext)",
+            "localTag": "local",
+            "openMenu": "Open menu",
+            "closeMenu": "Close menu"
         },
         "common": {
             "search": "Search...",
@@ -207,14 +213,27 @@
         },
         "dashboard": {
             "title": "Dashboard",
-            "subtitle": "Overview of Afrikyia agency",
+            "subtitle": "Overview of published content and Afrikyia management",
             "createOffer": "Create New Offer",
             "recentActivity": "Recent Activity",
             "noActivity": "No recent activity to display.",
             "statClients": "Clients",
             "statOffers": "Open Offers",
             "statInvoices": "Total Invoices",
-            "statAchievements": "Achievements & Projects"
+            "statAchievements": "Achievements & Projects",
+            "statProjects": "Projects",
+            "statFiles": "Uploaded files",
+            "statSections": "Edited sections",
+            "publishingTitle": "Quick publishing",
+            "publishingDesc": "Every change you save here appears on the website right away.",
+            "lastUpdates": "Latest content updates",
+            "noUpdates": "No website section has been edited yet; they show their default texts.",
+            "erpTitle": "Management & accounting",
+            "erpDesc": "Invoices, quotations, delivery notes, clients, HR and payroll are managed in ERPNext.",
+            "erpOpen": "Open ERPNext",
+            "erpNotConfigured": "The ERPNext address is not configured yet. Add the NEXT_PUBLIC_ERP_URL variable in Vercel.",
+            "loadError": "Could not load the figures from the database.",
+            "viewSite": "View website"
         },
         "clients": {
             "title": "Clients",
@@ -357,7 +376,8 @@
             "linkCol": "Link",
             "actionsCol": "Actions",
             "noLink": "No link"
-        }
+        },
+        "localNotice": "Warning: this section saves its data in this browser only. It does not appear on any other device and may be lost if browser data is cleared. Export your data regularly (Excel / PDF). This section will move to ERPNext."
     },
     "metadata": {
         "title": "AFRIKYia | Intelligent Making - Digital Cultural Platform",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent } from '@/lib/siteContent';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -19,11 +20,10 @@ const Vision = () => {
     });
 
     useEffect(() => {
-        const loadContent = () => {
-            const cached = localStorage.getItem('afrikyia-vision');
-            if (cached) {
+        const loadContent = async () => {
+            const parsed = await fetchSiteContent('vision');
+            if (parsed) {
                 try {
-                    const parsed = JSON.parse(cached);
                     if (parsed[language]) {
                         setContent(parsed[language]);
                     }

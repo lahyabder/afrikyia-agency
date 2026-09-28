@@ -2,90 +2,172 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, FileText, Receipt, Layers, Activity } from 'lucide-react';
-import Link from 'next/link';
+import { Globe, Briefcase, Files, PenLine, Activity, Boxes, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail } from 'lucide-react';
+import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
 
+type Overview = {
+    counts: { achievements: number | null; projects: number | null; files: number | null };
+    sectionUpdates: { key: string; updated_at: string }[];
+};
+
 export default function DashboardPage() {
-    const { t, isRTL } = useLanguage();
-    const [stats, setStats] = useState({
-        clients: 0,
-        offers: 0,
-        invoices: 0,
-        achievements: 0
-    });
+    const { t, language } = useLanguage();
+    const [overview, setOverview] = useState<Overview | null>(null);
+    const [loadError, setLoadError] = useState(false);
 
     useEffect(() => {
-        const fetchStats = async () => {
-            // Read local files directly from local storage if API isn't setup yet,
-            // or fetch them from API later. 
-            // For now, mock data:
-            const achievementsStr = localStorage.getItem('afrikyia-achievements');
-            const achievements = achievementsStr ? JSON.parse(achievementsStr).length : 0;
-            
-            setStats({
-                clients: 0,
-                offers: 0,
-                invoices: 0,
-                achievements
-            });
-        };
-        fetchStats();
+        fetch('/api/admin/overview', { cache: 'no-store' })
+            .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
+            .then((data: Overview) => setOverview(data))
+            .catch(() => setLoadError(true));
     }, []);
 
+    const d = t.admin.dashboard;
+    const menu = t.admin.menu;
+    const erpUrl = process.env.NEXT_PUBLIC_ERP_URL;
+
+    const sectionNames: Record<string, string> = {
+        about: menu.about,
+        vision: menu.vision,
+        services: menu.services,
+        contact: menu.contact,
+        trusted: menu.trusted,
+    };
+
     const statCards = [
-        { name: t.admin.dashboard.statClients, value: stats.clients, icon: Users, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-        { name: t.admin.dashboard.statOffers, value: stats.offers, icon: FileText, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
-        { name: t.admin.dashboard.statInvoices, value: stats.invoices, icon: Receipt, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-        { name: t.admin.dashboard.statAchievements, value: stats.achievements, icon: Layers, color: 'text-brand-red', bg: 'bg-brand-red/10' },
+        { name: menu.achievements, value: overview?.counts.achievements, icon: Globe, color: 'text-brand-red', bg: 'bg-brand-red/10', href: '/admin/achievements' },
+        { name: d.statProjects, value: overview?.counts.projects, icon: Briefcase, color: 'text-yellow-400', bg: 'bg-yellow-500/10', href: '/admin/projects' },
+        { name: d.statFiles, value: overview?.counts.files, icon: Files, color: 'text-blue-400', bg: 'bg-blue-500/10', href: '/admin/files' },
+        { name: d.statSections, value: overview ? overview.sectionUpdates.length : undefined, icon: PenLine, color: 'text-emerald-400', bg: 'bg-emerald-500/10', href: '/admin/about' },
     ];
+
+    const quickLinks = [
+        { name: menu.achievements, icon: Globe, href: '/admin/achievements' },
+        { name: menu.projects, icon: Briefcase, href: '/admin/projects' },
+        { name: menu.about, icon: FileText, href: '/admin/about' },
+        { name: menu.vision, icon: LayoutDashboard, href: '/admin/vision' },
+        { name: menu.services, icon: Briefcase, href: '/admin/services' },
+        { name: menu.trusted, icon: Users, href: '/admin/trusted' },
+        { name: menu.contact, icon: Mail, href: '/admin/contact' },
+        { name: menu.files, icon: Files, href: '/admin/files' },
+    ];
+
+    const formatDate = (iso: string) =>
+        new Date(iso).toLocaleString(language === 'ar' ? 'ar-u-nu-latn' : language, { dateStyle: 'medium', timeStyle: 'short' });
 
     return (
         <div className="space-y-8 animate-fade-in">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-white">{t.admin.dashboard.title}</h1>
-                    <p className="text-sm text-white/70 mt-1">{t.admin.dashboard.subtitle}</p>
+                    <h1 className="text-2xl font-bold text-white">{d.title}</h1>
+                    <p className="text-sm text-white/70 mt-1">{d.subtitle}</p>
                 </div>
-                <div className="flex gap-3">
-                    <Link href="/admin/offers/new" className="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-xl text-sm transition-all shadow-lg shadow-yellow-400/20">
-                        {t.admin.dashboard.createOffer}
-                    </Link>
-                </div>
+                <a
+                    href={`/${language}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-2"
+                >
+                    {d.viewSite} <ExternalLink className="w-4 h-4" />
+                </a>
             </div>
 
-            {/* Stats Grid */}
+            {loadError && (
+                <div className="flex items-center gap-3 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+                    <AlertTriangle className="w-5 h-5 shrink-0" />
+                    {d.loadError}
+                </div>
+            )}
+
+            {/* Figures from the database */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {statCards.map((stat, i) => (
-                    <motion.div 
-                        key={i}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.1 }}
-                        className="bg-white/5 border border-white/10 rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all"
-                    >
-                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.bg} ${stat.color}`}>
-                            <stat.icon className="w-6 h-6" />
-                        </div>
-                        <div>
-                            <div className="text-2xl font-bold">{stat.value}</div>
-                            <div className="text-xs text-white/70 font-medium">{stat.name}</div>
-                        </div>
+                    <motion.div key={stat.href + i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
+                        <Link
+                            href={stat.href}
+                            className="bg-white/5 border border-white/10 rounded-2xl p-6 flex items-center gap-4 hover:border-white/20 transition-all"
+                        >
+                            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${stat.bg} ${stat.color}`}>
+                                <stat.icon className="w-6 h-6" />
+                            </div>
+                            <div>
+                                <div className="text-2xl font-bold">
+                                    {stat.value === undefined
+                                        ? (loadError ? '—' : <span className="inline-block w-8 h-6 rounded bg-white/10 animate-pulse" />)
+                                        : stat.value ?? '—'}
+                                </div>
+                                <div className="text-xs text-white/70 font-medium">{stat.name}</div>
+                            </div>
+                        </Link>
                     </motion.div>
                 ))}
             </div>
 
-            {/* Quick Actions / Activity (Placeholder) */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Quick publishing */}
                 <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6">
-                    <h2 className={`text-lg font-bold mb-4 flex items-center gap-2 ${isRTL ? 'flex-row' : 'flex-row'}`}>
-                        <Activity className={`w-5 h-5 text-white/70 ${isRTL ? 'ml-2' : 'mr-2'}`} />
-                        {t.admin.dashboard.recentActivity}
+                    <h2 className="text-lg font-bold mb-1 flex items-center gap-2">
+                        <PenLine className="w-5 h-5 text-white/70" />
+                        {d.publishingTitle}
                     </h2>
-                    <div className="text-center py-12 text-white/60 text-sm">
-                        {t.admin.dashboard.noActivity}
+                    <p className="text-sm text-white/60 mb-5">{d.publishingDesc}</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {quickLinks.map(link => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="flex flex-col items-center gap-2 rounded-xl border border-white/10 bg-black/20 p-4 text-center text-sm font-semibold text-white/80 hover:border-yellow-400/40 hover:text-white transition-all"
+                            >
+                                <link.icon className="w-5 h-5 text-yellow-400" />
+                                {link.name}
+                            </Link>
+                        ))}
                     </div>
                 </div>
+
+                {/* ERP */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
+                    <h2 className="text-lg font-bold mb-2 flex items-center gap-2">
+                        <Boxes className="w-5 h-5 text-white/70" />
+                        {d.erpTitle}
+                    </h2>
+                    <p className="text-sm text-white/60 mb-5 flex-1">{d.erpDesc}</p>
+                    {erpUrl ? (
+                        <a
+                            href={erpUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-xl text-sm transition-all text-center flex items-center justify-center gap-2"
+                        >
+                            {d.erpOpen} <ExternalLink className="w-4 h-4" />
+                        </a>
+                    ) : (
+                        <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">{d.erpNotConfigured}</p>
+                    )}
+                </div>
+            </div>
+
+            {/* Latest content updates */}
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-white/70" />
+                    {d.lastUpdates}
+                </h2>
+                {overview && overview.sectionUpdates.length > 0 ? (
+                    <ul className="divide-y divide-white/5">
+                        {overview.sectionUpdates.map(u => (
+                            <li key={u.key} className="flex items-center justify-between py-3 text-sm">
+                                <Link href={`/admin/${u.key}`} className="font-semibold hover:text-yellow-400 transition-all">
+                                    {sectionNames[u.key] ?? u.key}
+                                </Link>
+                                <span className="text-white/50 text-xs" dir="ltr">{formatDate(u.updated_at)}</span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="text-center py-8 text-white/60 text-sm">{overview ? d.noUpdates : loadError ? '—' : '…'}</div>
+                )}
             </div>
         </div>
     );

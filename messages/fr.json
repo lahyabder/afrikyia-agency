@@ -168,7 +168,14 @@
             "users": "Utilisateurs",
             "settings": "Paramètres",
             "logout": "Déconnexion",
-            "backToSite": "Retour au site"
+            "backToSite": "Retour au site",
+            "groupPublishing": "Publication & contenu",
+            "groupManagement": "Gestion & comptabilité",
+            "erp": "ERP (ERPNext)",
+            "localTag": "local",
+            "openMenu": "Ouvrir le menu",
+            "closeMenu": "Fermer le menu",
+            "projects": "Projets"
         },
         "common": {
             "search": "Rechercher...",
@@ -199,14 +206,27 @@
         },
         "dashboard": {
             "title": "Tableau de Bord",
-            "subtitle": "Aperçu de l'agence Afrikyia",
+            "subtitle": "Vue d'ensemble du contenu publié et de la gestion d'Afrikyia",
             "createOffer": "Créer une Nouvelle Offre",
             "recentActivity": "Activité Récente",
             "noActivity": "Aucune activité récente à afficher.",
             "statClients": "Clients",
             "statOffers": "Offres Ouvertes",
             "statInvoices": "Total des Factures",
-            "statAchievements": "Projets & Réalisations"
+            "statAchievements": "Projets & Réalisations",
+            "statProjects": "Projets",
+            "statFiles": "Fichiers",
+            "statSections": "Sections modifiées",
+            "publishingTitle": "Publication rapide",
+            "publishingDesc": "Chaque modification enregistrée ici apparaît immédiatement sur le site.",
+            "lastUpdates": "Dernières mises à jour du contenu",
+            "noUpdates": "Aucune section n'a encore été modifiée ; elles affichent leurs textes par défaut.",
+            "erpTitle": "Gestion & comptabilité",
+            "erpDesc": "Factures, devis, bons de livraison, clients, RH et paie sont gérés dans ERPNext.",
+            "erpOpen": "Ouvrir ERPNext",
+            "erpNotConfigured": "L'adresse d'ERPNext n'est pas encore configurée. Ajoutez la variable NEXT_PUBLIC_ERP_URL dans Vercel.",
+            "loadError": "Impossible de charger les chiffres depuis la base de données.",
+            "viewSite": "Voir le site"
         },
         "clients": {
             "title": "Clients",
@@ -337,7 +357,8 @@
             "linkCol": "Lien",
             "actionsCol": "Actions",
             "noLink": "Pas de lien"
-        }
+        },
+        "localNotice": "Attention : cette section enregistre ses données uniquement dans ce navigateur. Elles n'apparaissent sur aucun autre appareil et peuvent être perdues si les données du navigateur sont effacées. Exportez-les régulièrement (Excel / PDF). Cette section sera migrée vers ERPNext."
     },
     "metadata": {
         "title": "AFRIKYia | L’Artifice Intelligent - Plateforme Culturelle Numérique",

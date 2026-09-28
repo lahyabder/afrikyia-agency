@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent, readLegacyLocalContent, saveSiteContent, resetSiteContent } from '@/lib/siteContent';
 import { useLanguage } from '@/context/LanguageContext';
 import { Save, AlertTriangle, CheckCircle2, RotateCcw } from 'lucide-react';
 import arMessages from '../../../../../messages/ar.json';
@@ -40,14 +41,16 @@ export default function AdminServicesPage() {
 
     useEffect(() => {
         setIsMounted(true);
-        const cached = localStorage.getItem('afrikyia-services');
-        if (cached) {
+        const loadSaved = async () => {
+            const saved = (await fetchSiteContent('services')) ?? readLegacyLocalContent('services');
+            if (!saved) return;
             try {
-                setContent(JSON.parse(cached));
+                setContent(saved);
             } catch (e) {
                 console.error(e);
             }
-        }
+        };
+        loadSaved();
     }, []);
 
     const showNotification = (type: 'success' | 'warn' | 'error', message: string) => {
@@ -55,22 +58,28 @@ export default function AdminServicesPage() {
         setTimeout(() => setNotification(null), 5000);
     };
 
-    const handleSave = (e: React.FormEvent) => {
+    const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
-        localStorage.setItem('afrikyia-services', JSON.stringify(content));
-        window.dispatchEvent(new Event('afrikyia-services-updated'));
-        showNotification('success', 'تم حفظ التعديلات بنجاح | Saved successfully');
+        if (await saveSiteContent('services', content)) {
+            window.dispatchEvent(new Event('afrikyia-services-updated'));
+            showNotification('success', 'تم الحفظ والنشر على الموقع | Saved and published');
+        } else {
+            showNotification('error', 'تعذر الحفظ، حاول مرة أخرى | Save failed, please try again');
+        }
     };
 
-    const handleReset = () => {
+    const handleReset = async () => {
         if (!confirm('هل أنت متأكد من استعادة النصوص الأصلية وإلغاء كافة التعديلات؟\nAre you sure you want to reset to default texts?')) return;
         const original = {
             ar: arMessages.services,
             fr: frMessages.services,
             en: enMessages.services
         };
+        if (!(await resetSiteContent('services'))) {
+            showNotification('error', 'تعذرت الاستعادة، حاول مرة أخرى | Reset failed, please try again');
+            return;
+        }
         setContent(original);
-        localStorage.removeItem('afrikyia-services');
         window.dispatchEvent(new Event('afrikyia-services-updated'));
         showNotification('success', 'تمت استعادة النصوص الأصلية بنجاح | Reset to default successfully');
     };

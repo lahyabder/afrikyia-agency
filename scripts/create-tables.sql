@@ -51,7 +51,13 @@ ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE uploaded_files ENABLE ROW LEVEL SECURITY;
 
--- 5. Allow all operations (access is secured via service_role key on server)
-CREATE POLICY "Allow all for achievements" ON achievements FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for projects" ON projects FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for uploaded_files" ON uploaded_files FOR ALL USING (true) WITH CHECK (true);
+-- 5. Editable website sections (about, vision, services, contact, trusted)
+CREATE TABLE IF NOT EXISTS site_content (
+    key TEXT PRIMARY KEY,
+    data JSONB NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+ALTER TABLE site_content ENABLE ROW LEVEL SECURITY;
+
+-- No RLS policies on purpose: these tables are read and written only by the
+-- website server with the secret key, which bypasses RLS. The public key has no access.

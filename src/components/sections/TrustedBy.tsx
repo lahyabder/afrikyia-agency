@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent } from '@/lib/siteContent';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import achievements from '@/data/achievements.json';
@@ -23,11 +24,10 @@ const TrustedBy = () => {
     const [partners, setPartners] = useState(defaultClients);
 
     useEffect(() => {
-        const loadContent = () => {
-            const cached = localStorage.getItem('afrikyia-trusted');
-            if (cached) {
+        const loadContent = async () => {
+            const parsed = await fetchSiteContent('trusted');
+            if (parsed) {
                 try {
-                    const parsed = JSON.parse(cached);
                     if (parsed[language]) {
                         setContent(parsed[language]);
                     }

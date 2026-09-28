@@ -176,7 +176,13 @@
             "users": "المستخدمون",
             "settings": "الإعدادات",
             "logout": "تسجيل الخروج",
-            "backToSite": "العودة للموقع"
+            "backToSite": "العودة للموقع",
+            "groupPublishing": "النشر والمحتوى",
+            "groupManagement": "الإدارة والمحاسبة",
+            "erp": "نظام ERP (ERPNext)",
+            "localTag": "محلي",
+            "openMenu": "فتح القائمة",
+            "closeMenu": "إغلاق القائمة"
         },
         "common": {
             "search": "بحث...",
@@ -207,14 +213,27 @@
         },
         "dashboard": {
             "title": "لوحة التحكم",
-            "subtitle": "نظرة عامة على أعمال وكالة Afrikyia",
+            "subtitle": "نظرة عامة على المحتوى المنشور وإدارة Afrikyia",
             "createOffer": "إنشاء عرض جديد",
             "recentActivity": "آخر النشاطات",
             "noActivity": "لا توجد نشاطات حديثة لعرضها.",
             "statClients": "العملاء",
             "statOffers": "العروض المفتوحة",
             "statInvoices": "إجمالي الفواتير",
-            "statAchievements": "المشاريع والإنجازات"
+            "statAchievements": "المشاريع والإنجازات",
+            "statProjects": "المشاريع",
+            "statFiles": "الملفات المرفوعة",
+            "statSections": "أقسام معدّلة",
+            "publishingTitle": "النشر السريع",
+            "publishingDesc": "كل تعديل تحفظه هنا يظهر مباشرة لزوار الموقع.",
+            "lastUpdates": "آخر تحديثات المحتوى",
+            "noUpdates": "لم تُعدَّل أقسام الموقع بعد، وتعرض نصوصها الافتراضية.",
+            "erpTitle": "الإدارة والمحاسبة",
+            "erpDesc": "الفواتير والعروض وسندات التسليم والعملاء والموارد البشرية والرواتب تُدار في نظام ERPNext.",
+            "erpOpen": "فتح ERPNext",
+            "erpNotConfigured": "لم يُربط رابط نظام ERPNext بعد. أضف المتغير NEXT_PUBLIC_ERP_URL في Vercel.",
+            "loadError": "تعذر تحميل الأرقام من قاعدة البيانات.",
+            "viewSite": "عرض الموقع"
         },
         "clients": {
             "title": "العملاء",
@@ -357,7 +376,8 @@
             "linkCol": "الرابط",
             "actionsCol": "التحكم",
             "noLink": "لا يوجد رابط"
-        }
+        },
+        "localNotice": "تنبيه: هذا القسم يحفظ بياناته في هذا المتصفح فقط. لا تظهر على أي جهاز آخر، وقد تضيع عند مسح بيانات المتصفح. صدّر بياناتك بانتظام (Excel / PDF). سيُنقل هذا القسم إلى نظام ERPNext."
     },
     "metadata": {
         "title": "أفريقيا | الاصطناع الذكي - منصة ثقافية رقمية",
