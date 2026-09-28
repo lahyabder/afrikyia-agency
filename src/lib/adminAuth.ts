@@ -9,7 +9,7 @@ export const ADMIN_COOKIE = 'afrikyia-admin-session';
 export const SESSION_MAX_AGE = 60 * 60 * 12; // 12 hours
 
 function getSecret(): string | null {
-    const secret = process.env.ADMIN_SESSION_SECRET;
+    const secret = process.env.ADMIN_SESSION_SECRET?.trim();
     return secret && secret.length >= 32 ? secret : null;
 }
 
@@ -29,11 +29,23 @@ function safeEqual(a: string, b: string): boolean {
 }
 
 export function checkCredentials(email: string, password: string): boolean {
-    const expectedEmail = process.env.ADMIN_EMAIL;
-    const expectedPassword = process.env.ADMIN_PASSWORD;
-    if (!expectedEmail || !expectedPassword || !getSecret()) return false;
-    const emailOk = safeEqual(email.trim().toLowerCase(), expectedEmail.trim().toLowerCase());
+    // Trim env values: pasted values often carry a stray space or newline
+    const expectedEmail = process.env.ADMIN_EMAIL?.trim();
+    const expectedPassword = process.env.ADMIN_PASSWORD?.trim();
+    if (!expectedEmail || !expectedPassword || !getSecret()) {
+        // Logs which setting is missing, never the values themselves
+        console.error('[admin-auth] Login disabled, missing config:', {
+            ADMIN_EMAIL: Boolean(expectedEmail),
+            ADMIN_PASSWORD: Boolean(expectedPassword),
+            ADMIN_SESSION_SECRET_32_CHARS: Boolean(getSecret()),
+        });
+        return false;
+    }
+    const emailOk = safeEqual(email.trim().toLowerCase(), expectedEmail.toLowerCase());
     const passwordOk = safeEqual(password, expectedPassword);
+    if (!emailOk || !passwordOk) {
+        console.warn('[admin-auth] Failed login:', { emailOk, passwordOk });
+    }
     return emailOk && passwordOk;
 }
 
