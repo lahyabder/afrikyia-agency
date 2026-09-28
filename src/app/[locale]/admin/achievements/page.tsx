@@ -38,7 +38,7 @@ type AchievementItem = {
 export default function AdminPage() {
     const { t, isRTL, language } = useLanguage();
     // Authentication State
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
     const [password, setPassword] = useState<string>('');
     const [loginError, setLoginError] = useState<string>('');
 
@@ -73,11 +73,6 @@ export default function AdminPage() {
 
     // 1. Check Authentication on Mount
     useEffect(() => {
-        const isAuth = localStorage.getItem('afrikyia-admin-auth');
-        if (isAuth === 'true') {
-            setIsAuthenticated(true);
-        }
-
         // Fetch current database from Supabase
         const loadAchievements = async () => {
             try {
@@ -102,23 +97,16 @@ export default function AdminPage() {
 
     // 2. Handle Login Submission
     const handleLogin = (e: React.FormEvent) => {
+        // Login is handled by the admin layout (server-side session)
         e.preventDefault();
-        // Secure comparison with customized password: "afrikyia2026"
-        if (password === 'afrikyia2026' || password === 'admin') {
-            setIsAuthenticated(true);
-            setLoginError('');
-            localStorage.setItem('afrikyia-admin-auth', 'true');
-            showNotification('success', 'تم تسجيل الدخول بنجاح | Logged in successfully');
-        } else {
-            setLoginError('كلمة المرور غير صحيحة | Incorrect Password');
-        }
+        setIsAuthenticated(true);
+        setLoginError('');
     };
 
-    // 3. Handle Logout
-    const handleLogout = () => {
-        setIsAuthenticated(false);
-        localStorage.removeItem('afrikyia-admin-auth');
-        showNotification('success', 'تم تسجيل الخروج | Logged out successfully');
+    // 3. Handle Logout (ends the server session; the admin layout then shows its login screen)
+    const handleLogout = async () => {
+        await fetch('/api/admin/session', { method: 'DELETE' }).catch(() => {});
+        window.location.reload();
     };
 
     // 4. Show temporary notifications

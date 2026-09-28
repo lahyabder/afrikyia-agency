@@ -21,7 +21,6 @@ import {
 } from 'lucide-react';
 import initialProjects from '@/data/projects.json';
 import { useLanguage } from '@/context/LanguageContext';
-import { useRouter } from '@/i18n/routing';
 
 type ProjectItem = {
     id: string;
@@ -35,10 +34,9 @@ type ProjectItem = {
 
 export default function ProjectsAdminPage() {
     const { t, isRTL, language } = useLanguage();
-    const router = useRouter();
 
     // Authentication State
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [isAuthenticated] = useState<boolean>(true);
 
     // Dashboard State
     const [projects, setProjects] = useState<ProjectItem[]>(initialProjects as ProjectItem[]);
@@ -67,13 +65,6 @@ export default function ProjectsAdminPage() {
 
     // 1. Check Authentication on Mount
     useEffect(() => {
-        const isAuth = localStorage.getItem('afrikyia-admin-auth');
-        if (isAuth === 'true') {
-            setIsAuthenticated(true);
-        } else {
-            router.push('/admin');
-        }
-
         // Fetch current database
         const loadProjects = async () => {
             try {
@@ -93,16 +84,13 @@ export default function ProjectsAdminPage() {
             }
         };
 
-        if (isAuth === 'true') {
-            loadProjects();
-        }
-    }, [router]);
+        loadProjects();
+    }, []);
 
-    // 3. Handle Logout
-    const handleLogout = () => {
-        setIsAuthenticated(false);
-        localStorage.removeItem('afrikyia-admin-auth');
-        router.push('/admin');
+    // 3. Handle Logout (ends the server session; the admin layout then shows its login screen)
+    const handleLogout = async () => {
+        await fetch('/api/admin/session', { method: 'DELETE' }).catch(() => {});
+        window.location.reload();
     };
 
     // 4. Show temporary notifications
