@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAdmin } from '@/lib/adminAuth';
 import fs from 'fs';
 import path from 'path';
 
@@ -75,6 +76,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
+
     try {
         const body = await request.json();
         const { action, project } = body;

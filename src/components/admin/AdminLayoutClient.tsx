@@ -34,29 +34,38 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     const { t, language, setLanguage, isRTL } = useLanguage();
 
     useEffect(() => {
-        setTimeout(() => {
-            setIsMounted(true);
-            const isAuth = localStorage.getItem('afrikyia-admin-auth');
-            if (isAuth === 'true') {
-                setIsAuthenticated(true);
-            }
-        }, 0);
+        // Legacy client-side flag is no longer trusted
+        localStorage.removeItem('afrikyia-admin-auth');
+        fetch('/api/admin/session', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(data => setIsAuthenticated(data.authenticated === true))
+            .catch(() => setIsAuthenticated(false))
+            .finally(() => setIsMounted(true));
     }, []);
 
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email === 'lahy.abderrahmane@gmail.com' && password === 'Bismillah@2026') {
-            setIsAuthenticated(true);
-            setLoginError('');
-            localStorage.setItem('afrikyia-admin-auth', 'true');
-        } else {
+        try {
+            const res = await fetch('/api/admin/session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+            if (res.ok) {
+                setIsAuthenticated(true);
+                setLoginError('');
+                setPassword('');
+            } else {
+                setLoginError(t.admin.auth.incorrectCredentials);
+            }
+        } catch {
             setLoginError(t.admin.auth.incorrectCredentials);
         }
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await fetch('/api/admin/session', { method: 'DELETE' }).catch(() => {});
         setIsAuthenticated(false);
-        localStorage.removeItem('afrikyia-admin-auth');
         router.push('/admin');
     };
 

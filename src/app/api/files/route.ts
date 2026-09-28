@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
+import { requireAdmin } from '@/lib/adminAuth';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(request: Request) {
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
+
     try {
         const { data, error } = await supabaseAdmin
             .from('uploaded_files')
@@ -36,6 +40,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
+
     try {
         const formData = await request.formData();
         const file = formData.get('file') as File | null;
@@ -139,6 +146,9 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
+
     try {
         const { id } = await request.json();
 
@@ -180,6 +190,9 @@ export async function DELETE(request: Request) {
 }
 
 export async function PUT(request: Request) {
+    const unauthorized = requireAdmin(request);
+    if (unauthorized) return unauthorized;
+
     try {
         const { id, updates } = await request.json();
 
