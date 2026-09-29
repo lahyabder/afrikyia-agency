@@ -9,15 +9,15 @@
         "about": "À propos"
     },
     "hero": {
-        "slogan": "L'Artifice Intelligent",
+        "slogan": "Solutions Intelligentes",
         "desc": "Une entreprise numérique qui fait converger connaissances et technologies d'avenir.",
         "cta": "Découvrir Notre Vision",
         "scroll": "Défiler"
     },
     "vision": {
         "tag": "Notre Philosophie",
-        "title": "L'Artifice Intelligent : Au-delà de l'Intelligence Artificielle.",
-        "desc1": "Chez Afrikyia, « L'Artifice Intelligent » est un changement fondamental de perception. Car la véritable intelligence n'est pas simplement un produit d'algorithmes ; c'est un acte délibéré de formulation cognitive.",
+        "title": "Solutions Intelligentes : au-delà de l'Intelligence Artificielle.",
+        "desc1": "Chez Afrikyia, les « Solutions Intelligentes » ne sont pas un simple produit d'algorithmes : elles sont un acte délibéré de formulation cognitive, qui met la technologie au service de l'humain et des institutions.",
         "desc2": "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel.",
         "whatWeBuild": "Ce Que Nous Construisons",
         "whatWeBuildDesc": "Nous concevons des solutions numériques tangibles : plateformes web intégrées, portails numériques et applications SaaS complexes pour répondre aux besoins modernes de transformation numérique.",
@@ -135,7 +135,7 @@
             },
             {
                 "label": "Numérique",
-                "value": "L'Artifice Intelligent"
+                "value": "Solutions Intelligentes"
             },
             {
                 "label": "Mondial",
@@ -144,7 +144,7 @@
         ]
     },
     "footer": {
-        "motto": "L'Artifice Intelligent",
+        "motto": "Solutions Intelligentes",
         "rights": "© 2026 AFRIKYia – TOUS DROITS RÉSERVÉS",
         "privacy": "Politique de Confidentialité",
         "terms": "Mentions Légales",
@@ -386,7 +386,7 @@
         }
     },
     "metadata": {
-        "title": "AFRIKYia | L’Artifice Intelligent - Plateforme Culturelle Numérique",
+        "title": "AFRIKYia | Solutions Intelligentes - Plateforme Culturelle Numérique",
         "description": "Afrikyia est une plateforme culturelle numérique mondiale qui redéfinit l'intelligence à travers la fusion de la culture, de la créativité et de la technologie."
     },
     "about": {
@@ -407,6 +407,8 @@
         "email": "Adresse Email",
         "message": "Comment pouvons-nous vous aider ?",
         "submit": "Envoyer le Message",
-        "sticky": "Réserver une Consultation"
+        "sticky": "Réserver une Consultation",
+        "success": "Votre message a bien été envoyé. Nous vous répondrons très bientôt.",
+        "error": "Une erreur s'est produite lors de l'envoi. Veuillez réessayer plus tard."
     }
 }

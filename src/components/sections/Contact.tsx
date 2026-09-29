@@ -225,7 +225,7 @@ const Contact = () => {
                                         className="flex items-center gap-3 text-emerald-600 bg-emerald-50 p-4 rounded-xl border border-emerald-200"
                                     >
                                         <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-                                        <p className="text-sm font-medium">Your message has been sent successfully. We will get back to you soon.</p>
+                                        <p className="text-sm font-medium">{t.contact.success}</p>
                                     </motion.div>
                                 )}
 
@@ -237,7 +237,7 @@ const Contact = () => {
                                     >
                                         <div className="flex items-center gap-3">
                                             <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                                            <p className="text-sm font-medium">Something went wrong. Please try again later.</p>
+                                            <p className="text-sm font-medium">{t.contact.error}</p>
                                         </div>
                                         <p className="text-xs opacity-80 mt-1 break-all">{errorMessage}</p>
                                     </motion.div>

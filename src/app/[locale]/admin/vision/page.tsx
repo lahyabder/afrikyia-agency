@@ -179,7 +179,7 @@ export default function AdminVisionPage() {
                                     required
                                     dir={formLanguageTab === 'ar' ? 'rtl' : 'ltr'}
                                 />
-                                <p className="text-[10px] text-white/40 mt-1">ضع علامة : للتمييز اللوني (مثال: الاصطناع الذكي: ما وراء الذكاء)</p>
+                                <p className="text-[10px] text-white/40 mt-1">ضع علامة : للتمييز اللوني (مثال: الحلول الذكية: ما وراء الذكاء)</p>
                             </div>
                         </div>
 
