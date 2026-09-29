@@ -10,10 +10,10 @@ import { api } from '@/components/admin/biz/ui';
 export type PaperLang = 'fr' | 'ar' | 'en';
 export type Seals = { stamp: string | null; signature: string | null };
 
-const FOOT: Record<PaperLang, { rc: string; nif: string; tel: string; capital: string; bank: string }> = {
-    fr: { rc: 'RC', nif: 'NIF', tel: 'Tél', capital: 'Capital', bank: 'Banque' },
-    ar: { rc: 'السجل التجاري', nif: 'الرقم الضريبي', tel: 'الهاتف', capital: 'رأس المال', bank: 'البنك' },
-    en: { rc: 'RC', nif: 'Tax ID', tel: 'Tel', capital: 'Capital', bank: 'Bank' },
+const FOOT: Record<PaperLang, { rc: string; nif: string; tel: string; bank: string }> = {
+    fr: { rc: 'RC', nif: 'NIF', tel: 'Tél', bank: 'Banque' },
+    ar: { rc: 'السجل التجاري', nif: 'الرقم الضريبي', tel: 'الهاتف', bank: 'البنك' },
+    en: { rc: 'RC', nif: 'Tax ID', tel: 'Tel', bank: 'Bank' },
 };
 
 export const paperLocale = (lang: PaperLang) => (lang === 'ar' ? 'ar-u-nu-latn' : lang === 'fr' ? 'fr-FR' : 'en-GB');
@@ -57,7 +57,6 @@ export function LetterheadFooter({ company, bank, lang }: { company: CompanyInfo
         <footer className="paper-footer mt-10 pt-3 border-t border-[#E11D48] text-[9.5px] leading-[1.55] text-[#4B515A] text-center">
             <p>
                 <b className="text-[#14161A]"><bdi dir="ltr">{company.legalName}</bdi></b>
-                {company.capital && <> · {L.capital} <bdi dir="ltr">{company.capital}</bdi></>}
                 {' · '}{L.rc} <bdi dir="ltr">{company.rc}</bdi> · {L.nif} <bdi dir="ltr">{company.nif}</bdi>
             </p>
             <p>
