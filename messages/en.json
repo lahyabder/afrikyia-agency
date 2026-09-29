@@ -182,7 +182,8 @@
             "erp": "ERP (ERPNext)",
             "localTag": "local",
             "openMenu": "Open menu",
-            "closeMenu": "Close menu"
+            "closeMenu": "Close menu",
+            "messages": "Messages"
         },
         "common": {
             "search": "Search...",
@@ -233,7 +234,11 @@
             "erpOpen": "Open ERPNext",
             "erpNotConfigured": "The ERPNext address is not configured yet. Add the NEXT_PUBLIC_ERP_URL variable in Vercel.",
             "loadError": "Could not load the figures from the database.",
-            "viewSite": "View website"
+            "viewSite": "View website",
+            "statNewMessages": "New messages",
+            "latestMessages": "Latest messages",
+            "noMessages": "No new messages.",
+            "viewAll": "View all"
         },
         "clients": {
             "title": "Clients",
@@ -377,7 +382,27 @@
             "actionsCol": "Actions",
             "noLink": "No link"
         },
-        "localNotice": "Warning: this section saves its data in this browser only. It does not appear on any other device and may be lost if browser data is cleared. Export your data regularly (Excel / PDF). This section will move to ERPNext."
+        "localNotice": "Warning: this section saves its data in this browser only. It does not appear on any other device and may be lost if browser data is cleared. Export your data regularly (Excel / PDF). This section will move to ERPNext.",
+        "messages": {
+            "title": "Messages",
+            "subtitle": "Visitor messages sent from the website contact form",
+            "all": "All",
+            "new": "New",
+            "handled": "Handled",
+            "archived": "Archived",
+            "markHandled": "Mark handled",
+            "markNew": "Mark as new",
+            "archive": "Archive",
+            "unarchive": "Unarchive",
+            "delete": "Delete",
+            "reply": "Reply by email",
+            "confirmDelete": "Permanently delete this message?",
+            "empty": "No messages here.",
+            "loadError": "Could not load messages.",
+            "actionError": "The action failed, please try again.",
+            "search": "Search by name, email or text...",
+            "refresh": "Refresh"
+        }
     },
     "metadata": {
         "title": "AFRIKYia | Intelligent Making - Digital Cultural Platform",

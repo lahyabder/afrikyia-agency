@@ -175,7 +175,8 @@
             "localTag": "local",
             "openMenu": "Ouvrir le menu",
             "closeMenu": "Fermer le menu",
-            "projects": "Projets"
+            "projects": "Projets",
+            "messages": "Messages"
         },
         "common": {
             "search": "Rechercher...",
@@ -226,7 +227,11 @@
             "erpOpen": "Ouvrir ERPNext",
             "erpNotConfigured": "L'adresse d'ERPNext n'est pas encore configurée. Ajoutez la variable NEXT_PUBLIC_ERP_URL dans Vercel.",
             "loadError": "Impossible de charger les chiffres depuis la base de données.",
-            "viewSite": "Voir le site"
+            "viewSite": "Voir le site",
+            "statNewMessages": "Nouveaux messages",
+            "latestMessages": "Derniers messages",
+            "noMessages": "Aucun nouveau message.",
+            "viewAll": "Tout voir"
         },
         "clients": {
             "title": "Clients",
@@ -358,7 +363,27 @@
             "actionsCol": "Actions",
             "noLink": "Pas de lien"
         },
-        "localNotice": "Attention : cette section enregistre ses données uniquement dans ce navigateur. Elles n'apparaissent sur aucun autre appareil et peuvent être perdues si les données du navigateur sont effacées. Exportez-les régulièrement (Excel / PDF). Cette section sera migrée vers ERPNext."
+        "localNotice": "Attention : cette section enregistre ses données uniquement dans ce navigateur. Elles n'apparaissent sur aucun autre appareil et peuvent être perdues si les données du navigateur sont effacées. Exportez-les régulièrement (Excel / PDF). Cette section sera migrée vers ERPNext.",
+        "messages": {
+            "title": "Messages",
+            "subtitle": "Messages des visiteurs envoyés via le formulaire de contact du site",
+            "all": "Tous",
+            "new": "Nouveaux",
+            "handled": "Traités",
+            "archived": "Archivés",
+            "markHandled": "Marquer traité",
+            "markNew": "Marquer nouveau",
+            "archive": "Archiver",
+            "unarchive": "Désarchiver",
+            "delete": "Supprimer",
+            "reply": "Répondre par e-mail",
+            "confirmDelete": "Supprimer définitivement ce message ?",
+            "empty": "Aucun message ici.",
+            "loadError": "Impossible de charger les messages.",
+            "actionError": "L'opération a échoué, réessayez.",
+            "search": "Rechercher par nom, e-mail ou texte...",
+            "refresh": "Actualiser"
+        }
     },
     "metadata": {
         "title": "AFRIKYia | L’Artifice Intelligent - Plateforme Culturelle Numérique",

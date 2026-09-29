@@ -18,11 +18,18 @@ export async function GET(request: Request) {
     const unauthorized = requireAdmin(request);
     if (unauthorized) return unauthorized;
 
-    const [achievements, projects, files, sections] = await Promise.all([
+    const [achievements, projects, files, sections, newMessages, latestMessages] = await Promise.all([
         countRows('achievements'),
         countRows('projects'),
         countRows('uploaded_files'),
         supabaseAdmin.from('site_content').select('key, updated_at').order('updated_at', { ascending: false }),
+        supabaseAdmin.from('contact_messages').select('id', { count: 'exact', head: true }).eq('status', 'new'),
+        supabaseAdmin
+            .from('contact_messages')
+            .select('id, name, message, created_at')
+            .eq('status', 'new')
+            .order('created_at', { ascending: false })
+            .limit(5),
     ]);
 
     if (sections.error) {
@@ -31,8 +38,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
         {
-            counts: { achievements, projects, files },
+            counts: { achievements, projects, files, newMessages: newMessages.error ? null : newMessages.count ?? 0 },
             sectionUpdates: sections.data ?? [],
+            latestMessages: latestMessages.data ?? [],
         },
         { headers: { 'Cache-Control': 'no-store' } }
     );

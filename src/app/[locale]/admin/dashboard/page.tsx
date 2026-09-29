@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Globe, Briefcase, Files, PenLine, Activity, Boxes, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail } from 'lucide-react';
+import { Globe, Briefcase, Files, PenLine, Activity, Boxes, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
 
 type Overview = {
-    counts: { achievements: number | null; projects: number | null; files: number | null };
+    counts: { achievements: number | null; projects: number | null; files: number | null; newMessages: number | null };
     sectionUpdates: { key: string; updated_at: string }[];
+    latestMessages: { id: string; name: string; message: string; created_at: string }[];
 };
 
 export default function DashboardPage() {
@@ -39,7 +40,7 @@ export default function DashboardPage() {
         { name: menu.achievements, value: overview?.counts.achievements, icon: Globe, color: 'text-brand-red', bg: 'bg-brand-red/10', href: '/admin/achievements' },
         { name: d.statProjects, value: overview?.counts.projects, icon: Briefcase, color: 'text-yellow-400', bg: 'bg-yellow-500/10', href: '/admin/projects' },
         { name: d.statFiles, value: overview?.counts.files, icon: Files, color: 'text-blue-400', bg: 'bg-blue-500/10', href: '/admin/files' },
-        { name: d.statSections, value: overview ? overview.sectionUpdates.length : undefined, icon: PenLine, color: 'text-emerald-400', bg: 'bg-emerald-500/10', href: '/admin/about' },
+        { name: d.statNewMessages, value: overview?.counts.newMessages, icon: Inbox, color: 'text-emerald-400', bg: 'bg-emerald-500/10', href: '/admin/messages' },
     ];
 
     const quickLinks = [
@@ -148,26 +149,54 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            {/* Latest content updates */}
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-white/70" />
-                    {d.lastUpdates}
-                </h2>
-                {overview && overview.sectionUpdates.length > 0 ? (
-                    <ul className="divide-y divide-white/5">
-                        {overview.sectionUpdates.map(u => (
-                            <li key={u.key} className="flex items-center justify-between py-3 text-sm">
-                                <Link href={`/admin/${u.key}`} className="font-semibold hover:text-yellow-400 transition-all">
-                                    {sectionNames[u.key] ?? u.key}
-                                </Link>
-                                <span className="text-white/50 text-xs" dir="ltr">{formatDate(u.updated_at)}</span>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <div className="text-center py-8 text-white/60 text-sm">{overview ? d.noUpdates : loadError ? '—' : '…'}</div>
-                )}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Latest unread messages */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-lg font-bold flex items-center gap-2">
+                            <Inbox className="w-5 h-5 text-white/70" />
+                            {d.latestMessages}
+                        </h2>
+                        <Link href="/admin/messages" className="text-xs font-bold text-yellow-400 hover:underline">{d.viewAll}</Link>
+                    </div>
+                    {overview && overview.latestMessages.length > 0 ? (
+                        <ul className="divide-y divide-white/5">
+                            {overview.latestMessages.map(msg => (
+                                <li key={msg.id} className="py-3 text-sm">
+                                    <div className="flex items-center justify-between gap-3">
+                                        <span className="font-semibold truncate">{msg.name}</span>
+                                        <span className="text-white/50 text-xs shrink-0" dir="auto">{formatDate(msg.created_at)}</span>
+                                    </div>
+                                    <p className="text-white/60 text-xs mt-1 truncate">{msg.message}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="text-center py-8 text-white/60 text-sm">{overview ? d.noMessages : loadError ? '—' : '…'}</div>
+                    )}
+                </div>
+
+                {/* Latest content updates */}
+                <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
+                    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                        <Activity className="w-5 h-5 text-white/70" />
+                        {d.lastUpdates}
+                    </h2>
+                    {overview && overview.sectionUpdates.length > 0 ? (
+                        <ul className="divide-y divide-white/5">
+                            {overview.sectionUpdates.map(u => (
+                                <li key={u.key} className="flex items-center justify-between py-3 text-sm">
+                                    <Link href={`/admin/${u.key}`} className="font-semibold hover:text-yellow-400 transition-all">
+                                        {sectionNames[u.key] ?? u.key}
+                                    </Link>
+                                    <span className="text-white/50 text-xs" dir="auto">{formatDate(u.updated_at)}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="text-center py-8 text-white/60 text-sm">{overview ? d.noUpdates : loadError ? '—' : '…'}</div>
+                    )}
+                </div>
             </div>
         </div>
     );

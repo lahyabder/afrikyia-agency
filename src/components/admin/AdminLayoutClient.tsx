@@ -22,8 +22,10 @@ import {
     Menu,
     X,
     ExternalLink,
-    Boxes
+    Boxes,
+    Inbox
 } from 'lucide-react';
+import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -32,6 +34,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     const [loginError, setLoginError] = useState<string>('');
     const [isMounted, setIsMounted] = useState(false);
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
+    const [newMessages, setNewMessages] = useState(0);
     
     const pathname = usePathname();
     const router = useRouter();
@@ -46,6 +49,20 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
             .catch(() => setIsAuthenticated(false))
             .finally(() => setIsMounted(true));
     }, []);
+
+    // Number of unread contact messages, shown as a badge in the sidebar
+    useEffect(() => {
+        if (!isAuthenticated) return;
+        const loadCount = () => {
+            fetch('/api/admin/overview', { cache: 'no-store' })
+                .then(res => (res.ok ? res.json() : null))
+                .then(data => setNewMessages(data?.counts?.newMessages ?? 0))
+                .catch(() => {});
+        };
+        loadCount();
+        window.addEventListener(MESSAGES_UPDATED_EVENT, loadCount);
+        return () => window.removeEventListener(MESSAGES_UPDATED_EVENT, loadCount);
+    }, [isAuthenticated]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -155,10 +172,13 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         );
     }
 
-    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; localOnly?: boolean };
+    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; localOnly?: boolean; badge?: number };
     const menuGroups: { title?: string; items: MenuItem[] }[] = [
         {
-            items: [{ name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard' }],
+            items: [
+                { name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard' },
+                { name: t.admin.menu.messages, icon: Inbox, path: '/admin/messages', badge: newMessages },
+            ],
         },
         {
             title: t.admin.menu.groupPublishing,
@@ -212,6 +232,11 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                                         >
                                             <item.icon className="w-5 h-5 shrink-0" />
                                             <span className="flex-1">{item.name}</span>
+                                            {!!item.badge && (
+                                                <span className={`min-w-5 h-5 px-1.5 rounded-full text-[11px] font-bold flex items-center justify-center ${isActive ? 'bg-black text-yellow-400' : 'bg-yellow-400 text-black'}`}>
+                                                    {item.badge}
+                                                </span>
+                                            )}
                                             {item.localOnly && (
                                                 <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${isActive ? 'bg-black/15' : 'bg-amber-500/15 text-amber-400'}`}>
                                                     {t.admin.menu.localTag}
