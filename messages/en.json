@@ -970,7 +970,10 @@
             "stopListening": "Stop listening",
             "listening": "Listening… speak now",
             "voiceOn": "Read answers aloud",
-            "voiceOff": "Stop reading aloud"
+            "voiceOff": "Stop reading aloud",
+            "voiceLabel": "Voice:",
+            "voiceTry": "Try",
+            "voiceSample": "Hello, I am the Afrikyia assistant. How can I help you today?"
         }
     },
     "metadata": {

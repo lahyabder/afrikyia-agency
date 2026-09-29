@@ -17,7 +17,7 @@ const HOURLY_LIMIT = 40; // questions per user per hour, a guard for the API bal
 export async function GET(request: Request) {
     const gate = await requireAccess(request, 'dashboard');
     if (gate.denied) return gate.denied;
-    return NextResponse.json({ configured: !!process.env.ANTHROPIC_API_KEY?.trim(), tools: toolsFor(gate.user).length });
+    return NextResponse.json({ configured: !!process.env.ANTHROPIC_API_KEY?.trim(), tools: toolsFor(gate.user).length, voice: process.env.ELEVENLABS_API_KEY?.trim() ? 'elevenlabs' : 'browser' });
 }
 
 export async function POST(request: Request) {
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     if ((count ?? 0) >= HOURLY_LIMIT) return NextResponse.json({ error: 'TooMany' }, { status: 429 });
 
     try {
-        const { reply, usage } = await askAssistant(gate.user, history);
+        const { reply, usage } = await askAssistant(gate.user, history, body?.spoken === true);
         await logActivity(gate.user, 'ask', 'assistant', `${question.text.slice(0, 200)} [${usage.input}+${usage.output} tokens]`);
         return NextResponse.json({ reply });
     } catch (e) {

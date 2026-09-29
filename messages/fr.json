@@ -951,7 +951,10 @@
             "stopListening": "Arrêter l’écoute",
             "listening": "Je vous écoute… parlez maintenant",
             "voiceOn": "Lire les réponses à voix haute",
-            "voiceOff": "Arrêter la lecture à voix haute"
+            "voiceOff": "Arrêter la lecture à voix haute",
+            "voiceLabel": "Voix :",
+            "voiceTry": "Essayer",
+            "voiceSample": "Bonjour, je suis l’assistant d’Afrikyia. Comment puis-je vous aider aujourd’hui ?"
         }
     },
     "metadata": {

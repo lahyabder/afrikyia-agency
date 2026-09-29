@@ -39,18 +39,75 @@ function speakable(text: string) {
         .replace(/\/admin\/\S+/g, '');
 }
 
-function speak(text: string) {
-    if (typeof window === 'undefined' || !window.speechSynthesis) return;
-    const clean = speakable(text);
-    const arabic = (clean.match(/[\u0600-\u06FF]/g)?.length ?? 0) > clean.length * 0.3;
-    const french = !arabic && /[éèàùçê]|\b(le|la|les|des|est|vous)\b/i.test(clean);
-    const lang = arabic ? 'ar' : french ? 'fr' : 'en';
-    const utterance = new SpeechSynthesisUtterance(clean);
-    utterance.lang = SPEECH_LANG[lang];
-    const voice = window.speechSynthesis.getVoices().find(v => v.lang.toLowerCase().startsWith(lang));
-    if (voice) utterance.voice = voice;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
+// One shared audio element: unlocked during a click, so browsers (Safari especially) let it play the answer later
+let player: HTMLAudioElement | null = null;
+const SILENCE = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+
+function unlockAudio() {
+    if (typeof window === 'undefined') return;
+    if (!player) player = new Audio();
+    if (!player.src || player.src === SILENCE) {
+        player.src = SILENCE;
+        player.play().catch(() => {});
+    }
+}
+
+export function stopSpeaking() {
+    if (typeof window === 'undefined') return;
+    if (player) player.pause();
+    window.speechSynthesis?.cancel();
+}
+
+function answerLang(text: string): 'ar' | 'fr' | 'en' {
+    const arabic = (text.match(/[\u0600-\u06FF]/g)?.length ?? 0) > text.length * 0.3;
+    if (arabic) return 'ar';
+    return /[éèàùçê]|\b(le|la|les|des|est|vous)\b/i.test(text) ? 'fr' : 'en';
+}
+
+// Browser voice, used when no natural voice is configured: the most natural voice installed on the device,
+// a calmer pace and one sentence at a time, so pauses fall where a person would breathe
+const NATURAL = /natural|neural|online|premium|enhanced|majed|maged|hamed|zariyah|google|siri/i;
+function browserSpeak(text: string) {
+    if (!window.speechSynthesis) return;
+    const lang = answerLang(text);
+    const voices = window.speechSynthesis.getVoices().filter(v => v.lang.toLowerCase().startsWith(lang));
+    const voice = voices.find(v => NATURAL.test(v.name)) ?? voices[0];
+    const sentences = text.split(/(?<=[.!?؟…])\s+|\n+/).map(x => x.trim()).filter(Boolean);
+    for (const sentence of sentences) {
+        const utterance = new SpeechSynthesisUtterance(sentence);
+        utterance.lang = SPEECH_LANG[lang];
+        if (voice) utterance.voice = voice;
+        utterance.rate = 0.95;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+// Natural voice (ElevenLabs, through the server) when available, the browser's voice otherwise
+async function speak(text: string, natural: boolean, voiceId: string | null) {
+    stopSpeaking();
+    const clean = speakable(text).replace(/\s{2,}/g, ' ').trim();
+    if (!clean) return;
+    if (natural) {
+        try {
+            const res = await fetch('/api/assistant/speech', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: clean, voice: voiceId }),
+            });
+            if (!res.ok) throw new Error(String(res.status));
+            const url = URL.createObjectURL(await res.blob());
+            if (!player) player = new Audio();
+            const previous = player.src;
+            player.src = url;
+            player.onended = () => URL.revokeObjectURL(url);
+            if (previous.startsWith('blob:')) URL.revokeObjectURL(previous);
+            await player.play();
+            return;
+        } catch {
+            // falls back to the browser's voice below
+        }
+    }
+    browserSpeak(clean);
 }
 
 type Turn = { role: 'user' | 'assistant'; text: string; error?: boolean };
@@ -107,7 +164,9 @@ export default function AssistantPanel() {
     const { t, isRTL, language } = useLanguage();
     const a = t.admin.assistant;
     const [open, setOpen] = useState(false);
-    const [status, setStatus] = useState<{ configured: boolean; tools: number } | null>(null);
+    const [status, setStatus] = useState<{ configured: boolean; tools: number; voice?: 'elevenlabs' | 'browser' } | null>(null);
+    const [voices, setVoices] = useState<{ id: string; name: string; details: string }[]>([]);
+    const [voiceId, setVoiceId] = useState<string | null>(null);
     const [turns, setTurns] = useState<Turn[]>([]);
     const [input, setInput] = useState('');
     const [busy, setBusy] = useState(false);
@@ -125,9 +184,38 @@ export default function AssistantPanel() {
         return () => {
             clearTimeout(timer);
             recognitionRef.current?.stop();
-            if (typeof window !== 'undefined') window.speechSynthesis?.cancel();
+            stopSpeaking();
         };
     }, []);
+
+    // Voices of the natural-voice account, and the one chosen on this device
+    const natural = status?.voice === 'elevenlabs';
+    useEffect(() => {
+        if (!natural || !open || voices.length) return;
+        fetch('/api/assistant/speech', { cache: 'no-store' })
+            .then(r => (r.ok ? r.json() : null))
+            .then(data => {
+                if (!data) return;
+                let saved: string | null = null;
+                try {
+                    saved = localStorage.getItem('afrikyia-assistant-voice');
+                } catch {
+                    saved = null;
+                }
+                setVoices(data.voices ?? []);
+                setVoiceId(saved && (data.voices ?? []).some((v: { id: string }) => v.id === saved) ? saved : data.defaultVoice ?? null);
+            })
+            .catch(() => {});
+    }, [natural, open, voices.length]);
+
+    const chooseVoice = (id: string) => {
+        setVoiceId(id);
+        try {
+            localStorage.setItem('afrikyia-assistant-voice', id);
+        } catch {
+            // the choice simply is not remembered
+        }
+    };
 
     useEffect(() => {
         fetch('/api/assistant', { cache: 'no-store' })
@@ -153,7 +241,8 @@ export default function AssistantPanel() {
         }
         const Ctor = recognitionCtor();
         if (!Ctor) return;
-        window.speechSynthesis?.cancel();
+        stopSpeaking();
+        unlockAudio();
         const rec = new Ctor();
         rec.lang = SPEECH_LANG[language] ?? 'ar-SA';
         rec.interimResults = true;
@@ -192,6 +281,7 @@ export default function AssistantPanel() {
     const ask = async (question: string, spoken = false) => {
         const text = question.trim();
         if (!text || busy) return;
+        unlockAudio();
         const history = [...turns.filter(x => !x.error), { role: 'user' as const, text }];
         setTurns(prev => [...prev, { role: 'user', text }]);
         setInput('');
@@ -200,12 +290,12 @@ export default function AssistantPanel() {
             const res = await fetch('/api/assistant', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ messages: history.map(({ role, text }) => ({ role, text })) }),
+                body: JSON.stringify({ messages: history.map(({ role, text }) => ({ role, text })), spoken }),
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) throw new Error(data?.error || 'Failed');
             setTurns(prev => [...prev, { role: 'assistant', text: data.reply }]);
-            if (spoken || voiceReplies) speak(data.reply);
+            if (spoken || voiceReplies) speak(data.reply, natural, voiceId);
         } catch (e) {
             setTurns(prev => [...prev, { role: 'assistant', text: errorText(e instanceof Error ? e.message : undefined), error: true }]);
         } finally {
@@ -243,7 +333,7 @@ export default function AssistantPanel() {
                             {canListen && (
                                 <button
                                     onClick={() => {
-                                        if (voiceReplies) window.speechSynthesis?.cancel();
+                                        if (voiceReplies) stopSpeaking();
                                         setVoiceReplies(v => !v);
                                     }}
                                     title={voiceReplies ? a.voiceOff : a.voiceOn}
@@ -257,9 +347,18 @@ export default function AssistantPanel() {
                             {turns.length > 0 && (
                                 <button onClick={() => setTurns([])} title={a.reset} aria-label={a.reset} className="p-2 rounded-lg hover:bg-white/10 cursor-pointer"><RotateCcw className="w-4 h-4" /></button>
                             )}
-                            <button onClick={() => setOpen(false)} aria-label={a.close} className="p-2 rounded-lg hover:bg-white/10 cursor-pointer"><X className="w-5 h-5" /></button>
+                            <button onClick={() => { stopSpeaking(); setOpen(false); }} aria-label={a.close} className="p-2 rounded-lg hover:bg-white/10 cursor-pointer"><X className="w-5 h-5" /></button>
                         </header>
 
+                        {voiceReplies && natural && voices.length > 0 && (
+                            <div className="flex items-center gap-2 px-4 py-2 border-b border-white/10 text-xs">
+                                <span className="text-white/60 shrink-0">{a.voiceLabel}</span>
+                                <select value={voiceId ?? ''} onChange={e => chooseVoice(e.target.value)} className="flex-1 min-w-0 bg-black/30 border border-white/10 rounded-lg px-2 py-1.5 text-white">
+                                    {voices.map(v => <option key={v.id} value={v.id}>{v.name}{v.details ? ` — ${v.details}` : ''}</option>)}
+                                </select>
+                                <button onClick={() => { unlockAudio(); speak(a.voiceSample, true, voiceId); }} className="shrink-0 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer">{a.voiceTry}</button>
+                            </div>
+                        )}
                         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 text-sm leading-relaxed">
                             {!status.configured && <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">{a.errors.NotConfigured}</p>}
                             {turns.length === 0 && (
