@@ -1,18 +1,22 @@
 // The dashboard assistant: answers questions about the company's figures by calling read-only tools.
 // Figures always come from these tools (the same calculations as the finance pages), never from the model's own arithmetic.
-// Phase 1 is read-only: nothing here creates, changes or deletes data.
+// Reading tools never change data. Writing tools only create or edit drafts (letters, invoices, quotes): they never
+// send, record payments, cancel or delete; a person reviews, prints and marks documents as sent from the pages.
 import Anthropic from '@anthropic-ai/sdk';
 import { supabaseAdmin } from '@/lib/supabase';
 import { canAccess, type SessionUser } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { money } from '@/lib/biz';
 import { financialSummary } from '@/lib/finance';
+import { LETTER_LANGS, createLetter, letterContent } from '@/lib/letters';
+import { createDocument } from '@/lib/documents';
 
 export const ASSISTANT_MODEL = 'claude-opus-5-5';
 const MAX_ROUNDS = 6;
 
 export type ChatTurn = { role: 'user' | 'assistant'; text: string };
 
-type Tool = { area: 'finance' | 'hr'; definition: Anthropic.Beta.BetaTool; run: (input: Record<string, unknown>) => Promise<unknown> };
+type Tool = { area: 'finance' | 'hr'; write?: boolean; definition: Anthropic.Beta.BetaTool; run: (input: Record<string, unknown>, user: SessionUser) => Promise<unknown> };
 
 const int = (v: unknown, min: number, max: number): number | null => {
     const n = typeof v === 'number' ? v : parseInt(String(v ?? ''), 10);
@@ -20,6 +24,18 @@ const int = (v: unknown, min: number, max: number): number | null => {
 };
 const str = (v: unknown, max = 100): string | null => (typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null);
 const thisYear = () => new Date().getFullYear();
+const VIA = ' (assistant)';
+
+// The one client whose name matches, or the candidates so the model can ask which one
+async function findParty(name: string) {
+    const { data, error } = await supabaseAdmin.from('parties').select('id, name, address').order('name');
+    if (error) throw new Error(error.message);
+    const q = name.trim().toLowerCase();
+    const all = data ?? [];
+    const exact = all.filter(p => p.name.trim().toLowerCase() === q);
+    const partial = exact.length ? exact : all.filter(p => p.name.toLowerCase().includes(q) || q.includes(p.name.toLowerCase()));
+    return { match: partial.length === 1 ? partial[0] : null, candidates: partial.length > 1 ? partial.map(p => p.name) : all.map(p => p.name) };
+}
 
 const TOOLS: Tool[] = [
     {
@@ -192,6 +208,114 @@ const TOOLS: Tool[] = [
             return { year, month, payslips: data ?? [] };
         },
     },
+    {
+        area: 'finance',
+        write: true,
+        definition: {
+            name: 'create_letter_draft',
+            description:
+                'Creates a DRAFT letter on the company letterhead in the Letters register, with the next serial number (L/YYYY/NNN). The user then reviews, prints (with or without stamp and signature) and marks it as sent. Write the complete body yourself: greeting, paragraphs separated by an empty line, and the closing formula as the last paragraph. The signature, letterhead and date are added automatically, so do not write them in the body. French letters use a neutral greeting ("Bonjour,") and closing ("Nous vous prions d’agréer l’expression de nos salutations distinguées."), never Madame/Monsieur.',
+            input_schema: {
+                type: 'object',
+                properties: {
+                    language: { type: 'string', enum: ['fr', 'ar', 'en'] },
+                    recipient: { type: 'string', description: 'Name, title and address of the recipient, one per line' },
+                    subject: { type: 'string' },
+                    body: { type: 'string', description: 'Full text: greeting, paragraphs separated by a blank line, closing formula' },
+                    reference: { type: 'string', description: 'Their reference, optional' },
+                    attachments: { type: 'string', description: 'Enclosures, one per line, optional' },
+                    copies: { type: 'string', description: 'Copy to, optional' },
+                    client_name: { type: 'string', description: 'Name of an existing client or supplier to link, optional' },
+                },
+                required: ['language', 'recipient', 'subject', 'body'],
+            },
+        },
+        run: async (input, user) => {
+            let partyId: string | null = null;
+            const client = str(input.client_name, 200);
+            if (client) partyId = (await findParty(client)).match?.id ?? null;
+            const letter = await createLetter(user, { ...input, party_id: partyId }, VIA);
+            return { created: true, status: 'draft', letter_number: letter.letter_number, open_url: `/admin/letters/view?id=${letter.id}` };
+        },
+    },
+    {
+        area: 'finance',
+        write: true,
+        definition: {
+            name: 'update_letter_draft',
+            description: 'Changes a letter that is still a DRAFT (identified by its number). Only the fields given are replaced. Letters already sent cannot be changed.',
+            input_schema: {
+                type: 'object',
+                properties: {
+                    letter_number: { type: 'string' },
+                    language: { type: 'string', enum: ['fr', 'ar', 'en'] },
+                    recipient: { type: 'string' },
+                    subject: { type: 'string' },
+                    body: { type: 'string' },
+                    reference: { type: 'string' },
+                    attachments: { type: 'string' },
+                    copies: { type: 'string' },
+                },
+                required: ['letter_number'],
+            },
+        },
+        run: async (input, user) => {
+            const number = str(input.letter_number, 60);
+            const { data: letter } = await supabaseAdmin.from('company_letters').select('*').eq('letter_number', number ?? '').maybeSingle();
+            if (!letter) return { updated: false, reason: 'No letter with this number' };
+            if (letter.status !== 'draft') return { updated: false, reason: 'This letter was already sent or cancelled; it cannot be changed. Create a new draft instead.' };
+            const merged: Record<string, unknown> = { ...letter };
+            for (const key of ['language', 'recipient', 'subject', 'body', 'reference', 'attachments', 'copies']) if (typeof input[key] === 'string') merged[key] = input[key];
+            if (!LETTER_LANGS.includes(merged.language as (typeof LETTER_LANGS)[number])) merged.language = letter.language;
+            const content = letterContent(merged);
+            const { error } = await supabaseAdmin.from('company_letters').update({ ...content, updated_at: new Date().toISOString() }).eq('id', letter.id);
+            if (error) throw new Error(error.message);
+            await logActivity(user, 'update', 'letter', `${letter.letter_number} – ${content.subject}${VIA}`, letter.id);
+            return { updated: true, letter_number: letter.letter_number, open_url: `/admin/letters/view?id=${letter.id}` };
+        },
+    },
+    {
+        area: 'finance',
+        write: true,
+        definition: {
+            name: 'create_invoice_draft',
+            description:
+                'Creates a DRAFT invoice or quote for an existing client, with the next number (F/YYYY/NNN or DEV/YYYY/NNN). Never invent amounts, quantities or the client: they must come from the user. VAT is 0 unless the user gives a rate. The user reviews, prints and sends it from the Invoices page.',
+            input_schema: {
+                type: 'object',
+                properties: {
+                    type: { type: 'string', enum: ['invoice', 'quote'] },
+                    client_name: { type: 'string', description: 'Name of an existing client' },
+                    lines: {
+                        type: 'array',
+                        items: {
+                            type: 'object',
+                            properties: {
+                                description: { type: 'string' },
+                                quantity: { type: 'number' },
+                                unit_price: { type: 'number', description: 'Price per unit before VAT, in MRU' },
+                            },
+                            required: ['description', 'quantity', 'unit_price'],
+                        },
+                    },
+                    tva_rate: { type: 'number', description: 'VAT rate in percent, default 0' },
+                    due_date: { type: 'string', description: 'YYYY-MM-DD, optional' },
+                    notes: { type: 'string', description: 'Subject, contract reference, payment terms… printed under the totals, optional' },
+                },
+                required: ['type', 'client_name', 'lines'],
+            },
+        },
+        run: async (input, user) => {
+            const client = str(input.client_name, 200);
+            const found = client ? await findParty(client) : null;
+            if (!found?.match) {
+                return { created: false, reason: client ? 'No single client matches this name. Ask the user which one, or to add the client on the Clients page first.' : 'Client missing', clients: found?.candidates ?? [] };
+            }
+            const doc = await createDocument(user, { ...input, party_id: found.match.id }, VIA);
+            return { created: true, status: 'draft', type: doc.type, number: doc.invoice_number, client: found.match.name, total_ttc: doc.total_ttc, open_url: `/admin/invoices/view?id=${doc.id}` };
+        },
+    },
+
 ];
 
 export function toolsFor(user: SessionUser) {
@@ -199,7 +323,7 @@ export function toolsFor(user: SessionUser) {
 }
 
 function systemPrompt(user: SessionUser, today: string) {
-    return `You are the assistant inside the admin dashboard of AFRIKYIA-SUARL (trade name Afrikyia, "Solutions Intelligentes"), a small digital-services company in Nouakchott, Mauritania. You help the team understand the company's figures.
+    return `You are the assistant inside the admin dashboard of AFRIKYIA-SUARL (trade name Afrikyia, "Solutions Intelligentes"), a small digital-services company in Nouakchott, Mauritania. You help the team understand the company's figures and prepare draft letters, invoices and quotes.
 
 How to answer:
 - Reply in the language the user writes in (usually Arabic, sometimes French or English). Keep answers short, clear and practical.
@@ -209,7 +333,11 @@ How to answer:
 - When a figure looks unusual (an unpaid invoice past its due date, a difference with the bank, movements not yet matched), point it out in one sentence and name the page to check: Finances, Invoices and quotes, Expenses, Bank, Clients, Letters, Payroll.
 
 What you can and cannot do:
-- You can only read data through your tools. You cannot create, edit, send, pay or delete anything. If the user asks you to write a letter or prepare an invoice, explain that this comes in the next version of the assistant and point to the Letters or Invoices page; you may still draft the text of a letter in your reply so they can paste it there.
+- Reading tools answer questions. Writing tools create or edit DRAFTS only: letters, invoices and quotes. You cannot send documents, record payments, cancel or delete anything; say so if asked, and point to the right page.
+- Letters: you may write the whole letter yourself from the user's instructions. Use the recipient's details from find_clients when the user names a known client.
+- Invoices and quotes: the client must already exist, and every amount, quantity and description must come from the user. If something needed is missing or unclear, ask one short question instead of guessing. Before creating, you do not need to ask for confirmation when the user gave all the details.
+- Create each document once. If the user asks for a change to a draft letter, use update_letter_draft; for a draft invoice, tell them to use the Edit button on its page.
+- After creating or updating a draft, give its number and the link exactly as a markdown link, for example [Open the letter](/admin/letters/view?id=…), and remind in one line that it is a draft to review before printing.
 - Only use the tools available to you; if a question needs data you have no tool for, say that this user's role does not give access to it.
 
 Context: today is ${today}. The user is ${user.name} (role: ${user.role}).`;
@@ -272,7 +400,7 @@ export async function askAssistant(user: SessionUser, history: ChatTurn[]): Prom
                 if (!tool) return { type: 'tool_result' as const, tool_use_id: call.id, content: 'This tool is not available for this user.', is_error: true };
                 try {
                     const input = call.input && typeof call.input === 'object' ? (call.input as Record<string, unknown>) : {};
-                    return { type: 'tool_result' as const, tool_use_id: call.id, content: JSON.stringify(await tool.run(input)) };
+                    return { type: 'tool_result' as const, tool_use_id: call.id, content: JSON.stringify(await tool.run(input, user)) };
                 } catch (e) {
                     return { type: 'tool_result' as const, tool_use_id: call.id, content: `Error: ${e instanceof Error ? e.message : 'unknown'}`, is_error: true };
                 }

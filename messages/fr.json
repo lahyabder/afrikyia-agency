@@ -923,15 +923,15 @@
         "assistant": {
             "open": "Assistant",
             "title": "Assistant Afrikyia",
-            "subtitle": "Posez vos questions sur les chiffres, factures, dépenses et la banque",
-            "welcome": "Bonjour 👋 Je lis les données de la société pour répondre à vos questions. Par exemple :",
+            "subtitle": "Questions sur les chiffres, brouillons de lettres et de factures",
+            "welcome": "Bonjour 👋 Posez vos questions sur les chiffres de la société, ou demandez un brouillon de lettre, de facture ou de devis. Vous pouvez écrire ou appuyer sur le micro et parler. Exemples :",
             "suggestions": [
                 "Quelle est la situation financière actuelle ?",
                 "Quelles factures ne sont pas encore payées ?",
-                "Combien avons-nous dépensé cette année, par catégorie ?",
-                "Le solde bancaire correspond-il au relevé ?"
+                "Écris une lettre au Ministère de la Culture pour demander un rendez-vous afin de présenter SIGPAN",
+                "Prépare un devis pour PAN : développement d’une application mobile, 200 000 MRU"
             ],
-            "readOnly": "Pour l’instant, l’assistant lit seulement les données : il ne crée, ne modifie et ne supprime rien.",
+            "readOnly": "L’assistant crée seulement des brouillons : il n’envoie rien, n’enregistre aucun paiement et ne supprime rien. Relisez chaque brouillon avant de l’imprimer.",
             "placeholder": "Écrivez votre question…",
             "send": "Envoyer",
             "reset": "Nouvelle conversation",
@@ -946,7 +946,12 @@
                 "Refused": "L’assistant n’a pas pu répondre à cette demande. Essayez une autre formulation.",
                 "NoAccess": "Votre rôle ne donne accès à aucune donnée lue par l’assistant.",
                 "Failed": "Une erreur est survenue. Réessayez."
-            }
+            },
+            "speak": "Parler",
+            "stopListening": "Arrêter l’écoute",
+            "listening": "Je vous écoute… parlez maintenant",
+            "voiceOn": "Lire les réponses à voix haute",
+            "voiceOff": "Arrêter la lecture à voix haute"
         }
     },
     "metadata": {
