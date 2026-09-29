@@ -10,15 +10,15 @@
         "about": "About"
     },
     "hero": {
-        "slogan": "Intelligent Making",
+        "slogan": "Smart Solutions",
         "desc": "A digital company bridging knowledge and future technologies.",
         "cta": "Discover Our Vision",
         "scroll": "Scroll"
     },
     "vision": {
         "tag": "Our Philosophy",
-        "title": "Intelligent Making: Beyond Artificial Intelligence.",
-        "desc1": "At Afrikyia, \"Intelligent Making\" is a fundamental shift in perception. Because true intelligence is not merely a product of algorithms; it is a deliberate act of cognitive formulation.",
+        "title": "Smart Solutions: Beyond Artificial Intelligence.",
+        "desc1": "At Afrikyia, \"Smart Solutions\" are not merely a product of algorithms; they are a deliberate act of cognitive formulation that puts technology at the service of people and institutions.",
         "desc2": "It is the intentional use of technical and creative forces to reshape our digital reality through the lens of identity, heritage, and human action, transforming technology into a cultural vessel.",
         "whatWeBuild": "What We Actually Build",
         "whatWeBuildDesc": "We engineer tangible digital solutions: integrated web platforms, digital portals, and complex SaaS applications that meet modern digital transformation needs.",
@@ -142,7 +142,7 @@
             },
             {
                 "label": "Digital",
-                "value": "Intelligent Making"
+                "value": "Smart Solutions"
             },
             {
                 "label": "Global",
@@ -151,7 +151,7 @@
         ]
     },
     "footer": {
-        "motto": "Intelligent Making",
+        "motto": "Smart Solutions",
         "rights": "© 2026 AFRIKYia – ALL RIGHTS RESERVED",
         "privacy": "Privacy Policy",
         "terms": "Legal Terms",
@@ -405,7 +405,7 @@
         }
     },
     "metadata": {
-        "title": "AFRIKYia | Intelligent Making - Digital Cultural Platform",
+        "title": "AFRIKYia | Smart Solutions - Digital Cultural Platform",
         "description": "Afrikyia is a global digital cultural platform that redefines intelligence through the fusion of culture, creativity, and technology."
     },
     "about": {
@@ -426,6 +426,56 @@
         "email": "Email Address",
         "message": "How can we help you?",
         "submit": "Send Message",
-        "sticky": "Book Consultation"
+        "sticky": "Book Consultation",
+        "success": "Your message has been sent successfully. We will get back to you soon.",
+        "error": "Something went wrong. Please try again later."
+    },
+    "home": {
+        "nav": {
+            "about": "About",
+            "services": "Services",
+            "works": "Work",
+            "partners": "Partners",
+            "contact": "Contact",
+            "cta": "Start a project",
+            "menu": "Menu"
+        },
+        "hero": {
+            "tag": "Digital company · Nouakchott, Mauritania",
+            "primary": "Start a project",
+            "secondary": "See our work"
+        },
+        "stats": {
+            "works": "published works",
+            "services": "areas of expertise",
+            "languages": "languages",
+            "founded": "founded"
+        },
+        "about": {
+            "philosophy": "Our philosophy"
+        },
+        "works": {
+            "tag": "Our work",
+            "title": "Projects delivered with care",
+            "desc": "Digital platforms, websites and applications we designed and built for institutions and partners in Mauritania and beyond.",
+            "all": "All",
+            "websites": "Websites & platforms",
+            "works": "Applications",
+            "activities": "Activities",
+            "projects": "Projects",
+            "visit": "Visit site",
+            "watch": "Watch video",
+            "showAll": "View all work",
+            "showLess": "Show less",
+            "close": "Close"
+        },
+        "partners": {
+            "tag": "Trusted by"
+        },
+        "contact": {
+            "emailLabel": "Email",
+            "phoneLabel": "Phone",
+            "follow": "Follow us"
+        }
     }
 }

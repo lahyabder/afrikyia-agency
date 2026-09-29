@@ -1,104 +1,97 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import Image from 'next/image';
 import { Link } from '@/i18n/routing';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
-  const { t, isRTL } = useLanguage();
+  const { t } = useLanguage();
+  const h = t.home.nav;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const navLinks = [
-    { href: '/#about', label: t.nav.about },
-    { href: '/#vision', label: t.nav.vision },
-    { href: '/#services', label: t.nav.services },
-    { href: '/#achievements', label: t.nav.achievements },
-    { href: '/#projects', label: t.nav.projects || t.projects?.title || 'Projects' },
-    { href: '/#impact', label: t.nav.impact },
+    { href: '/#about', label: h.about },
+    { href: '/#services', label: h.services },
+    { href: '/#works', label: h.works },
+    { href: '/#partners', label: h.partners },
+    { href: '/#contact', label: h.contact },
   ];
 
+  const close = () => setIsMenuOpen(false);
+
   return (
-    <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 bg-white/80 backdrop-blur-2xl py-3 px-6 md:px-8 border border-slate-200 rounded-full shadow-lg shadow-slate-200/50"
+    <header
+      className={`fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b transition-shadow ${
+        scrolled ? 'border-line shadow-[0_1px_12px_rgba(20,22,26,0.06)]' : 'border-transparent'
+      }`}
     >
-      <div className="flex justify-between items-center relative z-20 w-full">
-        <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-          <Image
-            src="/logo.png"
-            alt="Afrikyia Logo"
-            width={180}
-            height={50}
-            priority
-            className="h-7 md:h-10 w-auto"
-          />
+      <div className="site-container h-16 lg:h-[88px] flex items-center justify-between gap-6">
+        <Link href="/" className="flex items-center shrink-0" onClick={close}>
+          <Image src="/logo.png" alt="Afrikyia" width={180} height={50} priority className="h-8 lg:h-10 w-auto" />
         </Link>
-        
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8 text-slate-700 text-sm uppercase tracking-widest font-semibold">
-          {navLinks.map((link) => (
+
+        <nav className="hidden lg:flex items-center gap-9 text-[15px] font-bold text-ink">
+          {navLinks.map(link => (
             <Link key={link.href} href={link.href} className="hover:text-brand-red transition-colors">
               {link.label}
             </Link>
           ))}
-        </div>
-        
-        <div className="flex items-center gap-4 md:gap-8">
-          <LanguageSwitcher />
+        </nav>
 
-          {/* Mobile Menu Toggle */}
-          <button 
-            className="lg:hidden text-slate-800 p-2 focus:outline-none"
-            onClick={toggleMenu}
-            aria-label="Toggle mobile menu"
+        <div className="flex items-center gap-3 lg:gap-6">
+          <LanguageSwitcher />
+          <Link
+            href="/#contact"
+            className="hidden lg:inline-flex items-center h-11 px-6 rounded-lg bg-brand-red hover:bg-red-dark text-white text-sm font-bold transition-colors"
+          >
+            {h.cta}
+          </Link>
+          <button
+            className="lg:hidden w-10 h-10 -me-2 flex items-center justify-center text-ink"
+            onClick={() => setIsMenuOpen(open => !open)}
+            aria-label={h.menu}
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Dropdown */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden absolute top-full left-0 w-full mt-2 bg-white/95 backdrop-blur-xl border border-slate-200 rounded-3xl overflow-hidden shadow-xl"
-          >
-            <div className={`container mx-auto px-6 py-8 flex flex-col gap-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link 
-                    href={link.href} 
-                    className="text-slate-800 text-xl font-medium block hover:text-brand-red transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-              
-
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      {isMenuOpen && (
+        <nav className="lg:hidden border-t border-line bg-white">
+          <div className="site-container py-4 flex flex-col">
+            {navLinks.map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={close}
+                className="py-3.5 text-lg font-bold text-ink border-b border-line last:border-0 hover:text-brand-red"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              href="/#contact"
+              onClick={close}
+              className="mt-4 h-12 rounded-lg bg-brand-red text-white font-bold flex items-center justify-center"
+            >
+              {h.cta}
+            </Link>
+          </div>
+        </nav>
+      )}
+    </header>
   );
 };
 

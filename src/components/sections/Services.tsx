@@ -1,92 +1,43 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { fetchSiteContent } from '@/lib/siteContent';
+import { Languages, MemoryStick, Cpu, Library, Compass, Users, BookOpen, GraduationCap, Briefcase } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { motion } from 'framer-motion';
-import {
-    Languages,
-    MemoryStick,
-    Cpu,
-    Library,
-    Compass,
-    Users,
-    BookOpen,
-    GraduationCap,
-    Briefcase
-} from 'lucide-react';
+import { useSiteContent } from '@/lib/useSiteContent';
 
 const icons = [Languages, MemoryStick, Cpu, Library, Compass, Users, BookOpen, GraduationCap, Briefcase];
 
 const Services = () => {
-    const { t, isRTL, language } = useLanguage();
-
-    const [content, setContent] = useState({
+    const { t } = useLanguage();
+    const { content } = useSiteContent('services', {
         tag: t.services.tag,
         title: t.services.title,
-        list: t.services.list
+        list: t.services.list as { title: string; desc?: string }[],
     });
 
-    useEffect(() => {
-        const loadContent = async () => {
-            const parsed = await fetchSiteContent('services');
-            if (parsed) {
-                try {
-                    if (parsed[language]) {
-                        setContent(parsed[language]);
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
-            } else {
-                setContent({
-                    tag: t.services.tag,
-                    title: t.services.title,
-                    list: t.services.list
-                });
-            }
-        };
-
-        loadContent();
-
-        window.addEventListener('afrikyia-services-updated', loadContent);
-        return () => window.removeEventListener('afrikyia-services-updated', loadContent);
-    }, [language, t]);
-
     return (
-        <section id="services" className="py-16 md:py-24 bg-[#F8FAFC] relative overflow-hidden">
-            <div className="container mx-auto px-6 relative z-10">
-                <div className={`mb-20 ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">{content.tag}</h2>
-                    <h3 className="text-slate-900 text-4xl md:text-6xl font-light tracking-wide">{content.title}</h3>
+        <section id="services" className="site-section bg-ground scroll-mt-16 lg:scroll-mt-[88px]">
+            <div className="site-container">
+                <div className="max-w-2xl">
+                    <p className="text-brand-red text-sm font-bold">{content.tag}</p>
+                    <h2 className="mt-4 text-ink text-3xl lg:text-5xl font-bold leading-tight">{content.title}</h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                    {content.list.map((service: any, idx: number) => {
+                <div className="mt-8 lg:mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5">
+                    {(content.list || []).map((service, idx) => {
                         const Icon = icons[idx] || Briefcase;
-
                         return (
-                            <motion.div
+                            <div
                                 key={idx}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                                whileHover={{ y: -5 }}
-                                className={`group bg-white p-8 md:p-10 rounded-2xl border border-slate-200 hover:border-brand-red/30 hover:shadow-xl transition-all duration-300 shadow-sm flex flex-col justify-between ${isRTL ? 'text-right' : 'text-left'}`}
+                                className="flex sm:block gap-4 rounded-2xl bg-white border border-line p-5 sm:p-6 lg:p-8 hover:border-brand-red/40 transition-colors"
                             >
-                                <div className={`w-14 h-14 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center mb-6 md:mb-8 group-hover:bg-brand-red/10 group-hover:border-brand-red/20 transition-all duration-300 ${isRTL ? 'mr-0' : ''}`}>
-                                    <Icon className="w-7 h-7 text-slate-600 group-hover:text-brand-red transition-colors duration-300" />
+                                <div className="w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-lg bg-red-tint text-brand-red flex items-center justify-center">
+                                    <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                                 </div>
-                                <h4 className="text-slate-900 text-xl font-bold mb-4 group-hover:text-brand-red transition-colors duration-300">
-                                    {service.title}
-                                </h4>
-                                {service.desc && (
-                                    <p className="text-slate-600 text-base leading-relaxed font-normal">
-                                        {service.desc}
-                                    </p>
-                                )}
-                            </motion.div>
+                                <div>
+                                    <h3 className="sm:mt-6 text-ink text-base sm:text-lg lg:text-xl font-bold">{service.title}</h3>
+                                    {service.desc && <p className="mt-1.5 sm:mt-2 text-muted text-sm sm:text-[15px] leading-relaxed">{service.desc}</p>}
+                                </div>
+                            </div>
                         );
                     })}
                 </div>
