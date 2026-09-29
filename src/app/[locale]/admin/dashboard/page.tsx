@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Globe, Briefcase, Files, PenLine, Activity, Boxes, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox } from 'lucide-react';
+import { Globe, Briefcase, Files, PenLine, Activity, Wallet, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
 
@@ -16,17 +16,22 @@ export default function DashboardPage() {
     const { t, language } = useLanguage();
     const [overview, setOverview] = useState<Overview | null>(null);
     const [loadError, setLoadError] = useState(false);
+    const [finance, setFinance] = useState<{ income: number; expenses: number; receivable: number } | null>(null);
 
     useEffect(() => {
         fetch('/api/admin/overview', { cache: 'no-store' })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then((data: Overview) => setOverview(data))
             .catch(() => setLoadError(true));
+        fetch('/api/biz/summary', { cache: 'no-store' })
+            .then(res => (res.ok ? res.json() : null))
+            .then(data => data && setFinance(data))
+            .catch(() => {});
     }, []);
 
     const d = t.admin.dashboard;
     const menu = t.admin.menu;
-    const erpUrl = process.env.NEXT_PUBLIC_ERP_URL;
+    const biz = t.admin.biz;
 
     const sectionNames: Record<string, string> = {
         about: menu.about,
@@ -127,25 +132,32 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* ERP */}
+                {/* Company money at a glance */}
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
-                    <h2 className="text-lg font-bold mb-2 flex items-center gap-2">
-                        <Boxes className="w-5 h-5 text-white/70" />
-                        {d.erpTitle}
+                    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+                        <Wallet className="w-5 h-5 text-white/70" />
+                        {biz.finance.title} {new Date().getFullYear()}
                     </h2>
-                    <p className="text-sm text-white/60 mb-5 flex-1">{d.erpDesc}</p>
-                    {erpUrl ? (
-                        <a
-                            href={erpUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="px-4 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-xl text-sm transition-all text-center flex items-center justify-center gap-2"
-                        >
-                            {d.erpOpen} <ExternalLink className="w-4 h-4" />
-                        </a>
-                    ) : (
-                        <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">{d.erpNotConfigured}</p>
-                    )}
+                    <dl className="space-y-3 text-sm flex-1">
+                        {[
+                            { label: biz.finance.income, value: finance?.income, color: 'text-emerald-400' },
+                            { label: biz.finance.expenses, value: finance?.expenses, color: 'text-red-400' },
+                            { label: biz.finance.receivable, value: finance?.receivable, color: 'text-blue-300' },
+                        ].map(row => (
+                            <div key={row.label} className="flex items-center justify-between gap-3">
+                                <dt className="text-white/65">{row.label}</dt>
+                                <dd className={`font-bold whitespace-nowrap ${row.color}`}>
+                                    {row.value === undefined ? '…' : `${Number(row.value).toLocaleString(language === 'ar' ? 'ar-u-nu-latn' : language)} ${biz.currency}`}
+                                </dd>
+                            </div>
+                        ))}
+                    </dl>
+                    <Link
+                        href="/admin/finance"
+                        className="mt-5 px-4 py-2.5 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-xl text-sm transition-all text-center"
+                    >
+                        {biz.menu.finance}
+                    </Link>
                 </div>
             </div>
 

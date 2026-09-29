@@ -11,7 +11,6 @@ import {
     Users, 
     FileText, 
     Receipt, 
-    FileBox, 
     Files, 
     Globe, 
     LogOut,
@@ -21,9 +20,9 @@ import {
     Briefcase,
     Menu,
     X,
-    ExternalLink,
-    Boxes,
-    Inbox
+    Inbox,
+    Wallet,
+    ArrowUpRight
 } from 'lucide-react';
 import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
 
@@ -172,7 +171,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         );
     }
 
-    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; localOnly?: boolean; badge?: number };
+    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; badge?: number };
     const menuGroups: { title?: string; items: MenuItem[] }[] = [
         {
             items: [
@@ -196,15 +195,13 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         {
             title: t.admin.menu.groupManagement,
             items: [
-                { name: t.admin.menu.clients, icon: Users, path: '/admin/clients', localOnly: true },
-                { name: t.admin.menu.offers, icon: FileText, path: '/admin/offers', localOnly: true },
-                { name: t.admin.menu.invoices, icon: Receipt, path: '/admin/invoices', localOnly: true },
-                { name: t.admin.menu.deliveryNotes, icon: FileBox, path: '/admin/delivery-notes', localOnly: true },
+                { name: t.admin.biz.menu.finance, icon: Wallet, path: '/admin/finance' },
+                { name: t.admin.biz.menu.documents, icon: Receipt, path: '/admin/invoices' },
+                { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses' },
+                { name: t.admin.biz.menu.clients, icon: Users, path: '/admin/clients' },
             ],
         },
     ];
-    const erpUrl = process.env.NEXT_PUBLIC_ERP_URL;
-    const isLocalOnlyPage = menuGroups.some(g => g.items.some(i => i.localOnly && pathname.startsWith(i.path)));
 
     const navContent = (
         <>
@@ -237,29 +234,10 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                                                     {item.badge}
                                                 </span>
                                             )}
-                                            {item.localOnly && (
-                                                <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${isActive ? 'bg-black/15' : 'bg-amber-500/15 text-amber-400'}`}>
-                                                    {t.admin.menu.localTag}
-                                                </span>
-                                            )}
                                         </Link>
                                     </li>
                                 );
                             })}
-                            {group.title === t.admin.menu.groupManagement && erpUrl && (
-                                <li>
-                                    <a
-                                        href={erpUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-sm font-semibold text-white/60 hover:bg-white/5 hover:text-white"
-                                    >
-                                        <Boxes className="w-5 h-5 shrink-0" />
-                                        <span className="flex-1">{t.admin.menu.erp}</span>
-                                        <ExternalLink className="w-3.5 h-3.5" />
-                                    </a>
-                                </li>
-                            )}
                         </ul>
                     </div>
                 ))}
@@ -306,9 +284,9 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     );
 
     return (
-        <div className={`flex h-screen bg-[#111111] text-white font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className={`flex h-screen print:h-auto print:block print:bg-white bg-[#111111] text-white font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Sidebar (desktop) */}
-            <aside className={`w-64 bg-[#0a0a0a] border-white/5 flex-col hidden md:flex ${isRTL ? 'border-l' : 'border-r'}`}>
+            <aside className={`w-64 bg-[#0a0a0a] border-white/5 flex-col hidden md:flex print:!hidden ${isRTL ? 'border-l' : 'border-r'}`}>
                 <div className="p-6 border-b border-white/5">{logo}</div>
                 {navContent}
             </aside>
@@ -330,21 +308,15 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
             )}
 
             {/* Main Content */}
-            <main className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
+            <main className="flex-1 flex flex-col h-screen overflow-hidden min-w-0 print:h-auto print:overflow-visible print:block">
                 {/* Top bar (mobile) */}
-                <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#0a0a0a]">
+                <div className="md:hidden print:hidden flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#0a0a0a]">
                     {logo}
                     <button onClick={() => setMobileNavOpen(true)} aria-label={t.admin.menu.openMenu} className="p-2 rounded-lg hover:bg-white/10 cursor-pointer">
                         <Menu className="w-6 h-6" />
                     </button>
                 </div>
-                <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
-                    {isLocalOnlyPage && (
-                        <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">
-                            <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
-                            <p>{t.admin.localNotice}</p>
-                        </div>
-                    )}
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10 print:p-0 print:overflow-visible">
                     {children}
                 </div>
             </main>
