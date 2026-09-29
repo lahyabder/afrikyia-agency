@@ -518,7 +518,10 @@
                 "numberOptional": "Number (leave empty to number automatically)",
                 "numberTaken": "This number is already used by another document.",
                 "withholding": "Withholding at source (tax kept by the client)",
-                "withholdingHint": "Does not reach the bank account, but settles the invoice."
+                "withholdingHint": "Does not reach the bank account, but settles the invoice.",
+                "printSigned": "Print with stamp and signature",
+                "printUnsigned": "Print without stamp and signature",
+                "noSeals": "Add the stamp and signature images under “Company details” first."
             },
             "expenses": {
                 "title": "Expenses",
@@ -736,7 +739,12 @@
                     "swift": "SWIFT",
                     "holder": "Account holder",
                     "agency": "Branch"
-                }
+                },
+                "sealsTitle": "Stamp and signature",
+                "sealsHint": "Two images with a transparent background (PNG). They stay private, visible only to signed-in users, and are added only with “Print with stamp and signature”.",
+                "stamp": "Stamp",
+                "noImage": "No image",
+                "choose": "Choose an image"
             }
         },
         "access": {
@@ -830,7 +838,8 @@
                 "bank_statement": "bank statement",
                 "company": "company details",
                 "bank_line": "bank line",
-                "bank_balance": "bank balance"
+                "bank_balance": "bank balance",
+                "company_seals": "stamp and signature"
             },
             "account": {
                 "title": "My account",

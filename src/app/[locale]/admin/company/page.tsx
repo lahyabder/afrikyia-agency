@@ -86,6 +86,87 @@ export default function CompanyPage() {
                     ))}
                 </div>
             </fieldset>
+            <SealsEditor />
         </form>
+    );
+}
+
+// Stamp and signature images: shrunk in the browser, kept private on the server
+function SealsEditor() {
+    const { b } = useBiz();
+    const c = b.company;
+    const [seals, setSeals] = useState<{ stamp: string | null; signature: string | null } | null>(null);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        api<{ stamp: string | null; signature: string | null }>('/api/biz/company/seals').then(setSeals).catch(() => setSeals({ stamp: null, signature: null }));
+    }, []);
+
+    const toDataUrl = async (file: File, maxSide: number): Promise<string> => {
+        const url = URL.createObjectURL(file);
+        try {
+            const img = new Image();
+            img.src = url;
+            await img.decode();
+            const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+            const canvas = document.createElement('canvas');
+            canvas.width = Math.round(img.naturalWidth * scale);
+            canvas.height = Math.round(img.naturalHeight * scale);
+            canvas.getContext('2d')?.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const webp = canvas.toDataURL('image/webp', 0.9);
+            return webp.startsWith('data:image/webp') ? webp : canvas.toDataURL('image/png');
+        } finally {
+            URL.revokeObjectURL(url);
+        }
+    };
+
+    const upload = async (field: 'stamp' | 'signature', e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        e.target.value = '';
+        if (!file) return;
+        setError('');
+        try {
+            const value = await toDataUrl(file, field === 'stamp' ? 480 : 600);
+            setSeals(await api('/api/biz/company/seals', 'PUT', { [field]: value }));
+        } catch {
+            setError(b.common.saveError);
+        }
+    };
+
+    const remove = async (field: 'stamp' | 'signature') => {
+        if (!confirm(b.common.confirmDelete)) return;
+        setSeals(await api('/api/biz/company/seals', 'PUT', { [field]: null }));
+    };
+
+    return (
+        <fieldset className="bg-white/5 border border-white/10 rounded-2xl p-5">
+            <legend className="px-2 text-sm font-bold text-yellow-400">{c.sealsTitle}</legend>
+            <p className="text-xs text-white/55 mb-4">{c.sealsHint}</p>
+            <ErrorBox message={error} />
+            <div className="grid sm:grid-cols-2 gap-4">
+                {(['stamp', 'signature'] as const).map(field => (
+                    <div key={field} className="rounded-xl border border-white/10 p-4">
+                        <div className="text-sm font-semibold mb-3">{c[field]}</div>
+                        <div className="h-36 rounded-lg bg-white flex items-center justify-center mb-3">
+                            {seals?.[field] ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={seals[field] as string} alt={c[field]} className="max-h-32 max-w-full object-contain" />
+                            ) : (
+                                <span className="text-xs text-black/40">{c.noImage}</span>
+                            )}
+                        </div>
+                        <div className="flex gap-2">
+                            <label className="px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold cursor-pointer">
+                                {c.choose}
+                                <input type="file" accept="image/png,image/webp,image/jpeg" onChange={e => upload(field, e)} className="hidden" />
+                            </label>
+                            {seals?.[field] && (
+                                <button type="button" onClick={() => remove(field)} className="px-3 py-2 rounded-xl text-sm font-semibold text-red-300 hover:bg-red-500/10 cursor-pointer">{b.common.delete}</button>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </fieldset>
     );
 }

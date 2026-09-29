@@ -3,7 +3,7 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-import { ArrowLeft, ArrowRight, Printer, Pencil, Send, Wallet, FileCheck2, Ban, Trash2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Printer, Pencil, Send, Wallet, FileCheck2, Ban, Trash2, Stamp } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Modal, Field, ErrorBox, StatusBadge, inputClass, primaryBtn, ghostBtn, api, useBiz } from '@/components/admin/biz/ui';
 import { DEFAULT_COMPANY, type CompanyInfo } from '@/lib/company';
@@ -52,6 +52,8 @@ function DocumentView() {
     const router = useRouter();
     const [doc, setDoc] = useState<Doc | null>(null);
     const [company, setCompany] = useState<CompanyInfo>(DEFAULT_COMPANY);
+    const [seals, setSeals] = useState<{ stamp: string | null; signature: string | null }>({ stamp: null, signature: null });
+    const [withSeal, setWithSeal] = useState(false);
     const [error, setError] = useState('');
     const [paperLang, setPaperLang] = useState<PaperLang>('fr');
     const [paying, setPaying] = useState(false);
@@ -68,7 +70,14 @@ function DocumentView() {
     useEffect(load, [load]);
     useEffect(() => {
         api<{ company: CompanyInfo }>('/api/biz/company').then(r => setCompany(r.company)).catch(() => {});
+        api<{ stamp: string | null; signature: string | null }>('/api/biz/company/seals').then(setSeals).catch(() => {});
     }, []);
+
+    // Print with or without the stamp and signature; the preview shows the chosen version first
+    const printWith = (seal: boolean) => {
+        setWithSeal(seal);
+        setTimeout(() => window.print(), 150);
+    };
 
     const act = async (body: Record<string, unknown>) => {
         setBusy(true);
@@ -116,7 +125,10 @@ function DocumentView() {
                 </div>
                 <ErrorBox message={error} />
                 <div className="flex flex-wrap gap-2">
-                    <button onClick={() => window.print()} className={primaryBtn}><Printer className="w-4 h-4" />{b.common.print}</button>
+                    <button onClick={() => printWith(true)} disabled={!seals.stamp && !seals.signature} className={primaryBtn} title={!seals.stamp && !seals.signature ? d.noSeals : undefined}>
+                        <Stamp className="w-4 h-4" />{d.printSigned}
+                    </button>
+                    <button onClick={() => printWith(false)} className={ghostBtn}><Printer className="w-4 h-4" />{d.printUnsigned}</button>
                     <div className="flex items-center bg-white/5 border border-white/10 rounded-xl p-1">
                         {(['fr', 'ar', 'en'] as const).map(l => (
                             <button key={l} onClick={() => setPaperLang(l)} className={`px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer ${paperLang === l ? 'bg-white text-black' : 'text-white/60'}`}>{l.toUpperCase()}</button>
@@ -211,11 +223,20 @@ function DocumentView() {
 
                 {doc.notes && <p className="mt-6 text-xs text-[#4B515A] whitespace-pre-wrap">{doc.notes}</p>}
 
-                <div className="mt-10 flex justify-end">
-                    <div className="text-center text-xs min-w-48">
+                <div className="mt-10 flex justify-end break-inside-avoid">
+                    <div className="relative text-center text-xs w-64">
                         <div className="font-bold text-[#14161A]">{company.signatory}</div>
                         <div className="text-[#4B515A]">{company.signatoryTitle}</div>
-                        <div className="h-16" />
+                        <div className="relative h-36">
+                            {withSeal && seals.stamp && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={seals.stamp} alt="" className="absolute left-1/2 top-1 -translate-x-[70%] w-36 h-36 object-contain opacity-90 -rotate-6 pointer-events-none" />
+                            )}
+                            {withSeal && seals.signature && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={seals.signature} alt="" className="absolute left-1/2 top-8 -translate-x-[35%] w-44 object-contain pointer-events-none" />
+                            )}
+                        </div>
                     </div>
                 </div>
 

@@ -499,7 +499,10 @@
                 "numberOptional": "Numéro (laisser vide pour la numérotation automatique)",
                 "numberTaken": "Ce numéro est déjà utilisé par un autre document.",
                 "withholding": "Retenue à la source (taxe gardée par le client)",
-                "withholdingHint": "N'arrive pas sur le compte, mais solde la facture."
+                "withholdingHint": "N'arrive pas sur le compte, mais solde la facture.",
+                "printSigned": "Imprimer avec cachet et signature",
+                "printUnsigned": "Imprimer sans cachet ni signature",
+                "noSeals": "Ajoutez d'abord le cachet et la signature dans « Informations de l'entreprise »."
             },
             "expenses": {
                 "title": "Dépenses",
@@ -717,7 +720,12 @@
                     "swift": "SWIFT",
                     "holder": "Titulaire",
                     "agency": "Agence"
-                }
+                },
+                "sealsTitle": "Cachet et signature",
+                "sealsHint": "Deux images à fond transparent (PNG). Elles restent privées, visibles seulement des utilisateurs connectés, et ne sont ajoutées qu'avec « Imprimer avec cachet et signature ».",
+                "stamp": "Cachet",
+                "noImage": "Aucune image",
+                "choose": "Choisir une image"
             }
         },
         "access": {
@@ -811,7 +819,8 @@
                 "bank_statement": "relevé bancaire",
                 "company": "infos de l'entreprise",
                 "bank_line": "mouvement bancaire",
-                "bank_balance": "solde bancaire"
+                "bank_balance": "solde bancaire",
+                "company_seals": "cachet et signature"
             },
             "account": {
                 "title": "Mon compte",
