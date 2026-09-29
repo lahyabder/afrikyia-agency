@@ -85,21 +85,26 @@ export async function PATCH(request: Request, { params }: Params) {
     }
 
     if (action === 'pay') {
-        const amount = money(body.amount) || money(doc.total_ttc) - money(doc.paid_amount);
-        const paid = money(money(doc.paid_amount) + amount);
+        // A withholding at source (tax kept by the client) settles the invoice without money coming in
+        const withholding = body.withholding === true;
+        const settled = money(doc.paid_amount) + money(doc.withheld_amount);
+        const amount = money(body.amount) || money(doc.total_ttc) - settled;
+        const paid = withholding ? money(doc.paid_amount) : money(money(doc.paid_amount) + amount);
+        const withheld = withholding ? money(money(doc.withheld_amount) + amount) : money(doc.withheld_amount);
         const method = PAYMENT_METHODS.includes(body.payment_method as (typeof PAYMENT_METHODS)[number]) ? body.payment_method : 'bank';
-        const { error } = await supabaseAdmin
-            .from('accounting_invoices')
-            .update({
-                paid_amount: paid,
-                paid_at: isoDate(body.paid_at) ?? new Date().toISOString().slice(0, 10),
-                payment_method: method,
-                status: paid >= money(doc.total_ttc) ? 'paid' : doc.status === 'draft' ? 'sent' : doc.status,
-                updated_at: new Date().toISOString(),
-            })
-            .eq('id', id);
+        const update: Record<string, unknown> = {
+            paid_amount: paid,
+            withheld_amount: withheld,
+            status: paid + withheld >= money(doc.total_ttc) ? 'paid' : doc.status === 'draft' ? 'sent' : doc.status,
+            updated_at: new Date().toISOString(),
+        };
+        if (!withholding) {
+            update.paid_at = isoDate(body.paid_at) ?? new Date().toISOString().slice(0, 10);
+            update.payment_method = method;
+        }
+        const { error } = await supabaseAdmin.from('accounting_invoices').update(update).eq('id', id);
         if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-        await logActivity(gate.user, 'pay', doc.type, `${doc.invoice_number}: ${amount}`, id);
+        await logActivity(gate.user, withholding ? 'withholding' : 'pay', doc.type, `${doc.invoice_number}: ${amount}`, id);
         return NextResponse.json(await load(id));
     }
 
@@ -113,7 +118,7 @@ export async function PATCH(request: Request, { params }: Params) {
     }
 
     // Full edit (only while nothing has been paid)
-    if (money(doc.paid_amount) > 0) return NextResponse.json({ error: 'AlreadyPaid' }, { status: 409 });
+    if (money(doc.paid_amount) > 0 || money(doc.withheld_amount) > 0) return NextResponse.json({ error: 'AlreadyPaid' }, { status: 409 });
     const lines = parseLines(body.lines);
     const partyId = text(body.party_id, 64);
     if (!partyId || lines.length === 0) return NextResponse.json({ error: 'MissingFields' }, { status: 400 });

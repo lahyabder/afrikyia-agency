@@ -23,6 +23,7 @@ export const EXPENSE_CATEGORIES: Record<string, string> = {
     subcontracting: '621',
     training: '633',
     salaries: '641',
+    equipment: '241', // investment: computers, furniture
     other: '65',
 };
 

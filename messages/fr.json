@@ -497,7 +497,9 @@
                 "thanks": "Merci de votre confiance.",
                 "billTo": "Facturé à",
                 "numberOptional": "Numéro (laisser vide pour la numérotation automatique)",
-                "numberTaken": "Ce numéro est déjà utilisé par un autre document."
+                "numberTaken": "Ce numéro est déjà utilisé par un autre document.",
+                "withholding": "Retenue à la source (taxe gardée par le client)",
+                "withholdingHint": "N'arrive pas sur le compte, mais solde la facture."
             },
             "expenses": {
                 "title": "Dépenses",
@@ -526,6 +528,7 @@
                 "subcontracting": "Sous-traitance",
                 "training": "Formation",
                 "salaries": "Salaires",
+                "equipment": "Équipement & investissement (informatique, mobilier)",
                 "other": "Autres"
             },
             "methods": {
@@ -748,7 +751,8 @@
                 "prepare": "Bulletins préparés",
                 "change_password": "Mot de passe changé",
                 "status": "Changement de statut",
-                "import": "Import"
+                "import": "Import",
+                "withholding": "Retenue à la source"
             },
             "entities": {
                 "session": "",

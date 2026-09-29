@@ -516,7 +516,9 @@
                 "thanks": "Thank you for your trust.",
                 "billTo": "Bill to",
                 "numberOptional": "Number (leave empty to number automatically)",
-                "numberTaken": "This number is already used by another document."
+                "numberTaken": "This number is already used by another document.",
+                "withholding": "Withholding at source (tax kept by the client)",
+                "withholdingHint": "Does not reach the bank account, but settles the invoice."
             },
             "expenses": {
                 "title": "Expenses",
@@ -545,6 +547,7 @@
                 "subcontracting": "Subcontracting",
                 "training": "Training",
                 "salaries": "Salaries",
+                "equipment": "Equipment & investment (computers, furniture)",
                 "other": "Other"
             },
             "methods": {
@@ -767,7 +770,8 @@
                 "prepare": "Payslips prepared",
                 "change_password": "Password changed",
                 "status": "Status changed",
-                "import": "Import"
+                "import": "Import",
+                "withholding": "Withholding at source"
             },
             "entities": {
                 "session": "",
