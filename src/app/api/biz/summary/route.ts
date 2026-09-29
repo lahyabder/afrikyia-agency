@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const from = `${year}-01-01`;
     const to = `${year}-12-31`;
 
-    const [paidRes, expRes, openRes] = await Promise.all([
+    const [paidRes, expRes, openRes, slipsRes] = await Promise.all([
         supabaseAdmin.from('accounting_invoices').select('paid_amount, paid_at').eq('type', 'invoice').gt('paid_amount', 0).gte('paid_at', from).lte('paid_at', to),
         supabaseAdmin.from('accounting_expenses').select('amount_ttc, date, category').gte('date', from).lte('date', to),
         supabaseAdmin
@@ -22,8 +22,9 @@ export async function GET(request: Request) {
             .eq('type', 'invoice')
             .in('status', ['draft', 'sent', 'overdue'])
             .order('date'),
+        supabaseAdmin.from('pay_slips').select('salary_brut, bonus, cnss_pat, cnam_pat, paid_at, period_year, period_month').eq('is_paid', true),
     ]);
-    const error = paidRes.error || expRes.error || openRes.error;
+    const error = paidRes.error || expRes.error || openRes.error || slipsRes.error;
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
     const months = Array.from({ length: 12 }, (_, i) => ({ month: i + 1, income: 0, expenses: 0 }));
@@ -32,6 +33,14 @@ export async function GET(request: Request) {
     for (const r of expRes.data ?? []) {
         months[Number(r.date.slice(5, 7)) - 1].expenses += money(r.amount_ttc);
         byCategory[r.category || 'other'] = money((byCategory[r.category || 'other'] ?? 0) + money(r.amount_ttc));
+    }
+    // Paid salaries count at their full cost to the company (gross + employer contributions)
+    for (const s of slipsRes.data ?? []) {
+        const day = s.paid_at || `${s.period_year}-${String(s.period_month).padStart(2, '0')}-28`;
+        if (day < from || day > to) continue;
+        const cost = money(money(s.salary_brut) + money(s.bonus) + money(s.cnss_pat) + money(s.cnam_pat));
+        months[Number(day.slice(5, 7)) - 1].expenses += cost;
+        byCategory.salaries = money((byCategory.salaries ?? 0) + cost);
     }
     const income = money(months.reduce((s, m) => s + m.income, 0));
     const expenses = money(months.reduce((s, m) => s + m.expenses, 0));
