@@ -26,21 +26,22 @@ export function normalizeLink(link?: string): string {
     return /^https?:\/\//i.test(value) ? value : `https://${value}`;
 }
 
-async function getJson(url: string): Promise<unknown[]> {
+// null when the request failed, so an empty list is not mistaken for an outage
+async function getJson(url: string): Promise<unknown[] | null> {
     try {
         const res = await fetch(url);
-        if (!res.ok) return [];
+        if (!res.ok) return null;
         const data = await res.json();
-        return Array.isArray(data) ? data : [];
+        return Array.isArray(data) ? data : null;
     } catch {
-        return [];
+        return null;
     }
 }
 
 async function loadWorks(): Promise<WorkItem[]> {
     const [achievements, projects] = await Promise.all([getJson('/api/achievements'), getJson('/api/projects')]);
-    const fromAchievements = (achievements.length > 0 ? achievements : fallbackAchievements) as WorkItem[];
-    const fromProjects = (projects as WorkItem[]).map(p => ({ ...p, category: 'projects' as const }));
+    const fromAchievements = (achievements ?? fallbackAchievements) as WorkItem[];
+    const fromProjects = ((projects ?? []) as WorkItem[]).map(p => ({ ...p, category: 'projects' as const }));
     return [...fromAchievements, ...fromProjects].filter(item => item && item.id);
 }
 
