@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { isoDate, money, readJson, text } from '@/lib/biz';
 
 export const dynamic = 'force-dynamic';
@@ -29,16 +30,16 @@ function employeeFields(body: Record<string, unknown>) {
 }
 
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const { data, error } = await supabaseAdmin.from('employees').select('*').order('matricule');
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json(data);
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     const fields = body && employeeFields(body);
     if (!fields?.full_name || !fields.position) return NextResponse.json({ error: 'MissingFields' }, { status: 400 });
@@ -47,17 +48,19 @@ export async function POST(request: Request) {
     const matricule = `EMP-${String(max + 1).padStart(3, '0')}`;
     const { data, error } = await supabaseAdmin.from('employees').insert({ ...fields, matricule }).select('*').single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'create', 'employee', `${data.matricule} ${data.full_name}`, data.id);
     return NextResponse.json(data);
 }
 
 export async function PATCH(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     const id = text(body?.id, 64);
     const fields = body && employeeFields(body);
     if (!id || !fields?.full_name || !fields.position) return NextResponse.json({ error: 'MissingFields' }, { status: 400 });
     const { data, error } = await supabaseAdmin.from('employees').update(fields).eq('id', id).select('*').single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'update', 'employee', `${data.matricule} ${data.full_name}`, data.id);
     return NextResponse.json(data);
 }

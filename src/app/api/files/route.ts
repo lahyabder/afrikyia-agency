@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     try {
         const { data, error } = await supabaseAdmin
@@ -40,8 +41,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     try {
         const formData = await request.formData();
@@ -125,6 +126,7 @@ export async function POST(request: Request) {
             // File was uploaded to storage but metadata failed - still return the URL
         }
 
+        await logActivity(gate.user, 'upload', 'file', fileRecord.original_name, fileRecord.id);
         return NextResponse.json({
             success: true,
             data: {
@@ -146,8 +148,8 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     try {
         const { id } = await request.json();
@@ -183,6 +185,7 @@ export async function DELETE(request: Request) {
             }
         }
 
+        await logActivity(gate.user, 'delete', 'file', null, id);
         return NextResponse.json({ success: true });
     } catch (error: any) {
         return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
@@ -190,8 +193,8 @@ export async function DELETE(request: Request) {
 }
 
 export async function PUT(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     try {
         const { id, updates } = await request.json();

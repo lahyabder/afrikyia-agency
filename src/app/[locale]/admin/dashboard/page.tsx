@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Globe, Briefcase, Files, PenLine, Activity, Wallet, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
+import { useAdminSession } from '@/components/admin/AdminSession';
 
 type Overview = {
     counts: { achievements: number | null; projects: number | null; files: number | null; newMessages: number | null };
@@ -17,17 +18,22 @@ export default function DashboardPage() {
     const [overview, setOverview] = useState<Overview | null>(null);
     const [loadError, setLoadError] = useState(false);
     const [finance, setFinance] = useState<{ income: number; expenses: number; receivable: number } | null>(null);
+    const { areas } = useAdminSession();
+    const canPublish = areas.includes('publishing');
+    const canFinance = areas.includes('finance');
+    const canMessages = areas.includes('messages');
 
     useEffect(() => {
         fetch('/api/admin/overview', { cache: 'no-store' })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then((data: Overview) => setOverview(data))
             .catch(() => setLoadError(true));
+        if (!canFinance) return;
         fetch('/api/biz/summary', { cache: 'no-store' })
             .then(res => (res.ok ? res.json() : null))
             .then(data => data && setFinance(data))
             .catch(() => {});
-    }, []);
+    }, [canFinance]);
 
     const d = t.admin.dashboard;
     const menu = t.admin.menu;
@@ -88,7 +94,7 @@ export default function DashboardPage() {
 
             {/* Figures from the database */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {statCards.map((stat, i) => (
+                {statCards.filter(c => (c.href === '/admin/messages' ? canMessages : canPublish)).map((stat, i) => (
                     <motion.div key={stat.href + i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }}>
                         <Link
                             href={stat.href}
@@ -112,6 +118,7 @@ export default function DashboardPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Quick publishing */}
+                {canPublish && (
                 <div className="lg:col-span-2 bg-white/5 border border-white/10 rounded-2xl p-6">
                     <h2 className="text-lg font-bold mb-1 flex items-center gap-2">
                         <PenLine className="w-5 h-5 text-white/70" />
@@ -131,8 +138,10 @@ export default function DashboardPage() {
                         ))}
                     </div>
                 </div>
+                )}
 
                 {/* Company money at a glance */}
+                {canFinance && (
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col">
                     <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                         <Wallet className="w-5 h-5 text-white/70" />
@@ -159,10 +168,12 @@ export default function DashboardPage() {
                         {biz.menu.finance}
                     </Link>
                 </div>
+                )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Latest unread messages */}
+                {canMessages && (
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h2 className="text-lg font-bold flex items-center gap-2">
@@ -187,8 +198,10 @@ export default function DashboardPage() {
                         <div className="text-center py-8 text-white/60 text-sm">{overview ? d.noMessages : loadError ? '—' : '…'}</div>
                     )}
                 </div>
+                )}
 
                 {/* Latest content updates */}
+                {canPublish && (
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
                     <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
                         <Activity className="w-5 h-5 text-white/70" />
@@ -209,6 +222,7 @@ export default function DashboardPage() {
                         <div className="text-center py-8 text-white/60 text-sm">{overview ? d.noUpdates : loadError ? '—' : '…'}</div>
                     )}
                 </div>
+                )}
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { isoDate, money, readJson, text } from '@/lib/biz';
 import { computeSlip, normalizeRates } from '@/lib/payroll';
 import { loadRates } from '@/lib/payrollStore';
@@ -17,8 +18,8 @@ function period(body: Record<string, unknown> | null, url?: URL) {
 
 // Payslips of one month
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const p = period(null, new URL(request.url));
     if (!p) return NextResponse.json({ error: 'BadPeriod' }, { status: 400 });
     const { data, error } = await supabaseAdmin.from('pay_slips').select(FIELDS).eq('period_year', p.year).eq('period_month', p.month);
@@ -28,8 +29,8 @@ export async function GET(request: Request) {
 
 // Prepare the month's payslips for every active employee who has none yet
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const p = period(await readJson(request));
     if (!p) return NextResponse.json({ error: 'BadPeriod' }, { status: 400 });
 
@@ -66,13 +67,14 @@ export async function POST(request: Request) {
         const { error: insertError } = await supabaseAdmin.from('pay_slips').insert(rows);
         if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
+    if (rows.length) await logActivity(gate.user, 'prepare', 'payroll', `${p.year}-${String(p.month).padStart(2, '0')}: ${rows.length}`);
     return NextResponse.json({ created: rows.length });
 }
 
 // Change bonus/deductions (recalculated), or mark as paid / unpaid
 export async function PATCH(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     const id = text(body?.id, 64);
     if (!body || !id) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
@@ -114,13 +116,15 @@ export async function PATCH(request: Request) {
     }
     const { data, error } = await supabaseAdmin.from('pay_slips').update(update).eq('id', id).select(FIELDS).single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    const period = `${slip.period_year}-${String(slip.period_month).padStart(2, '0')}`;
+    await logActivity(gate.user, typeof body.action === 'string' ? body.action : 'update', 'payslip', `${period} ${data.employee?.full_name ?? ''}`.trim(), id);
     return NextResponse.json(data);
 }
 
 // Only a slip that was not paid can be removed (to prepare it again)
 export async function DELETE(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const id = new URL(request.url).searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
     const { data: slip } = await supabaseAdmin.from('pay_slips').select('is_paid').eq('id', id).single();
@@ -128,5 +132,6 @@ export async function DELETE(request: Request) {
     if (slip.is_paid) return NextResponse.json({ error: 'AlreadyPaid' }, { status: 409 });
     const { error } = await supabaseAdmin.from('pay_slips').delete().eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'delete', 'payslip', null, id);
     return NextResponse.json({ success: true });
 }

@@ -636,6 +636,105 @@
                     "noActive": "No active employees. Add an employee first."
                 }
             }
+        },
+        "access": {
+            "menu": {
+                "users": "Users",
+                "activity": "Activity log",
+                "account": "My account",
+                "team": "Team"
+            },
+            "roles": {
+                "admin": "Administrator (full access)",
+                "accountant": "Accountant",
+                "user": "Content editor"
+            },
+            "roleHelp": {
+                "admin": "Every section, user management and the activity log.",
+                "accountant": "Finances, invoices, expenses, clients, employees and payroll.",
+                "user": "Publishing, content and messages only."
+            },
+            "users": {
+                "title": "Users",
+                "subtitle": "One account per person using the admin panel, with access based on their role.",
+                "new": "New user",
+                "name": "Name",
+                "nameAr": "Name in Arabic",
+                "email": "Email",
+                "role": "Role",
+                "password": "Password",
+                "newPassword": "New password (leave empty to keep it)",
+                "passwordHint": "At least 8 characters. Share it safely; they can change it under “My account”.",
+                "active": "Active",
+                "inactive": "Disabled",
+                "noPassword": "No password — cannot sign in",
+                "lastLogin": "Last sign-in",
+                "never": "Never signed in",
+                "disable": "Disable account",
+                "enable": "Enable account",
+                "owner": "Owner account",
+                "ownerHint": "The owner account is set in the Vercel settings (ADMIN_EMAIL) and always has full access.",
+                "emailTaken": "This email is already used.",
+                "weakPassword": "Password too short: at least 8 characters.",
+                "ownAccount": "You cannot change your own role or disable your own account.",
+                "you": "you"
+            },
+            "activity": {
+                "title": "Activity log",
+                "subtitle": "Who did what, and when, in the admin panel.",
+                "allUsers": "All users",
+                "when": "When",
+                "who": "User",
+                "what": "Action",
+                "details": "Details",
+                "empty": "No actions recorded yet."
+            },
+            "actions": {
+                "login": "Sign-in",
+                "create": "Added",
+                "add": "Added",
+                "edit": "Edited",
+                "update": "Edited",
+                "delete": "Deleted",
+                "reset": "Reset",
+                "upload": "File uploaded",
+                "pay": "Payment recorded",
+                "unpay": "Payment undone",
+                "convert": "Quote → invoice",
+                "prepare": "Payslips prepared",
+                "change_password": "Password changed",
+                "status": "Status changed"
+            },
+            "entities": {
+                "session": "",
+                "achievement": "achievement",
+                "project": "project",
+                "file": "file",
+                "content": "site content",
+                "message": "message",
+                "party": "client/supplier",
+                "invoice": "invoice",
+                "quote": "quote",
+                "expense": "expense",
+                "employee": "employee",
+                "payroll": "payroll",
+                "payslip": "payslip",
+                "payroll_rates": "payroll rates",
+                "user": "user"
+            },
+            "account": {
+                "title": "My account",
+                "subtitle": "Your sign-in details and password.",
+                "current": "Current password",
+                "next": "New password",
+                "confirm": "Confirm new password",
+                "change": "Change password",
+                "changed": "Password changed. Please sign in again.",
+                "mismatch": "The passwords do not match.",
+                "wrong": "Current password is incorrect.",
+                "ownerNote": "You are using the owner account. Its password is changed in the Vercel settings (ADMIN_PASSWORD)."
+            },
+            "forbidden": "You do not have access to this section."
         }
     },
     "metadata": {

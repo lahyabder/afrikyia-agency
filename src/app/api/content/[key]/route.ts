@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { isSiteContentKey } from '@/lib/siteContent';
 
 export const dynamic = 'force-dynamic';
@@ -33,8 +34,8 @@ export async function GET(_request: Request, { params }: Params) {
 
 // Admin: save the content of one website section
 export async function PUT(request: Request, { params }: Params) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     const { key } = await params;
     if (!isSiteContentKey(key)) {
@@ -59,13 +60,14 @@ export async function PUT(request: Request, { params }: Params) {
         console.error(`Supabase PUT content "${key}" error:`, error.message);
         return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
     }
+    await logActivity(gate.user, 'update', 'content', key);
     return NextResponse.json({ success: true });
 }
 
 // Admin: reset one website section to its default texts
 export async function DELETE(request: Request, { params }: Params) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     const { key } = await params;
     if (!isSiteContentKey(key)) {
@@ -77,5 +79,6 @@ export async function DELETE(request: Request, { params }: Params) {
         console.error(`Supabase DELETE content "${key}" error:`, error.message);
         return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
     }
+    await logActivity(gate.user, 'reset', 'content', key);
     return NextResponse.json({ success: true });
 }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { EXPENSE_CATEGORIES, PAYMENT_METHODS, accountIdForCategory, fiscalYearFor, isoDate, money, nextNumber, readJson, text } from '@/lib/biz';
 
 export const dynamic = 'force-dynamic';
@@ -32,16 +33,16 @@ async function expenseFields(body: Record<string, unknown>) {
 }
 
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const { data, error } = await supabaseAdmin.from('accounting_expenses').select(FIELDS).order('date', { ascending: false }).order('expense_number', { ascending: false });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json(data);
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     if (!body) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
     try {
@@ -50,6 +51,7 @@ export async function POST(request: Request) {
         const expense_number = await nextNumber('accounting_expenses', 'expense_number', 'DEP', fields.date);
         const { data, error } = await supabaseAdmin.from('accounting_expenses').insert({ ...fields, expense_number }).select(FIELDS).single();
         if (error) throw new Error(error.message);
+        await logActivity(gate.user, 'create', 'expense', `${data.description}: ${data.amount_ttc}`, data.id);
         return NextResponse.json(data);
     } catch (e) {
         return NextResponse.json({ error: e instanceof Error ? e.message : 'Error' }, { status: 500 });
@@ -57,8 +59,8 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     const id = text(body?.id, 64);
     if (!body || !id) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
@@ -67,6 +69,7 @@ export async function PATCH(request: Request) {
         if (!fields.description || fields.amount_ttc <= 0) return NextResponse.json({ error: 'MissingFields' }, { status: 400 });
         const { data, error } = await supabaseAdmin.from('accounting_expenses').update(fields).eq('id', id).select(FIELDS).single();
         if (error) throw new Error(error.message);
+        await logActivity(gate.user, 'update', 'expense', `${data.description}: ${data.amount_ttc}`, data.id);
         return NextResponse.json(data);
     } catch (e) {
         return NextResponse.json({ error: e instanceof Error ? e.message : 'Error' }, { status: 500 });
@@ -74,11 +77,12 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const id = new URL(request.url).searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
     const { error } = await supabaseAdmin.from('accounting_expenses').delete().eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'delete', 'expense', null, id);
     return NextResponse.json({ success: true });
 }

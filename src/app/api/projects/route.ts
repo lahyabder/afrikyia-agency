@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,8 +30,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     try {
         const body = await request.json();
@@ -69,6 +70,8 @@ export async function POST(request: Request) {
             .from('projects')
             .select('*')
             .order('created_at', { ascending: true });
+
+        await logActivity(gate.user, action, 'project', project?.ar?.title || project?.fr?.title || project?.en?.title, project?.id);
 
         return NextResponse.json({
             success: true,
