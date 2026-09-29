@@ -4,13 +4,71 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
-import { Trash2, Edit3, X } from 'lucide-react';
+import { Trash2, Edit3, X, FileText, File as FileIcon } from 'lucide-react';
+
+type StoredFile = {
+    id: string;
+    name?: string;
+    originalName?: string;
+    url?: string;
+    size?: number;
+    type?: string;
+    category?: string;
+    description?: string;
+    date?: string;
+};
+
+type PreviewKind = 'image' | 'pdf' | 'video' | 'none';
+
+// Browsers can show these inline; anything else (JPEG 2000, Word…) gets an icon with its extension.
+function previewKind(file: StoredFile): PreviewKind {
+    const type = (file.type || '').toLowerCase();
+    const ext = ((file.originalName || file.url || file.name || '').split('?')[0].match(/\.([a-z0-9]+)$/i)?.[1] || '').toLowerCase();
+    if (type === 'image/jp2' || ext === 'jp2' || ext === 'tif' || ext === 'tiff') return 'none';
+    if (type.startsWith('image/') || ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg', 'avif'].includes(ext)) return 'image';
+    if (type === 'application/pdf' || ext === 'pdf') return 'pdf';
+    if (type.startsWith('video/') || ['mp4', 'webm', 'mov'].includes(ext)) return 'video';
+    return 'none';
+}
+
+function fileExt(file: StoredFile): string {
+    return ((file.originalName || file.name || file.url || '').split('?')[0].match(/\.([a-z0-9]+)$/i)?.[1] || '').toUpperCase();
+}
+
+function FilePreview({ file }: { file: StoredFile }) {
+    const [failed, setFailed] = useState(false);
+    const kind = failed || !file.url ? 'none' : previewKind(file);
+    return (
+        <a
+            href={file.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="file-preview block relative h-44 -mx-6 -mt-6 mb-5 rounded-t-2xl overflow-hidden border-b border-white/5 bg-white/5"
+            title={file.name}
+        >
+            {kind === 'image' && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={file.url} alt={file.name || ''} loading="lazy" onError={() => setFailed(true)} className="w-full h-full object-contain p-3" />
+            )}
+            {kind === 'pdf' && (
+                <iframe src={`${file.url}#toolbar=0&navpanes=0&view=FitH`} title={file.name || 'PDF'} loading="lazy" className="w-full h-full border-0 pointer-events-none bg-white" />
+            )}
+            {kind === 'video' && <video src={file.url} preload="metadata" muted className="w-full h-full object-contain" />}
+            {kind === 'none' && (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-white/40">
+                    {fileExt(file) === 'PDF' ? <FileText size={40} /> : <FileIcon size={40} />}
+                    <span className="text-xs font-bold tracking-wider">{fileExt(file) || 'FILE'}</span>
+                </div>
+            )}
+        </a>
+    );
+}
 
 export default function FilesPage() {
     const { t, isRTL } = useLanguage();
-    const [files, setFiles] = useState<any[]>([]);
+    const [files, setFiles] = useState<StoredFile[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [editingFile, setEditingFile] = useState<any | null>(null);
+    const [editingFile, setEditingFile] = useState<StoredFile | null>(null);
     const [editForm, setEditForm] = useState({ name: '', category: 'document', description: '' });
 
     useEffect(() => {
@@ -51,9 +109,9 @@ export default function FilesPage() {
         }
     };
 
-    const handleEditOpen = (file: any) => {
+    const handleEditOpen = (file: StoredFile) => {
         setEditingFile(file);
-        setEditForm({ name: file.name, category: file.category, description: file.description || '' });
+        setEditForm({ name: file.name || '', category: file.category || 'document', description: file.description || '' });
     };
 
     const handleEditSubmit = async (e: React.FormEvent) => {
@@ -111,25 +169,20 @@ export default function FilesPage() {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {files.map((file) => (
-                            <div key={file.id} className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-yellow-400/30 transition-all group">
+                            <div key={file.id} className="bg-[#1a1a1a] border border-white/5 rounded-2xl p-6 flex flex-col justify-between hover:border-yellow-400/30 transition-all group overflow-hidden">
                                 <div>
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div className="bg-white/5 p-3 rounded-xl text-2xl">
-                                            {file.category === 'document' ? '📄' : file.category === 'design' ? '🎨' : file.category === 'invoice' ? '🧾' : '📁'}
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xs font-medium text-white/40 bg-white/5 px-2 py-1 rounded">
-                                                {file.size ? (file.size / 1024 / 1024).toFixed(2) + ' MB' : '0.00 MB'}
-                                            </span>
-                                            {/* Action Buttons */}
-                                            <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button onClick={() => handleEditOpen(file)} className="p-1.5 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-lg transition-all">
-                                                    <Edit3 size={14} />
-                                                </button>
-                                                <button onClick={() => handleDelete(file.id)} className="p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-all">
-                                                    <Trash2 size={14} />
-                                                </button>
-                                            </div>
+                                    <FilePreview file={file} />
+                                    <div className="flex justify-between items-center mb-3 gap-2">
+                                        <span className="text-xs font-medium text-white/40 bg-white/5 px-2 py-1 rounded">
+                                            {file.size ? (file.size / 1024 / 1024).toFixed(2) + ' MB' : '0.00 MB'}
+                                        </span>
+                                        <div className="flex gap-1">
+                                            <button onClick={() => handleEditOpen(file)} aria-label={isRTL ? 'تعديل' : 'Edit'} className="p-1.5 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-lg transition-all">
+                                                <Edit3 size={14} />
+                                            </button>
+                                            <button onClick={() => handleDelete(file.id)} aria-label={isRTL ? 'حذف' : 'Delete'} className="p-1.5 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-lg transition-all">
+                                                <Trash2 size={14} />
+                                            </button>
                                         </div>
                                     </div>
                                     <h3 className="font-bold text-lg text-white mb-1 truncate">{file.name || 'Unknown File'}</h3>
