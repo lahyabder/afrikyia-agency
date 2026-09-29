@@ -410,5 +410,53 @@
         "sticky": "Réserver une Consultation",
         "success": "Votre message a bien été envoyé. Nous vous répondrons très bientôt.",
         "error": "Une erreur s'est produite lors de l'envoi. Veuillez réessayer plus tard."
+    },
+    "home": {
+        "nav": {
+            "about": "À propos",
+            "services": "Services",
+            "works": "Réalisations",
+            "partners": "Partenaires",
+            "contact": "Contact",
+            "cta": "Démarrer un projet",
+            "menu": "Menu"
+        },
+        "hero": {
+            "tag": "Entreprise numérique · Nouakchott, Mauritanie",
+            "primary": "Démarrer un projet",
+            "secondary": "Voir nos réalisations"
+        },
+        "stats": {
+            "works": "réalisations publiées",
+            "services": "domaines d’expertise",
+            "languages": "langues",
+            "founded": "année de création"
+        },
+        "about": {
+            "philosophy": "Notre philosophie"
+        },
+        "works": {
+            "tag": "Réalisations",
+            "title": "Des projets menés avec soin",
+            "desc": "Plateformes, sites et applications numériques conçus et développés pour des institutions et partenaires en Mauritanie et au-delà.",
+            "all": "Tout",
+            "websites": "Sites & plateformes",
+            "works": "Applications",
+            "activities": "Activités",
+            "projects": "Projets",
+            "visit": "Visiter le site",
+            "watch": "Voir la vidéo",
+            "showAll": "Voir toutes les réalisations",
+            "showLess": "Voir moins",
+            "close": "Fermer"
+        },
+        "partners": {
+            "tag": "Ils nous font confiance"
+        },
+        "contact": {
+            "emailLabel": "E-mail",
+            "phoneLabel": "Téléphone",
+            "follow": "Suivez-nous"
+        }
     }
 }

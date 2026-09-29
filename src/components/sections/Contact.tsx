@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { fetchSiteContent } from '@/lib/siteContent';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { useSiteContent } from '@/lib/useSiteContent';
 import { useLanguage } from '@/context/LanguageContext';
 import { Send, Mail, Phone, CheckCircle2, AlertCircle, Facebook } from 'lucide-react';
 import { TiktokIcon } from '@/components/icons/TiktokIcon';
@@ -12,37 +11,11 @@ const Contact = () => {
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const [content, setContent] = useState({
+    const { content } = useSiteContent('contact', {
         tag: t.contact.tag,
         title: t.contact.title,
-        desc: t.contact.desc
+        desc: t.contact.desc,
     });
-
-    useEffect(() => {
-        const loadContent = async () => {
-            const parsed = await fetchSiteContent('contact');
-            if (parsed) {
-                try {
-                    if (parsed[language]) {
-                        setContent(parsed[language]);
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
-            } else {
-                setContent({
-                    tag: t.contact.tag,
-                    title: t.contact.title,
-                    desc: t.contact.desc
-                });
-            }
-        };
-
-        loadContent();
-
-        window.addEventListener('afrikyia-contact-updated', loadContent);
-        return () => window.removeEventListener('afrikyia-contact-updated', loadContent);
-    }, [language, t]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -95,158 +68,102 @@ const Contact = () => {
         }
     };
 
+    const h = t.home.contact;
+    const inputClass =
+        'w-full rounded-lg border border-line bg-white px-4 py-3.5 text-[15px] text-ink placeholder:text-[#9AA0A8] focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/15 transition';
+    const channels = [
+        { href: 'mailto:contact@afrikyia.com', icon: Mail, label: h.emailLabel, value: 'contact@afrikyia.com' },
+        { href: 'tel:+22224232202', icon: Phone, label: h.phoneLabel, value: '+222 24 23 22 02' },
+    ];
+    const socials = [
+        { href: 'https://www.facebook.com/profile.php?id=61594179056891', icon: Facebook, label: 'Facebook' },
+        { href: 'https://www.tiktok.com/@afrikyiadeveloper', icon: TiktokIcon, label: 'TikTok' },
+    ];
+
     return (
-        <section id="contact" className="py-16 md:py-24 bg-[#F8FAFC] relative overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-            <div className="absolute top-[20%] right-[10%] w-[30rem] h-[30rem] bg-brand-red/5 rounded-full blur-[100px] pointer-events-none" />
+        <section id="contact" className="bg-night site-section scroll-mt-16 lg:scroll-mt-[88px]">
+            <div className="site-container grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+                <div>
+                    <p className="text-[#FB7185] text-sm font-bold">{content.tag}</p>
+                    <h2 className="mt-4 text-white text-3xl lg:text-5xl font-bold leading-tight">{content.title}</h2>
+                    <p className="mt-5 max-w-lg text-[#C9CED6] text-base lg:text-lg leading-relaxed">{content.desc}</p>
 
-            <div className="container mx-auto px-6 relative z-10">
-                <div className="max-w-6xl mx-auto">
-                    <div className="grid lg:grid-cols-2 gap-10 md:gap-12 items-center">
-                        
-                        {/* Text and Info */}
-                        <div className={`space-y-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8 }}
-                            >
-                                <h2 className="text-brand-red text-sm font-bold uppercase tracking-[0.4em] mb-4">
-                                    {content.tag}
-                                </h2>
-                                <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] mb-6">
-                                    {content.title}
-                                </h3>
-                                <p className="text-slate-600 text-base md:text-lg font-light leading-relaxed max-w-lg">
-                                    {content.desc}
-                                </p>
-                            </motion.div>
-
-                            <motion.div 
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.2 }}
-                                className="flex flex-col gap-4 pt-6"
-                            >
-                                <a href="mailto:contact@afrikyia.com" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
-                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
-                                        <Mail className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
-                                    </div>
-                                    <span className="text-sm md:text-base font-medium" dir="ltr">contact@afrikyia.com</span>
-                                </a>
-                                <a href="tel:+22224232202" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
-                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
-                                        <Phone className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
-                                    </div>
-                                    <span className="text-sm md:text-base font-medium" dir="ltr">+222 24 23 22 02</span>
-                                </a>
-                                <a href="https://www.facebook.com/profile.php?id=61594179056891" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
-                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
-                                        <Facebook className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
-                                    </div>
-                                    <span className="text-sm md:text-base font-medium" dir="ltr">Afrikyia Facebook</span>
-                                </a>
-                                <a href="https://www.tiktok.com/@afrikyiadeveloper" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-slate-700 bg-white border border-slate-200 px-6 py-3 rounded-full hover:border-brand-red hover:text-brand-red transition-all w-fit shadow-sm group">
-                                    <div className="w-8 h-8 rounded-full border border-slate-100 flex items-center justify-center group-hover:border-brand-red/20 transition-colors">
-                                        <TiktokIcon className="w-4 h-4 text-slate-500 group-hover:text-brand-red" />
-                                    </div>
-                                    <span className="text-sm md:text-base font-medium" dir="ltr">Afrikyia TikTok</span>
-                                </a>
-                            </motion.div>
-                        </div>
-
-                        {/* Contact Form */}
-                        <motion.div
-                            initial={{ opacity: 0, x: isRTL ? -30 : 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: 0.4 }}
-                        >
-                            <form 
-                                onSubmit={handleSubmit}
-                                className="bg-white border border-slate-200 rounded-3xl p-6 md:p-10 space-y-5 shadow-xl shadow-slate-200/50 relative"
-                            >
-                                {/* Honeypot against spam bots: hidden from visitors */}
-                                <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
-                                <div className="space-y-1.5">
-                                    <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
-                                        {t.contact.name}
-                                    </label>
-                                    <input 
-                                        type="text" 
-                                        name="name" 
-                                        required
-                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
-                                        placeholder="Mohamed Mahmoud"
-                                    />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
-                                        {t.contact.email}
-                                    </label>
-                                    <input 
-                                        type="email" 
-                                        name="email" 
-                                        required
-                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all ${isRTL ? 'text-right' : 'text-left'}`}
-                                        placeholder="contact@example.com"
-                                    />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
-                                        {t.contact.message}
-                                    </label>
-                                    <textarea 
-                                        name="message" 
-                                        rows={4}
-                                        required
-                                        className={`w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-brand-red focus:ring-1 focus:ring-brand-red transition-all resize-none ${isRTL ? 'text-right' : 'text-left'}`}
-                                        placeholder="..."
-                                    ></textarea>
-                                </div>
-                                <button 
-                                    type="submit"
-                                    disabled={status === "loading"}
-                                    className="w-full bg-brand-red hover:bg-[#EB2F36] disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold text-base py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg shadow-brand-red/20 group mt-2"
+                    <ul className="mt-10 space-y-3 max-w-md">
+                        {channels.map(c => (
+                            <li key={c.href}>
+                                <a
+                                    href={c.href}
+                                    className="flex items-center gap-4 rounded-xl bg-night-2 border border-white/5 p-4 hover:border-white/20 transition-colors"
                                 >
-                                    <span>{status === "loading" ? "..." : t.contact.submit}</span>
-                                    {status !== "loading" && (
-                                        <Send className={`w-4 h-4 transition-transform ${isRTL ? 'group-hover:-translate-x-1 rotate-180' : 'group-hover:translate-x-1'}`} />
-                                    )}
-                                </button>
-                                
-                                {status === "success" && (
-                                    <motion.div 
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-3 text-emerald-600 bg-emerald-50 p-4 rounded-xl border border-emerald-200"
-                                    >
-                                        <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
-                                        <p className="text-sm font-medium">{t.contact.success}</p>
-                                    </motion.div>
-                                )}
+                                    <span className="w-11 h-11 rounded-lg bg-white/5 text-[#FB7185] flex items-center justify-center shrink-0">
+                                        <c.icon className="w-5 h-5" />
+                                    </span>
+                                    <span>
+                                        <span className="block text-xs text-[#A3A9B3]">{c.label}</span>
+                                        <span className="block text-white font-bold" dir="ltr">{c.value}</span>
+                                    </span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
 
-                                {status === "error" && (
-                                    <motion.div 
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex flex-col gap-2 text-red-600 bg-red-50 p-4 rounded-xl border border-red-200"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                                            <p className="text-sm font-medium">{t.contact.error}</p>
-                                        </div>
-                                        <p className="text-xs opacity-80 mt-1 break-all">{errorMessage}</p>
-                                    </motion.div>
-                                )}
-                            </form>
-                        </motion.div>
-                        
+                    <div className="mt-8 flex items-center gap-3">
+                        <span className="text-sm text-[#A3A9B3]">{h.follow}</span>
+                        {socials.map(s => (
+                            <a
+                                key={s.href}
+                                href={s.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={s.label}
+                                className="w-10 h-10 rounded-lg bg-night-2 border border-white/5 text-[#C9CED6] hover:text-white hover:border-white/20 flex items-center justify-center transition-colors"
+                            >
+                                <s.icon className="w-4 h-4" />
+                            </a>
+                        ))}
                     </div>
                 </div>
+
+                <form onSubmit={handleSubmit} className="rounded-2xl bg-white p-6 lg:p-10 space-y-5">
+                    {/* Honeypot against spam bots: hidden from visitors */}
+                    <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+                    <div className="space-y-2">
+                        <label htmlFor="contact-name" className="block text-sm font-bold text-ink">{t.contact.name}</label>
+                        <input id="contact-name" type="text" name="name" required className={inputClass} />
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="contact-email" className="block text-sm font-bold text-ink">{t.contact.email}</label>
+                        <input id="contact-email" type="email" name="email" required dir="ltr" className={`${inputClass} ${isRTL ? 'text-right' : ''}`} placeholder="name@example.com" />
+                    </div>
+                    <div className="space-y-2">
+                        <label htmlFor="contact-message" className="block text-sm font-bold text-ink">{t.contact.message}</label>
+                        <textarea id="contact-message" name="message" rows={5} required className={`${inputClass} resize-none`} />
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={status === "loading"}
+                        className="w-full h-14 rounded-lg bg-brand-red hover:bg-red-dark disabled:opacity-70 disabled:cursor-not-allowed text-white font-bold flex items-center justify-center gap-3 transition-colors"
+                    >
+                        <span>{status === "loading" ? "..." : t.contact.submit}</span>
+                        {status !== "loading" && <Send className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />}
+                    </button>
+
+                    {status === "success" && (
+                        <div className="flex items-center gap-3 text-emerald-700 bg-emerald-50 p-4 rounded-lg border border-emerald-200" role="status">
+                            <CheckCircle2 className="w-5 h-5 shrink-0" />
+                            <p className="text-sm font-medium">{t.contact.success}</p>
+                        </div>
+                    )}
+                    {status === "error" && (
+                        <div className="text-red-700 bg-red-50 p-4 rounded-lg border border-red-200" role="alert">
+                            <div className="flex items-center gap-3">
+                                <AlertCircle className="w-5 h-5 shrink-0" />
+                                <p className="text-sm font-medium">{t.contact.error}</p>
+                            </div>
+                            {errorMessage && <p className="text-xs opacity-80 mt-2 break-all" dir="ltr">{errorMessage}</p>}
+                        </div>
+                    )}
+                </form>
             </div>
         </section>
     );

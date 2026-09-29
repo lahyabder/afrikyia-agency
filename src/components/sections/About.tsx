@@ -1,96 +1,59 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import { fetchSiteContent } from '@/lib/siteContent';
-import { motion } from 'framer-motion';
+import { Layers, Users } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useSiteContent } from '@/lib/useSiteContent';
 
+// "About" and "Vision" are edited separately in the admin panel and shown together here.
 const About = () => {
-    const { t, isRTL, language } = useLanguage();
-
-    const [content, setContent] = useState({
+    const { t } = useLanguage();
+    const { content: about } = useSiteContent('about', {
         tag: t.about.tag,
         title: t.about.title,
         desc1: t.about.desc1,
-        desc2: t.about.desc2
+        desc2: t.about.desc2,
+    });
+    const { content: vision } = useSiteContent('vision', {
+        tag: t.vision.tag,
+        title: t.vision.title,
+        desc1: t.vision.desc1,
+        desc2: t.vision.desc2,
+        whatWeBuild: t.vision.whatWeBuild,
+        whatWeBuildDesc: t.vision.whatWeBuildDesc,
+        forWhom: t.vision.forWhom,
+        forWhomDesc: t.vision.forWhomDesc,
     });
 
-    useEffect(() => {
-        const loadContent = async () => {
-            const parsed = await fetchSiteContent('about');
-            if (parsed) {
-                try {
-                    if (parsed[language]) {
-                        setContent(parsed[language]);
-                    }
-                } catch (e) {
-                    console.error(e);
-                }
-            } else {
-                setContent({
-                    tag: t.about.tag,
-                    title: t.about.title,
-                    desc1: t.about.desc1,
-                    desc2: t.about.desc2
-                });
-            }
-        };
-
-        loadContent();
-
-        window.addEventListener('afrikyia-about-updated', loadContent);
-        return () => window.removeEventListener('afrikyia-about-updated', loadContent);
-    }, [language, t]);
-
     return (
-        <section id="about" className="py-12 md:py-24 bg-black border-t border-white/5">
-            <div className="container mx-auto px-6">
-                <div className={`max-w-5xl mx-auto ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h2 className="text-brand-red text-sm md:text-base font-bold uppercase tracking-[0.4em] mb-8">
-                            {content.tag}
-                        </h2>
-                    </motion.div>
+        <section id="about" className="site-section bg-white scroll-mt-16 lg:scroll-mt-[88px]">
+            <span id="vision" className="sr-only" aria-hidden="true" />
+            <div className="site-container grid lg:grid-cols-12 gap-10 lg:gap-16">
+                <div className="lg:col-span-5">
+                    <p className="text-brand-red text-sm font-bold">{about.tag}</p>
+                    <h2 className="mt-4 text-ink text-3xl lg:text-5xl font-bold leading-tight">{about.title}</h2>
+                    <p className="mt-6 text-muted text-base lg:text-lg leading-loose">{about.desc1}</p>
+                    <p className="mt-4 text-muted text-base lg:text-lg leading-loose">{about.desc2}</p>
+                </div>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                        transition={{ delay: 0.2, duration: 1 }}
-                    >
-                        <h3 className="text-white text-4xl md:text-6xl font-bold leading-[1.2] mb-12">
-                            {content.title}
-                        </h3>
-                    </motion.div>
-
-                    <div className="grid md:grid-cols-2 gap-8 md:gap-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                            transition={{ delay: 0.4, duration: 0.8 }}
-                        >
-                            <p className="text-white/80 text-lg md:text-xl font-normal leading-relaxed">
-                                {content.desc1}
-                            </p>
-                        </motion.div>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                            transition={{ delay: 0.6, duration: 0.8 }}
-                        >
-                            <p className="text-white/80 text-lg md:text-xl font-normal leading-relaxed">
-                                {content.desc2}
-                            </p>
-                        </motion.div>
+                <div className="lg:col-span-7 grid sm:grid-cols-2 gap-4 lg:gap-5 content-start">
+                    <div className="sm:col-span-2 rounded-2xl bg-night p-7 lg:p-10">
+                        <p className="text-[#FB7185] text-sm font-bold">{vision.tag}</p>
+                        <h3 className="mt-3 text-white text-2xl lg:text-3xl font-bold leading-snug">{vision.title}</h3>
+                        <p className="mt-4 text-[#C9CED6] leading-loose">{vision.desc1}</p>
+                        {vision.desc2 && <p className="mt-3 text-[#A3A9B3] text-sm leading-loose">{vision.desc2}</p>}
                     </div>
+                    {[
+                        { icon: Layers, title: vision.whatWeBuild, desc: vision.whatWeBuildDesc },
+                        { icon: Users, title: vision.forWhom, desc: vision.forWhomDesc },
+                    ].map(card => (
+                        <div key={card.title} className="rounded-2xl border border-line bg-ground p-6 lg:p-7">
+                            <div className="w-11 h-11 rounded-lg bg-red-tint text-brand-red flex items-center justify-center">
+                                <card.icon className="w-5 h-5" />
+                            </div>
+                            <h4 className="mt-5 text-ink text-lg font-bold">{card.title}</h4>
+                            <p className="mt-2 text-muted text-[15px] leading-relaxed">{card.desc}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>
