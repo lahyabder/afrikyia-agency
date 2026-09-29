@@ -35,6 +35,7 @@ import {
 } from 'lucide-react';
 import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
 import { AdminSessionContext, type AdminSession } from '@/components/admin/AdminSession';
+import AssistantPanel from '@/components/admin/AssistantPanel';
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -368,6 +369,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                     </AdminSessionContext.Provider>
                 </div>
             </main>
+            <AssistantPanel />
         </div>
     );
 }

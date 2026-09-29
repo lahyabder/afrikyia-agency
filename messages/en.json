@@ -938,6 +938,34 @@
                 "ownerNote": "You are using the owner account. Its password is changed in the Vercel settings (ADMIN_PASSWORD)."
             },
             "forbidden": "You do not have access to this section."
+        },
+        "assistant": {
+            "open": "Assistant",
+            "title": "Afrikyia assistant",
+            "subtitle": "Ask about figures, invoices, expenses and the bank",
+            "welcome": "Hello 👋 I read the company’s data to answer your questions. For example:",
+            "suggestions": [
+                "What is the current financial position?",
+                "Which invoices are still unpaid?",
+                "How much did we spend this year, by category?",
+                "Does the bank balance match the statement?"
+            ],
+            "readOnly": "For now the assistant only reads data: it does not create, change or delete anything.",
+            "placeholder": "Type your question…",
+            "send": "Send",
+            "reset": "New conversation",
+            "close": "Close",
+            "thinking": "Thinking…",
+            "errors": {
+                "NotConfigured": "The assistant is not enabled yet: the Anthropic key is missing from the server settings.",
+                "KeyRejected": "The Anthropic key was rejected or has expired. Check it in Claude Console and Vercel.",
+                "NoCredit": "The Anthropic balance is used up. Top it up in Claude Console.",
+                "Busy": "The service is busy, try again in a moment.",
+                "TooMany": "You reached the maximum number of questions for this hour. Try again later.",
+                "Refused": "The assistant could not answer this request. Try rephrasing it.",
+                "NoAccess": "Your role gives no access to data the assistant reads.",
+                "Failed": "Something went wrong. Try again."
+            }
         }
     },
     "metadata": {

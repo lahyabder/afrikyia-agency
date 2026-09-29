@@ -919,6 +919,34 @@
                 "ownerNote": "Vous utilisez le compte propriétaire. Son mot de passe se change dans les réglages Vercel (ADMIN_PASSWORD)."
             },
             "forbidden": "Vous n'avez pas accès à cette section."
+        },
+        "assistant": {
+            "open": "Assistant",
+            "title": "Assistant Afrikyia",
+            "subtitle": "Posez vos questions sur les chiffres, factures, dépenses et la banque",
+            "welcome": "Bonjour 👋 Je lis les données de la société pour répondre à vos questions. Par exemple :",
+            "suggestions": [
+                "Quelle est la situation financière actuelle ?",
+                "Quelles factures ne sont pas encore payées ?",
+                "Combien avons-nous dépensé cette année, par catégorie ?",
+                "Le solde bancaire correspond-il au relevé ?"
+            ],
+            "readOnly": "Pour l’instant, l’assistant lit seulement les données : il ne crée, ne modifie et ne supprime rien.",
+            "placeholder": "Écrivez votre question…",
+            "send": "Envoyer",
+            "reset": "Nouvelle conversation",
+            "close": "Fermer",
+            "thinking": "Réflexion…",
+            "errors": {
+                "NotConfigured": "L’assistant n’est pas encore activé : la clé Anthropic manque dans la configuration du serveur.",
+                "KeyRejected": "La clé Anthropic est refusée ou expirée. Vérifiez-la dans Claude Console et Vercel.",
+                "NoCredit": "Le crédit Anthropic est épuisé. Rechargez-le dans Claude Console.",
+                "Busy": "Le service est occupé, réessayez dans un instant.",
+                "TooMany": "Nombre maximum de questions atteint pour cette heure. Réessayez plus tard.",
+                "Refused": "L’assistant n’a pas pu répondre à cette demande. Essayez une autre formulation.",
+                "NoAccess": "Votre rôle ne donne accès à aucune donnée lue par l’assistant.",
+                "Failed": "Une erreur est survenue. Réessayez."
+            }
         }
     },
     "metadata": {
