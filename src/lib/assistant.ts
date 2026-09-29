@@ -355,13 +355,18 @@ export class AssistantError extends Error {
 }
 
 // Runs one question through Claude with the user's tools and returns the final answer text
-export async function askAssistant(user: SessionUser, history: ChatTurn[]): Promise<{ reply: string; usage: { input: number; output: number } }> {
+export async function askAssistant(user: SessionUser, history: ChatTurn[], spoken = false): Promise<{ reply: string; usage: { input: number; output: number } }> {
     const anthropic = client();
     if (!anthropic) throw new AssistantError('NotConfigured');
     const tools = toolsFor(user);
     const byName = new Map(tools.map(t => [t.definition.name, t]));
     const messages: Anthropic.Beta.BetaMessageParam[] = history.map(t => ({ role: t.role, content: t.text }));
-    const system = systemPrompt(user, new Date().toISOString().slice(0, 10));
+    // A spoken question gets an answer written to be heard: short sentences, no lists or symbols
+    const system =
+        systemPrompt(user, new Date().toISOString().slice(0, 10)) +
+        (spoken
+            ? '\n\nThis question was spoken and your answer will be read aloud. Answer in two to four short, natural sentences, with no lists, markdown, links or symbols; write amounts the way a person says them (e.g. "about 545 thousand ouguiyas"). If you created a draft, say its number and that the link is shown on screen, then add the markdown link on its own last line.'
+            : '');
     const usage = { input: 0, output: 0 };
 
     for (let round = 0; round < MAX_ROUNDS; round++) {
