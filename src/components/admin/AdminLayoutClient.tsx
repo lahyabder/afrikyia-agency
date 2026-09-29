@@ -22,7 +22,9 @@ import {
     X,
     Inbox,
     Wallet,
-    ArrowUpRight
+    ArrowUpRight,
+    UserRound,
+    Banknote
 } from 'lucide-react';
 import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
 
@@ -199,6 +201,8 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                 { name: t.admin.biz.menu.documents, icon: Receipt, path: '/admin/invoices' },
                 { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses' },
                 { name: t.admin.biz.menu.clients, icon: Users, path: '/admin/clients' },
+                { name: t.admin.biz.hr.menu.employees, icon: UserRound, path: '/admin/employees' },
+                { name: t.admin.biz.hr.menu.payroll, icon: Banknote, path: '/admin/payroll' },
             ],
         },
     ];

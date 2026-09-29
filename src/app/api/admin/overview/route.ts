@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { requireAdmin } from '@/lib/adminAuth';
+import { SITE_CONTENT_KEYS } from '@/lib/siteContent';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +23,7 @@ export async function GET(request: Request) {
         countRows('achievements'),
         countRows('projects'),
         countRows('uploaded_files'),
-        supabaseAdmin.from('site_content').select('key, updated_at').order('updated_at', { ascending: false }),
+        supabaseAdmin.from('site_content').select('key, updated_at').in('key', [...SITE_CONTENT_KEYS]).order('updated_at', { ascending: false }),
         supabaseAdmin.from('contact_messages').select('id', { count: 'exact', head: true }).eq('status', 'new'),
         supabaseAdmin
             .from('contact_messages')

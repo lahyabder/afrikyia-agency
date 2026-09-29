@@ -35,53 +35,14 @@ function transformRow(row: any) {
 }
 
 export async function GET() {
-    try {
-        const localData = readLocalData();
-        let { data, error } = await supabaseAdmin
-            .from('achievements')
-            .select('*')
-            .order('created_at', { ascending: true });
-
-        if (error) {
-            console.error('Supabase GET error:', error.message);
-            return NextResponse.json(localData);
-        }
-
-        // Auto-seed Supabase if empty
-        if ((!data || data.length === 0) && localData.length > 0) {
-            const dbRows = localData.map((item: any) => ({
-                id: item.id,
-                category: item.category,
-                link: item.link,
-                image: item.image,
-                gallery: item.gallery || [],
-                en: item.en || {},
-                fr: item.fr || {},
-                ar: item.ar || {},
-                year: item.year,
-                client: item.client,
-                project_type: item.projectType
-            }));
-            
-            const { error: seedError } = await supabaseAdmin.from('achievements').insert(dbRows);
-            if (seedError) {
-                console.error('Failed to seed achievements:', seedError.message);
-            } else {
-                const refetch = await supabaseAdmin.from('achievements').select('*').order('created_at', { ascending: true });
-                data = refetch.data || [];
-            }
-        }
-
-        if (data && data.length > 0) {
-            return NextResponse.json(data.map(transformRow));
-        }
-
-        // Fallback to local JSON
-        return NextResponse.json(localData);
-    } catch (err) {
-        console.error('GET achievements error:', err);
+    // The database is the only source once it is reachable: an empty table stays empty,
+    // so deleted items never come back from the old seed file.
+    const { data, error } = await supabaseAdmin.from('achievements').select('*').order('created_at', { ascending: true });
+    if (error) {
+        console.error('Supabase GET achievements error:', error.message);
         return NextResponse.json(readLocalData());
     }
+    return NextResponse.json((data ?? []).map(transformRow));
 }
 
 export async function POST(request: Request) {
