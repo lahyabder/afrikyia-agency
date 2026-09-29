@@ -195,3 +195,33 @@ html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 .admin-light .shadow-2xl:not(.paper), .admin-light .shadow-xl:not(.paper), .admin-light .shadow-lg:not(.paper) { box-shadow: 0 1px 3px rgba(20,22,26,.06), 0 1px 2px rgba(20,22,26,.04) !important; }
 .admin-light .backdrop-blur-xl:not(.paper *) { backdrop-filter: none; }
 .admin-light .file-preview { background-color:#F1F0EC !important; border-color:#E7E5DF !important; }
+
+/* ===== Printed documents (invoices, quotes, letters, payslips) ===== */
+/* A fixed A4 page: phones print at the page width instead of the screen layout, so nothing is cut off */
+@page { size: A4; margin: 14mm 14mm 16mm; }
+@media print {
+  html, body { background: #fff !important; width: auto !important; height: auto !important; overflow: visible !important; }
+  .paper { max-width: none !important; width: auto !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; font-size: 12px; }
+  .paper p, .paper div, .paper td { overflow-wrap: break-word; }
+  /* Keep blocks whole: never a lone closing line on a new page */
+  .paper tr, .paper section, .paper footer, .paper .break-inside-avoid { break-inside: avoid; page-break-inside: avoid; }
+  .paper footer { break-before: avoid; page-break-before: avoid; }
+  /* Tighter spacing on paper so a usual invoice or letter fits on one page */
+  .paper .mt-10, .paper .mt-14 { margin-top: 1.25rem !important; }
+  .paper .mt-8 { margin-top: 1rem !important; }
+  .paper .mb-8 { margin-bottom: 1.25rem !important; }
+  .paper header { padding-bottom: 1rem !important; }
+  .paper .h-36 { height: 7.5rem !important; }
+  .paper footer { padding-top: .75rem !important; }
+}
+/* Phones: the paper preview fits the screen */
+@media screen and (max-width: 639px) {
+  .paper { padding: 20px 14px !important; font-size: 12px; }
+  .paper table { font-size: 10.5px; }
+  .paper th, .paper td { padding-left: 5px !important; padding-right: 5px !important; }
+  .paper th[class*="w-"] { width: auto !important; }
+  .paper td.whitespace-nowrap, .paper span.whitespace-nowrap { white-space: normal; }
+  .paper header { flex-direction: column; gap: 12px; }
+  .paper header > .text-end { text-align: start; }
+  .paper .w-64 { width: 13rem; }
+}

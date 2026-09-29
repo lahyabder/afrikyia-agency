@@ -72,7 +72,7 @@ export default function NewFilePage() {
     return (
         <div className="space-y-6 animate-fade-in text-white" dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Header */}
-            <div className={`flex justify-between items-center border-b border-white/5 pb-4 ${isRTL ? 'flex-row' : 'flex-row'}`}>
+            <div className={`flex justify-between items-center border-b border-white/5 pb-4`}>
                 <div>
                     <h1 className="text-3xl font-bold flex items-center gap-3">
                         {t.admin.files.newTitle}

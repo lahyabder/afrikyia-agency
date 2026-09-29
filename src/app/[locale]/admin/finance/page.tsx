@@ -83,12 +83,12 @@ export default function FinancePage() {
                     </div>
                     <div className="h-48 flex items-end gap-1.5 sm:gap-3" dir="ltr">
                         {(data?.months ?? Array.from({ length: 12 }, (_, i) => ({ month: i + 1, income: 0, expenses: 0 }))).map(m => (
-                            <div key={m.month} className="flex-1 flex flex-col items-center gap-1.5 h-full">
+                            <div key={m.month} className="flex-1 min-w-0 flex flex-col items-center gap-1.5 h-full">
                                 <div className="flex-1 w-full flex items-end justify-center gap-0.5">
                                     <div className="w-1/2 max-w-3 bg-emerald-400 rounded-t" style={{ height: `${(m.income / max) * 100}%` }} title={formatMoney(m.income)} />
                                     <div className="w-1/2 max-w-3 bg-red-400 rounded-t" style={{ height: `${(m.expenses / max) * 100}%` }} title={formatMoney(m.expenses)} />
                                 </div>
-                                <span className="text-[10px] text-white/45">{monthName(m.month)}</span>
+                                <span className="text-[10px] text-white/45"><span className="sm:hidden">{m.month}</span><span className="hidden sm:inline">{monthName(m.month)}</span></span>
                             </div>
                         ))}
                     </div>

@@ -4,7 +4,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
 
 export default function TermsPage() {
-    const { isRTL } = useLanguage();
+    const { isRTL, language } = useLanguage();
 
     const content = {
         en: {
@@ -51,7 +51,7 @@ export default function TermsPage() {
         }
     };
 
-    const lang = isRTL ? 'ar' : (typeof window !== 'undefined' && document.documentElement.lang === 'fr') ? 'fr' : 'en';
+    const lang = language;
     const c = content[lang as keyof typeof content] || content.ar;
 
     return (

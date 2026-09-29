@@ -421,7 +421,7 @@ export default function AdminPage() {
             <div className="max-w-7xl mx-auto space-y-8">
                 
                 {/* 1. Header Row */}
-                <div className={`flex flex-col md:flex-row justify-between items-center bg-black/40 border border-white/5 p-6 rounded-2xl gap-6 ${isRTL ? 'flex-row' : 'flex-row'}`}>
+                <div className={`flex flex-col md:flex-row justify-between items-center bg-black/40 border border-white/5 p-6 rounded-2xl gap-6`}>
                     <div className="flex items-center gap-4">
                         <Link href="/">
                             <Image

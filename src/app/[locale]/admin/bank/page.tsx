@@ -131,11 +131,11 @@ export default function BankPage() {
 
             {account && (
                 <div className="grid lg:grid-cols-2 gap-4">
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
+                    <div className="min-w-0 bg-white/5 border border-white/10 rounded-2xl p-5 flex items-center gap-4">
                         <span className="w-12 h-12 rounded-xl bg-yellow-400/10 text-yellow-400 flex items-center justify-center shrink-0"><Landmark className="w-6 h-6" /></span>
                         <div className="flex-1 min-w-0">
                             <div className="font-bold truncate">{account.bank_name}</div>
-                            <div className="text-xs text-white/55"><span dir="ltr">{[account.account_number && `N° ${account.account_number}`, account.iban].filter(Boolean).join(' · ')}</span></div>
+                            <div className="text-xs text-white/55 break-all"><span dir="ltr">{[account.account_number && `N° ${account.account_number}`, account.iban].filter(Boolean).join(' · ')}</span></div>
                             <div className="text-xs text-white/55 mt-2">{k.balance}</div>
                             <div className={`text-2xl font-bold whitespace-nowrap ${(data?.balances[account.id] ?? 0) < 0 ? 'text-red-400' : ''}`}>{formatMoney(data?.balances[account.id] ?? 0)}</div>
                         </div>
