@@ -35,7 +35,7 @@ export type BankInfo = {
 export const DEFAULT_COMPANY: CompanyInfo = {
     legalName: 'AFRIKYIA-SUARL',
     tradeName: 'AFRIKYia',
-    tagline: "l'artifice intelligent",
+    tagline: 'Solutions Intelligentes',
     legalForm: 'Société unipersonnelle à responsabilité limitée (SUARL)',
     capital: '100 000 MRU',
     addressFr: 'Tevragh Zeina – îlot Z, lot N° 0003 P',
@@ -44,7 +44,7 @@ export const DEFAULT_COMPANY: CompanyInfo = {
     rc: '136293/1270',
     nif: '01697101',
     cnss: '1309212026',
-    phones: '20797924 – 36305215',
+    phones: '30609040 – 36305215 – 20797924',
     email: 'contact@afrikyia.com',
     website: 'afrikyia.com',
     manager: 'Ghalia Abderrahmane LAHY',

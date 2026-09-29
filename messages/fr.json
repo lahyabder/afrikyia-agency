@@ -499,7 +499,10 @@
                 "numberOptional": "Numéro (laisser vide pour la numérotation automatique)",
                 "numberTaken": "Ce numéro est déjà utilisé par un autre document.",
                 "withholding": "Retenue à la source (taxe gardée par le client)",
-                "withholdingHint": "N'arrive pas sur le compte, mais solde la facture."
+                "withholdingHint": "N'arrive pas sur le compte, mais solde la facture.",
+                "printSigned": "Imprimer avec cachet et signature",
+                "printUnsigned": "Imprimer sans cachet ni signature",
+                "noSeals": "Ajoutez d'abord le cachet et la signature dans « Informations de l'entreprise »."
             },
             "expenses": {
                 "title": "Dépenses",
@@ -646,7 +649,43 @@
                 },
                 "filterAll": "Tous",
                 "empty": "Aucun mouvement pour le moment.",
-                "account": "Compte"
+                "account": "Compte",
+                "pendingTitle": "Mouvements à rapprocher",
+                "pendingHint": "Chaque mouvement du compte doit être rattaché à son origine, pour qu'aucun montant ne soit compté deux fois ni perdu.",
+                "allMatched": "Tous les mouvements sont rapprochés ✅",
+                "suggested": "Suggestion",
+                "linkInvoice": "Rattacher à une facture",
+                "chooseInvoice": "Choisir la facture",
+                "remaining": "Reste",
+                "alreadyRecorded": "Paiement déjà saisi sur la facture — rattacher sans l'ajouter une seconde fois",
+                "linkExpense": "Rattacher à une dépense existante",
+                "chooseExpense": "Choisir la dépense",
+                "createExpense": "Créer une dépense à partir de ce mouvement",
+                "category": "Type",
+                "description": "Description",
+                "paidCash": "Retrait dépensé en espèces pour cette dépense",
+                "other": "Autre mouvement",
+                "others": {
+                    "capital": "Apport en capital de l'associé",
+                    "financing": "Prêt ou financement",
+                    "other_income": "Autre recette",
+                    "cash_withdrawal": "Retrait (reste en caisse)",
+                    "internal_transfer": "Virement entre comptes de l'entreprise",
+                    "owner_withdrawal": "Prélèvement de l'associé"
+                },
+                "confirm": "Confirmer",
+                "unlink": "Annuler le rapprochement",
+                "check": "Contrôle du solde avec la banque",
+                "checkHint": "Saisissez le solde indiqué sur le relevé de la banque et sa date ; il est comparé au solde calculé à partir des mouvements enregistrés.",
+                "bankBalance": "Solde banque",
+                "atDate": "au",
+                "computed": "Solde calculé",
+                "difference": "Écart",
+                "balanced": "Concordant ✅",
+                "notBalanced": "Écart — des mouvements manquent ou sont en trop avant cette date.",
+                "save": "Enregistrer",
+                "matched": "rapproché",
+                "unmatched": "à rapprocher"
             },
             "company": {
                 "title": "Informations de l'entreprise",
@@ -681,7 +720,12 @@
                     "swift": "SWIFT",
                     "holder": "Titulaire",
                     "agency": "Agence"
-                }
+                },
+                "sealsTitle": "Cachet et signature",
+                "sealsHint": "Deux images à fond transparent (PNG). Elles restent privées, visibles seulement des utilisateurs connectés, et ne sont ajoutées qu'avec « Imprimer avec cachet et signature ».",
+                "stamp": "Cachet",
+                "noImage": "Aucune image",
+                "choose": "Choisir une image"
             }
         },
         "access": {
@@ -752,7 +796,9 @@
                 "change_password": "Mot de passe changé",
                 "status": "Changement de statut",
                 "import": "Import",
-                "withholding": "Retenue à la source"
+                "withholding": "Retenue à la source",
+                "match": "Rapprochement",
+                "unmatch": "Rapprochement annulé"
             },
             "entities": {
                 "session": "",
@@ -771,7 +817,10 @@
                 "payroll_rates": "taux de paie",
                 "user": "utilisateur",
                 "bank_statement": "relevé bancaire",
-                "company": "infos de l'entreprise"
+                "company": "infos de l'entreprise",
+                "bank_line": "mouvement bancaire",
+                "bank_balance": "solde bancaire",
+                "company_seals": "cachet et signature"
             },
             "account": {
                 "title": "Mon compte",
