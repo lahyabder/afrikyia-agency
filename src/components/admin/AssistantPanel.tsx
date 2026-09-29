@@ -318,17 +318,18 @@ export default function AssistantPanel() {
             {!open && (
                 <button
                     onClick={() => setOpen(true)}
-                    className={`fixed bottom-5 ${isRTL ? 'left-5' : 'right-5'} z-40 flex items-center gap-2 h-12 px-5 rounded-full bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-bold shadow-lg cursor-pointer`}
+                    aria-label={a.open}
+                    className={`fixed bottom-[max(1rem,env(safe-area-inset-bottom))] ${isRTL ? 'left-4 sm:left-5' : 'right-4 sm:right-5'} z-40 flex items-center justify-center gap-2 h-14 w-14 sm:w-auto sm:h-12 sm:px-5 rounded-full bg-yellow-400 hover:bg-yellow-500 text-black text-sm font-bold shadow-lg cursor-pointer`}
                 >
-                    <Sparkles className="w-4 h-4" />
-                    {a.open}
+                    <Sparkles className="w-5 h-5 sm:w-4 sm:h-4" />
+                    <span className="hidden sm:inline">{a.open}</span>
                 </button>
             )}
 
             {open && (
                 <div className="fixed inset-0 z-[70] flex justify-end sm:p-4 pointer-events-none" dir={isRTL ? 'rtl' : 'ltr'}>
                     <section
-                        className={`pointer-events-auto flex flex-col w-full sm:w-[420px] h-full sm:h-[min(680px,calc(100vh-2rem))] sm:mt-auto bg-[#161616] border border-white/10 sm:rounded-2xl shadow-2xl overflow-hidden`}
+                        className={`pointer-events-auto flex flex-col w-full sm:w-[420px] h-[100dvh] sm:h-[min(680px,calc(100dvh-2rem))] sm:mt-auto bg-[#161616] border border-white/10 sm:rounded-2xl shadow-2xl overflow-hidden`}
                         aria-label={a.title}
                     >
                         <header className="flex items-center gap-3 px-4 py-3 border-b border-white/10">
@@ -358,7 +359,7 @@ export default function AssistantPanel() {
                         </header>
 
                         {voiceReplies && natural && voices.length > 0 && (
-                            <div className="flex items-center gap-2 px-4 py-2 border-b border-white/10 text-xs">
+                            <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 px-4 py-2 border-b border-white/10 text-xs">
                                 <span className="text-white/60 shrink-0">{a.voiceLabel}</span>
                                 <select value={voiceId ?? ''} onChange={e => chooseVoice(e.target.value)} className="flex-1 min-w-0 bg-black/30 border border-white/10 rounded-lg px-2 py-1.5 text-white">
                                     {voices.map(v => <option key={v.id} value={v.id}>{v.name}{v.details ? ` — ${v.details}` : ''}</option>)}
@@ -410,7 +411,7 @@ export default function AssistantPanel() {
                                 e.preventDefault();
                                 ask(input);
                             }}
-                            className="border-t border-white/10 p-3 flex items-end gap-2"
+                            className="border-t border-white/10 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] flex items-end gap-2"
                         >
                             <textarea
                                 ref={inputRef}
