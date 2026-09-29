@@ -26,6 +26,8 @@ import {
     ShieldCheck,
     History,
     KeyRound,
+    Landmark,
+    Building2,
     UserRound,
     Banknote
 } from 'lucide-react';
@@ -211,6 +213,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                 { name: t.admin.biz.menu.finance, icon: Wallet, path: '/admin/finance', area: 'finance' },
                 { name: t.admin.biz.menu.documents, icon: Receipt, path: '/admin/invoices', area: 'finance' },
                 { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses', area: 'finance' },
+                { name: t.admin.biz.menu.bank, icon: Landmark, path: '/admin/bank', area: 'finance' },
                 { name: t.admin.biz.menu.clients, icon: Users, path: '/admin/clients', area: 'finance' },
                 { name: t.admin.biz.hr.menu.employees, icon: UserRound, path: '/admin/employees', area: 'hr' },
                 { name: t.admin.biz.hr.menu.payroll, icon: Banknote, path: '/admin/payroll', area: 'hr' },
@@ -219,6 +222,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         {
             title: t.admin.access.menu.team,
             items: [
+                { name: t.admin.biz.menu.company, icon: Building2, path: '/admin/company', area: 'users' },
                 { name: t.admin.access.menu.users, icon: ShieldCheck, path: '/admin/users', area: 'users' },
                 { name: t.admin.access.menu.activity, icon: History, path: '/admin/activity', area: 'users' },
                 { name: t.admin.access.menu.account, icon: KeyRound, path: '/admin/account', area: 'dashboard' },

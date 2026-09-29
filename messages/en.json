@@ -409,7 +409,9 @@
                 "finance": "Finances",
                 "clients": "Clients & suppliers",
                 "documents": "Invoices & quotes",
-                "expenses": "Expenses"
+                "expenses": "Expenses",
+                "bank": "Bank",
+                "company": "Company details"
             },
             "common": {
                 "save": "Save",
@@ -512,7 +514,9 @@
                 "bank": "Bank details",
                 "validity": "This quote is valid for 30 days.",
                 "thanks": "Thank you for your trust.",
-                "billTo": "Bill to"
+                "billTo": "Bill to",
+                "numberOptional": "Number (leave empty to number automatically)",
+                "numberTaken": "This number is already used by another document."
             },
             "expenses": {
                 "title": "Expenses",
@@ -635,6 +639,65 @@
                     "confirmDeleteSlip": "Delete this unpaid payslip? You can prepare it again.",
                     "noActive": "No active employees. Add an employee first."
                 }
+            },
+            "bank": {
+                "title": "Bank",
+                "subtitle": "Bank account movements and balance. Import the bank statement every month.",
+                "balance": "Balance from recorded movements",
+                "import": "Import a statement (Excel)",
+                "importHint": "Download the statement as Excel from online banking and choose it here. Lines already imported are not duplicated; bank fees are recorded as expenses automatically.",
+                "imported": "{n} movement(s) imported ({f} bank fees recorded as expenses). {s} already present skipped.",
+                "nothing": "No movements found in this file. Check that it is a BFI statement in Excel format.",
+                "date": "Date",
+                "label": "Operation",
+                "ref": "Reference",
+                "in": "In",
+                "out": "Out",
+                "link": "Linked to",
+                "types": {
+                    "income": "Money in",
+                    "fee": "Bank fees",
+                    "transfer": "Cash withdrawal",
+                    "expense": "Money out"
+                },
+                "filterAll": "All",
+                "empty": "No movements yet.",
+                "account": "Account"
+            },
+            "company": {
+                "title": "Company details",
+                "subtitle": "Printed on invoices, quotes and payslips.",
+                "identity": "Legal identity",
+                "contact": "Address and contact",
+                "signature": "Signature",
+                "bankTitle": "Bank account",
+                "saved": "Saved.",
+                "fields": {
+                    "legalName": "Legal name",
+                    "tradeName": "Trade name",
+                    "tagline": "Tagline under the name",
+                    "legalForm": "Legal form",
+                    "capital": "Share capital",
+                    "addressFr": "Address (French)",
+                    "addressAr": "Address (Arabic)",
+                    "city": "City / country",
+                    "rc": "Trade register (RC)",
+                    "nif": "Tax ID (NIF)",
+                    "cnss": "Employer CNSS no.",
+                    "phones": "Phone",
+                    "email": "Email",
+                    "website": "Website",
+                    "manager": "Manager (gérant)",
+                    "signatory": "Signs the documents",
+                    "signatoryTitle": "Title",
+                    "bank_name": "Bank",
+                    "account_number": "Account number",
+                    "rib": "RIB",
+                    "iban": "IBAN",
+                    "swift": "SWIFT",
+                    "holder": "Account holder",
+                    "agency": "Branch"
+                }
             }
         },
         "access": {
@@ -703,7 +766,8 @@
                 "convert": "Quote → invoice",
                 "prepare": "Payslips prepared",
                 "change_password": "Password changed",
-                "status": "Status changed"
+                "status": "Status changed",
+                "import": "Import"
             },
             "entities": {
                 "session": "",
@@ -720,7 +784,9 @@
                 "payroll": "payroll",
                 "payslip": "payslip",
                 "payroll_rates": "payroll rates",
-                "user": "user"
+                "user": "user",
+                "bank_statement": "bank statement",
+                "company": "company details"
             },
             "account": {
                 "title": "My account",

@@ -35,7 +35,9 @@ export async function POST(request: Request) {
 
     try {
         const fiscalYearId = await fiscalYearFor(date);
-        const number = await nextNumber('accounting_invoices', 'invoice_number', type === 'quote' ? 'DEV' : 'FAC', date);
+        // A number typed by the user (e.g. an older document) is kept as is; otherwise the next one in the series
+        const typed = text(body.invoice_number, 60);
+        const number = typed ?? await nextNumber('accounting_invoices', 'invoice_number', type === 'quote' ? 'DEV' : 'F', date);
         const { data: doc, error } = await supabaseAdmin
             .from('accounting_invoices')
             .insert({
@@ -52,11 +54,12 @@ export async function POST(request: Request) {
             })
             .select('id')
             .single();
+        if (error?.code === '23505') return NextResponse.json({ error: 'NumberTaken' }, { status: 409 });
         if (error || !doc) throw new Error(error?.message ?? 'Insert');
 
         const { error: linesError } = await supabaseAdmin
             .from('accounting_invoice_lines')
-            .insert(lines.map((l, i) => ({ ...l, invoice_id: doc.id, tva_rate: money(body.tva_rate), total_ht: money(l.quantity * l.unit_price), sequence: i + 1 })));
+            .insert(lines.map((l, i) => ({ ...l, invoice_id: doc.id, tva_rate: money(body.tva_rate), sequence: i + 1 })));
         if (linesError) {
             await supabaseAdmin.from('accounting_invoices').delete().eq('id', doc.id);
             throw new Error(linesError.message);

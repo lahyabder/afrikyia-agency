@@ -80,6 +80,7 @@ function DocumentEditor() {
             due_date: dueDate || null,
             tva_rate: num(tvaRate),
             notes,
+            invoice_number: number.trim() || undefined,
             lines: lines.map(l => ({ description: l.description, quantity: num(l.quantity), unit_price: num(l.unit_price) })),
         };
         try {
@@ -88,7 +89,8 @@ function DocumentEditor() {
                 : await api<{ id: string }>('/api/biz/documents', 'POST', payload);
             router.push(`/admin/invoices/view?id=${id ?? res.id}`);
         } catch (err) {
-            setError((err as { code?: string }).code === 'AlreadyPaid' ? d.alreadyPaid : b.common.saveError);
+            const code = (err as { code?: string }).code;
+            setError(code === 'AlreadyPaid' ? d.alreadyPaid : code === 'NumberTaken' ? d.numberTaken : b.common.saveError);
             setSaving(false);
         }
     };
@@ -116,6 +118,9 @@ function DocumentEditor() {
                         </select>
                         <button type="button" onClick={() => setAddingClient(true)} className={`${ghostBtn} whitespace-nowrap`}>{d.addClient}</button>
                     </div>
+                </Field>
+                <Field label={d.numberOptional} className="sm:col-span-2">
+                    <input value={number} onChange={e => setNumber(e.target.value)} placeholder={type === 'quote' ? 'DEV/2026/019' : 'F/2026/019'} dir="ltr" className={inputClass} />
                 </Field>
                 <Field label={b.common.date}>
                     <input type="date" required value={date} onChange={e => setDate(e.target.value)} className={inputClass} />
