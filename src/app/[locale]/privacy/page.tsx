@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 export default function PrivacyPage() {
-    const { isRTL } = useLanguage();
+    const { isRTL, language } = useLanguage();
 
     const content = {
         en: {
@@ -55,7 +55,7 @@ export default function PrivacyPage() {
         }
     };
 
-    const lang = isRTL ? 'ar' : (typeof window !== 'undefined' && document.documentElement.lang === 'fr') ? 'fr' : 'en';
+    const lang = language;
     const c = content[lang as keyof typeof content] || content.ar;
 
     return (

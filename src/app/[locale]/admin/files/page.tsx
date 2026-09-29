@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
-import { Trash2, Edit3, X, FileText, File as FileIcon } from 'lucide-react';
+import { Trash2, Edit3, X, FileText, File as FileIcon, FolderLock } from 'lucide-react';
+import { useAdminSession } from '@/components/admin/AdminSession';
 
 type StoredFile = {
     id: string;
@@ -17,6 +18,18 @@ type StoredFile = {
     description?: string;
     date?: string;
 };
+
+// First guess of the vault section, from the file name
+function guessVaultCategory(name: string): string {
+    const n = name.toLowerCase();
+    if (/rib|banque|bank|relev/.test(n)) return 'bank';
+    if (/cnss|cnam|social/.test(n)) return 'social';
+    if (/nif|fiscal|imp[oô]t|tax/.test(n)) return 'tax';
+    if (/contrat|contract|convention/.test(n)) return 'contracts';
+    if (/statut|registre|commerce|immatriculation|rc\b/.test(n)) return 'legal';
+    if (/ent[eê]te|papier|cachet|mod[eè]le/.test(n)) return 'templates';
+    return 'other';
+}
 
 type PreviewKind = 'image' | 'pdf' | 'video' | 'none';
 
@@ -70,6 +83,41 @@ export default function FilesPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [editingFile, setEditingFile] = useState<StoredFile | null>(null);
     const [editForm, setEditForm] = useState({ name: '', category: 'document', description: '' });
+    const { areas } = useAdminSession();
+    const canMove = areas.includes('finance') && areas.includes('publishing');
+    const [moving, setMoving] = useState<StoredFile | null>(null);
+    const [moveForm, setMoveForm] = useState({ title: '', category: 'other' });
+    const [moveBusy, setMoveBusy] = useState(false);
+    const [notice, setNotice] = useState<{ ok: boolean; text: string } | null>(null);
+    const f = t.admin.files;
+    const vaultCategories = t.admin.biz.vault.categories as Record<string, string>;
+
+    const openMove = (file: StoredFile) => {
+        const title = (file.name || file.originalName || '').replace(/\.[a-z0-9]{1,5}$/i, '').trim();
+        setMoveForm({ title, category: guessVaultCategory(`${file.name} ${file.originalName}`) });
+        setMoving(file);
+    };
+
+    const handleMove = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!moving) return;
+        setMoveBusy(true);
+        try {
+            const res = await fetch('/api/biz/company-docs', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'import-file', file_id: moving.id, title: moveForm.title, category: moveForm.category }),
+            });
+            if (!res.ok) throw new Error(String(res.status));
+            setFiles(list => list.filter(x => x.id !== moving.id));
+            setNotice({ ok: true, text: f.moved });
+            setMoving(null);
+        } catch {
+            setNotice({ ok: false, text: f.moveError });
+        } finally {
+            setMoveBusy(false);
+        }
+    };
 
     useEffect(() => {
         const fetchFiles = async () => {
@@ -143,7 +191,7 @@ export default function FilesPage() {
     return (
         <div className="space-y-6 animate-fade-in text-white" dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Header */}
-            <div className={`flex justify-between items-center border-b border-white/5 pb-4 ${isRTL ? 'flex-row' : 'flex-row'}`}>
+            <div className={`flex justify-between items-center border-b border-white/5 pb-4`}>
                 <h1 className="text-3xl font-bold flex items-center gap-3">
                     {t.admin.files.title}
                 </h1>
@@ -154,6 +202,11 @@ export default function FilesPage() {
                     {t.admin.files.addFile}
                 </Link>
             </div>
+
+            <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">{f.publicWarning}</p>
+            {notice && (
+                <p className={`text-sm rounded-lg px-3 py-2 border ${notice.ok ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-red-400 bg-red-500/10 border-red-500/20'}`}>{notice.text}</p>
+            )}
 
             {/* List */}
             <div className="space-y-4">
@@ -177,6 +230,11 @@ export default function FilesPage() {
                                             {file.size ? (file.size / 1024 / 1024).toFixed(2) + ' MB' : '0.00 MB'}
                                         </span>
                                         <div className="flex gap-1">
+                                            {canMove && (
+                                                <button onClick={() => openMove(file)} aria-label={f.moveToVault} title={f.moveToVault} className="p-1.5 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-lg transition-all">
+                                                    <FolderLock size={14} />
+                                                </button>
+                                            )}
                                             <button onClick={() => handleEditOpen(file)} aria-label={isRTL ? 'تعديل' : 'Edit'} className="p-1.5 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-lg transition-all">
                                                 <Edit3 size={14} />
                                             </button>
@@ -206,6 +264,33 @@ export default function FilesPage() {
                     </div>
                 )}
             </div>
+
+            {/* Move to the private company documents */}
+            {moving && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
+                    <form onSubmit={handleMove} className="bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 w-full max-w-md space-y-4">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-lg font-bold">{f.moveTitle}</h3>
+                            <button type="button" onClick={() => setMoving(null)} className="text-white/50 hover:text-white" aria-label="close"><X size={20} /></button>
+                        </div>
+                        <p className="text-sm text-white/60">{f.moveHint}</p>
+                        <div>
+                            <label className="block text-sm font-medium text-white/70 mb-1">{t.admin.biz.vault.titleField}</label>
+                            <input value={moveForm.title} onChange={e => setMoveForm({ ...moveForm, title: e.target.value })} required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400" />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-white/70 mb-1">{t.admin.biz.vault.category}</label>
+                            <select value={moveForm.category} onChange={e => setMoveForm({ ...moveForm, category: e.target.value })} className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400">
+                                {Object.entries(vaultCategories).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                            </select>
+                        </div>
+                        <div className="flex gap-3 pt-2">
+                            <button type="button" onClick={() => setMoving(null)} className="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl font-bold">{isRTL ? 'إلغاء' : 'Cancel'}</button>
+                            <button type="submit" disabled={moveBusy} className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-black py-3 rounded-xl font-bold disabled:opacity-60">{moveBusy ? f.moving : f.moveButton}</button>
+                        </div>
+                    </form>
+                </div>
+            )}
 
             {/* Edit Modal */}
             <AnimatePresence>

@@ -109,7 +109,7 @@ export default async function RootLayout({
     description: t('description'),
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+222 24232202',
+      telephone: '+222 30609040',
       email: 'contact@afrikyia.com',
       contactType: 'customer service'
     }

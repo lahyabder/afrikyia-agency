@@ -117,7 +117,7 @@ export default function AdminServicesPage() {
     return (
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up pb-20">
             {/* Header Row */}
-            <div className={`flex flex-col md:flex-row justify-between items-center bg-black/40 border border-white/5 p-6 rounded-2xl gap-6 ${isRTL ? 'flex-row' : 'flex-row'}`}>
+            <div className={`flex flex-col md:flex-row justify-between items-center bg-black/40 border border-white/5 p-6 rounded-2xl gap-6`}>
                 <div className="flex items-center gap-4">
                     <div>
                         <h1 className="text-xl font-bold">{t.admin.menu.services || 'الخدمات'}</h1>

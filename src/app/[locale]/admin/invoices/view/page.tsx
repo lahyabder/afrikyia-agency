@@ -2,11 +2,10 @@
 
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
 import { ArrowLeft, ArrowRight, Printer, Pencil, Send, Wallet, FileCheck2, Ban, Trash2, Stamp } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Modal, Field, ErrorBox, StatusBadge, inputClass, primaryBtn, ghostBtn, api, useBiz } from '@/components/admin/biz/ui';
-import { DEFAULT_COMPANY, type CompanyInfo } from '@/lib/company';
+import { LetterheadHeader, SignatureBlock, paperLocale as localeFor, useCompanySeals, type PaperLang } from '@/components/admin/biz/Letterhead';
 import { englishWords, frenchWords } from '@/lib/amountInWords';
 
 type Doc = {
@@ -29,8 +28,6 @@ type Doc = {
     banks: { bank_name: string; account_number: string | null; rib: string | null; iban: string | null; swift: string | null }[];
 };
 
-type PaperLang = 'fr' | 'ar' | 'en';
-
 // Wording printed on the document, chosen separately from the admin language
 const PAPER: Record<PaperLang, Record<string, string>> = {
     fr: { invoice: 'FACTURE', quote: 'DEVIS', number: 'N°', date: 'Date', due: 'Échéance', billTo: 'Client', description: 'Désignation', qty: 'Qté', unit: 'Prix unitaire', total: 'Montant', subtotal: 'Total HT', tva: 'TVA', ttc: 'Total TTC', paid: 'Déjà payé', withheld: 'Retenues à la source', remaining: 'Reste à payer', bank: 'Coordonnées bancaires', validity: 'Ce devis est valable 30 jours.', thanks: 'Merci de votre confiance.', rcLabel: 'RC', nifLabel: 'NIF', tel: 'Tél', currency: 'MRU' },
@@ -51,8 +48,7 @@ function DocumentView() {
     const d = b.docs;
     const router = useRouter();
     const [doc, setDoc] = useState<Doc | null>(null);
-    const [company, setCompany] = useState<CompanyInfo>(DEFAULT_COMPANY);
-    const [seals, setSeals] = useState<{ stamp: string | null; signature: string | null }>({ stamp: null, signature: null });
+    const { company, seals } = useCompanySeals();
     const [withSeal, setWithSeal] = useState(false);
     const [error, setError] = useState('');
     const [paperLang, setPaperLang] = useState<PaperLang>('fr');
@@ -68,10 +64,6 @@ function DocumentView() {
         api<Doc>(`/api/biz/documents/${id}`).then(setDoc).catch(() => setError(b.common.loadError));
     }, [id, b.common.loadError]);
     useEffect(load, [load]);
-    useEffect(() => {
-        api<{ company: CompanyInfo }>('/api/biz/company').then(r => setCompany(r.company)).catch(() => {});
-        api<{ stamp: string | null; signature: string | null }>('/api/biz/company/seals').then(setSeals).catch(() => {});
-    }, []);
 
     // Print with or without the stamp and signature; the preview shows the chosen version first
     const printWith = (seal: boolean) => {
@@ -107,7 +99,7 @@ function DocumentView() {
     if (!doc) return <div className="space-y-4"><ErrorBox message={error} />{!error && <div className="text-white/60 text-sm py-10 text-center">{b.common.loading}</div>}</div>;
 
     const L = PAPER[paperLang];
-    const paperLocale = paperLang === 'ar' ? 'ar-u-nu-latn' : paperLang === 'fr' ? 'fr-FR' : 'en-GB';
+    const paperLocale = localeFor(paperLang);
     const pm = (v: number) => `${Number(v || 0).toLocaleString(paperLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${L.currency}`;
     const pd = (iso?: string | null) => (iso ? new Date(`${iso}T00:00:00`).toLocaleDateString(paperLocale, { dateStyle: 'long' }) : '—');
     const withheld = Number(doc.withheld_amount || 0);
@@ -159,22 +151,12 @@ function DocumentView() {
                 lang={paperLang}
                 className={`paper bg-white text-[#14161A] rounded-2xl print:rounded-none shadow-xl print:shadow-none max-w-[820px] mx-auto p-8 sm:p-12 print:p-0 text-[13px] leading-relaxed ${paperLang === 'ar' ? 'arabic-font' : 'font-sans'}`}
             >
-                <header className="flex justify-between items-start gap-6 pb-6 border-b-2 border-[#E11D48]">
-                    <div>
-                        <Image src="/logo.png" alt={company.tradeName} width={160} height={48} className="h-10 w-auto" />
-                        {company.tagline && <p className="text-[10px] text-[#4B515A] mt-0.5" dir="ltr">{company.tagline}</p>}
-                        <p className="mt-3 text-[#14161A] text-xs font-bold">{company.legalName}</p>
-                        <p className="text-[#4B515A] text-xs">{paperLang === 'ar' ? company.addressAr : company.addressFr} – {company.city}</p>
-                        <p className="text-[#4B515A] text-xs">{L.rcLabel} {company.rc} · {L.nifLabel} {company.nif}</p>
-                        <p className="text-[#4B515A] text-xs"><span dir="ltr">{L.tel} {company.phones} · {company.email} · {company.website}</span></p>
-                    </div>
-                    <div className="text-end shrink-0">
-                        <div className="text-2xl font-bold text-[#E11D48] tracking-wide">{isInvoice ? L.invoice : L.quote}</div>
-                        <div className="mt-2 text-xs text-[#4B515A]">{L.number} <b className="text-[#14161A]" dir="ltr">{doc.invoice_number}</b></div>
-                        <div className="text-xs text-[#4B515A]">{L.date}: <b className="text-[#14161A]">{pd(doc.date)}</b></div>
-                        {doc.due_date && <div className="text-xs text-[#4B515A]">{L.due}: <b className="text-[#14161A]">{pd(doc.due_date)}</b></div>}
-                    </div>
-                </header>
+                <LetterheadHeader company={company} lang={paperLang}>
+                    <div className="text-2xl font-bold text-[#E11D48] tracking-wide">{isInvoice ? L.invoice : L.quote}</div>
+                    <div className="mt-2 text-xs text-[#4B515A]">{L.number} <b className="text-[#14161A]" dir="ltr">{doc.invoice_number}</b></div>
+                    <div className="text-xs text-[#4B515A]">{L.date}: <b className="text-[#14161A]">{pd(doc.date)}</b></div>
+                    {doc.due_date && <div className="text-xs text-[#4B515A]">{L.due}: <b className="text-[#14161A]">{pd(doc.due_date)}</b></div>}
+                </LetterheadHeader>
 
                 <section className="mt-6 mb-8 bg-[#F6F5F2] rounded-lg p-4 max-w-sm">
                     <div className="text-[11px] font-bold text-[#E11D48] mb-1">{L.billTo}</div>
@@ -230,20 +212,7 @@ function DocumentView() {
                 {doc.notes && <p className="mt-6 text-xs text-[#4B515A] whitespace-pre-wrap">{doc.notes}</p>}
 
                 <div className="mt-10 flex justify-end break-inside-avoid">
-                    <div className="relative text-center text-xs w-64">
-                        <div className="font-bold text-[#14161A]">{company.signatory}</div>
-                        <div className="text-[#4B515A]">{company.signatoryTitle}</div>
-                        <div className="relative h-36">
-                            {withSeal && seals.stamp && (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img src={seals.stamp} alt="" className="absolute left-1/2 top-1 -translate-x-[70%] w-36 h-36 object-contain opacity-90 -rotate-6 pointer-events-none" />
-                            )}
-                            {withSeal && seals.signature && (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img src={seals.signature} alt="" className="absolute left-1/2 top-8 -translate-x-[35%] w-44 object-contain pointer-events-none" />
-                            )}
-                        </div>
-                    </div>
+                    <SignatureBlock name={company.signatory} title={company.signatoryTitle} seals={seals} withSeal={withSeal} />
                 </div>
 
                 <footer className="mt-10 pt-5 border-t border-[#E4E2DD] text-xs text-[#4B515A] space-y-1">
