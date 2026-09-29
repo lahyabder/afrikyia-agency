@@ -8,8 +8,8 @@ import { useAccessTexts } from '@/components/admin/AdminSession';
 
 const SECTIONS: { key: 'identity' | 'contact' | 'signature'; fields: (keyof CompanyInfo)[] }[] = [
     { key: 'identity', fields: ['legalName', 'tradeName', 'tagline', 'legalForm', 'capital', 'rc', 'nif', 'cnss', 'manager'] },
-    { key: 'contact', fields: ['addressFr', 'addressAr', 'city', 'phones', 'email', 'website'] },
-    { key: 'signature', fields: ['signatory', 'signatoryTitle'] },
+    { key: 'contact', fields: ['addressFr', 'addressAr', 'city', 'cityAr', 'phones', 'email', 'website'] },
+    { key: 'signature', fields: ['signatory', 'signatoryTitle', 'signatoryAr', 'signatoryTitleAr'] },
 ];
 const BANK_FIELDS: (keyof BankInfo)[] = ['bank_name', 'holder', 'agency', 'account_number', 'rib', 'iban', 'swift'];
 const LTR = new Set(['rc', 'nif', 'cnss', 'phones', 'email', 'website', 'account_number', 'rib', 'iban', 'swift']);
@@ -67,7 +67,7 @@ export default function CompanyPage() {
                                 <input
                                     value={company[key]}
                                     onChange={e => setCompany(v => v && { ...v, [key]: e.target.value })}
-                                    dir={LTR.has(key) ? 'ltr' : key === 'addressAr' ? 'rtl' : undefined}
+                                    dir={LTR.has(key) ? 'ltr' : key === 'addressAr' || key === 'cityAr' || key === 'signatoryAr' || key === 'signatoryTitleAr' ? 'rtl' : undefined}
                                     className={inputClass}
                                 />
                             </Field>

@@ -748,7 +748,10 @@
                     "iban": "IBAN",
                     "swift": "SWIFT",
                     "holder": "Account holder",
-                    "agency": "Branch"
+                    "agency": "Branch",
+                    "cityAr": "City / country (Arabic)",
+                    "signatoryAr": "Signatory name in Arabic (optional)",
+                    "signatoryTitleAr": "Title in Arabic"
                 },
                 "sealsTitle": "Stamp and signature",
                 "sealsHint": "Two images with a transparent background (PNG). They stay private, visible only to signed-in users, and are added only with “Print with stamp and signature”.",
@@ -820,7 +823,10 @@
                 "empty": "No letters yet. Write the first one.",
                 "all": "All",
                 "cancelledWatermark": "CANCELLED",
-                "missingSubject": "Enter the subject of the letter."
+                "missingSubject": "Enter the subject of the letter.",
+                "attachmentsHint": "one per line",
+                "savePrintSigned": "Save and print with stamp and signature",
+                "savePrintPlain": "Save and print without stamp and signature"
             }
         },
         "access": {

@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Printer, Stamp } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Field, ErrorBox, inputClass, primaryBtn, ghostBtn, api, useBiz, type Party } from '@/components/admin/biz/ui';
 import { useCompanySeals, type PaperLang } from '@/components/admin/biz/Letterhead';
@@ -40,7 +40,7 @@ function LetterEditor() {
     const { b, isRTL } = useBiz();
     const l = b.letters;
     const router = useRouter();
-    const { company, seals } = useCompanySeals();
+    const { company, bank, seals } = useCompanySeals();
     const [parties, setParties] = useState<Party[]>([]);
     const [form, setForm] = useState<Form>({
         letter_number: '', date: today(), language: 'fr', party_id: '', recipient: '', subject: '', reference: '',
@@ -80,8 +80,10 @@ function LetterEditor() {
         setForm(f => ({ ...f, party_id: partyId, recipient: p ? [p.name, p.address].filter(Boolean).join('\n') : f.recipient }));
     };
 
-    const save = async (e: React.FormEvent) => {
+    const save = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
+        const print = submitter?.name === 'print' ? submitter.value : '';
         if (!form.subject.trim()) return setError(l.missingSubject);
         setSaving(true);
         setError('');
@@ -90,7 +92,7 @@ function LetterEditor() {
             const res = id
                 ? await api<{ id: string }>(`/api/biz/letters/${id}`, 'PATCH', { action: 'save', ...payload })
                 : await api<{ id: string }>('/api/biz/letters', 'POST', payload);
-            router.push(`/admin/letters/view?id=${id ?? res.id}`);
+            router.push(`/admin/letters/view?id=${id ?? res.id}${print ? `&print=${print}` : ''}`);
         } catch (err) {
             setError((err as { code?: string }).code === 'NumberTaken' ? b.docs.numberTaken : b.common.saveError);
             setSaving(false);
@@ -139,16 +141,14 @@ function LetterEditor() {
                     <Field label={l.subject}>
                         <input required value={form.subject} onChange={e => set('subject', e.target.value)} dir="auto" className={inputClass} />
                     </Field>
-                    <div className="grid grid-cols-2 gap-3">
-                        <Field label={l.reference}>
-                            <input value={form.reference} onChange={e => set('reference', e.target.value)} dir="auto" className={inputClass} />
-                        </Field>
-                        <Field label={l.attachments}>
-                            <input value={form.attachments} onChange={e => set('attachments', e.target.value)} dir="auto" className={inputClass} />
-                        </Field>
-                    </div>
+                    <Field label={l.reference}>
+                        <input value={form.reference} onChange={e => set('reference', e.target.value)} dir="auto" className={inputClass} />
+                    </Field>
                     <Field label={`${l.body} — ${l.bodyHint}`}>
                         <textarea rows={14} value={form.body} onChange={e => set('body', e.target.value)} dir="auto" className={`${inputClass} leading-6`} />
+                    </Field>
+                    <Field label={`${l.attachments} — ${l.attachmentsHint}`}>
+                        <textarea rows={3} value={form.attachments} onChange={e => set('attachments', e.target.value)} dir="auto" className={inputClass} />
                     </Field>
                     <Field label={l.copies}>
                         <textarea rows={2} value={form.copies} onChange={e => set('copies', e.target.value)} dir="auto" className={inputClass} />
@@ -158,21 +158,26 @@ function LetterEditor() {
                             <input value={form.place} onChange={e => set('place', e.target.value)} placeholder={form.language === 'ar' ? 'نواكشوط' : 'Nouakchott'} dir="auto" className={inputClass} />
                         </Field>
                         <Field label={l.signatory}>
-                            <input value={form.signatory} onChange={e => set('signatory', e.target.value)} placeholder={company.signatory} dir="auto" className={inputClass} />
+                            <input value={form.signatory} onChange={e => set('signatory', e.target.value)} placeholder={(form.language === 'ar' && company.signatoryAr) || company.signatory} dir="auto" className={inputClass} />
                         </Field>
                         <Field label={l.signatoryTitle}>
-                            <input value={form.signatory_title} onChange={e => set('signatory_title', e.target.value)} placeholder={company.signatoryTitle} dir="auto" className={inputClass} />
+                            <input value={form.signatory_title} onChange={e => set('signatory_title', e.target.value)} placeholder={(form.language === 'ar' && company.signatoryTitleAr) || company.signatoryTitle} dir="auto" className={inputClass} />
                         </Field>
                     </div>
                     <div className="flex gap-2 pt-2">
                         <button type="submit" disabled={saving} className={`${primaryBtn} flex-1`}>{l.save}</button>
                         <Link href={id ? `/admin/letters/view?id=${id}` : '/admin/letters'} className={ghostBtn}>{b.common.cancel}</Link>
                     </div>
+                    {/* Save, then open the print window straight away */}
+                    <div className="grid sm:grid-cols-2 gap-2 border-t border-white/10 pt-4">
+                        <button type="submit" name="print" value="signed" disabled={saving} className={ghostBtn}><Stamp className="w-4 h-4" />{l.savePrintSigned}</button>
+                        <button type="submit" name="print" value="plain" disabled={saving} className={ghostBtn}><Printer className="w-4 h-4" />{l.savePrintPlain}</button>
+                    </div>
                 </form>
 
                 <div className="min-w-0">
                     <div className="text-xs font-bold text-white/50 mb-2">{l.preview}</div>
-                    <LetterPaper letter={preview} company={company} seals={seals} withSeal={false} />
+                    <LetterPaper letter={preview} company={company} bank={bank} seals={seals} withSeal={false} />
                 </div>
             </div>
         </div>

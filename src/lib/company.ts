@@ -10,6 +10,7 @@ export type CompanyInfo = {
     addressFr: string;
     addressAr: string;
     city: string;
+    cityAr: string;
     rc: string;
     nif: string;
     cnss: string;
@@ -19,6 +20,8 @@ export type CompanyInfo = {
     manager: string;
     signatory: string;
     signatoryTitle: string;
+    signatoryAr: string;
+    signatoryTitleAr: string;
 };
 
 export type BankInfo = {
@@ -41,6 +44,7 @@ export const DEFAULT_COMPANY: CompanyInfo = {
     addressFr: 'Tevragh Zeina – îlot Z, lot N° 0003 P',
     addressAr: 'تفرغ زينة – المقطع Z، القطعة رقم 0003P',
     city: 'Nouakchott – Mauritanie',
+    cityAr: 'نواكشوط – موريتانيا',
     rc: '136293/1270',
     nif: '01697101',
     cnss: '1309212026',
@@ -50,6 +54,9 @@ export const DEFAULT_COMPANY: CompanyInfo = {
     manager: 'Ghalia Abderrahmane LAHY',
     signatory: 'Abderrahmane LAHY',
     signatoryTitle: 'Directeur Général',
+    // Used on documents printed in Arabic; empty = the French name above
+    signatoryAr: '',
+    signatoryTitleAr: 'المدير العام',
 };
 
 const MAX = 200;

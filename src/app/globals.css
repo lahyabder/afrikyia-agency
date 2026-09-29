@@ -198,7 +198,17 @@ html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 
 /* ===== Printed documents (invoices, quotes, letters, payslips) ===== */
 /* A fixed A4 page: phones print at the page width instead of the screen layout, so nothing is cut off */
-@page { size: A4; margin: 14mm 14mm 16mm; }
+@page {
+  size: A4;
+  margin: 14mm 14mm 16mm;
+  /* Page numbers on every page; the empty boxes replace the browser's own header and footer (address, date) */
+  @top-left { content: ""; }
+  @top-center { content: ""; }
+  @top-right { content: ""; }
+  @bottom-left { content: ""; }
+  @bottom-right { content: ""; }
+  @bottom-center { content: counter(page) " / " counter(pages); direction: ltr; unicode-bidi: isolate; font-family: Arial, sans-serif; font-size: 8.5pt; color: #767C86; }
+}
 @media print {
   html, body { background: #fff !important; width: auto !important; height: auto !important; overflow: visible !important; }
   .paper { max-width: none !important; width: auto !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; font-size: 12px; }
@@ -213,6 +223,14 @@ html { scroll-behavior: smooth; scroll-padding-top: 88px; }
   .paper header { padding-bottom: 1rem !important; }
   .paper .h-36 { height: 7.5rem !important; }
   .paper footer { padding-top: .75rem !important; }
+}
+/* Company footer (address, registration, bank) at the bottom of every printed page */
+.paper-footer-space { display: none; }
+@media print {
+  .paper-footer-space { display: table-footer-group; }
+  .paper-footer-space div { height: 20mm; }
+  .paper-frame > tbody > tr { break-inside: auto !important; page-break-inside: auto !important; }
+  .paper .paper-footer { position: fixed; left: 0; right: 0; bottom: 0; margin: 0 !important; background: #fff; }
 }
 /* Phones: the paper preview fits the screen */
 @media screen and (max-width: 639px) {

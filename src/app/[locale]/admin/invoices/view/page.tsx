@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Printer, Pencil, Send, Wallet, FileCheck2, Ban, Trash2, Stamp } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Modal, Field, ErrorBox, StatusBadge, inputClass, primaryBtn, ghostBtn, api, useBiz } from '@/components/admin/biz/ui';
-import { LetterheadHeader, SignatureBlock, paperLocale as localeFor, useCompanySeals, type PaperLang } from '@/components/admin/biz/Letterhead';
+import { LetterheadFooter, LetterheadHeader, PaperBody, SignatureBlock, paperLocale as localeFor, useCompanySeals, type PaperLang } from '@/components/admin/biz/Letterhead';
 import { englishWords, frenchWords } from '@/lib/amountInWords';
 
 type Doc = {
@@ -48,7 +48,7 @@ function DocumentView() {
     const d = b.docs;
     const router = useRouter();
     const [doc, setDoc] = useState<Doc | null>(null);
-    const { company, seals } = useCompanySeals();
+    const { company, bank, seals } = useCompanySeals();
     const [withSeal, setWithSeal] = useState(false);
     const [error, setError] = useState('');
     const [paperLang, setPaperLang] = useState<PaperLang>('fr');
@@ -151,6 +151,7 @@ function DocumentView() {
                 lang={paperLang}
                 className={`paper bg-white text-[#14161A] rounded-2xl print:rounded-none shadow-xl print:shadow-none max-w-[820px] mx-auto p-8 sm:p-12 print:p-0 text-[13px] leading-relaxed ${paperLang === 'ar' ? 'arabic-font' : 'font-sans'}`}
             >
+                <PaperBody>
                 <LetterheadHeader company={company} lang={paperLang}>
                     <div className="text-2xl font-bold text-[#E11D48] tracking-wide">{isInvoice ? L.invoice : L.quote}</div>
                     <div className="mt-2 text-xs text-[#4B515A]">{L.number} <b className="text-[#14161A]" dir="ltr">{doc.invoice_number}</b></div>
@@ -211,19 +212,20 @@ function DocumentView() {
 
                 {doc.notes && <p className="mt-6 text-xs text-[#4B515A] whitespace-pre-wrap">{doc.notes}</p>}
 
-                <div className="mt-10 flex justify-end break-inside-avoid">
-                    <SignatureBlock name={company.signatory} title={company.signatoryTitle} seals={seals} withSeal={withSeal} />
+                {/* The closing line travels with the signature, so neither ends up alone on a new page */}
+                <div className="mt-8 break-inside-avoid">
+                    <p className="text-xs text-[#4B515A]">{isInvoice ? L.thanks : L.validity}</p>
+                    <div className="mt-4 flex justify-end">
+                        <SignatureBlock
+                            name={(paperLang === 'ar' && company.signatoryAr) || company.signatory}
+                            title={(paperLang === 'ar' && company.signatoryTitleAr) || company.signatoryTitle}
+                            seals={seals}
+                            withSeal={withSeal}
+                        />
+                    </div>
                 </div>
-
-                <footer className="mt-10 pt-5 border-t border-[#E4E2DD] text-xs text-[#4B515A] space-y-1">
-                    {doc.banks.map(bk => (
-                        <p key={bk.account_number ?? bk.rib ?? bk.bank_name}>
-                            <b className="text-[#14161A]">{L.bank}:</b>{' '}
-                            <span dir="ltr">{[bk.bank_name, bk.account_number && `N° ${bk.account_number}`, bk.rib && `RIB ${bk.rib}`, bk.iban && `IBAN ${bk.iban}`, bk.swift && `SWIFT ${bk.swift}`].filter(Boolean).join(' · ')}</span>
-                        </p>
-                    ))}
-                    <p>{isInvoice ? L.thanks : L.validity}</p>
-                </footer>
+                </PaperBody>
+                <LetterheadFooter company={company} bank={bank} lang={paperLang} />
             </article>
 
             {paying && (
