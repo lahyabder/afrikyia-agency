@@ -148,7 +148,7 @@
         "rights": "© 2026 AFRIKYia – TOUS DROITS RÉSERVÉS",
         "privacy": "Politique de Confidentialité",
         "terms": "Mentions Légales",
-        "phone": "0022224232202",
+        "phone": "0022230609040",
         "address": "Adresse : Tevragh Zeina – ilot Z, 0003P – RC. 136293/1270 NIF 01697101"
     },
     "admin": {
@@ -312,7 +312,15 @@
             "description": "Description (Optionnel)",
             "descriptionPlaceholder": "Brève description du fichier...",
             "saveFile": "Téléverser le Fichier",
-            "saving": "Téléversement..."
+            "saving": "Téléversement...",
+            "moveToVault": "Déplacer vers les documents de la société",
+            "moveTitle": "Déplacer vers les documents de la société (privé)",
+            "moveHint": "Le fichier sera enregistré dans l'espace privé, puis retiré d'ici : son lien public ne fonctionnera plus.",
+            "moveButton": "Déplacer",
+            "moving": "Déplacement…",
+            "moved": "Fichier déplacé vers les documents de la société.",
+            "moveError": "Échec du déplacement. Rien n'a été supprimé, réessayez.",
+            "publicWarning": "⚠️ Les fichiers ici sont publics : toute personne ayant le lien peut les ouvrir. Rangez les documents officiels et personnels dans « Documents de la société »."
         },
         "users": {
             "title": "Utilisateurs",
@@ -756,6 +764,44 @@
                     "contracts": "Contrats",
                     "other": "Autres"
                 }
+            },
+            "letters": {
+                "menu": "Courriers",
+                "title": "Courriers",
+                "subtitle": "Rédigez vos lettres sur l’en-tête de la société, numérotées et archivées, puis imprimez-les en PDF avec ou sans cachet et signature.",
+                "new": "Nouvelle lettre",
+                "number": "N°",
+                "recipient": "Destinataire",
+                "subject": "Objet",
+                "date": "Date",
+                "editTitle": "Modifier la lettre",
+                "newTitle": "Nouvelle lettre",
+                "language": "Langue de la lettre",
+                "pickParty": "Choisir parmi les clients et fournisseurs (facultatif)",
+                "recipientHint": "Nom, fonction et adresse, une information par ligne",
+                "reference": "V/Réf. (facultatif)",
+                "body": "Texte de la lettre",
+                "bodyHint": "Laissez une ligne vide entre les paragraphes.",
+                "attachments": "Pièces jointes (facultatif)",
+                "copies": "Ampliation (facultatif)",
+                "place": "Lieu",
+                "signatory": "Signataire",
+                "signatoryTitle": "Fonction du signataire",
+                "numberOptional": "N° de la lettre (vide = attribué automatiquement)",
+                "save": "Enregistrer",
+                "preview": "Aperçu",
+                "markSent": "Marquer comme envoyée (archiver)",
+                "duplicate": "Dupliquer",
+                "cancel": "Annuler la lettre",
+                "restore": "Remettre en brouillon",
+                "locked": "Cette lettre a été émise : sa copie est archivée telle quelle. Pour la modifier, créez un duplicata.",
+                "cancelledNote": "Lettre annulée : elle reste dans le registre avec son numéro.",
+                "confirmSent": "Une fois envoyée, la lettre ne pourra plus être modifiée. Continuer ?",
+                "confirmCancel": "Annuler cette lettre ? Elle restera dans le registre avec son numéro.",
+                "empty": "Aucune lettre pour l’instant. Rédigez la première.",
+                "all": "Toutes",
+                "cancelledWatermark": "ANNULÉE",
+                "missingSubject": "Indiquez l’objet de la lettre."
             }
         },
         "access": {

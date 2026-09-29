@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAccess } from '@/lib/adminAuth';
+import { canAccess, requireAccess } from '@/lib/adminAuth';
 import { logActivity } from '@/lib/activity';
 import { isoDate, readJson, text } from '@/lib/biz';
 
@@ -87,7 +87,61 @@ export async function POST(request: Request) {
         return NextResponse.json(data);
     }
 
+    if (body.action === 'import-file') {
+        if (!canAccess(gate.user, 'publishing')) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+        return importPublicFile(gate.user, body);
+    }
+
     return NextResponse.json({ error: 'BadAction' }, { status: 400 });
+}
+
+// Moves a file uploaded on the public Files page (bucket "media") into the private vault: copy, record, then
+// remove the public copy so its link stops working. Nothing is removed unless the private copy is saved.
+async function importPublicFile(user: Parameters<typeof logActivity>[0], body: Record<string, unknown>) {
+    const fileId = text(body.file_id, 64);
+    if (!fileId) return NextResponse.json({ error: 'MissingFields' }, { status: 400 });
+    const { data: row } = await supabaseAdmin.from('uploaded_files').select('id, name, original_name, url, type, size').eq('id', fileId).maybeSingle();
+    if (!row) return NextResponse.json({ error: 'NotFound' }, { status: 404 });
+    const marker = '/storage/v1/object/public/media/';
+    const at = typeof row.url === 'string' ? row.url.indexOf(marker) : -1;
+    if (at < 0) return NextResponse.json({ error: 'NotInStorage' }, { status: 400 });
+    const mediaPath = decodeURIComponent(row.url.slice(at + marker.length).split('?')[0]);
+
+    const { data: blob, error: readError } = await supabaseAdmin.storage.from('media').download(mediaPath);
+    if (readError || !blob) return NextResponse.json({ error: 'ReadFailed' }, { status: 502 });
+    if (blob.size > MAX_BYTES) return NextResponse.json({ error: 'TooLarge' }, { status: 413 });
+
+    const fileName = text(row.original_name, 200) ?? text(row.name, 200) ?? 'document';
+    const path = `company/${new Date().getFullYear()}/${randomUUID()}-${safeName(fileName)}`;
+    const mime = text(row.type, 100) ?? (blob.type || 'application/octet-stream');
+    const { error: writeError } = await supabaseAdmin.storage.from(BUCKET).upload(path, blob, { contentType: mime, upsert: false });
+    if (writeError) return NextResponse.json({ error: writeError.message }, { status: 500 });
+
+    const title = text(body.title, 200) ?? text(row.name, 200) ?? fileName;
+    const { data, error } = await supabaseAdmin
+        .from('company_documents')
+        .insert({
+            title,
+            category: category(body.category),
+            file_path: path,
+            file_name: fileName,
+            mime_type: mime,
+            size_bytes: blob.size,
+            issued_on: isoDate(body.issued_on),
+            expires_on: isoDate(body.expires_on),
+            notes: text(body.notes, 1000),
+            uploaded_by: user?.email ?? null,
+        })
+        .select(FIELDS)
+        .single();
+    if (error || !data) {
+        await supabaseAdmin.storage.from(BUCKET).remove([path]);
+        return NextResponse.json({ error: error?.message ?? 'Insert' }, { status: 500 });
+    }
+    await supabaseAdmin.storage.from('media').remove([mediaPath]);
+    await supabaseAdmin.from('uploaded_files').delete().eq('id', row.id);
+    await logActivity(user, 'move_to_vault', 'company_document', title, data.id);
+    return NextResponse.json(data);
 }
 
 // Edit the title, type, dates or notes

@@ -73,7 +73,7 @@ const Contact = () => {
         'w-full rounded-lg border border-line bg-white px-4 py-3.5 text-[15px] text-ink placeholder:text-[#9AA0A8] focus:outline-none focus:border-brand-red focus:ring-2 focus:ring-brand-red/15 transition';
     const channels = [
         { href: 'mailto:contact@afrikyia.com', icon: Mail, label: h.emailLabel, value: 'contact@afrikyia.com' },
-        { href: 'tel:+22224232202', icon: Phone, label: h.phoneLabel, value: '+222 24 23 22 02' },
+        { href: 'tel:+22230609040', icon: Phone, label: h.phoneLabel, value: '+222 30 60 90 40' },
     ];
     const socials = [
         { href: 'https://www.facebook.com/profile.php?id=61594179056891', icon: Facebook, label: 'Facebook' },

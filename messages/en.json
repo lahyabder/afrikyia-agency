@@ -155,7 +155,7 @@
         "rights": "© 2026 AFRIKYia – ALL RIGHTS RESERVED",
         "privacy": "Privacy Policy",
         "terms": "Legal Terms",
-        "phone": "0022224232202",
+        "phone": "0022230609040",
         "address": "Adresse : Tevragh Zeina – ilot Z, 0003P – RC. 136293/1270 NIF 01697101"
     },
     "admin": {
@@ -319,7 +319,15 @@
             "description": "Description (Optional)",
             "descriptionPlaceholder": "Brief file description...",
             "saveFile": "Upload File",
-            "saving": "Uploading..."
+            "saving": "Uploading...",
+            "moveToVault": "Move to company documents",
+            "moveTitle": "Move to company documents (private)",
+            "moveHint": "The file will be saved in the private space, then removed from here: its public link will stop working.",
+            "moveButton": "Move now",
+            "moving": "Moving…",
+            "moved": "File moved to company documents.",
+            "moveError": "Could not move the file. Nothing was deleted; try again.",
+            "publicWarning": "⚠️ Files here are public: anyone with the link can open them. Keep official and personal documents in “Company documents”."
         },
         "users": {
             "title": "Users",
@@ -775,6 +783,44 @@
                     "contracts": "Contracts",
                     "other": "Other"
                 }
+            },
+            "letters": {
+                "menu": "Letters",
+                "title": "Letters",
+                "subtitle": "Write letters on the company letterhead, numbered and archived, and print them to PDF with or without stamp and signature.",
+                "new": "New letter",
+                "number": "No.",
+                "recipient": "Recipient",
+                "subject": "Subject",
+                "date": "Date",
+                "editTitle": "Edit letter",
+                "newTitle": "New letter",
+                "language": "Letter language",
+                "pickParty": "Pick from clients and suppliers (optional)",
+                "recipientHint": "Name, title and address, one per line",
+                "reference": "Your ref. (optional)",
+                "body": "Letter text",
+                "bodyHint": "Leave an empty line between paragraphs.",
+                "attachments": "Enclosures (optional)",
+                "copies": "Copy to (optional)",
+                "place": "Place",
+                "signatory": "Signatory",
+                "signatoryTitle": "Signatory title",
+                "numberOptional": "Letter number (empty = automatic)",
+                "save": "Save",
+                "preview": "Preview",
+                "markSent": "Mark as sent (archive)",
+                "duplicate": "Duplicate",
+                "cancel": "Cancel letter",
+                "restore": "Back to draft",
+                "locked": "This letter was issued: its copy is archived as is. To change it, create a duplicate.",
+                "cancelledNote": "Cancelled letter: it stays in the register with its number.",
+                "confirmSent": "Once sent, the letter can no longer be edited. Continue?",
+                "confirmCancel": "Cancel this letter? It stays in the register with its number.",
+                "empty": "No letters yet. Write the first one.",
+                "all": "All",
+                "cancelledWatermark": "CANCELLED",
+                "missingSubject": "Enter the subject of the letter."
             }
         },
         "access": {
