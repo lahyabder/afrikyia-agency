@@ -61,9 +61,9 @@ export async function fiscalYearFor(date: string): Promise<string> {
     return created.id;
 }
 
-// Next number in a yearly series, e.g. FAC-2026-004
+// Next number in a yearly series, following the company's format: F/2026/019, DEV/2026/019, DEP/2026/016
 export async function nextNumber(table: string, column: string, prefix: string, date: string): Promise<string> {
-    const base = `${prefix}-${date.slice(0, 4)}-`;
+    const base = `${prefix}/${date.slice(0, 4)}/`;
     const { data } = await supabaseAdmin.from(table).select(column).like(column, `${base}%`);
     let max = 0;
     for (const row of (data ?? []) as unknown as Record<string, string>[]) {

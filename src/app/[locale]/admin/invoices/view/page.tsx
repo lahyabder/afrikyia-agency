@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { ArrowLeft, ArrowRight, Printer, Pencil, Send, Wallet, FileCheck2, Ban, Trash2 } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
 import { Modal, Field, ErrorBox, StatusBadge, inputClass, primaryBtn, ghostBtn, api, useBiz } from '@/components/admin/biz/ui';
+import { DEFAULT_COMPANY, type CompanyInfo } from '@/lib/company';
+import { englishWords, frenchWords } from '@/lib/amountInWords';
 
 type Doc = {
     id: string;
@@ -23,16 +25,16 @@ type Doc = {
     notes: string | null;
     party: { name: string; nif?: string; rc?: string; address?: string; phone?: string; email?: string } | null;
     lines: { id: string; description: string; quantity: number; unit_price: number; total_ht: number }[];
-    banks: { bank_name: string; rib: string; currency: string }[];
+    banks: { bank_name: string; account_number: string | null; rib: string | null; iban: string | null; swift: string | null }[];
 };
 
 type PaperLang = 'fr' | 'ar' | 'en';
 
 // Wording printed on the document, chosen separately from the admin language
 const PAPER: Record<PaperLang, Record<string, string>> = {
-    fr: { invoice: 'FACTURE', quote: 'DEVIS', number: 'N°', date: 'Date', due: 'Échéance', billTo: 'Client', description: 'Désignation', qty: 'Qté', unit: 'Prix unitaire', total: 'Montant', subtotal: 'Total HT', tva: 'TVA', ttc: 'Total TTC', paid: 'Déjà payé', remaining: 'Reste à payer', bank: 'Coordonnées bancaires', validity: 'Ce devis est valable 30 jours.', thanks: 'Merci de votre confiance.', address: 'Tevragh Zeina – îlot Z, 0003P – Nouakchott, Mauritanie', ids: 'RC 136293/1270 · NIF 01697101', currency: 'MRU' },
-    ar: { invoice: 'فاتورة', quote: 'عرض سعر', number: 'رقم', date: 'التاريخ', due: 'تاريخ الاستحقاق', billTo: 'العميل', description: 'البيان', qty: 'الكمية', unit: 'سعر الوحدة', total: 'المبلغ', subtotal: 'المجموع دون ضريبة', tva: 'الضريبة على القيمة المضافة', ttc: 'المجموع الكلي', paid: 'المدفوع', remaining: 'المتبقي', bank: 'الحساب البنكي', validity: 'هذا العرض صالح لمدة 30 يوماً.', thanks: 'شكراً لثقتكم.', address: 'تفرغ زينة – القطعة Z، 0003P – نواكشوط، موريتانيا', ids: 'السجل التجاري 136293/1270 · الرقم الضريبي 01697101', currency: 'أوقية' },
-    en: { invoice: 'INVOICE', quote: 'QUOTE', number: 'No.', date: 'Date', due: 'Due date', billTo: 'Bill to', description: 'Description', qty: 'Qty', unit: 'Unit price', total: 'Amount', subtotal: 'Subtotal', tva: 'VAT', ttc: 'Total', paid: 'Paid', remaining: 'Balance due', bank: 'Bank details', validity: 'This quote is valid for 30 days.', thanks: 'Thank you for your business.', address: 'Tevragh Zeina – Lot Z, 0003P – Nouakchott, Mauritania', ids: 'RC 136293/1270 · NIF 01697101', currency: 'MRU' },
+    fr: { invoice: 'FACTURE', quote: 'DEVIS', number: 'N°', date: 'Date', due: 'Échéance', billTo: 'Client', description: 'Désignation', qty: 'Qté', unit: 'Prix unitaire', total: 'Montant', subtotal: 'Total HT', tva: 'TVA', ttc: 'Total TTC', paid: 'Déjà payé', remaining: 'Reste à payer', bank: 'Coordonnées bancaires', validity: 'Ce devis est valable 30 jours.', thanks: 'Merci de votre confiance.', rcLabel: 'RC', nifLabel: 'NIF', tel: 'Tél', currency: 'MRU' },
+    ar: { invoice: 'فاتورة', quote: 'عرض سعر', number: 'رقم', date: 'التاريخ', due: 'تاريخ الاستحقاق', billTo: 'العميل', description: 'البيان', qty: 'الكمية', unit: 'سعر الوحدة', total: 'المبلغ', subtotal: 'المجموع دون ضريبة', tva: 'الضريبة على القيمة المضافة', ttc: 'المجموع الكلي', paid: 'المدفوع', remaining: 'المتبقي', bank: 'الحساب البنكي', validity: 'هذا العرض صالح لمدة 30 يوماً.', thanks: 'شكراً لثقتكم.', rcLabel: 'السجل التجاري', nifLabel: 'الرقم الضريبي', tel: 'الهاتف', currency: 'أوقية' },
+    en: { invoice: 'INVOICE', quote: 'QUOTE', number: 'No.', date: 'Date', due: 'Due date', billTo: 'Bill to', description: 'Description', qty: 'Qty', unit: 'Unit price', total: 'Amount', subtotal: 'Subtotal', tva: 'VAT', ttc: 'Total', paid: 'Paid', remaining: 'Balance due', bank: 'Bank details', validity: 'This quote is valid for 30 days.', thanks: 'Thank you for your business.', rcLabel: 'RC', nifLabel: 'Tax ID', tel: 'Tel', currency: 'MRU' },
 };
 
 export default function DocumentViewPage() {
@@ -48,6 +50,7 @@ function DocumentView() {
     const d = b.docs;
     const router = useRouter();
     const [doc, setDoc] = useState<Doc | null>(null);
+    const [company, setCompany] = useState<CompanyInfo>(DEFAULT_COMPANY);
     const [error, setError] = useState('');
     const [paperLang, setPaperLang] = useState<PaperLang>('fr');
     const [paying, setPaying] = useState(false);
@@ -62,6 +65,9 @@ function DocumentView() {
         api<Doc>(`/api/biz/documents/${id}`).then(setDoc).catch(() => setError(b.common.loadError));
     }, [id, b.common.loadError]);
     useEffect(load, [load]);
+    useEffect(() => {
+        api<{ company: CompanyInfo }>('/api/biz/company').then(r => setCompany(r.company)).catch(() => {});
+    }, []);
 
     const act = async (body: Record<string, unknown>) => {
         setBusy(true);
@@ -135,10 +141,12 @@ function DocumentView() {
             >
                 <header className="flex justify-between items-start gap-6 pb-6 border-b-2 border-[#E11D48]">
                     <div>
-                        <Image src="/logo.png" alt="Afrikyia" width={160} height={48} className="h-10 w-auto" />
-                        <p className="mt-3 text-[#4B515A] text-xs">{L.address}</p>
-                        <p className="text-[#4B515A] text-xs">{L.ids}</p>
-                        <p className="text-[#4B515A] text-xs" dir="ltr" style={{ textAlign: paperLang === 'ar' ? 'right' : 'left' }}>+222 24 23 22 02 · contact@afrikyia.com</p>
+                        <Image src="/logo.png" alt={company.tradeName} width={160} height={48} className="h-10 w-auto" />
+                        {company.tagline && <p className="text-[10px] text-[#4B515A] mt-0.5" dir="ltr">{company.tagline}</p>}
+                        <p className="mt-3 text-[#14161A] text-xs font-bold">{company.legalName}</p>
+                        <p className="text-[#4B515A] text-xs">{paperLang === 'ar' ? company.addressAr : company.addressFr} – {company.city}</p>
+                        <p className="text-[#4B515A] text-xs">{L.rcLabel} {company.rc} · {L.nifLabel} {company.nif}</p>
+                        <p className="text-[#4B515A] text-xs"><span dir="ltr">{L.tel} {company.phones} · {company.email} · {company.website}</span></p>
                     </div>
                     <div className="text-end shrink-0">
                         <div className="text-2xl font-bold text-[#E11D48] tracking-wide">{isInvoice ? L.invoice : L.quote}</div>
@@ -191,12 +199,30 @@ function DocumentView() {
                     </div>
                 </div>
 
-                {doc.notes && <p className="mt-8 text-xs text-[#4B515A] whitespace-pre-wrap">{doc.notes}</p>}
+                {paperLang !== 'ar' && (
+                    <p className="mt-6 text-xs">
+                        {paperLang === 'fr' ? (isInvoice ? 'Arrêtée la présente facture à la somme de : ' : 'Arrêté le présent devis à la somme de : ') : 'Amount in words: '}
+                        <b className="uppercase">{paperLang === 'fr' ? frenchWords(doc.total_ttc) : englishWords(doc.total_ttc)} {paperLang === 'fr' ? 'ouguiyas' : 'ouguiyas'}</b>
+                    </p>
+                )}
+
+                {doc.notes && <p className="mt-6 text-xs text-[#4B515A] whitespace-pre-wrap">{doc.notes}</p>}
+
+                <div className="mt-10 flex justify-end">
+                    <div className="text-center text-xs min-w-48">
+                        <div className="font-bold text-[#14161A]">{company.signatory}</div>
+                        <div className="text-[#4B515A]">{company.signatoryTitle}</div>
+                        <div className="h-16" />
+                    </div>
+                </div>
 
                 <footer className="mt-10 pt-5 border-t border-[#E4E2DD] text-xs text-[#4B515A] space-y-1">
-                    {doc.banks.length > 0 && (
-                        <p><b className="text-[#14161A]">{L.bank}:</b> {doc.banks.map(bk => `${bk.bank_name} — ${bk.rib}`).join(' · ')}</p>
-                    )}
+                    {doc.banks.map(bk => (
+                        <p key={bk.account_number ?? bk.rib ?? bk.bank_name}>
+                            <b className="text-[#14161A]">{L.bank}:</b>{' '}
+                            <span dir="ltr">{[bk.bank_name, bk.account_number && `N° ${bk.account_number}`, bk.rib && `RIB ${bk.rib}`, bk.iban && `IBAN ${bk.iban}`, bk.swift && `SWIFT ${bk.swift}`].filter(Boolean).join(' · ')}</span>
+                        </p>
+                    ))}
                     <p>{isInvoice ? L.thanks : L.validity}</p>
                 </footer>
             </article>

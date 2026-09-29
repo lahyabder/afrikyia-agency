@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { ArrowLeft, ArrowRight, Printer } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { ErrorBox, primaryBtn, api, useBiz } from '@/components/admin/biz/ui';
+import { DEFAULT_COMPANY, type CompanyInfo } from '@/lib/company';
 
 type Slip = {
     period_year: number;
@@ -32,9 +33,9 @@ type Slip = {
 
 type Lang = 'fr' | 'ar' | 'en';
 const T: Record<Lang, Record<string, string>> = {
-    fr: { title: 'BULLETIN DE PAIE', period: 'Période', employee: 'Salarié', matricule: 'Matricule', position: 'Poste', hire: "Date d'embauche", contract: 'Contrat', cnss: 'N° CNSS', nni: 'NNI', item: 'Rubrique', base: 'Base', rate: 'Taux', employeePart: 'Part salariale', employerPart: 'Part patronale', salary: 'Salaire de base', bonus: 'Primes et indemnités', gross: 'Salaire brut', its: 'ITS (impôt sur salaire)', taxable: 'Base imposable', other: 'Autres retenues', net: 'NET À PAYER', paidOn: 'Payé le', bank: 'Virement', signEmployer: "L'employeur", signEmployee: 'Le salarié', address: 'Tevragh Zeina – îlot Z, 0003P – Nouakchott', ids: 'RC 136293/1270 · NIF 01697101', currency: 'MRU' },
-    ar: { title: 'كشف الراتب', period: 'الفترة', employee: 'الموظف', matricule: 'الرقم الوظيفي', position: 'الوظيفة', hire: 'تاريخ التوظيف', contract: 'العقد', cnss: 'رقم CNSS', nni: 'الرقم الوطني', item: 'البند', base: 'الأساس', rate: 'النسبة', employeePart: 'حصة الأجير', employerPart: 'حصة المشغّل', salary: 'الراتب الأساسي', bonus: 'المكافآت والعلاوات', gross: 'الراتب الإجمالي', its: 'ضريبة الدخل ITS', taxable: 'الأساس الخاضع للضريبة', other: 'اقتطاعات أخرى', net: 'الصافي المستحق', paidOn: 'دُفع بتاريخ', bank: 'تحويل إلى', signEmployer: 'المشغّل', signEmployee: 'الموظف', address: 'تفرغ زينة – القطعة Z، 0003P – نواكشوط', ids: 'السجل التجاري 136293/1270 · الرقم الضريبي 01697101', currency: 'أوقية' },
-    en: { title: 'PAYSLIP', period: 'Period', employee: 'Employee', matricule: 'Staff no.', position: 'Position', hire: 'Hire date', contract: 'Contract', cnss: 'CNSS no.', nni: 'National ID', item: 'Item', base: 'Base', rate: 'Rate', employeePart: 'Employee', employerPart: 'Employer', salary: 'Base salary', bonus: 'Bonuses & allowances', gross: 'Gross salary', its: 'Income tax (ITS)', taxable: 'Taxable base', other: 'Other deductions', net: 'NET PAY', paidOn: 'Paid on', bank: 'Transfer to', signEmployer: 'Employer', signEmployee: 'Employee', address: 'Tevragh Zeina – Lot Z, 0003P – Nouakchott', ids: 'RC 136293/1270 · NIF 01697101', currency: 'MRU' },
+    fr: { title: 'BULLETIN DE PAIE', period: 'Période', employee: 'Salarié', matricule: 'Matricule', position: 'Poste', hire: "Date d'embauche", contract: 'Contrat', cnss: 'N° CNSS', nni: 'NNI', item: 'Rubrique', base: 'Base', rate: 'Taux', employeePart: 'Part salariale', employerPart: 'Part patronale', salary: 'Salaire de base', bonus: 'Primes et indemnités', gross: 'Salaire brut', its: 'ITS (impôt sur salaire)', taxable: 'Base imposable', other: 'Autres retenues', net: 'NET À PAYER', paidOn: 'Payé le', bank: 'Virement', signEmployer: "L'employeur", signEmployee: 'Le salarié', employerCnss: 'N° CNSS employeur', currency: 'MRU' },
+    ar: { title: 'كشف الراتب', period: 'الفترة', employee: 'الموظف', matricule: 'الرقم الوظيفي', position: 'الوظيفة', hire: 'تاريخ التوظيف', contract: 'العقد', cnss: 'رقم CNSS', nni: 'الرقم الوطني', item: 'البند', base: 'الأساس', rate: 'النسبة', employeePart: 'حصة الأجير', employerPart: 'حصة المشغّل', salary: 'الراتب الأساسي', bonus: 'المكافآت والعلاوات', gross: 'الراتب الإجمالي', its: 'ضريبة الدخل ITS', taxable: 'الأساس الخاضع للضريبة', other: 'اقتطاعات أخرى', net: 'الصافي المستحق', paidOn: 'دُفع بتاريخ', bank: 'تحويل إلى', signEmployer: 'المشغّل', signEmployee: 'الموظف', employerCnss: 'رقم انتساب المشغّل CNSS', currency: 'أوقية' },
+    en: { title: 'PAYSLIP', period: 'Period', employee: 'Employee', matricule: 'Staff no.', position: 'Position', hire: 'Hire date', contract: 'Contract', cnss: 'CNSS no.', nni: 'National ID', item: 'Item', base: 'Base', rate: 'Rate', employeePart: 'Employee', employerPart: 'Employer', salary: 'Base salary', bonus: 'Bonuses & allowances', gross: 'Gross salary', its: 'Income tax (ITS)', taxable: 'Taxable base', other: 'Other deductions', net: 'NET PAY', paidOn: 'Paid on', bank: 'Transfer to', signEmployer: 'Employer', signEmployee: 'Employee', employerCnss: 'Employer CNSS no.', currency: 'MRU' },
 };
 
 export default function PayslipPage() {
@@ -51,6 +52,11 @@ function Payslip() {
     const [slip, setSlip] = useState<Slip | null>(null);
     const [error, setError] = useState('');
     const [lang, setLang] = useState<Lang>('fr');
+    const [company, setCompany] = useState<CompanyInfo>(DEFAULT_COMPANY);
+
+    useEffect(() => {
+        api<{ company: CompanyInfo }>('/api/biz/company').then(r => setCompany(r.company)).catch(() => {});
+    }, []);
 
     useEffect(() => {
         if (id) api<Slip>(`/api/biz/payroll/${id}`).then(setSlip).catch(() => setError(b.common.loadError));
@@ -95,8 +101,9 @@ function Payslip() {
                 <header className="flex justify-between items-start gap-6 pb-5 border-b-2 border-[#E11D48]">
                     <div>
                         <Image src="/logo.png" alt="Afrikyia" width={150} height={45} className="h-9 w-auto" />
-                        <p className="mt-2 text-xs text-[#4B515A]">{L.address}</p>
-                        <p className="text-xs text-[#4B515A]">{L.ids}</p>
+                        <p className="mt-2 text-xs font-bold">{company.legalName}</p>
+                        <p className="text-xs text-[#4B515A]">{lang === 'ar' ? company.addressAr : company.addressFr} – {company.city}</p>
+                        <p className="text-xs text-[#4B515A]">RC {company.rc} · NIF {company.nif}{company.cnss ? ` · ${L.employerCnss} ${company.cnss}` : ''}</p>
                     </div>
                     <div className="text-end">
                         <div className="text-xl font-bold text-[#E11D48]">{L.title}</div>

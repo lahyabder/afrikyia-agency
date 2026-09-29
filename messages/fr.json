@@ -390,7 +390,9 @@
                 "finance": "Finances",
                 "clients": "Clients & fournisseurs",
                 "documents": "Factures & devis",
-                "expenses": "Dépenses"
+                "expenses": "Dépenses",
+                "bank": "Banque",
+                "company": "Informations de l'entreprise"
             },
             "common": {
                 "save": "Enregistrer",
@@ -493,7 +495,9 @@
                 "bank": "Coordonnées bancaires",
                 "validity": "Ce devis est valable 30 jours.",
                 "thanks": "Merci de votre confiance.",
-                "billTo": "Facturé à"
+                "billTo": "Facturé à",
+                "numberOptional": "Numéro (laisser vide pour la numérotation automatique)",
+                "numberTaken": "Ce numéro est déjà utilisé par un autre document."
             },
             "expenses": {
                 "title": "Dépenses",
@@ -616,6 +620,65 @@
                     "confirmDeleteSlip": "Supprimer ce bulletin non payé ? Vous pourrez le préparer à nouveau.",
                     "noActive": "Aucun employé actif. Ajoutez d'abord un employé."
                 }
+            },
+            "bank": {
+                "title": "Banque",
+                "subtitle": "Mouvements et solde du compte bancaire. Importez le relevé de la banque chaque mois.",
+                "balance": "Solde selon les mouvements enregistrés",
+                "import": "Importer un relevé (Excel)",
+                "importHint": "Téléchargez le relevé au format Excel depuis la banque en ligne puis choisissez-le ici. Les mouvements déjà importés ne sont pas dupliqués ; les frais bancaires sont enregistrés automatiquement en dépenses.",
+                "imported": "{n} mouvement(s) importé(s) ({f} frais bancaires enregistrés en dépenses). {s} déjà présent(s) ignoré(s).",
+                "nothing": "Aucun mouvement trouvé dans ce fichier. Vérifiez qu'il s'agit d'un relevé BFI au format Excel.",
+                "date": "Date",
+                "label": "Opération",
+                "ref": "Référence",
+                "in": "Crédit",
+                "out": "Débit",
+                "link": "Lié à",
+                "types": {
+                    "income": "Crédit",
+                    "fee": "Frais bancaires",
+                    "transfer": "Retrait espèces",
+                    "expense": "Débit"
+                },
+                "filterAll": "Tous",
+                "empty": "Aucun mouvement pour le moment.",
+                "account": "Compte"
+            },
+            "company": {
+                "title": "Informations de l'entreprise",
+                "subtitle": "Ces informations figurent sur les factures, devis et bulletins de paie.",
+                "identity": "Identité juridique",
+                "contact": "Adresse et contact",
+                "signature": "Signature",
+                "bankTitle": "Compte bancaire",
+                "saved": "Enregistré.",
+                "fields": {
+                    "legalName": "Raison sociale",
+                    "tradeName": "Nom commercial",
+                    "tagline": "Signature sous le nom",
+                    "legalForm": "Forme juridique",
+                    "capital": "Capital social",
+                    "addressFr": "Adresse (français)",
+                    "addressAr": "Adresse (arabe)",
+                    "city": "Ville / pays",
+                    "rc": "Registre du commerce (RC)",
+                    "nif": "NIF",
+                    "cnss": "N° CNSS employeur",
+                    "phones": "Téléphone",
+                    "email": "E-mail",
+                    "website": "Site web",
+                    "manager": "Gérant(e)",
+                    "signatory": "Signataire des documents",
+                    "signatoryTitle": "Qualité",
+                    "bank_name": "Banque",
+                    "account_number": "N° de compte",
+                    "rib": "RIB",
+                    "iban": "IBAN",
+                    "swift": "SWIFT",
+                    "holder": "Titulaire",
+                    "agency": "Agence"
+                }
             }
         },
         "access": {
@@ -684,7 +747,8 @@
                 "convert": "Devis → facture",
                 "prepare": "Bulletins préparés",
                 "change_password": "Mot de passe changé",
-                "status": "Changement de statut"
+                "status": "Changement de statut",
+                "import": "Import"
             },
             "entities": {
                 "session": "",
@@ -701,7 +765,9 @@
                 "payroll": "paie",
                 "payslip": "bulletin",
                 "payroll_rates": "taux de paie",
-                "user": "utilisateur"
+                "user": "utilisateur",
+                "bank_statement": "relevé bancaire",
+                "company": "infos de l'entreprise"
             },
             "account": {
                 "title": "Mon compte",

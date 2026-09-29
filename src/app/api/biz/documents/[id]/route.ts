@@ -26,7 +26,7 @@ export async function GET(request: Request, { params }: Params) {
     const doc = await load(id);
     if (!doc) return NextResponse.json({ error: 'NotFound' }, { status: 404 });
     // Bank details printed on the document
-    const { data: banks } = await supabaseAdmin.from('bank_accounts').select('bank_name, rib, currency').eq('is_active', true).limit(2);
+    const { data: banks } = await supabaseAdmin.from('bank_accounts').select('bank_name, account_number, rib, iban, swift, holder, agency').eq('is_active', true).limit(1);
     return NextResponse.json({ ...doc, banks: banks ?? [] });
 }
 
@@ -44,7 +44,7 @@ export async function PATCH(request: Request, { params }: Params) {
     if (action === 'convert') {
         if (doc.type !== 'quote') return NextResponse.json({ error: 'NotAQuote' }, { status: 400 });
         const date = new Date().toISOString().slice(0, 10);
-        const number = await nextNumber('accounting_invoices', 'invoice_number', 'FAC', date);
+        const number = await nextNumber('accounting_invoices', 'invoice_number', 'F', date);
         const { data: created, error } = await supabaseAdmin
             .from('accounting_invoices')
             .insert({
@@ -66,12 +66,11 @@ export async function PATCH(request: Request, { params }: Params) {
             .single();
         if (error || !created) return NextResponse.json({ error: error?.message }, { status: 500 });
         await supabaseAdmin.from('accounting_invoice_lines').insert(
-            doc.lines.map((l: { description: string; quantity: number; unit_price: number; total_ht: number; sequence: number }) => ({
+            doc.lines.map((l: { description: string; quantity: number; unit_price: number; sequence: number }) => ({
                 invoice_id: created.id,
                 description: l.description,
                 quantity: l.quantity,
                 unit_price: l.unit_price,
-                total_ht: l.total_ht,
                 tva_rate: doc.tva_rate,
                 sequence: l.sequence,
             }))
@@ -127,15 +126,17 @@ export async function PATCH(request: Request, { params }: Params) {
             fiscal_year_id: await fiscalYearFor(date),
             due_date: isoDate(body.due_date),
             notes: text(body.notes, 2000),
+            invoice_number: text(body.invoice_number, 60) ?? doc.invoice_number,
             updated_at: new Date().toISOString(),
             ...totals(lines, money(body.tva_rate)),
         })
         .eq('id', id);
+    if (error?.code === '23505') return NextResponse.json({ error: 'NumberTaken' }, { status: 409 });
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     await supabaseAdmin.from('accounting_invoice_lines').delete().eq('invoice_id', id);
     const { error: linesError } = await supabaseAdmin
         .from('accounting_invoice_lines')
-        .insert(lines.map((l, i) => ({ ...l, invoice_id: id, tva_rate: money(body.tva_rate), total_ht: money(l.quantity * l.unit_price), sequence: i + 1 })));
+        .insert(lines.map((l, i) => ({ ...l, invoice_id: id, tva_rate: money(body.tva_rate), sequence: i + 1 })));
     if (linesError) return NextResponse.json({ error: linesError.message }, { status: 500 });
     await logActivity(gate.user, 'update', doc.type, doc.invoice_number, id);
     return NextResponse.json(await load(id));
