@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { compressImage, MAX_UPLOAD_BYTES } from '@/lib/compressImage';
 import { fetchSiteContent, readLegacyLocalContent, saveSiteContent, resetSiteContent } from '@/lib/siteContent';
 import { useLanguage } from '@/context/LanguageContext';
 import { Save, AlertTriangle, CheckCircle2, RotateCcw, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
@@ -278,11 +279,12 @@ export default function AdminTrustedPage() {
                                                     type="file"
                                                     accept="image/*"
                                                     onChange={async (e) => {
-                                                        const file = e.target.files?.[0];
-                                                        if (!file) return;
-
-                                                        if (file.size > 2 * 1024 * 1024) {
-                                                            showNotification('error', 'حجم الشعار كبير جداً! يرجى اختيار صورة أقل من 2MB | Logo too large');
+                                                        const original = e.target.files?.[0];
+                                                        e.target.value = '';
+                                                        if (!original) return;
+                                                        const file = await compressImage(original, 800);
+                                                        if (file.size > MAX_UPLOAD_BYTES) {
+                                                            showNotification('error', 'الشعار كبير جداً حتى بعد ضغطه (الحد 4MB) | Logo too large (4MB max)');
                                                             return;
                                                         }
 
