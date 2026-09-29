@@ -942,15 +942,15 @@
         "assistant": {
             "open": "Assistant",
             "title": "Afrikyia assistant",
-            "subtitle": "Ask about figures, invoices, expenses and the bank",
-            "welcome": "Hello 👋 I read the company’s data to answer your questions. For example:",
+            "subtitle": "Questions on the figures, draft letters and invoices",
+            "welcome": "Hello 👋 Ask about the company’s figures, or ask me to prepare a draft letter, invoice or quote. You can type, or press the microphone and speak. Examples:",
             "suggestions": [
                 "What is the current financial position?",
                 "Which invoices are still unpaid?",
-                "How much did we spend this year, by category?",
-                "Does the bank balance match the statement?"
+                "Write a letter to the Ministry of Culture asking for a meeting to present SIGPAN",
+                "Prepare a quote for PAN: mobile app development, 200,000 MRU"
             ],
-            "readOnly": "For now the assistant only reads data: it does not create, change or delete anything.",
+            "readOnly": "The assistant only creates drafts: it sends nothing, records no payments and deletes nothing. Review each draft before printing.",
             "placeholder": "Type your question…",
             "send": "Send",
             "reset": "New conversation",
@@ -965,7 +965,12 @@
                 "Refused": "The assistant could not answer this request. Try rephrasing it.",
                 "NoAccess": "Your role gives no access to data the assistant reads.",
                 "Failed": "Something went wrong. Try again."
-            }
+            },
+            "speak": "Speak",
+            "stopListening": "Stop listening",
+            "listening": "Listening… speak now",
+            "voiceOn": "Read answers aloud",
+            "voiceOff": "Stop reading aloud"
         }
     },
     "metadata": {

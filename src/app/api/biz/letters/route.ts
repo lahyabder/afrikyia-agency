@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { requireAccess } from '@/lib/adminAuth';
-import { logActivity } from '@/lib/activity';
-import { nextNumber, readJson, text } from '@/lib/biz';
-import { letterContent } from '@/lib/letters';
+import { readJson } from '@/lib/biz';
+import { LetterError, createLetter } from '@/lib/letters';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,16 +26,10 @@ export async function POST(request: Request) {
     if (gate.denied) return gate.denied;
     const body = await readJson(request);
     if (!body) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
-    const content = letterContent(body);
-    if (!content.subject) return NextResponse.json({ error: 'MissingFields' }, { status: 400 });
-    const number = text(body.letter_number, 60) ?? (await nextNumber('company_letters', 'letter_number', 'L', content.date));
-    const { data, error } = await supabaseAdmin
-        .from('company_letters')
-        .insert({ ...content, letter_number: number, status: 'draft', created_by: gate.user.email })
-        .select('id, letter_number')
-        .single();
-    if (error?.code === '23505') return NextResponse.json({ error: 'NumberTaken' }, { status: 409 });
-    if (error || !data) return NextResponse.json({ error: error?.message ?? 'Insert' }, { status: 500 });
-    await logActivity(gate.user, 'create', 'letter', `${number} – ${content.subject}`, data.id);
-    return NextResponse.json(data);
+    try {
+        return NextResponse.json(await createLetter(gate.user, body));
+    } catch (e) {
+        const code = e instanceof LetterError ? e.code : 'Failed';
+        return NextResponse.json({ error: code === 'Failed' && e instanceof Error ? e.message : code }, { status: code === 'NumberTaken' ? 409 : code === 'MissingFields' ? 400 : 500 });
+    }
 }
