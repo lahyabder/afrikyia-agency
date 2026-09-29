@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { compressImage, MAX_UPLOAD_BYTES } from '@/lib/compressImage';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
@@ -129,11 +130,14 @@ export default function ProjectsAdminPage() {
     };
 
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+        const original = e.target.files?.[0];
+        e.target.value = '';
+        if (!original) return;
 
-        if (file.size > 2 * 1024 * 1024) {
-            showNotification('error', 'حجم الصورة كبير جداً! يرجى اختيار صورة أقل من 2MB | Image too large');
+        showNotification('success', 'جاري رفع الصورة… | Uploading…');
+        const file = await compressImage(original);
+        if (file.size > MAX_UPLOAD_BYTES) {
+            showNotification('error', 'الصورة كبيرة جداً حتى بعد ضغطها (الحد 4MB) | Image too large even after compression (4MB max)');
             return;
         }
 
@@ -156,8 +160,12 @@ export default function ProjectsAdminPage() {
                 } else {
                     showNotification('error', 'فشل في رفع الصورة | Failed to upload image');
                 }
+            } else if (response.status === 401) {
+                showNotification('error', 'انتهت الجلسة، سجّل الدخول من جديد ثم أعد رفع الصورة | Session expired, please log in again');
+            } else if (response.status === 413) {
+                showNotification('error', 'الصورة كبيرة جداً (الحد 4MB) | Image too large (4MB max)');
             } else {
-                showNotification('error', 'خطأ في الخادم أثناء رفع الصورة | Server error during upload');
+                showNotification('error', `خطأ في الخادم أثناء رفع الصورة (${response.status}) | Server error during upload`);
             }
         } catch (error) {
             console.error('Upload error:', error);
