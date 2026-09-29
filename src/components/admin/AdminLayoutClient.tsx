@@ -13,13 +13,16 @@ import {
     Receipt, 
     FileBox, 
     Files, 
-    Settings, 
     Globe, 
     LogOut,
     Lock,
     Mail,
     AlertTriangle,
-    Briefcase
+    Briefcase,
+    Menu,
+    X,
+    ExternalLink,
+    Boxes
 } from 'lucide-react';
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
@@ -28,6 +31,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     const [password, setPassword] = useState<string>('');
     const [loginError, setLoginError] = useState<string>('');
     const [isMounted, setIsMounted] = useState(false);
+    const [mobileNavOpen, setMobileNavOpen] = useState(false);
     
     const pathname = usePathname();
     const router = useRouter();
@@ -151,93 +155,171 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         );
     }
 
-    const menuItems = [
-        { name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard' },
-        { name: t.admin.menu.clients, icon: Users, path: '/admin/clients' },
-        { name: t.admin.menu.offers, icon: FileText, path: '/admin/offers' },
-        { name: t.admin.menu.invoices, icon: Receipt, path: '/admin/invoices' },
-        { name: t.admin.menu.deliveryNotes, icon: FileBox, path: '/admin/delivery-notes' },
-        { name: t.admin.menu.files, icon: Files, path: '/admin/files' },
-        { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements' },
-        { name: t.admin.menu.projects || 'Projects', icon: Briefcase, path: '/admin/projects' },
-        { name: t.admin.menu.about, icon: FileText, path: '/admin/about' },
-        { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision' },
-        { name: t.admin.menu.services, icon: Briefcase, path: '/admin/services' },
-        { name: t.admin.menu.trusted, icon: Users, path: '/admin/trusted' },
-        { name: t.admin.menu.contact, icon: Mail, path: '/admin/contact' },
-        { name: t.admin.menu.users, icon: Users, path: '/admin/users' },
-        { name: t.admin.menu.settings, icon: Settings, path: '/admin/settings' },
+    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; localOnly?: boolean };
+    const menuGroups: { title?: string; items: MenuItem[] }[] = [
+        {
+            items: [{ name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard' }],
+        },
+        {
+            title: t.admin.menu.groupPublishing,
+            items: [
+                { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements' },
+                { name: t.admin.menu.projects, icon: Briefcase, path: '/admin/projects' },
+                { name: t.admin.menu.about, icon: FileText, path: '/admin/about' },
+                { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision' },
+                { name: t.admin.menu.services, icon: Briefcase, path: '/admin/services' },
+                { name: t.admin.menu.trusted, icon: Users, path: '/admin/trusted' },
+                { name: t.admin.menu.contact, icon: Mail, path: '/admin/contact' },
+                { name: t.admin.menu.files, icon: Files, path: '/admin/files' },
+            ],
+        },
+        {
+            title: t.admin.menu.groupManagement,
+            items: [
+                { name: t.admin.menu.clients, icon: Users, path: '/admin/clients', localOnly: true },
+                { name: t.admin.menu.offers, icon: FileText, path: '/admin/offers', localOnly: true },
+                { name: t.admin.menu.invoices, icon: Receipt, path: '/admin/invoices', localOnly: true },
+                { name: t.admin.menu.deliveryNotes, icon: FileBox, path: '/admin/delivery-notes', localOnly: true },
+            ],
+        },
     ];
+    const erpUrl = process.env.NEXT_PUBLIC_ERP_URL;
+    const isLocalOnlyPage = menuGroups.some(g => g.items.some(i => i.localOnly && pathname.startsWith(i.path)));
+
+    const navContent = (
+        <>
+            <nav className="flex-1 overflow-y-auto py-4">
+                {menuGroups.map((group, gi) => (
+                    <div key={gi} className={gi > 0 ? 'mt-5' : ''}>
+                        {group.title && (
+                            <div className="px-7 mb-2 text-[11px] font-bold uppercase tracking-widest text-white/35">
+                                {group.title}
+                            </div>
+                        )}
+                        <ul className="space-y-1 px-3">
+                            {group.items.map((item) => {
+                                const isActive = pathname.startsWith(item.path);
+                                return (
+                                    <li key={item.path}>
+                                        <Link
+                                            href={item.path}
+                                            onClick={() => setMobileNavOpen(false)}
+                                            className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-sm font-semibold ${
+                                                isActive
+                                                    ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/10'
+                                                    : 'text-white/60 hover:bg-white/5 hover:text-white'
+                                            }`}
+                                        >
+                                            <item.icon className="w-5 h-5 shrink-0" />
+                                            <span className="flex-1">{item.name}</span>
+                                            {item.localOnly && (
+                                                <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-bold ${isActive ? 'bg-black/15' : 'bg-amber-500/15 text-amber-400'}`}>
+                                                    {t.admin.menu.localTag}
+                                                </span>
+                                            )}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
+                            {group.title === t.admin.menu.groupManagement && erpUrl && (
+                                <li>
+                                    <a
+                                        href={erpUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all text-sm font-semibold text-white/60 hover:bg-white/5 hover:text-white"
+                                    >
+                                        <Boxes className="w-5 h-5 shrink-0" />
+                                        <span className="flex-1">{t.admin.menu.erp}</span>
+                                        <ExternalLink className="w-3.5 h-3.5" />
+                                    </a>
+                                </li>
+                            )}
+                        </ul>
+                    </div>
+                ))}
+            </nav>
+
+            <div className="p-4 border-t border-white/5 space-y-2">
+                <div className="flex items-center gap-2 mb-4 bg-white/5 p-1 rounded-xl">
+                    {(['ar', 'fr', 'en'] as const).map((lang) => (
+                        <button
+                            key={lang}
+                            onClick={() => router.replace(pathname, { locale: lang })}
+                            className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                                language === lang
+                                    ? 'bg-yellow-400 text-black shadow-md'
+                                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                            }`}
+                        >
+                            {lang.toUpperCase()}
+                        </button>
+                    ))}
+                </div>
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
+                >
+                    <LogOut className="w-5 h-5" />
+                    {t.admin.menu.logout}
+                </button>
+            </div>
+        </>
+    );
+
+    const logo = (
+        <Link href="/">
+            <Image
+                src="/logo.png"
+                alt="Afrikyia Logo"
+                width={150}
+                height={45}
+                className="h-8 w-auto cursor-pointer"
+                style={{ filter: 'invert(1) hue-rotate(180deg) saturate(20)', mixBlendMode: 'screen' }}
+            />
+        </Link>
+    );
 
     return (
         <div className={`flex h-screen bg-[#111111] text-white font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
-            {/* Sidebar */}
-            <aside className={`w-64 bg-[#0a0a0a] border-white/5 flex flex-col hidden md:flex ${isRTL ? 'border-l' : 'border-r'}`}>
-                <div className="p-6 border-b border-white/5">
-                    <Link href="/">
-                        <Image
-                            src="/logo.png"
-                            alt="Afrikyia Logo"
-                            width={150}
-                            height={45}
-                            className="h-8 w-auto cursor-pointer"
-                            style={{ filter: 'invert(1) hue-rotate(180deg) saturate(20)', mixBlendMode: 'screen' }}
-                        />
-                    </Link>
-                </div>
-                
-                <nav className="flex-1 overflow-y-auto py-4">
-                    <ul className="space-y-1 px-3">
-                        {menuItems.map((item) => {
-                            const isActive = pathname.startsWith(item.path);
-                            return (
-                                <li key={item.path}>
-                                    <Link 
-                                        href={item.path}
-                                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-semibold ${
-                                            isActive 
-                                                ? 'bg-yellow-400 text-black shadow-lg shadow-yellow-400/10' 
-                                                : 'text-white/60 hover:bg-white/5 hover:text-white'
-                                        }`}
-                                    >
-                                        <item.icon className="w-5 h-5" />
-                                        {item.name}
-                                    </Link>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </nav>
-
-                <div className="p-4 border-t border-white/5 space-y-2">
-                    <div className="flex items-center gap-2 mb-4 bg-white/5 p-1 rounded-xl">
-                        {(['ar', 'fr', 'en'] as const).map((lang) => (
-                            <button
-                                key={lang}
-                                onClick={() => router.replace(pathname, { locale: lang })}
-                                className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition-all ${
-                                    language === lang 
-                                        ? 'bg-yellow-400 text-black shadow-md' 
-                                        : 'text-white/60 hover:text-white hover:bg-white/10'
-                                }`}
-                            >
-                                {lang.toUpperCase()}
-                            </button>
-                        ))}
-                    </div>
-                    <button
-                        onClick={handleLogout}
-                        className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
-                    >
-                        <LogOut className="w-5 h-5" />
-                        {t.admin.menu.logout}
-                    </button>
-                </div>
+            {/* Sidebar (desktop) */}
+            <aside className={`w-64 bg-[#0a0a0a] border-white/5 flex-col hidden md:flex ${isRTL ? 'border-l' : 'border-r'}`}>
+                <div className="p-6 border-b border-white/5">{logo}</div>
+                {navContent}
             </aside>
 
+            {/* Sidebar (mobile drawer) */}
+            {mobileNavOpen && (
+                <div className="fixed inset-0 z-50 md:hidden">
+                    <div className="absolute inset-0 bg-black/70" onClick={() => setMobileNavOpen(false)} />
+                    <aside className={`absolute top-0 bottom-0 ${isRTL ? 'right-0' : 'left-0'} w-72 max-w-[85%] bg-[#0a0a0a] flex flex-col`}>
+                        <div className="p-5 border-b border-white/5 flex items-center justify-between">
+                            {logo}
+                            <button onClick={() => setMobileNavOpen(false)} aria-label={t.admin.menu.closeMenu} className="p-2 rounded-lg hover:bg-white/10 cursor-pointer">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+                        {navContent}
+                    </aside>
+                </div>
+            )}
+
             {/* Main Content */}
-            <main className="flex-1 flex flex-col h-screen overflow-hidden">
-                <div className="flex-1 overflow-y-auto p-6 md:p-10">
+            <main className="flex-1 flex flex-col h-screen overflow-hidden min-w-0">
+                {/* Top bar (mobile) */}
+                <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#0a0a0a]">
+                    {logo}
+                    <button onClick={() => setMobileNavOpen(true)} aria-label={t.admin.menu.openMenu} className="p-2 rounded-lg hover:bg-white/10 cursor-pointer">
+                        <Menu className="w-6 h-6" />
+                    </button>
+                </div>
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10">
+                    {isLocalOnlyPage && (
+                        <div className="mb-6 flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">
+                            <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+                            <p>{t.admin.localNotice}</p>
+                        </div>
+                    )}
                     {children}
                 </div>
             </main>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent } from '@/lib/siteContent';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
 import { Send, Mail, Phone, CheckCircle2, AlertCircle, Facebook } from 'lucide-react';
@@ -18,11 +19,10 @@ const Contact = () => {
     });
 
     useEffect(() => {
-        const loadContent = () => {
-            const cached = localStorage.getItem('afrikyia-contact');
-            if (cached) {
+        const loadContent = async () => {
+            const parsed = await fetchSiteContent('contact');
+            if (parsed) {
                 try {
-                    const parsed = JSON.parse(cached);
                     if (parsed[language]) {
                         setContent(parsed[language]);
                     }

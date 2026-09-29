@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent, readLegacyLocalContent, saveSiteContent, resetSiteContent } from '@/lib/siteContent';
 import { useLanguage } from '@/context/LanguageContext';
 import { Save, AlertTriangle, CheckCircle2, RotateCcw, Plus, Trash2, Image as ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -50,10 +51,11 @@ export default function AdminTrustedPage() {
 
     useEffect(() => {
         setIsMounted(true);
-        const cached = localStorage.getItem('afrikyia-trusted');
-        if (cached) {
+        const loadSaved = async () => {
+            const saved = (await fetchSiteContent('trusted')) ?? readLegacyLocalContent('trusted');
+            if (!saved) return;
             try {
-                const parsed = JSON.parse(cached);
+                const parsed = saved;
                 setContent({
                     ar: parsed.ar || arMessages.trusted,
                     fr: parsed.fr || frMessages.trusted,
@@ -63,7 +65,8 @@ export default function AdminTrustedPage() {
             } catch (e) {
                 console.error(e);
             }
-        }
+        };
+        loadSaved();
     }, []);
 
     const showNotification = (type: 'success' | 'warn' | 'error', message: string) => {
@@ -71,14 +74,17 @@ export default function AdminTrustedPage() {
         setTimeout(() => setNotification(null), 5000);
     };
 
-    const handleSave = (e: React.FormEvent) => {
+    const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
-        localStorage.setItem('afrikyia-trusted', JSON.stringify(content));
-        window.dispatchEvent(new Event('afrikyia-trusted-updated'));
-        showNotification('success', 'تم حفظ التعديلات بنجاح | Saved successfully');
+        if (await saveSiteContent('trusted', content)) {
+            window.dispatchEvent(new Event('afrikyia-trusted-updated'));
+            showNotification('success', 'تم الحفظ والنشر على الموقع | Saved and published');
+        } else {
+            showNotification('error', 'تعذر الحفظ، حاول مرة أخرى | Save failed, please try again');
+        }
     };
 
-    const handleReset = () => {
+    const handleReset = async () => {
         if (!confirm('هل أنت متأكد من استعادة النصوص الأصلية وإلغاء كافة التعديلات؟\nAre you sure you want to reset to default texts?')) return;
         const original = {
             ar: arMessages.trusted,
@@ -86,8 +92,11 @@ export default function AdminTrustedPage() {
             en: enMessages.trusted,
             partners: defaultClients
         };
+        if (!(await resetSiteContent('trusted'))) {
+            showNotification('error', 'تعذرت الاستعادة، حاول مرة أخرى | Reset failed, please try again');
+            return;
+        }
         setContent(original);
-        localStorage.removeItem('afrikyia-trusted');
         window.dispatchEvent(new Event('afrikyia-trusted-updated'));
         showNotification('success', 'تمت استعادة النصوص الأصلية بنجاح | Reset to default successfully');
     };

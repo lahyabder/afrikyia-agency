@@ -364,10 +364,10 @@ export default function ProjectsAdminPage() {
                                             )}
                                             {item.video && <Video className="w-4 h-4 text-white/60" />}
                                         </td>
-                                        <td className="px-6 py-5 font-mono text-xs text-white/70">
+                                        <td className="px-6 py-5 font-mono text-xs text-white/70 max-w-[220px]">
                                             {item.link !== '#' ? (
-                                                <a href={item.link} target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 flex items-center gap-1">
-                                                    {item.link} <ExternalLink className="w-3 h-3" />
+                                                <a href={item.link} target="_blank" rel="noopener noreferrer" title={item.link} className="hover:text-yellow-400 flex items-center gap-1 min-w-0">
+                                                    <span className="truncate" dir="ltr">{item.link.replace(/^https?:\/\//, '').replace(/\/$/, '')}</span> <ExternalLink className="w-3 h-3 shrink-0" />
                                                 </a>
                                             ) : (
                                                 <span className="text-white/20">{t.admin.projects?.noLink || 'No link'}</span>

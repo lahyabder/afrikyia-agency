@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent, readLegacyLocalContent, saveSiteContent, resetSiteContent } from '@/lib/siteContent';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
@@ -38,14 +39,16 @@ export default function AdminAboutPage() {
 
     useEffect(() => {
         setIsMounted(true);
-        const cached = localStorage.getItem('afrikyia-about');
-        if (cached) {
+        const loadSaved = async () => {
+            const saved = (await fetchSiteContent('about')) ?? readLegacyLocalContent('about');
+            if (!saved) return;
             try {
-                setContent(JSON.parse(cached));
+                setContent(saved);
             } catch (e) {
                 console.error(e);
             }
-        }
+        };
+        loadSaved();
     }, []);
 
     const showNotification = (type: 'success' | 'warn' | 'error', message: string) => {
@@ -53,22 +56,28 @@ export default function AdminAboutPage() {
         setTimeout(() => setNotification(null), 5000);
     };
 
-    const handleSave = (e: React.FormEvent) => {
+    const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
-        localStorage.setItem('afrikyia-about', JSON.stringify(content));
-        window.dispatchEvent(new Event('afrikyia-about-updated'));
-        showNotification('success', 'تم حفظ التعديلات بنجاح | Saved successfully');
+        if (await saveSiteContent('about', content)) {
+            window.dispatchEvent(new Event('afrikyia-about-updated'));
+            showNotification('success', 'تم الحفظ والنشر على الموقع | Saved and published');
+        } else {
+            showNotification('error', 'تعذر الحفظ، حاول مرة أخرى | Save failed, please try again');
+        }
     };
 
-    const handleReset = () => {
+    const handleReset = async () => {
         if (!confirm('هل أنت متأكد من استعادة النصوص الأصلية وإلغاء كافة التعديلات؟\nAre you sure you want to reset to default texts?')) return;
         const original = {
             ar: arMessages.about,
             fr: frMessages.about,
             en: enMessages.about
         };
+        if (!(await resetSiteContent('about'))) {
+            showNotification('error', 'تعذرت الاستعادة، حاول مرة أخرى | Reset failed, please try again');
+            return;
+        }
         setContent(original);
-        localStorage.removeItem('afrikyia-about');
         window.dispatchEvent(new Event('afrikyia-about-updated'));
         showNotification('success', 'تمت استعادة النصوص الأصلية بنجاح | Reset to default successfully');
     };

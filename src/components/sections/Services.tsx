@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { fetchSiteContent } from '@/lib/siteContent';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import {
@@ -27,11 +28,10 @@ const Services = () => {
     });
 
     useEffect(() => {
-        const loadContent = () => {
-            const cached = localStorage.getItem('afrikyia-services');
-            if (cached) {
+        const loadContent = async () => {
+            const parsed = await fetchSiteContent('services');
+            if (parsed) {
                 try {
-                    const parsed = JSON.parse(cached);
                     if (parsed[language]) {
                         setContent(parsed[language]);
                     }
