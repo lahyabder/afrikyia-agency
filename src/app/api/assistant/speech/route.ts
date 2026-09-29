@@ -53,10 +53,19 @@ export async function POST(request: Request) {
         body: JSON.stringify({ text, model_id: MODEL, voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.2, use_speaker_boost: true } }),
     });
     if (!res.ok) {
-        const detail = await res.text().catch(() => '');
-        console.error('[speech] ElevenLabs error', res.status, detail.slice(0, 200));
-        const code = res.status === 401 ? 'KeyRejected' : /quota|credit/i.test(detail) ? 'NoCredit' : 'Failed';
-        return NextResponse.json({ error: code }, { status: 502 });
+        const detail = (await res.text().catch(() => '')).slice(0, 300);
+        console.error('[speech] ElevenLabs error', res.status, detail);
+        // The reason is kept in the activity log (it holds ElevenLabs' message only, never the key)
+        await logActivity(gate.user, 'speak_failed', 'assistant', `${res.status} ${detail}`);
+        const code =
+            res.status === 401
+                ? 'KeyRejected'
+                : /paid_plan|payment|subscription|library|not.*allowed|permission/i.test(detail)
+                  ? 'VoiceNotAllowed'
+                  : /quota|credit/i.test(detail)
+                    ? 'NoCredit'
+                    : 'Failed';
+        return NextResponse.json({ error: code, status: res.status }, { status: 502 });
     }
     await logActivity(gate.user, 'speak', 'assistant', `${text.length} characters`);
     return new NextResponse(res.body, { headers: { 'Content-Type': 'audio/mpeg', 'Cache-Control': 'private, no-store' } });

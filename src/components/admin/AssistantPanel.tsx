@@ -83,10 +83,11 @@ function browserSpeak(text: string) {
 }
 
 // Natural voice (ElevenLabs, through the server) when available, the browser's voice otherwise
-async function speak(text: string, natural: boolean, voiceId: string | null) {
+async function speak(text: string, natural: boolean, voiceId: string | null): Promise<string | null> {
     stopSpeaking();
     const clean = speakable(text).replace(/\s{2,}/g, ' ').trim();
-    if (!clean) return;
+    if (!clean) return null;
+    let failure: string | null = null;
     if (natural) {
         try {
             const res = await fetch('/api/assistant/speech', {
@@ -94,7 +95,10 @@ async function speak(text: string, natural: boolean, voiceId: string | null) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ text: clean, voice: voiceId }),
             });
-            if (!res.ok) throw new Error(String(res.status));
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error(data?.error || String(res.status));
+            }
             const url = URL.createObjectURL(await res.blob());
             if (!player) player = new Audio();
             const previous = player.src;
@@ -102,12 +106,14 @@ async function speak(text: string, natural: boolean, voiceId: string | null) {
             player.onended = () => URL.revokeObjectURL(url);
             if (previous.startsWith('blob:')) URL.revokeObjectURL(previous);
             await player.play();
-            return;
-        } catch {
-            // falls back to the browser's voice below
+            return null;
+        } catch (e) {
+            // falls back to the browser's voice below, and tells the panel why
+            failure = e instanceof Error ? e.message : 'Failed';
         }
     }
     browserSpeak(clean);
+    return failure;
 }
 
 type Turn = { role: 'user' | 'assistant'; text: string; error?: boolean };
@@ -167,6 +173,7 @@ export default function AssistantPanel() {
     const [status, setStatus] = useState<{ configured: boolean; tools: number; voice?: 'elevenlabs' | 'browser' } | null>(null);
     const [voices, setVoices] = useState<{ id: string; name: string; details: string }[]>([]);
     const [voiceId, setVoiceId] = useState<string | null>(null);
+    const [voiceProblem, setVoiceProblem] = useState<string | null>(null);
     const [turns, setTurns] = useState<Turn[]>([]);
     const [input, setInput] = useState('');
     const [busy, setBusy] = useState(false);
@@ -295,7 +302,7 @@ export default function AssistantPanel() {
             const data = await res.json().catch(() => ({}));
             if (!res.ok) throw new Error(data?.error || 'Failed');
             setTurns(prev => [...prev, { role: 'assistant', text: data.reply }]);
-            if (spoken || voiceReplies) speak(data.reply, natural, voiceId);
+            if (spoken || voiceReplies) speak(data.reply, natural, voiceId).then(setVoiceProblem);
         } catch (e) {
             setTurns(prev => [...prev, { role: 'assistant', text: errorText(e instanceof Error ? e.message : undefined), error: true }]);
         } finally {
@@ -356,8 +363,13 @@ export default function AssistantPanel() {
                                 <select value={voiceId ?? ''} onChange={e => chooseVoice(e.target.value)} className="flex-1 min-w-0 bg-black/30 border border-white/10 rounded-lg px-2 py-1.5 text-white">
                                     {voices.map(v => <option key={v.id} value={v.id}>{v.name}{v.details ? ` — ${v.details}` : ''}</option>)}
                                 </select>
-                                <button onClick={() => { unlockAudio(); speak(a.voiceSample, true, voiceId); }} className="shrink-0 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer">{a.voiceTry}</button>
+                                <button onClick={() => { unlockAudio(); speak(a.voiceSample, true, voiceId).then(setVoiceProblem); }} className="shrink-0 px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer">{a.voiceTry}</button>
                             </div>
+                        )}
+                        {voiceProblem && natural && (
+                            <p className="px-4 py-2 text-xs text-amber-300 bg-amber-500/10 border-b border-amber-500/20">
+                                {(a.voiceErrors as Record<string, string>)[voiceProblem] ?? a.voiceErrors.Failed}
+                            </p>
                         )}
                         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 text-sm leading-relaxed">
                             {!status.configured && <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">{a.errors.NotConfigured}</p>}
