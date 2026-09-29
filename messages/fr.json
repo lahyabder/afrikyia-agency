@@ -954,7 +954,13 @@
             "voiceOff": "Arrêter la lecture à voix haute",
             "voiceLabel": "Voix :",
             "voiceTry": "Essayer",
-            "voiceSample": "Bonjour, je suis l’assistant d’Afrikyia. Comment puis-je vous aider aujourd’hui ?"
+            "voiceSample": "Bonjour, je suis l’assistant d’Afrikyia. Comment puis-je vous aider aujourd’hui ?",
+            "voiceErrors": {
+                "VoiceNotAllowed": "Cette voix n’est pas disponible via l’API avec votre forfait : la voix du navigateur a été utilisée. Choisissez une autre voix (les voix de base d’ElevenLabs sont toujours disponibles).",
+                "NoCredit": "Le crédit ElevenLabs est épuisé : la voix du navigateur a été utilisée.",
+                "KeyRejected": "La clé ElevenLabs est refusée : la voix du navigateur a été utilisée. Vérifiez-la dans Vercel.",
+                "Failed": "La voix naturelle n’a pas fonctionné : la voix du navigateur a été utilisée."
+            }
         }
     },
     "metadata": {

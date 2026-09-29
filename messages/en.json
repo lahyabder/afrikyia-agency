@@ -973,7 +973,13 @@
             "voiceOff": "Stop reading aloud",
             "voiceLabel": "Voice:",
             "voiceTry": "Try",
-            "voiceSample": "Hello, I am the Afrikyia assistant. How can I help you today?"
+            "voiceSample": "Hello, I am the Afrikyia assistant. How can I help you today?",
+            "voiceErrors": {
+                "VoiceNotAllowed": "This voice is not available through the API on your plan, so the browser voice was used. Pick another voice (ElevenLabs’ default voices always work).",
+                "NoCredit": "The ElevenLabs credit is used up, so the browser voice was used.",
+                "KeyRejected": "The ElevenLabs key was rejected, so the browser voice was used. Check it in Vercel.",
+                "Failed": "The natural voice did not work, so the browser voice was used."
+            }
         }
     },
     "metadata": {
