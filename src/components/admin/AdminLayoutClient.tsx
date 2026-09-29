@@ -27,6 +27,7 @@ import {
     History,
     KeyRound,
     Landmark,
+    FolderLock,
     Building2,
     UserRound,
     Banknote
@@ -104,11 +105,11 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         router.push('/admin');
     };
 
-    if (!isMounted) return <div className="min-h-screen bg-[#080808]"></div>;
+    if (!isMounted) return <div className="admin-light min-h-screen bg-[#080808]"></div>;
 
     if (!isAuthenticated) {
         return (
-            <main className="min-h-screen bg-black text-white flex items-center justify-center p-6" dir={isRTL ? 'rtl' : 'ltr'}>
+            <main className="admin-light min-h-screen bg-black text-white flex items-center justify-center p-6" dir={isRTL ? 'rtl' : 'ltr'}>
                 <div className="absolute inset-0 bg-radial-gradient from-yellow-500/10 to-transparent pointer-events-none" />
                 
                 <div className="w-full max-w-md relative z-10">
@@ -198,7 +199,6 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
             title: t.admin.menu.groupPublishing,
             items: [
                 { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements', area: 'publishing' },
-                { name: t.admin.menu.projects, icon: Briefcase, path: '/admin/projects', area: 'publishing' },
                 { name: t.admin.menu.about, icon: FileText, path: '/admin/about', area: 'publishing' },
                 { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision', area: 'publishing' },
                 { name: t.admin.menu.services, icon: Briefcase, path: '/admin/services', area: 'publishing' },
@@ -215,6 +215,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                 { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses', area: 'finance' },
                 { name: t.admin.biz.menu.bank, icon: Landmark, path: '/admin/bank', area: 'finance' },
                 { name: t.admin.biz.menu.clients, icon: Users, path: '/admin/clients', area: 'finance' },
+                { name: t.admin.biz.menu.documentsVault, icon: FolderLock, path: '/admin/documents', area: 'finance' },
                 { name: t.admin.biz.hr.menu.employees, icon: UserRound, path: '/admin/employees', area: 'hr' },
                 { name: t.admin.biz.hr.menu.payroll, icon: Banknote, path: '/admin/payroll', area: 'hr' },
             ],
@@ -323,7 +324,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     );
 
     return (
-        <div className={`flex h-screen print:h-auto print:block print:bg-white bg-[#111111] text-white font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className={`admin-light flex h-screen print:h-auto print:block print:bg-white bg-[#111111] text-white font-sans ${isRTL ? 'arabic-font' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
             {/* Sidebar (desktop) */}
             <aside className={`w-64 bg-[#0a0a0a] border-white/5 flex-col hidden md:flex print:!hidden ${isRTL ? 'border-l' : 'border-r'}`}>
                 <div className="p-6 border-b border-white/5">{logo}</div>

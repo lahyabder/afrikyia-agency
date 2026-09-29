@@ -166,7 +166,7 @@
             "invoices": "Invoices",
             "deliveryNotes": "Delivery Notes",
             "files": "Files",
-            "achievements": "Achievements",
+            "achievements": "Our work",
             "projects": "Projects",
             "about": "About Us",
             "vision": "Vision",
@@ -411,7 +411,8 @@
                 "documents": "Invoices & quotes",
                 "expenses": "Expenses",
                 "bank": "Bank",
-                "company": "Company details"
+                "company": "Company details",
+                "documentsVault": "Company documents"
             },
             "common": {
                 "save": "Save",
@@ -746,6 +747,34 @@
                 "stamp": "Stamp",
                 "noImage": "No image",
                 "choose": "Choose an image"
+            },
+            "vault": {
+                "title": "Company documents",
+                "subtitle": "Statutes, trade register, tax ID, RIB, CNSS, letterheads and forms, contracts… kept private and ready to download.",
+                "upload": "Add a document",
+                "titleField": "Document name",
+                "category": "Type",
+                "file": "File",
+                "issued": "Issue date",
+                "expires": "Expiry date",
+                "notes": "Notes",
+                "download": "Download",
+                "uploading": "Uploading…",
+                "all": "All",
+                "empty": "No documents yet. Add the first one.",
+                "expired": "Expired",
+                "expiresSoon": "Expires soon",
+                "tooLarge": "The file is larger than 25 MB.",
+                "private": "🔒 Private documents: they open only from this page once signed in, through a link valid for 2 minutes.",
+                "categories": {
+                    "legal": "Legal (statutes, RC)",
+                    "tax": "Tax (NIF)",
+                    "social": "Social security (CNSS)",
+                    "bank": "Bank (RIB)",
+                    "templates": "Letterheads and forms",
+                    "contracts": "Contracts",
+                    "other": "Other"
+                }
             }
         },
         "access": {
@@ -818,7 +847,8 @@
                 "import": "Import",
                 "withholding": "Withholding at source",
                 "match": "Bank line matched",
-                "unmatch": "Match undone"
+                "unmatch": "Match undone",
+                "download": "Download"
             },
             "entities": {
                 "session": "",
@@ -840,7 +870,8 @@
                 "company": "company details",
                 "bank_line": "bank line",
                 "bank_balance": "bank balance",
-                "company_seals": "stamp and signature"
+                "company_seals": "stamp and signature",
+                "company_document": "company document"
             },
             "account": {
                 "title": "My account",

@@ -28,9 +28,10 @@ import { useLanguage } from '@/context/LanguageContext';
 
 type AchievementItem = {
     id: string;
-    category: 'websites' | 'activities' | 'works';
+    category: 'websites' | 'activities' | 'works' | 'projects';
     link: string;
     image?: string;
+    video?: string;
     en: { title: string; categoryLabel: string; desc: string };
     fr: { title: string; categoryLabel: string; desc: string };
     ar: { title: string; categoryLabel: string; desc: string };
@@ -54,8 +55,9 @@ export default function AdminPage() {
     const [formLanguageTab, setFormLanguageTab] = useState<'ar' | 'fr' | 'en'>('ar');
     
     // Form Inputs
-    const [category, setCategory] = useState<'websites' | 'activities' | 'works'>('websites');
+    const [category, setCategory] = useState<'websites' | 'activities' | 'works' | 'projects'>('websites');
     const [link, setLink] = useState<string>('');
+    const [video, setVideo] = useState<string>('');
     const [titleAr, setTitleAr] = useState<string>('');
     const [badgeAr, setBadgeAr] = useState<string>('');
     const [descAr, setDescAr] = useState<string>('');
@@ -122,6 +124,7 @@ export default function AdminPage() {
             setEditingItem(item);
             setCategory(item.category);
             setLink(item.link);
+            setVideo(item.video || '');
             setImage(item.image || '');
             setTitleAr(item.ar.title);
             setBadgeAr(item.ar.categoryLabel);
@@ -136,6 +139,7 @@ export default function AdminPage() {
             setEditingItem(null);
             setCategory('websites');
             setLink('');
+            setVideo('');
             setImage('');
             setTitleAr('');
             setBadgeAr('موقع ويب');
@@ -216,9 +220,9 @@ export default function AdminPage() {
         const finalTitleEn = trimmedEn || primaryTitle;
 
         // Apply fallback labels
-        const defaultBadgeAr = category === 'websites' ? 'موقع ويب' : category === 'activities' ? 'نشاط' : 'عمل إبداعي';
-        const defaultBadgeFr = category === 'websites' ? 'Site Web' : category === 'activities' ? 'Activité' : 'Œuvre Créative';
-        const defaultBadgeEn = category === 'websites' ? 'Website' : category === 'activities' ? 'Activity' : 'Creative Work';
+        const defaultBadgeAr = category === 'websites' ? 'موقع ويب' : category === 'activities' ? 'نشاط' : category === 'projects' ? 'مشروع' : 'عمل إبداعي';
+        const defaultBadgeFr = category === 'websites' ? 'Site Web' : category === 'activities' ? 'Activité' : category === 'projects' ? 'Projet' : 'Œuvre Créative';
+        const defaultBadgeEn = category === 'websites' ? 'Website' : category === 'activities' ? 'Activity' : category === 'projects' ? 'Project' : 'Creative Work';
 
         const finalBadgeAr = badgeAr.trim() || defaultBadgeAr;
         const finalBadgeFr = badgeFr.trim() || defaultBadgeFr;
@@ -235,6 +239,7 @@ export default function AdminPage() {
             category,
             link: link || '#',
             image: image || '',
+            video: video.trim() || undefined,
             ar: {
                 title: finalTitleAr,
                 categoryLabel: finalBadgeAr,
@@ -649,12 +654,13 @@ export default function AdminPage() {
                                         <label className="block text-xs font-bold text-white/60 uppercase tracking-wider mb-2">نوع التصنيف</label>
                                         <select
                                             value={category}
-                                            onChange={(e) => setCategory(e.target.value as 'websites' | 'activities' | 'works')}
+                                            onChange={(e) => setCategory(e.target.value as 'websites' | 'activities' | 'works' | 'projects')}
                                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white"
                                         >
                                             <option value="websites" className="bg-black text-white">موقع إلكتروني (Websites)</option>
                                             <option value="activities" className="bg-black text-white">نشاط / فعالية (Activities)</option>
                                             <option value="works" className="bg-black text-white">عمل إبداعي / تطبيق (Works)</option>
+                                            <option value="projects" className="bg-black text-white">مشروع (Projects)</option>
                                         </select>
                                     </div>
                                     <div>
@@ -664,6 +670,16 @@ export default function AdminPage() {
                                             value={link}
                                             onChange={(e) => setLink(e.target.value)}
                                             placeholder="https://example.com"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white text-left font-mono"
+                                        />
+                                    </div>
+                                    <div className="md:col-span-2">
+                                        <label className="block text-xs font-bold text-white/60 uppercase tracking-wider mb-2">رابط فيديو YouTube (اختياري) · Vidéo · Video</label>
+                                        <input
+                                            type="text"
+                                            value={video}
+                                            onChange={(e) => setVideo(e.target.value)}
+                                            placeholder="https://www.youtube.com/watch?v=…"
                                             className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 focus:outline-none focus:border-brand-red text-white text-left font-mono"
                                         />
                                     </div>
@@ -698,7 +714,7 @@ export default function AdminPage() {
                                             <input
                                                 type="file"
                                                 id="project-image-input"
-                                                accept="image/*"
+                                                accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif"
                                                 onChange={handleImageUpload}
                                                 className="hidden"
                                             />

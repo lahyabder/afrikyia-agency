@@ -97,7 +97,7 @@ function Payslip() {
                 </div>
             </div>
 
-            <article dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang} className={`bg-white text-[#14161A] rounded-2xl print:rounded-none shadow-xl print:shadow-none max-w-[820px] mx-auto p-8 sm:p-12 print:p-0 text-[13px] ${lang === 'ar' ? 'arabic-font' : 'font-sans'}`}>
+            <article dir={lang === 'ar' ? 'rtl' : 'ltr'} lang={lang} className={`paper bg-white text-[#14161A] rounded-2xl print:rounded-none shadow-xl print:shadow-none max-w-[820px] mx-auto p-8 sm:p-12 print:p-0 text-[13px] ${lang === 'ar' ? 'arabic-font' : 'font-sans'}`}>
                 <header className="flex justify-between items-start gap-6 pb-5 border-b-2 border-[#E11D48]">
                     <div>
                         <Image src="/logo.png" alt="Afrikyia" width={150} height={45} className="h-9 w-auto" />
