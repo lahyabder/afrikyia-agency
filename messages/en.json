@@ -521,7 +521,8 @@
                 "withholdingHint": "Does not reach the bank account, but settles the invoice.",
                 "printSigned": "Print with stamp and signature",
                 "printUnsigned": "Print without stamp and signature",
-                "noSeals": "Add the stamp and signature images under “Company details” first."
+                "noSeals": "To enable “Print with stamp and signature”, upload the stamp and signature images once.",
+                "goToCompany": "Open “Company details” →"
             },
             "expenses": {
                 "title": "Expenses",

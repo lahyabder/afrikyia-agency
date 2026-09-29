@@ -502,7 +502,8 @@
                 "withholdingHint": "N'arrive pas sur le compte, mais solde la facture.",
                 "printSigned": "Imprimer avec cachet et signature",
                 "printUnsigned": "Imprimer sans cachet ni signature",
-                "noSeals": "Ajoutez d'abord le cachet et la signature dans « Informations de l'entreprise »."
+                "noSeals": "Pour activer « Imprimer avec cachet et signature », ajoutez une fois les images du cachet et de la signature.",
+                "goToCompany": "Ouvrir « Informations de l'entreprise » →"
             },
             "expenses": {
                 "title": "Dépenses",

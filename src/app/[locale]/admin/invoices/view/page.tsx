@@ -124,6 +124,12 @@ function DocumentView() {
                     <StatusBadge status={doc.status} />
                 </div>
                 <ErrorBox message={error} />
+                {!seals.stamp && !seals.signature && (
+                    <p className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2">
+                        {d.noSeals}{' '}
+                        <Link href="/admin/company" className="font-bold underline">{d.goToCompany}</Link>
+                    </p>
+                )}
                 <div className="flex flex-wrap gap-2">
                     <button onClick={() => printWith(true)} disabled={!seals.stamp && !seals.signature} className={primaryBtn} title={!seals.stamp && !seals.signature ? d.noSeals : undefined}>
                         <Stamp className="w-4 h-4" />{d.printSigned}
