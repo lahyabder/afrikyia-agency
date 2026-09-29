@@ -77,3 +77,116 @@ body {
   .site-section { padding-block: 112px; }
 }
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+
+/* ===== Admin light theme =====
+   The admin pages were written with dark utility classes; inside .admin-light they are mapped to a
+   light palette. Printed documents (.paper) keep their own colours. */
+.admin-light .bg-\[\#111111\]:not(.paper, .paper *),
+.admin-light .bg-\[\#080808\]:not(.paper, .paper *),
+.admin-light .bg-\[\#0f0f0f\]:not(.paper, .paper *),
+.admin-light .bg-black:not(.paper, .paper *) { background-color:#F4F3EF }
+.admin-light .bg-\[\#0a0a0a\]:not(.paper, .paper *),
+.admin-light .bg-\[\#1a1a1a\]:not(.paper, .paper *),
+.admin-light .bg-\[\#161616\]:not(.paper, .paper *),
+.admin-light .bg-white\/5:not(.paper, .paper *) { background-color:#FFFFFF }
+.admin-light .bg-white\/10:not(.paper, .paper *),
+.admin-light .file\:bg-white\/10:not(.paper, .paper *)::file-selector-button { background-color:#F1EFEA }
+.admin-light .bg-white\/20:not(.paper, .paper *) { background-color:#E4E2DD }
+.admin-light .bg-black\/10:not(.paper, .paper *),
+.admin-light .bg-black\/20:not(.paper, .paper *),
+.admin-light .bg-black\/30:not(.paper, .paper *),
+.admin-light .bg-black\/40:not(.paper, .paper *) { background-color:#F7F6F3 }
+.admin-light .bg-black\/50:not(.paper, .paper *),
+.admin-light .bg-black\/70:not(.paper, .paper *),
+.admin-light .bg-black\/80:not(.paper, .paper *) { background-color:rgba(20,22,26,.45) }
+.admin-light .hover\:bg-white\/5:not(.paper, .paper *):hover { background-color:#F4F3EF }
+.admin-light .hover\:bg-white\/10:not(.paper, .paper *):hover { background-color:#EDEBE6 }
+.admin-light .text-white:not(.paper, .paper *),
+.admin-light .file\:text-white:not(.paper, .paper *)::file-selector-button,
+.admin-light .hover\:text-white:not(.paper, .paper *):hover { color:#14161A }
+.admin-light .text-white\/85:not(.paper, .paper *),
+.admin-light .text-white\/80:not(.paper, .paper *),
+.admin-light .hover\:text-white\/80:not(.paper, .paper *):hover { color:#2A2E35 }
+.admin-light .text-white\/70:not(.paper, .paper *),
+.admin-light .text-white\/65:not(.paper, .paper *) { color:#4B515A }
+.admin-light .text-white\/60:not(.paper, .paper *),
+.admin-light .text-white\/55:not(.paper, .paper *),
+.admin-light .text-white\/50:not(.paper, .paper *) { color:#5B616B }
+.admin-light .text-white\/45:not(.paper, .paper *),
+.admin-light .text-white\/40:not(.paper, .paper *),
+.admin-light .text-white\/35:not(.paper, .paper *),
+.admin-light .text-white\/30:not(.paper, .paper *),
+.admin-light .text-white\/20:not(.paper, .paper *) { color:#8A9099 }
+.admin-light .placeholder\:text-white\/40:not(.paper, .paper *)::placeholder,
+.admin-light .placeholder\:text-white\/35:not(.paper, .paper *)::placeholder,
+.admin-light .placeholder-white\/30:not(.paper, .paper *) { color:#9AA0A8 }
+.admin-light .border-white\/5:not(.paper, .paper *),
+.admin-light .divide-white\/5:not(.paper, .paper *) { border-color:#EEECE7 }
+.admin-light .border-white\/10:not(.paper, .paper *) { border-color:#E4E2DD }
+.admin-light .border-white\/20:not(.paper, .paper *),
+.admin-light .hover\:border-white\/20:not(.paper, .paper *):hover { border-color:#CFCBC3 }
+.admin-light .bg-yellow-400:not(.paper, .paper *) { background-color:#E11D48;color:#FFFFFF }
+.admin-light .hover\:bg-yellow-500:not(.paper, .paper *):hover,
+.admin-light .hover\:bg-yellow-400:not(.paper, .paper *):hover { background-color:#BE123C;color:#FFFFFF }
+.admin-light .text-yellow-400:not(.paper, .paper *),
+.admin-light .text-yellow-300:not(.paper, .paper *),
+.admin-light .text-yellow-500:not(.paper, .paper *),
+.admin-light .hover\:text-yellow-400:not(.paper, .paper *):hover { color:#BE123C }
+.admin-light .bg-yellow-400\/5:not(.paper, .paper *),
+.admin-light .bg-yellow-400\/10:not(.paper, .paper *),
+.admin-light .bg-yellow-400\/15:not(.paper, .paper *),
+.admin-light .bg-yellow-500\/10:not(.paper, .paper *) { background-color:#FFF1F3 }
+.admin-light .border-yellow-400:not(.paper, .paper *),
+.admin-light .border-yellow-400\/25:not(.paper, .paper *),
+.admin-light .border-yellow-400\/30:not(.paper, .paper *),
+.admin-light .hover\:border-yellow-400\/30:not(.paper, .paper *):hover,
+.admin-light .hover\:border-yellow-400\/40:not(.paper, .paper *):hover,
+.admin-light .hover\:border-yellow-400\/50:not(.paper, .paper *):hover { border-color:#FDA4AF }
+.admin-light .focus\:border-yellow-400:not(.paper, .paper *):focus,
+.admin-light .focus\:border-yellow-400\/50:not(.paper, .paper *):focus,
+.admin-light .focus\:border-yellow-400\/60:not(.paper, .paper *):focus { border-color:#E11D48 }
+.admin-light .accent-yellow-400:not(.paper, .paper *) { accent-color:#E11D48 }
+.admin-light .shadow-yellow-400\/20:not(.paper, .paper *),
+.admin-light .shadow-yellow-400\/10:not(.paper, .paper *),
+.admin-light .shadow-yellow-500\/5:not(.paper, .paper *) { --tw-shadow-color:transparent;box-shadow:none }
+.admin-light .text-emerald-400:not(.paper, .paper *),
+.admin-light .text-emerald-300:not(.paper, .paper *) { color:#047857 }
+.admin-light .bg-emerald-500\/10:not(.paper, .paper *),
+.admin-light .bg-emerald-500\/15:not(.paper, .paper *),
+.admin-light .hover\:bg-emerald-500\/10:not(.paper, .paper *):hover { background-color:#ECFDF5 }
+.admin-light .hover\:bg-emerald-500\/25:not(.paper, .paper *):hover { background-color:#D1FAE5 }
+.admin-light .border-emerald-500\/20:not(.paper, .paper *),
+.admin-light .border-emerald-500\/30:not(.paper, .paper *) { border-color:#A7F3D0 }
+.admin-light .text-red-400:not(.paper, .paper *),
+.admin-light .text-red-300:not(.paper, .paper *),
+.admin-light .hover\:text-red-400:not(.paper, .paper *):hover,
+.admin-light .hover\:text-red-300:not(.paper, .paper *):hover { color:#B91C1C }
+.admin-light .bg-red-500\/10:not(.paper, .paper *),
+.admin-light .bg-red-500\/15:not(.paper, .paper *),
+.admin-light .hover\:bg-red-500\/10:not(.paper, .paper *):hover,
+.admin-light .hover\:bg-red-500\/20:not(.paper, .paper *):hover { background-color:#FEF2F2 }
+.admin-light .border-red-500\/20:not(.paper, .paper *),
+.admin-light .border-red-500\/30:not(.paper, .paper *) { border-color:#FECACA }
+.admin-light .text-amber-400:not(.paper, .paper *),
+.admin-light .text-amber-300:not(.paper, .paper *) { color:#B45309 }
+.admin-light .bg-amber-500\/10:not(.paper, .paper *),
+.admin-light .bg-amber-500\/15:not(.paper, .paper *) { background-color:#FFFBEB }
+.admin-light .border-amber-500\/20:not(.paper, .paper *) { border-color:#FDE68A }
+.admin-light .text-blue-300:not(.paper, .paper *),
+.admin-light .text-blue-400:not(.paper, .paper *) { color:#1D4ED8 }
+.admin-light .bg-blue-500\/10:not(.paper, .paper *),
+.admin-light .bg-blue-500\/15:not(.paper, .paper *) { background-color:#EFF6FF }
+
+/* Items on the accent colour keep light text */
+.admin-light .bg-yellow-400 .text-black\/70:not(.paper, .paper *), .admin-light .bg-yellow-400 .text-black:not(.paper, .paper *) { color: #FFFFFF; }
+.admin-light .bg-yellow-400 .bg-black:not(.paper, .paper *) { background-color: #FFFFFF; color: #BE123C; }
+/* The logo was inverted for the dark theme */
+.admin-light img[style*="invert"] { filter: none !important; mix-blend-mode: normal !important; }
+/* Soft depth for cards and menus */
+.admin-light aside:not(.paper, .paper *) { box-shadow: 0 0 0 1px #E4E2DD; }
+.admin-light .rounded-2xl.bg-white\/5:not(.paper, .paper *) { box-shadow: 0 1px 2px rgba(20,22,26,.04); }
+.admin-light input:not(.paper, .paper *), .admin-light select:not(.paper, .paper *), .admin-light textarea:not(.paper, .paper *) { color-scheme: light; }
+
+/* The root element carries both .admin-light and its own dark background/text classes */
+.admin-light.bg-\[\#111111\], .admin-light.bg-\[\#080808\], .admin-light.bg-black { background-color: #F4F3EF; }
+.admin-light.text-white { color: #14161A; }

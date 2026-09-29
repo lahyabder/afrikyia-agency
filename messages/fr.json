@@ -392,7 +392,8 @@
                 "documents": "Factures & devis",
                 "expenses": "Dépenses",
                 "bank": "Banque",
-                "company": "Informations de l'entreprise"
+                "company": "Informations de l'entreprise",
+                "documentsVault": "Documents de l'entreprise"
             },
             "common": {
                 "save": "Enregistrer",
@@ -727,6 +728,34 @@
                 "stamp": "Cachet",
                 "noImage": "Aucune image",
                 "choose": "Choisir une image"
+            },
+            "vault": {
+                "title": "Documents de l'entreprise",
+                "subtitle": "Statuts, registre du commerce, NIF, RIB, CNSS, en-têtes et formulaires, contrats… conservés en privé et prêts à être téléchargés.",
+                "upload": "Ajouter un document",
+                "titleField": "Nom du document",
+                "category": "Type",
+                "file": "Fichier",
+                "issued": "Date d'émission",
+                "expires": "Date d'expiration",
+                "notes": "Notes",
+                "download": "Télécharger",
+                "uploading": "Envoi…",
+                "all": "Tous",
+                "empty": "Aucun document pour le moment. Ajoutez le premier.",
+                "expired": "Expiré",
+                "expiresSoon": "Expire bientôt",
+                "tooLarge": "Le fichier dépasse 25 Mo.",
+                "private": "🔒 Documents privés : ils ne s'ouvrent que depuis cette page, une fois connecté, via un lien valable 2 minutes.",
+                "categories": {
+                    "legal": "Juridique (statuts, RC)",
+                    "tax": "Impôts (NIF)",
+                    "social": "Sécurité sociale (CNSS)",
+                    "bank": "Banque (RIB)",
+                    "templates": "En-têtes et formulaires",
+                    "contracts": "Contrats",
+                    "other": "Autres"
+                }
             }
         },
         "access": {
@@ -799,7 +828,8 @@
                 "import": "Import",
                 "withholding": "Retenue à la source",
                 "match": "Rapprochement",
-                "unmatch": "Rapprochement annulé"
+                "unmatch": "Rapprochement annulé",
+                "download": "Téléchargement"
             },
             "entities": {
                 "session": "",
@@ -821,7 +851,8 @@
                 "company": "infos de l'entreprise",
                 "bank_line": "mouvement bancaire",
                 "bank_balance": "solde bancaire",
-                "company_seals": "cachet et signature"
+                "company_seals": "cachet et signature",
+                "company_document": "document de l'entreprise"
             },
             "account": {
                 "title": "Mon compte",

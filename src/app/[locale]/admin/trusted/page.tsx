@@ -277,7 +277,7 @@ export default function AdminTrustedPage() {
                                             <div className="flex-1 relative">
                                                 <input
                                                     type="file"
-                                                    accept="image/*"
+                                                    accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif"
                                                     onChange={async (e) => {
                                                         const original = e.target.files?.[0];
                                                         e.target.value = '';

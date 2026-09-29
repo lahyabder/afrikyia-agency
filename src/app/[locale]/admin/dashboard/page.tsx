@@ -49,14 +49,12 @@ export default function DashboardPage() {
 
     const statCards = [
         { name: menu.achievements, value: overview?.counts.achievements, icon: Globe, color: 'text-brand-red', bg: 'bg-brand-red/10', href: '/admin/achievements' },
-        { name: d.statProjects, value: overview?.counts.projects, icon: Briefcase, color: 'text-yellow-400', bg: 'bg-yellow-500/10', href: '/admin/projects' },
         { name: d.statFiles, value: overview?.counts.files, icon: Files, color: 'text-blue-400', bg: 'bg-blue-500/10', href: '/admin/files' },
         { name: d.statNewMessages, value: overview?.counts.newMessages, icon: Inbox, color: 'text-emerald-400', bg: 'bg-emerald-500/10', href: '/admin/messages' },
     ];
 
     const quickLinks = [
         { name: menu.achievements, icon: Globe, href: '/admin/achievements' },
-        { name: menu.projects, icon: Briefcase, href: '/admin/projects' },
         { name: menu.about, icon: FileText, href: '/admin/about' },
         { name: menu.vision, icon: LayoutDashboard, href: '/admin/vision' },
         { name: menu.services, icon: Briefcase, href: '/admin/services' },

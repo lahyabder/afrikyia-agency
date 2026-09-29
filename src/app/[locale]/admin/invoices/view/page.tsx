@@ -157,7 +157,7 @@ function DocumentView() {
             <article
                 dir={paperLang === 'ar' ? 'rtl' : 'ltr'}
                 lang={paperLang}
-                className={`bg-white text-[#14161A] rounded-2xl print:rounded-none shadow-xl print:shadow-none max-w-[820px] mx-auto p-8 sm:p-12 print:p-0 text-[13px] leading-relaxed ${paperLang === 'ar' ? 'arabic-font' : 'font-sans'}`}
+                className={`paper bg-white text-[#14161A] rounded-2xl print:rounded-none shadow-xl print:shadow-none max-w-[820px] mx-auto p-8 sm:p-12 print:p-0 text-[13px] leading-relaxed ${paperLang === 'ar' ? 'arabic-font' : 'font-sans'}`}
             >
                 <header className="flex justify-between items-start gap-6 pb-6 border-b-2 border-[#E11D48]">
                     <div>
