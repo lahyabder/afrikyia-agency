@@ -359,7 +359,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                         <Menu className="w-6 h-6" />
                     </button>
                 </div>
-                <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10 print:p-0 print:overflow-visible">
+                <div className="flex-1 overflow-y-auto p-4 pb-24 sm:p-6 sm:pb-24 md:p-10 md:pb-24 print:p-0 print:overflow-visible">
                     <AdminSessionContext.Provider value={session}>
                         {forbidden ? (
                             <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-6 text-sm text-red-300">{t.admin.access.forbidden}</div>
