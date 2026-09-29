@@ -665,7 +665,43 @@
                 },
                 "filterAll": "All",
                 "empty": "No movements yet.",
-                "account": "Account"
+                "account": "Account",
+                "pendingTitle": "Movements to match",
+                "pendingHint": "Every movement of the account must be tied to its origin, so no amount is counted twice or lost.",
+                "allMatched": "All movements are matched ✅",
+                "suggested": "Suggested",
+                "linkInvoice": "Link to an invoice",
+                "chooseInvoice": "Choose the invoice",
+                "remaining": "Due",
+                "alreadyRecorded": "Payment already typed on the invoice — link without adding it again",
+                "linkExpense": "Link to an existing expense",
+                "chooseExpense": "Choose the expense",
+                "createExpense": "Create an expense from this movement",
+                "category": "Type",
+                "description": "Description",
+                "paidCash": "Cash withdrawal spent in cash on this expense",
+                "other": "Other movement",
+                "others": {
+                    "capital": "Capital from the owner",
+                    "financing": "Loan or financing",
+                    "other_income": "Other income",
+                    "cash_withdrawal": "Cash withdrawal (kept in cash)",
+                    "internal_transfer": "Transfer between company accounts",
+                    "owner_withdrawal": "Owner withdrawal"
+                },
+                "confirm": "Confirm",
+                "unlink": "Undo match",
+                "check": "Balance check with the bank",
+                "checkHint": "Type the balance shown on the bank statement and its date; it is compared with the balance computed from the recorded movements.",
+                "bankBalance": "Bank balance",
+                "atDate": "on",
+                "computed": "Computed balance",
+                "difference": "Difference",
+                "balanced": "Matches ✅",
+                "notBalanced": "Mismatch — movements are missing or extra before this date.",
+                "save": "Save",
+                "matched": "matched",
+                "unmatched": "to match"
             },
             "company": {
                 "title": "Company details",
@@ -771,7 +807,9 @@
                 "change_password": "Password changed",
                 "status": "Status changed",
                 "import": "Import",
-                "withholding": "Withholding at source"
+                "withholding": "Withholding at source",
+                "match": "Bank line matched",
+                "unmatch": "Match undone"
             },
             "entities": {
                 "session": "",
@@ -790,7 +828,9 @@
                 "payroll_rates": "payroll rates",
                 "user": "user",
                 "bank_statement": "bank statement",
-                "company": "company details"
+                "company": "company details",
+                "bank_line": "bank line",
+                "bank_balance": "bank balance"
             },
             "account": {
                 "title": "My account",
