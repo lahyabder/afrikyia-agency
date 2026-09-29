@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Printer, Pencil, Send, Ban, Copy, Stamp, Undo2 } from 'lucide-react';
 import { Link, useRouter } from '@/i18n/routing';
@@ -23,8 +23,11 @@ function LetterView() {
     const l = b.letters;
     const d = b.docs;
     const router = useRouter();
-    const id = useSearchParams().get('id');
-    const { company, seals, hasSeals } = useCompanySeals();
+    const params = useSearchParams();
+    const id = params.get('id');
+    const printRequest = params.get('print');
+    const printed = useRef(false);
+    const { company, bank, seals, hasSeals } = useCompanySeals();
     const [letter, setLetter] = useState<Letter | null>(null);
     const [withSeal, setWithSeal] = useState(false);
     const [busy, setBusy] = useState(false);
@@ -46,6 +49,20 @@ function LetterView() {
             document.title = title;
         }, 150);
     };
+
+    // Coming from the editor with "save and print": print once the letter (and, if asked, the seals) are loaded
+    useEffect(() => {
+        if (printed.current || !letter || !printRequest) return;
+        if (printRequest === 'signed' && !hasSeals) return;
+        printed.current = true;
+        const signed = printRequest === 'signed';
+        // Not cancelled on re-render: removing ?print from the address below changes the search params
+        setTimeout(() => {
+            printWith(signed);
+            window.history.replaceState(null, '', window.location.href.replace(/[&?]print=\w+/, ''));
+        }, 400);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [letter, hasSeals, printRequest]);
 
     const act = async (body: Record<string, unknown>) => {
         setBusy(true);
@@ -96,7 +113,7 @@ function LetterView() {
                 </div>
             </div>
 
-            <LetterPaper letter={letter} company={company} seals={seals} withSeal={withSeal} />
+            <LetterPaper letter={letter} company={company} bank={bank} seals={seals} withSeal={withSeal} />
         </div>
     );
 }

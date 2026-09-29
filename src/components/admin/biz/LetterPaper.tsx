@@ -1,7 +1,7 @@
 "use client";
 
-import type { CompanyInfo } from '@/lib/company';
-import { LetterheadHeader, SignatureBlock, paperLocale, type PaperLang, type Seals } from '@/components/admin/biz/Letterhead';
+import type { BankInfo, CompanyInfo } from '@/lib/company';
+import { LetterheadFooter, LetterheadHeader, PaperBody, SignatureBlock, paperLocale, type PaperLang, type Seals } from '@/components/admin/biz/Letterhead';
 
 // A letter on the company letterhead: what the editor previews and what gets printed or saved as PDF
 
@@ -29,7 +29,8 @@ const WORDS: Record<PaperLang, { number: string; to: string; subject: string; re
 
 // Opening and closing lines a new letter starts with, per language
 export const LETTER_TEMPLATES: Record<PaperLang, string> = {
-    fr: 'Madame, Monsieur,\n\n\n\nVeuillez agréer, Madame, Monsieur, l’expression de nos salutations distinguées.',
+    // Neutral wording, valid whoever the recipient is
+    fr: 'Bonjour,\n\n\n\nNous vous prions d’agréer l’expression de nos salutations distinguées.',
     ar: 'تحية طيبة وبعد،\n\n\n\nوتقبلوا فائق التقدير والاحترام.',
     en: 'Dear Sir or Madam,\n\n\n\nYours faithfully,',
 };
@@ -42,10 +43,15 @@ export function placeAndDate(lang: PaperLang, place: string | null, iso: string)
     return `${where}, ${when}`;
 }
 
-export default function LetterPaper({ letter, company, seals, withSeal, className = '' }: { letter: LetterData; company: CompanyInfo; seals: Seals; withSeal: boolean; className?: string }) {
+export default function LetterPaper({ letter, company, bank, seals, withSeal, className = '' }: { letter: LetterData; company: CompanyInfo; bank: BankInfo | null; seals: Seals; withSeal: boolean; className?: string }) {
     const lang = letter.language;
     const W = WORDS[lang];
     const rtl = lang === 'ar';
+    // Paragraphs are separated by an empty line; the attachments list has one item per line
+    const paragraphs = letter.body.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+    const attachments = (letter.attachments ?? '').split('\n').map(a => a.replace(/^\s*(?:[-•*]|\d+[.)-])\s*/, '').trim()).filter(Boolean);
+    const signatory = letter.signatory || (rtl && company.signatoryAr) || company.signatory;
+    const signatoryTitle = letter.signatory_title || (rtl && company.signatoryTitleAr) || company.signatoryTitle;
     return (
         <article
             dir={rtl ? 'rtl' : 'ltr'}
@@ -58,6 +64,7 @@ export default function LetterPaper({ letter, company, seals, withSeal, classNam
                 </div>
             )}
 
+            <PaperBody>
             <LetterheadHeader company={company} lang={lang}>
                 <div className="text-xs text-[#4B515A]">{placeAndDate(lang, letter.place, letter.date)}</div>
                 <div className="mt-1 text-xs text-[#4B515A]">{W.number} <b className="text-[#14161A]" dir="ltr">{letter.letter_number || '—'}</b></div>
@@ -73,21 +80,38 @@ export default function LetterPaper({ letter, company, seals, withSeal, classNam
             <section className="mt-8 space-y-0.5">
                 <p><b>{W.subject} :</b> {letter.subject}</p>
                 {letter.reference && <p><b>{W.reference} :</b> <span dir="auto">{letter.reference}</span></p>}
-                {letter.attachments && <p><b>{W.attachments} :</b> {letter.attachments}</p>}
+                {attachments.length > 0 && <p><b>{W.attachments} :</b> {attachments.length}</p>}
             </section>
 
-            <div className="mt-6 whitespace-pre-wrap text-justify">{letter.body}</div>
-
-            <div className="mt-8 flex justify-end break-inside-avoid">
-                <SignatureBlock name={letter.signatory || company.signatory} title={letter.signatory_title || company.signatoryTitle} seals={seals} withSeal={withSeal} />
+            <div className="mt-6 text-justify">
+                {paragraphs.slice(0, -1).map((para, i) => <p key={i} className="whitespace-pre-wrap mb-4">{para}</p>)}
             </div>
 
+            {/* The closing paragraph travels with the signature: printing never leaves the signature alone on a page */}
+            <div className="letter-closing break-inside-avoid">
+                {paragraphs.length > 0 && <p className="whitespace-pre-wrap text-justify">{paragraphs[paragraphs.length - 1]}</p>}
+                <div className="mt-6 flex justify-end">
+                    <SignatureBlock name={signatory} title={signatoryTitle} seals={seals} withSeal={withSeal} />
+                </div>
+            </div>
+
+            {attachments.length > 0 && (
+                <section className="mt-2 text-xs break-inside-avoid">
+                    <b>{W.attachments} :</b>
+                    <ol className="list-decimal ps-5 text-[#4B515A]">
+                        {attachments.map((a, i) => <li key={i}>{a}</li>)}
+                    </ol>
+                </section>
+            )}
+
             {letter.copies && (
-                <section className="mt-4 text-xs text-[#4B515A] break-inside-avoid">
+                <section className="mt-3 text-xs text-[#4B515A] break-inside-avoid">
                     <b className="text-[#14161A]">{W.copies} :</b>
                     <div className="whitespace-pre-wrap">{letter.copies}</div>
                 </section>
             )}
+            </PaperBody>
+            <LetterheadFooter company={company} bank={bank} lang={lang} />
         </article>
     );
 }

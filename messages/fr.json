@@ -729,7 +729,10 @@
                     "iban": "IBAN",
                     "swift": "SWIFT",
                     "holder": "Titulaire",
-                    "agency": "Agence"
+                    "agency": "Agence",
+                    "cityAr": "Ville / pays (arabe)",
+                    "signatoryAr": "Nom du signataire en arabe (facultatif)",
+                    "signatoryTitleAr": "Qualité en arabe"
                 },
                 "sealsTitle": "Cachet et signature",
                 "sealsHint": "Deux images à fond transparent (PNG). Elles restent privées, visibles seulement des utilisateurs connectés, et ne sont ajoutées qu'avec « Imprimer avec cachet et signature ».",
@@ -801,7 +804,10 @@
                 "empty": "Aucune lettre pour l’instant. Rédigez la première.",
                 "all": "Toutes",
                 "cancelledWatermark": "ANNULÉE",
-                "missingSubject": "Indiquez l’objet de la lettre."
+                "missingSubject": "Indiquez l’objet de la lettre.",
+                "attachmentsHint": "une pièce par ligne",
+                "savePrintSigned": "Enregistrer et imprimer avec cachet et signature",
+                "savePrintPlain": "Enregistrer et imprimer sans cachet ni signature"
             }
         },
         "access": {
