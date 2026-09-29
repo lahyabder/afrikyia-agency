@@ -21,6 +21,7 @@ type Doc = {
     tva_amount: number;
     total_ttc: number;
     paid_amount: number;
+    withheld_amount: number;
     paid_at: string | null;
     notes: string | null;
     party: { name: string; nif?: string; rc?: string; address?: string; phone?: string; email?: string } | null;
@@ -32,9 +33,9 @@ type PaperLang = 'fr' | 'ar' | 'en';
 
 // Wording printed on the document, chosen separately from the admin language
 const PAPER: Record<PaperLang, Record<string, string>> = {
-    fr: { invoice: 'FACTURE', quote: 'DEVIS', number: 'N°', date: 'Date', due: 'Échéance', billTo: 'Client', description: 'Désignation', qty: 'Qté', unit: 'Prix unitaire', total: 'Montant', subtotal: 'Total HT', tva: 'TVA', ttc: 'Total TTC', paid: 'Déjà payé', remaining: 'Reste à payer', bank: 'Coordonnées bancaires', validity: 'Ce devis est valable 30 jours.', thanks: 'Merci de votre confiance.', rcLabel: 'RC', nifLabel: 'NIF', tel: 'Tél', currency: 'MRU' },
-    ar: { invoice: 'فاتورة', quote: 'عرض سعر', number: 'رقم', date: 'التاريخ', due: 'تاريخ الاستحقاق', billTo: 'العميل', description: 'البيان', qty: 'الكمية', unit: 'سعر الوحدة', total: 'المبلغ', subtotal: 'المجموع دون ضريبة', tva: 'الضريبة على القيمة المضافة', ttc: 'المجموع الكلي', paid: 'المدفوع', remaining: 'المتبقي', bank: 'الحساب البنكي', validity: 'هذا العرض صالح لمدة 30 يوماً.', thanks: 'شكراً لثقتكم.', rcLabel: 'السجل التجاري', nifLabel: 'الرقم الضريبي', tel: 'الهاتف', currency: 'أوقية' },
-    en: { invoice: 'INVOICE', quote: 'QUOTE', number: 'No.', date: 'Date', due: 'Due date', billTo: 'Bill to', description: 'Description', qty: 'Qty', unit: 'Unit price', total: 'Amount', subtotal: 'Subtotal', tva: 'VAT', ttc: 'Total', paid: 'Paid', remaining: 'Balance due', bank: 'Bank details', validity: 'This quote is valid for 30 days.', thanks: 'Thank you for your business.', rcLabel: 'RC', nifLabel: 'Tax ID', tel: 'Tel', currency: 'MRU' },
+    fr: { invoice: 'FACTURE', quote: 'DEVIS', number: 'N°', date: 'Date', due: 'Échéance', billTo: 'Client', description: 'Désignation', qty: 'Qté', unit: 'Prix unitaire', total: 'Montant', subtotal: 'Total HT', tva: 'TVA', ttc: 'Total TTC', paid: 'Déjà payé', withheld: 'Retenues à la source', remaining: 'Reste à payer', bank: 'Coordonnées bancaires', validity: 'Ce devis est valable 30 jours.', thanks: 'Merci de votre confiance.', rcLabel: 'RC', nifLabel: 'NIF', tel: 'Tél', currency: 'MRU' },
+    ar: { invoice: 'فاتورة', quote: 'عرض سعر', number: 'رقم', date: 'التاريخ', due: 'تاريخ الاستحقاق', billTo: 'العميل', description: 'البيان', qty: 'الكمية', unit: 'سعر الوحدة', total: 'المبلغ', subtotal: 'المجموع دون ضريبة', tva: 'الضريبة على القيمة المضافة', ttc: 'المجموع الكلي', paid: 'المدفوع', withheld: 'اقتطاعات من المصدر', remaining: 'المتبقي', bank: 'الحساب البنكي', validity: 'هذا العرض صالح لمدة 30 يوماً.', thanks: 'شكراً لثقتكم.', rcLabel: 'السجل التجاري', nifLabel: 'الرقم الضريبي', tel: 'الهاتف', currency: 'أوقية' },
+    en: { invoice: 'INVOICE', quote: 'QUOTE', number: 'No.', date: 'Date', due: 'Due date', billTo: 'Bill to', description: 'Description', qty: 'Qty', unit: 'Unit price', total: 'Amount', subtotal: 'Subtotal', tva: 'VAT', ttc: 'Total', paid: 'Paid', withheld: 'Withheld at source', remaining: 'Balance due', bank: 'Bank details', validity: 'This quote is valid for 30 days.', thanks: 'Thank you for your business.', rcLabel: 'RC', nifLabel: 'Tax ID', tel: 'Tel', currency: 'MRU' },
 };
 
 export default function DocumentViewPage() {
@@ -55,7 +56,7 @@ function DocumentView() {
     const [paperLang, setPaperLang] = useState<PaperLang>('fr');
     const [paying, setPaying] = useState(false);
     const [busy, setBusy] = useState(false);
-    const [payment, setPayment] = useState({ amount: '', method: 'bank', date: new Date().toISOString().slice(0, 10) });
+    const [payment, setPayment] = useState({ amount: '', method: 'bank', date: new Date().toISOString().slice(0, 10), withholding: false });
 
     const id = useSearchParams().get('id');
 
@@ -100,9 +101,10 @@ function DocumentView() {
     const paperLocale = paperLang === 'ar' ? 'ar-u-nu-latn' : paperLang === 'fr' ? 'fr-FR' : 'en-GB';
     const pm = (v: number) => `${Number(v || 0).toLocaleString(paperLocale, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${L.currency}`;
     const pd = (iso?: string | null) => (iso ? new Date(`${iso}T00:00:00`).toLocaleDateString(paperLocale, { dateStyle: 'long' }) : '—');
-    const remaining = Number(doc.total_ttc) - Number(doc.paid_amount);
+    const withheld = Number(doc.withheld_amount || 0);
+    const remaining = Number(doc.total_ttc) - Number(doc.paid_amount) - withheld;
     const isInvoice = doc.type === 'invoice';
-    const editable = Number(doc.paid_amount) === 0 && doc.status !== 'cancelled';
+    const editable = Number(doc.paid_amount) === 0 && withheld === 0 && doc.status !== 'cancelled';
 
     return (
         <div className="space-y-6">
@@ -190,9 +192,10 @@ function DocumentView() {
                         <div className="flex justify-between"><span className="text-[#4B515A]">{L.subtotal}</span><span>{pm(doc.subtotal_ht)}</span></div>
                         <div className="flex justify-between"><span className="text-[#4B515A]">{L.tva} {Number(doc.tva_rate)}%</span><span>{pm(doc.tva_amount)}</span></div>
                         <div className="flex justify-between bg-[#14161A] text-white font-bold rounded-md px-3 py-2 text-sm"><span>{L.ttc}</span><span>{pm(doc.total_ttc)}</span></div>
-                        {isInvoice && Number(doc.paid_amount) > 0 && (
+                        {isInvoice && (Number(doc.paid_amount) > 0 || withheld > 0) && (
                             <>
-                                <div className="flex justify-between"><span className="text-[#4B515A]">{L.paid}</span><span>{pm(doc.paid_amount)}</span></div>
+                                {Number(doc.paid_amount) > 0 && <div className="flex justify-between"><span className="text-[#4B515A]">{L.paid}</span><span>{pm(doc.paid_amount)}</span></div>}
+                                {withheld > 0 && <div className="flex justify-between"><span className="text-[#4B515A]">{L.withheld}</span><span>{pm(withheld)}</span></div>}
                                 <div className="flex justify-between font-bold"><span>{L.remaining}</span><span>{pm(remaining)}</span></div>
                             </>
                         )}
@@ -234,12 +237,17 @@ function DocumentView() {
                         onSubmit={e => {
                             e.preventDefault();
                             setPaying(false);
-                            act({ action: 'pay', amount: parseFloat(payment.amount.replace(',', '.')), payment_method: payment.method, paid_at: payment.date });
+                            act({ action: 'pay', amount: parseFloat(payment.amount.replace(',', '.')), payment_method: payment.method, paid_at: payment.date, withholding: payment.withholding });
                         }}
                     >
                         <Field label={`${d.paymentAmount} (${d.remaining}: ${formatMoney(remaining)})`}>
                             <input inputMode="decimal" required value={payment.amount} onChange={e => setPayment(p => ({ ...p, amount: e.target.value }))} className={inputClass} />
                         </Field>
+                        <label className="flex items-start gap-3 text-sm cursor-pointer">
+                            <input type="checkbox" checked={payment.withholding} onChange={e => setPayment(p => ({ ...p, withholding: e.target.checked }))} className="w-4 h-4 mt-0.5 accent-yellow-400" />
+                            <span>{d.withholding}<span className="block text-xs text-white/50">{d.withholdingHint}</span></span>
+                        </label>
+                        {!payment.withholding && <>
                         <Field label={d.paymentMethod}>
                             <select value={payment.method} onChange={e => setPayment(p => ({ ...p, method: e.target.value }))} className={inputClass}>
                                 {Object.entries(b.methods as Record<string, string>).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
@@ -248,6 +256,7 @@ function DocumentView() {
                         <Field label={d.paymentDate}>
                             <input type="date" required value={payment.date} onChange={e => setPayment(p => ({ ...p, date: e.target.value }))} className={inputClass} />
                         </Field>
+                        </>}
                         <div className="flex gap-2 pt-2">
                             <button type="submit" className={`${primaryBtn} flex-1`}>{b.common.save}</button>
                             <button type="button" onClick={() => setPaying(false)} className={ghostBtn}>{b.common.cancel}</button>

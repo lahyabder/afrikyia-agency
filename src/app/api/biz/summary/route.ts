@@ -18,7 +18,7 @@ export async function GET(request: Request) {
         supabaseAdmin.from('accounting_expenses').select('amount_ttc, date, category').gte('date', from).lte('date', to),
         supabaseAdmin
             .from('accounting_invoices')
-            .select('id, invoice_number, date, due_date, status, total_ttc, paid_amount, party:parties(name)')
+            .select('id, invoice_number, date, due_date, status, total_ttc, paid_amount, withheld_amount, party:parties(name)')
             .eq('type', 'invoice')
             .in('status', ['draft', 'sent', 'overdue'])
             .order('date'),
@@ -46,7 +46,7 @@ export async function GET(request: Request) {
     const expenses = money(months.reduce((s, m) => s + m.expenses, 0));
     const today = new Date().toISOString().slice(0, 10);
     const open = (openRes.data ?? [])
-        .map(r => ({ ...r, due: money(money(r.total_ttc) - money(r.paid_amount)), late: !!r.due_date && r.due_date < today }))
+        .map(r => ({ ...r, due: money(money(r.total_ttc) - money(r.paid_amount) - money(r.withheld_amount)), late: !!r.due_date && r.due_date < today }))
         .filter(r => r.due > 0);
 
     return NextResponse.json({
