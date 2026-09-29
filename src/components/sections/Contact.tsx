@@ -53,28 +53,45 @@ const Contact = () => {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
+        // 1. Save the message in the admin panel (Messages)
+        let saved = false;
+        let saveError = '';
         try {
-            const url = process.env.NEXT_PUBLIC_FORMSPREE_URL || "https://formspree.io/f/YOUR_FORM_ID";
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(data)
+            const response = await fetch('/api/messages', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...data, locale: language }),
             });
+            saved = response.ok;
+            if (!response.ok) saveError = `Status: ${response.status}`;
+        } catch (error: unknown) {
+            saveError = error instanceof Error ? error.message : String(error);
+        }
 
-            if (response.ok) {
-                setStatus("success");
-                form.reset();
-            } else {
-                const errData = await response.text();
-                setStatus("error");
-                setErrorMessage(`Status: ${response.status}. Details: ${errData}`);
+        // 2. Email notification through Formspree (as before)
+        let emailed = false;
+        const formspreeUrl = process.env.NEXT_PUBLIC_FORMSPREE_URL;
+        if (formspreeUrl && !data.company) {
+            try {
+                const { company: _honeypot, ...fields } = data;
+                void _honeypot;
+                const response = await fetch(formspreeUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(fields),
+                });
+                emailed = response.ok;
+            } catch {
+                // The message is already saved in the admin panel
             }
-        } catch (error: any) {
+        }
+
+        if (saved || emailed) {
+            setStatus("success");
+            form.reset();
+        } else {
             setStatus("error");
-            setErrorMessage(error.message || String(error));
+            setErrorMessage(saveError);
         }
     };
 
@@ -152,6 +169,8 @@ const Contact = () => {
                                 onSubmit={handleSubmit}
                                 className="bg-white border border-slate-200 rounded-3xl p-6 md:p-10 space-y-5 shadow-xl shadow-slate-200/50 relative"
                             >
+                                {/* Honeypot against spam bots: hidden from visitors */}
+                                <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
                                 <div className="space-y-1.5">
                                     <label className={`block text-xs font-medium text-slate-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                                         {t.contact.name}
