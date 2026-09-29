@@ -23,13 +23,18 @@ import {
     Inbox,
     Wallet,
     ArrowUpRight,
+    ShieldCheck,
+    History,
+    KeyRound,
     UserRound,
     Banknote
 } from 'lucide-react';
 import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
+import { AdminSessionContext, type AdminSession } from '@/components/admin/AdminSession';
 
 export default function AdminLayoutClient({ children }: { children: React.ReactNode }) {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+    const [session, setSession] = useState<AdminSession>({ user: null, areas: [] });
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loginError, setLoginError] = useState<string>('');
@@ -41,15 +46,21 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
     const router = useRouter();
     const { t, language, setLanguage, isRTL } = useLanguage();
 
+    const loadSession = () =>
+        fetch('/api/admin/session', { cache: 'no-store' })
+            .then(res => res.json())
+            .then(data => {
+                setIsAuthenticated(data.authenticated === true);
+                setSession({ user: data.user ?? null, areas: Array.isArray(data.areas) ? data.areas : [] });
+            })
+            .catch(() => setIsAuthenticated(false));
+
     useEffect(() => {
         // Legacy client-side flag is no longer trusted
         localStorage.removeItem('afrikyia-admin-auth');
-        fetch('/api/admin/session', { cache: 'no-store' })
-            .then(res => res.json())
-            .then(data => setIsAuthenticated(data.authenticated === true))
-            .catch(() => setIsAuthenticated(false))
-            .finally(() => setIsMounted(true));
+        loadSession().finally(() => setIsMounted(true));
     }, []);
+
 
     // Number of unread contact messages, shown as a badge in the sidebar
     useEffect(() => {
@@ -74,7 +85,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                 body: JSON.stringify({ email, password }),
             });
             if (res.ok) {
-                setIsAuthenticated(true);
+                await loadSession();
                 setLoginError('');
                 setPassword('');
             } else {
@@ -173,44 +184,58 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         );
     }
 
-    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; badge?: number };
+    type MenuItem = { name: string; icon: typeof LayoutDashboard; path: string; area: string; badge?: number };
     const menuGroups: { title?: string; items: MenuItem[] }[] = [
         {
             items: [
-                { name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard' },
-                { name: t.admin.menu.messages, icon: Inbox, path: '/admin/messages', badge: newMessages },
+                { name: t.admin.menu.dashboard, icon: LayoutDashboard, path: '/admin/dashboard', area: 'dashboard' },
+                { name: t.admin.menu.messages, icon: Inbox, path: '/admin/messages', area: 'messages', badge: newMessages },
             ],
         },
         {
             title: t.admin.menu.groupPublishing,
             items: [
-                { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements' },
-                { name: t.admin.menu.projects, icon: Briefcase, path: '/admin/projects' },
-                { name: t.admin.menu.about, icon: FileText, path: '/admin/about' },
-                { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision' },
-                { name: t.admin.menu.services, icon: Briefcase, path: '/admin/services' },
-                { name: t.admin.menu.trusted, icon: Users, path: '/admin/trusted' },
-                { name: t.admin.menu.contact, icon: Mail, path: '/admin/contact' },
-                { name: t.admin.menu.files, icon: Files, path: '/admin/files' },
+                { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements', area: 'publishing' },
+                { name: t.admin.menu.projects, icon: Briefcase, path: '/admin/projects', area: 'publishing' },
+                { name: t.admin.menu.about, icon: FileText, path: '/admin/about', area: 'publishing' },
+                { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision', area: 'publishing' },
+                { name: t.admin.menu.services, icon: Briefcase, path: '/admin/services', area: 'publishing' },
+                { name: t.admin.menu.trusted, icon: Users, path: '/admin/trusted', area: 'publishing' },
+                { name: t.admin.menu.contact, icon: Mail, path: '/admin/contact', area: 'publishing' },
+                { name: t.admin.menu.files, icon: Files, path: '/admin/files', area: 'publishing' },
             ],
         },
         {
             title: t.admin.menu.groupManagement,
             items: [
-                { name: t.admin.biz.menu.finance, icon: Wallet, path: '/admin/finance' },
-                { name: t.admin.biz.menu.documents, icon: Receipt, path: '/admin/invoices' },
-                { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses' },
-                { name: t.admin.biz.menu.clients, icon: Users, path: '/admin/clients' },
-                { name: t.admin.biz.hr.menu.employees, icon: UserRound, path: '/admin/employees' },
-                { name: t.admin.biz.hr.menu.payroll, icon: Banknote, path: '/admin/payroll' },
+                { name: t.admin.biz.menu.finance, icon: Wallet, path: '/admin/finance', area: 'finance' },
+                { name: t.admin.biz.menu.documents, icon: Receipt, path: '/admin/invoices', area: 'finance' },
+                { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses', area: 'finance' },
+                { name: t.admin.biz.menu.clients, icon: Users, path: '/admin/clients', area: 'finance' },
+                { name: t.admin.biz.hr.menu.employees, icon: UserRound, path: '/admin/employees', area: 'hr' },
+                { name: t.admin.biz.hr.menu.payroll, icon: Banknote, path: '/admin/payroll', area: 'hr' },
+            ],
+        },
+        {
+            title: t.admin.access.menu.team,
+            items: [
+                { name: t.admin.access.menu.users, icon: ShieldCheck, path: '/admin/users', area: 'users' },
+                { name: t.admin.access.menu.activity, icon: History, path: '/admin/activity', area: 'users' },
+                { name: t.admin.access.menu.account, icon: KeyRound, path: '/admin/account', area: 'dashboard' },
             ],
         },
     ];
+    // Only the sections this user's role allows
+    const visibleGroups = menuGroups
+        .map(g => ({ ...g, items: g.items.filter(i => session.areas.includes(i.area)) }))
+        .filter(g => g.items.length > 0);
+    const currentItem = menuGroups.flatMap(g => g.items).find(i => pathname.startsWith(i.path));
+    const forbidden = !!currentItem && !session.areas.includes(currentItem.area);
 
     const navContent = (
         <>
             <nav className="flex-1 overflow-y-auto py-4">
-                {menuGroups.map((group, gi) => (
+                {visibleGroups.map((group, gi) => (
                     <div key={gi} className={gi > 0 ? 'mt-5' : ''}>
                         {group.title && (
                             <div className="px-7 mb-2 text-[11px] font-bold uppercase tracking-widest text-white/35">
@@ -263,6 +288,12 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                         </button>
                     ))}
                 </div>
+                {session.user && (
+                    <Link href="/admin/account" onClick={() => setMobileNavOpen(false)} className="block px-4 py-2 rounded-xl hover:bg-white/5">
+                        <div className="text-sm font-semibold truncate">{session.user.owner ? t.admin.access.users.owner : session.user.name}</div>
+                        <div className="text-[11px] text-white/45 truncate">{t.admin.access.roles[session.user.role]}</div>
+                    </Link>
+                )}
                 <button
                     onClick={handleLogout}
                     className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-semibold text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
@@ -321,7 +352,13 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
                     </button>
                 </div>
                 <div className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-10 print:p-0 print:overflow-visible">
-                    {children}
+                    <AdminSessionContext.Provider value={session}>
+                        {forbidden ? (
+                            <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-6 text-sm text-red-300">{t.admin.access.forbidden}</div>
+                        ) : (
+                            children
+                        )}
+                    </AdminSessionContext.Provider>
                 </div>
             </main>
         </div>

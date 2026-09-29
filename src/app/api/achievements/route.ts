@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import fs from 'fs';
 import path from 'path';
 
@@ -46,8 +47,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'publishing');
+    if (gate.denied) return gate.denied;
 
     try {
         const body = await request.json();
@@ -84,6 +85,8 @@ export async function POST(request: Request) {
                 return NextResponse.json({ error: 'DatabaseError', message: error.message }, { status: 500 });
             }
         }
+
+        await logActivity(gate.user, action, 'achievement', achievement?.ar?.title || achievement?.fr?.title || achievement?.en?.title, achievement?.id);
 
         // Return updated list
         const { data: updatedData } = await supabaseAdmin

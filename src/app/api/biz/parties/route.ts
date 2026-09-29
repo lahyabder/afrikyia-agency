@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { PARTY_TYPES, readJson, text } from '@/lib/biz';
 
 export const dynamic = 'force-dynamic';
@@ -21,39 +22,41 @@ function partyFields(body: Record<string, unknown>) {
 }
 
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const { data, error } = await supabaseAdmin.from('parties').select(FIELDS).order('name');
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json(data);
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     const fields = body && partyFields(body);
     if (!fields?.name) return NextResponse.json({ error: 'NameRequired' }, { status: 400 });
     const { data, error } = await supabaseAdmin.from('parties').insert(fields).select(FIELDS).single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'create', 'party', data.name, data.id);
     return NextResponse.json(data);
 }
 
 export async function PATCH(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     const id = text(body?.id, 64);
     const fields = body && partyFields(body);
     if (!id || !fields?.name) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
     const { data, error } = await supabaseAdmin.from('parties').update(fields).eq('id', id).select(FIELDS).single();
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'update', 'party', data.name, data.id);
     return NextResponse.json(data);
 }
 
 export async function DELETE(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const id = new URL(request.url).searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
     // Keep the history: a client with invoices or expenses cannot be removed
@@ -64,5 +67,6 @@ export async function DELETE(request: Request) {
     if ((inv.count ?? 0) + (exp.count ?? 0) > 0) return NextResponse.json({ error: 'InUse' }, { status: 409 });
     const { error } = await supabaseAdmin.from('parties').delete().eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'delete', 'party', null, id);
     return NextResponse.json({ success: true });
 }

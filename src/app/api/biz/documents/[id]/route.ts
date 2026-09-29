@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { DOC_STATUSES, PAYMENT_METHODS, fiscalYearFor, isoDate, money, nextNumber, parseLines, readJson, text, totals } from '@/lib/biz';
 
 export const dynamic = 'force-dynamic';
@@ -19,8 +20,8 @@ async function load(id: string) {
 }
 
 export async function GET(request: Request, { params }: Params) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const { id } = await params;
     const doc = await load(id);
     if (!doc) return NextResponse.json({ error: 'NotFound' }, { status: 404 });
@@ -31,8 +32,8 @@ export async function GET(request: Request, { params }: Params) {
 
 // Edit content, change status, record a payment, or turn a quote into an invoice
 export async function PATCH(request: Request, { params }: Params) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const { id } = await params;
     const body = await readJson(request);
     const doc = await load(id);
@@ -80,6 +81,7 @@ export async function PATCH(request: Request, { params }: Params) {
             .from('accounting_invoices')
             .update({ notes: [doc.notes, `Facture ${number}`].filter(Boolean).join('\n'), updated_at: new Date().toISOString() })
             .eq('id', id);
+        await logActivity(gate.user, 'convert', 'quote', `${doc.invoice_number} → ${number}`, id);
         return NextResponse.json({ id: created.id, invoice_number: number });
     }
 
@@ -98,6 +100,7 @@ export async function PATCH(request: Request, { params }: Params) {
             })
             .eq('id', id);
         if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+        await logActivity(gate.user, 'pay', doc.type, `${doc.invoice_number}: ${amount}`, id);
         return NextResponse.json(await load(id));
     }
 
@@ -106,6 +109,7 @@ export async function PATCH(request: Request, { params }: Params) {
         if (!DOC_STATUSES.includes(status as (typeof DOC_STATUSES)[number])) return NextResponse.json({ error: 'BadStatus' }, { status: 400 });
         const { error } = await supabaseAdmin.from('accounting_invoices').update({ status, updated_at: new Date().toISOString() }).eq('id', id);
         if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+        await logActivity(gate.user, `status:${status}`, doc.type, doc.invoice_number, id);
         return NextResponse.json(await load(id));
     }
 
@@ -133,12 +137,13 @@ export async function PATCH(request: Request, { params }: Params) {
         .from('accounting_invoice_lines')
         .insert(lines.map((l, i) => ({ ...l, invoice_id: id, tva_rate: money(body.tva_rate), total_ht: money(l.quantity * l.unit_price), sequence: i + 1 })));
     if (linesError) return NextResponse.json({ error: linesError.message }, { status: 500 });
+    await logActivity(gate.user, 'update', doc.type, doc.invoice_number, id);
     return NextResponse.json(await load(id));
 }
 
 export async function DELETE(request: Request, { params }: Params) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const { id } = await params;
     const doc = await load(id);
     if (!doc) return NextResponse.json({ error: 'NotFound' }, { status: 404 });
@@ -146,5 +151,6 @@ export async function DELETE(request: Request, { params }: Params) {
     if (doc.type === 'invoice' && doc.status !== 'draft') return NextResponse.json({ error: 'CancelInstead' }, { status: 409 });
     const { error } = await supabaseAdmin.from('accounting_invoices').delete().eq('id', id);
     if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    await logActivity(gate.user, 'delete', doc.type, doc.invoice_number, id);
     return NextResponse.json({ success: true });
 }

@@ -617,6 +617,105 @@
                     "noActive": "Aucun employé actif. Ajoutez d'abord un employé."
                 }
             }
+        },
+        "access": {
+            "menu": {
+                "users": "Utilisateurs",
+                "activity": "Journal d'activité",
+                "account": "Mon compte",
+                "team": "Équipe"
+            },
+            "roles": {
+                "admin": "Administrateur (tous les droits)",
+                "accountant": "Comptable",
+                "user": "Éditeur de contenu"
+            },
+            "roleHelp": {
+                "admin": "Toutes les sections, la gestion des utilisateurs et le journal d'activité.",
+                "accountant": "Finances, factures, dépenses, clients, employés et paie.",
+                "user": "Publication, contenu et messages uniquement."
+            },
+            "users": {
+                "title": "Utilisateurs",
+                "subtitle": "Un compte par personne travaillant dans l'administration, avec des droits selon son rôle.",
+                "new": "Nouvel utilisateur",
+                "name": "Nom",
+                "nameAr": "Nom en arabe",
+                "email": "E-mail",
+                "role": "Rôle",
+                "password": "Mot de passe",
+                "newPassword": "Nouveau mot de passe (laisser vide pour ne pas changer)",
+                "passwordHint": "8 caractères minimum. Transmettez-le de façon sûre ; la personne pourra le changer dans « Mon compte ».",
+                "active": "Actif",
+                "inactive": "Désactivé",
+                "noPassword": "Sans mot de passe — ne peut pas se connecter",
+                "lastLogin": "Dernière connexion",
+                "never": "Jamais connecté",
+                "disable": "Désactiver le compte",
+                "enable": "Activer le compte",
+                "owner": "Compte propriétaire",
+                "ownerHint": "Le compte propriétaire est défini dans les réglages Vercel (ADMIN_EMAIL) et garde toujours tous les droits.",
+                "emailTaken": "Cet e-mail est déjà utilisé.",
+                "weakPassword": "Mot de passe trop court : 8 caractères minimum.",
+                "ownAccount": "Vous ne pouvez pas changer votre propre rôle ni désactiver votre compte.",
+                "you": "vous"
+            },
+            "activity": {
+                "title": "Journal d'activité",
+                "subtitle": "Qui a fait quoi, et quand, dans l'administration.",
+                "allUsers": "Tous les utilisateurs",
+                "when": "Date",
+                "who": "Utilisateur",
+                "what": "Action",
+                "details": "Détails",
+                "empty": "Aucune action enregistrée pour le moment."
+            },
+            "actions": {
+                "login": "Connexion",
+                "create": "Ajout",
+                "add": "Ajout",
+                "edit": "Modification",
+                "update": "Modification",
+                "delete": "Suppression",
+                "reset": "Réinitialisation",
+                "upload": "Envoi de fichier",
+                "pay": "Paiement enregistré",
+                "unpay": "Paiement annulé",
+                "convert": "Devis → facture",
+                "prepare": "Bulletins préparés",
+                "change_password": "Mot de passe changé",
+                "status": "Changement de statut"
+            },
+            "entities": {
+                "session": "",
+                "achievement": "réalisation",
+                "project": "projet",
+                "file": "fichier",
+                "content": "contenu du site",
+                "message": "message",
+                "party": "client/fournisseur",
+                "invoice": "facture",
+                "quote": "devis",
+                "expense": "dépense",
+                "employee": "employé",
+                "payroll": "paie",
+                "payslip": "bulletin",
+                "payroll_rates": "taux de paie",
+                "user": "utilisateur"
+            },
+            "account": {
+                "title": "Mon compte",
+                "subtitle": "Vos informations de connexion et votre mot de passe.",
+                "current": "Mot de passe actuel",
+                "next": "Nouveau mot de passe",
+                "confirm": "Confirmer le nouveau mot de passe",
+                "change": "Changer le mot de passe",
+                "changed": "Mot de passe changé. Reconnectez-vous.",
+                "mismatch": "Les mots de passe ne correspondent pas.",
+                "wrong": "Mot de passe actuel incorrect.",
+                "ownerNote": "Vous utilisez le compte propriétaire. Son mot de passe se change dans les réglages Vercel (ADMIN_PASSWORD)."
+            },
+            "forbidden": "Vous n'avez pas accès à cette section."
         }
     },
     "metadata": {

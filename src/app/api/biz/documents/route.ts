@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 import { DOC_TYPES, fiscalYearFor, isoDate, money, nextNumber, parseLines, readJson, text, totals, type DocType } from '@/lib/biz';
 
 export const dynamic = 'force-dynamic';
@@ -10,8 +11,8 @@ const LIST_FIELDS =
 
 // Invoices and quotes
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const type = new URL(request.url).searchParams.get('type');
     let query = supabaseAdmin.from('accounting_invoices').select(LIST_FIELDS).order('date', { ascending: false }).order('invoice_number', { ascending: false });
     if (type && DOC_TYPES.includes(type as DocType)) query = query.eq('type', type);
@@ -21,8 +22,8 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const body = await readJson(request);
     if (!body) return NextResponse.json({ error: 'BadRequest' }, { status: 400 });
 
@@ -60,6 +61,7 @@ export async function POST(request: Request) {
             await supabaseAdmin.from('accounting_invoices').delete().eq('id', doc.id);
             throw new Error(linesError.message);
         }
+        await logActivity(gate.user, 'create', type, number, doc.id);
         return NextResponse.json({ id: doc.id, invoice_number: number });
     } catch (e) {
         return NextResponse.json({ error: e instanceof Error ? e.message : 'Error' }, { status: 500 });

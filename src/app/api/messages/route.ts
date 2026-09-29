@@ -1,7 +1,8 @@
 import { createHash } from 'crypto';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
+import { logActivity } from '@/lib/activity';
 
 export const dynamic = 'force-dynamic';
 
@@ -73,8 +74,8 @@ export async function POST(request: Request) {
 
 // Admin: list messages, optionally filtered by status (?status=new)
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'messages');
+    if (gate.denied) return gate.denied;
 
     const status = new URL(request.url).searchParams.get('status');
     let query = supabaseAdmin
@@ -96,8 +97,8 @@ export async function GET(request: Request) {
 
 // Admin: change a message status
 export async function PATCH(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'messages');
+    if (gate.denied) return gate.denied;
 
     let body: { id?: unknown; status?: unknown };
     try {
@@ -117,13 +118,14 @@ export async function PATCH(request: Request) {
         console.error('Supabase update contact message error:', error.message);
         return NextResponse.json({ error: 'DatabaseError' }, { status: 500 });
     }
+    await logActivity(gate.user, `status:${body.status}`, 'message', null, body.id);
     return NextResponse.json({ success: true });
 }
 
 // Admin: delete a message
 export async function DELETE(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'messages');
+    if (gate.denied) return gate.denied;
 
     const id = new URL(request.url).searchParams.get('id');
     if (!id) {
@@ -135,5 +137,6 @@ export async function DELETE(request: Request) {
         console.error('Supabase delete contact message error:', error.message);
         return NextResponse.json({ error: 'DatabaseError' }, { status: 500 });
     }
+    await logActivity(gate.user, 'delete', 'message', null, id);
     return NextResponse.json({ success: true });
 }

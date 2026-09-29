@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
 
 export const dynamic = 'force-dynamic';
 
 // One payslip with everything printed on it
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'hr');
+    if (gate.denied) return gate.denied;
     const { id } = await params;
     const { data, error } = await supabaseAdmin
         .from('pay_slips')

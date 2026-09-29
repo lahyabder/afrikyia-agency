@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
 import { money } from '@/lib/biz';
 
 export const dynamic = 'force-dynamic';
 
 // Money in (payments received), money out (expenses) and what clients still owe
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'finance');
+    if (gate.denied) return gate.denied;
     const year = parseInt(new URL(request.url).searchParams.get('year') || '', 10) || new Date().getFullYear();
     const from = `${year}-01-01`;
     const to = `${year}-12-31`;

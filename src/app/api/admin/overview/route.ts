@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
-import { requireAdmin } from '@/lib/adminAuth';
+import { requireAccess } from '@/lib/adminAuth';
 import { SITE_CONTENT_KEYS } from '@/lib/siteContent';
 
 export const dynamic = 'force-dynamic';
@@ -16,8 +16,8 @@ async function countRows(table: string): Promise<number | null> {
 
 // Admin dashboard figures, read from the database
 export async function GET(request: Request) {
-    const unauthorized = requireAdmin(request);
-    if (unauthorized) return unauthorized;
+    const gate = await requireAccess(request, 'dashboard');
+    if (gate.denied) return gate.denied;
 
     const [achievements, projects, files, sections, newMessages, latestMessages] = await Promise.all([
         countRows('achievements'),
