@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldCheck, Zap, Maximize2, Building, FileCheck2, Hash, Sparkles } from 'lucide-react';
+import { ShieldCheck, Zap, Maximize2, Building, FileCheck2, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 const About = () => {
@@ -96,7 +96,7 @@ const About = () => {
                                 </h4>
                             </div>
 
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs font-medium text-slate-600">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs font-medium text-slate-600">
                                 <div className="flex items-center gap-3 bg-white border border-slate-200/80 px-4 py-3 rounded-xl shadow-2xs">
                                     <Building className="w-4 h-4 text-brand-red shrink-0" />
                                     <div>
@@ -109,13 +109,6 @@ const About = () => {
                                     <div>
                                         <span className="block text-[10px] text-slate-400 font-semibold uppercase">{legal.rcTitle}</span>
                                         <span className="font-mono font-bold text-slate-800" dir="ltr">{legal.rc}</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 bg-white border border-slate-200/80 px-4 py-3 rounded-xl shadow-2xs">
-                                    <Hash className="w-4 h-4 text-brand-red shrink-0" />
-                                    <div>
-                                        <span className="block text-[10px] text-slate-400 font-semibold uppercase">{legal.nifTitle}</span>
-                                        <span className="font-mono font-bold text-slate-800" dir="ltr">{legal.nif}</span>
                                     </div>
                                 </div>
                             </div>

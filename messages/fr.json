@@ -158,7 +158,7 @@
         "privacy": "Politique de Confidentialité",
         "terms": "Mentions Légales",
         "phone": "0022230609040",
-        "address": "Adresse : Tevragh Zeina – ilot Z, 0003P – RC. 136293/1270 NIF 01697101"
+        "address": "Adresse : Tevragh Zeina – ilot Z, 0003P – RC. 136293/1270"
     },
     "admin": {
         "menu": {
@@ -985,9 +985,7 @@
             "addressTitle": "Siège social",
             "address": "Tevragh-Zeina – Lot Z, 0003P – Nouakchott, Mauritanie",
             "rcTitle": "Registre du Commerce",
-            "rc": "136293/1270",
-            "nifTitle": "Identifiant Fiscal (NIF)",
-            "nif": "01697101"
+            "rc": "136293/1270"
         }
     },
     "trusted": {

@@ -52,12 +52,6 @@ const Header = () => {
 
         <div className="flex items-center gap-3 lg:gap-6">
           <LanguageSwitcher />
-          <Link
-            href="/#contact"
-            className="hidden lg:inline-flex items-center h-11 px-6 rounded-xl bg-brand-red hover:bg-red-dark text-white text-sm font-bold shadow-2xs hover:shadow-sm transition-all"
-          >
-            {h.cta}
-          </Link>
           <button
             className="lg:hidden w-10 h-10 -me-2 flex items-center justify-center text-ink"
             onClick={() => setIsMenuOpen(open => !open)}
@@ -82,13 +76,6 @@ const Header = () => {
                 {link.label}
               </Link>
             ))}
-            <Link
-              href="/#contact"
-              onClick={close}
-              className="mt-4 h-12 rounded-xl bg-brand-red text-white font-bold flex items-center justify-center shadow-sm"
-            >
-              {h.cta}
-            </Link>
           </div>
         </nav>
       )}
