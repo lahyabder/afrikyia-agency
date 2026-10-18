@@ -6,7 +6,6 @@ import Image from 'next/image';
 interface Particle {
     theta: number; // angle along spiral
     speed: number;
-    size: number;
     char: string;
     opacity: number;
     color: 'red' | 'dark' | 'dim';
@@ -34,8 +33,8 @@ export default function DynamicBinarySpiral() {
 
     // Interactive rotation angle
     const rotationAngle = useRef(0);
-    const rotationSpeed = useRef(0.25);
-    const targetSpeed = useRef(0.25);
+    const rotationSpeed = useRef(0.28);
+    const targetSpeed = useRef(0.28);
 
     // Ripples on click
     const ripples = useRef<Ripple[]>([]);
@@ -50,20 +49,20 @@ export default function DynamicBinarySpiral() {
         const nx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
         const ny = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
         targetTilt.current = {
-            x: -ny * 16, // rotateX
-            y: nx * 16,  // rotateY
+            x: -ny * 14, // rotateX
+            y: nx * 14,  // rotateY
         };
     }, []);
 
     const handleMouseEnter = useCallback(() => {
         setIsHovered(true);
-        targetSpeed.current = 0.85; // accelerate on hover
+        targetSpeed.current = 0.75; // smoothly accelerate on hover
     }, []);
 
     const handleMouseLeave = useCallback(() => {
         setIsHovered(false);
         targetTilt.current = { x: 0, y: 0 };
-        targetSpeed.current = 0.25; // return to cruising speed
+        targetSpeed.current = 0.28; // return to gentle cruising speed
     }, []);
 
     const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -76,13 +75,13 @@ export default function DynamicBinarySpiral() {
         ripples.current.push({
             x,
             y,
-            radius: 5,
-            maxRadius: Math.max(rect.width, rect.height) * 0.75,
-            opacity: 0.9,
+            radius: 8,
+            maxRadius: Math.max(rect.width, rect.height) * 0.65,
+            opacity: 0.85,
         });
 
-        // Boost spin briefly
-        rotationSpeed.current = 3.5;
+        // Boost spin momentum briefly
+        rotationSpeed.current = 2.8;
 
         // Visual press bounce
         setIsPressed(true);
@@ -112,19 +111,18 @@ export default function DynamicBinarySpiral() {
         window.addEventListener('resize', resizeCanvas);
 
         // Initialize streaming binary particles
-        const numParticles = 42;
+        const numParticles = 36;
         particles.current = Array.from({ length: numParticles }, (_, i) => ({
-            theta: (i / numParticles) * Math.PI * 8 + Math.random() * 0.5,
-            speed: 0.008 + Math.random() * 0.012,
-            size: 10 + Math.random() * 6,
+            theta: (i / numParticles) * Math.PI * 7.5 + Math.random() * 0.4,
+            speed: 0.007 + Math.random() * 0.01,
             char: Math.random() > 0.5 ? '1' : '0',
-            opacity: 0.25 + Math.random() * 0.65,
-            color: Math.random() > 0.75 ? 'red' : Math.random() > 0.4 ? 'dark' : 'dim',
-            flipTimer: Math.floor(Math.random() * 30),
+            opacity: 0.2 + Math.random() * 0.6,
+            color: Math.random() > 0.7 ? 'red' : Math.random() > 0.35 ? 'dark' : 'dim',
+            flipTimer: Math.floor(Math.random() * 35),
         }));
 
-        const a = 3.2; // logarithmic spiral growth factor
-        const b = 0.165;
+        const a = 3.4; // logarithmic spiral growth factor
+        const b = 0.162;
 
         // Main render loop
         const render = () => {
@@ -141,7 +139,7 @@ export default function DynamicBinarySpiral() {
             setTilt({ ...currentTilt.current });
 
             // Smooth rotation speed lerp
-            rotationSpeed.current += (targetSpeed.current - rotationSpeed.current) * 0.05;
+            rotationSpeed.current += (targetSpeed.current - rotationSpeed.current) * 0.04;
             rotationAngle.current = (rotationAngle.current + rotationSpeed.current) % 360;
 
             const globalRot = (rotationAngle.current * Math.PI) / 180;
@@ -149,14 +147,14 @@ export default function DynamicBinarySpiral() {
             // Draw click ripples
             for (let i = ripples.current.length - 1; i >= 0; i--) {
                 const r = ripples.current[i];
-                r.radius += 5.5;
+                r.radius += 5.0;
                 r.opacity *= 0.94;
 
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(225, 29, 72, ${r.opacity * 0.7})`;
-                ctx.lineWidth = 2.5;
+                ctx.strokeStyle = `rgba(225, 29, 72, ${r.opacity * 0.6})`;
+                ctx.lineWidth = 2;
                 ctx.stroke();
                 ctx.restore();
 
@@ -172,47 +170,47 @@ export default function DynamicBinarySpiral() {
 
             particles.current.forEach(p => {
                 // Inward flow: theta decreases towards center
-                p.theta -= p.speed * (1 + (isHovered ? 0.8 : 0));
+                p.theta -= p.speed * (1 + (isHovered ? 0.7 : 0));
 
                 // If particle reaches singularity, respawn at outer boundary
-                if (p.theta < 0.5) {
-                    p.theta = Math.PI * 8 + Math.random() * 0.5;
+                if (p.theta < 0.6) {
+                    p.theta = Math.PI * 7.5 + Math.random() * 0.4;
                     p.char = Math.random() > 0.5 ? '1' : '0';
                 }
 
                 // Bit flip animation
                 p.flipTimer++;
-                if (p.flipTimer > 40) {
+                if (p.flipTimer > 45) {
                     p.char = p.char === '1' ? '0' : '1';
                     p.flipTimer = 0;
                 }
 
                 // Calculate spiral radius r = a * e^(b * theta)
                 const r = a * Math.exp(b * p.theta);
-                const maxR = Math.min(width, height) * 0.48;
+                const maxR = Math.min(width, height) * 0.45;
 
-                if (r <= maxR && r > 8) {
+                if (r <= maxR && r > 10) {
                     const currentAngle = p.theta + globalRot;
                     const x = centerX + r * Math.cos(currentAngle);
                     const y = centerY + r * Math.sin(currentAngle);
 
-                    // Dynamic font size scaling with radius (larger on outer rim, smaller at center)
-                    const fontSize = Math.max(9, Math.min(16, (r / maxR) * 16));
+                    // Dynamic font size scaling with radius
+                    const fontSize = Math.max(9, Math.min(15, (r / maxR) * 15));
                     ctx.font = `800 ${fontSize}px var(--font-geist-mono), monospace`;
 
                     if (p.color === 'red') {
                         ctx.fillStyle = `rgba(225, 29, 72, ${p.opacity * (isHovered ? 1 : 0.85)})`;
-                        ctx.shadowColor = 'rgba(225, 29, 72, 0.6)';
-                        ctx.shadowBlur = 6;
+                        ctx.shadowColor = 'rgba(225, 29, 72, 0.5)';
+                        ctx.shadowBlur = 5;
                     } else if (p.color === 'dark') {
-                        ctx.fillStyle = `rgba(15, 23, 42, ${p.opacity * 0.8})`;
+                        ctx.fillStyle = `rgba(15, 23, 42, ${p.opacity * 0.75})`;
                         ctx.shadowBlur = 0;
                     } else {
-                        ctx.fillStyle = `rgba(100, 116, 139, ${p.opacity * 0.55})`;
+                        ctx.fillStyle = `rgba(100, 116, 139, ${p.opacity * 0.5})`;
                         ctx.shadowBlur = 0;
                     }
 
-                    // Save context for tangent rotation
+                    // Save context for tangent rotation along the spiral arm
                     ctx.save();
                     ctx.translate(x, y);
                     ctx.rotate(currentAngle + Math.PI / 2);
@@ -241,48 +239,32 @@ export default function DynamicBinarySpiral() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onClick={handleClick}
-            className="relative w-full max-w-[420px] sm:max-w-[460px] lg:max-w-[500px] xl:max-w-[540px] aspect-square flex items-center justify-center select-none cursor-pointer group"
+            className="relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[460px] xl:max-w-[500px] aspect-square flex items-center justify-center select-none cursor-pointer group"
             style={{
                 perspective: '1100px',
             }}
         >
-            {/* Ambient Radial Backlight Glow */}
+            {/* Very soft feather ambient radial aura - no hard circular borders */}
             <div
-                className="absolute inset-0 rounded-full pointer-events-none transition-all duration-700 ease-out"
+                className="absolute inset-0 pointer-events-none transition-all duration-700 ease-out"
                 style={{
                     background: isHovered
-                        ? 'radial-gradient(circle at center, rgba(225, 29, 72, 0.12) 0%, rgba(15, 23, 42, 0.04) 50%, transparent 75%)'
-                        : 'radial-gradient(circle at center, rgba(225, 29, 72, 0.06) 0%, rgba(15, 23, 42, 0.02) 45%, transparent 70%)',
-                    transform: 'scale(1.25)',
+                        ? 'radial-gradient(circle at center, rgba(225, 29, 72, 0.08) 0%, rgba(15, 23, 42, 0.02) 45%, transparent 70%)'
+                        : 'radial-gradient(circle at center, rgba(225, 29, 72, 0.04) 0%, transparent 60%)',
+                    transform: 'scale(1.2)',
                 }}
                 aria-hidden="true"
             />
 
-            {/* Counter-rotating subtle orbital ring with compass tick marks */}
+            {/* 3D Tilted Interactive Container */}
             <div
-                className="absolute w-[95%] h-[95%] rounded-full border border-slate-200/50 border-dashed animate-spiral-spin-reverse pointer-events-none transition-opacity duration-500"
+                className="relative w-full h-full flex items-center justify-center transition-transform duration-200 ease-out"
                 style={{
-                    opacity: isHovered ? 0.85 : 0.45,
-                }}
-                aria-hidden="true"
-            />
-
-            {/* Concentric subtle radar pulse ring */}
-            <div
-                className="absolute w-[75%] h-[75%] rounded-full border border-brand-red/10 pointer-events-none animate-pulse"
-                style={{ animationDuration: '4s' }}
-                aria-hidden="true"
-            />
-
-            {/* 3D Tilted Interactive Card Container */}
-            <div
-                className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out"
-                style={{
-                    transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isPressed ? 0.97 : isHovered ? 1.04 : 1})`,
+                    transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isPressed ? 0.98 : isHovered ? 1.03 : 1})`,
                     transformStyle: 'preserve-3d',
                 }}
             >
-                {/* The Rotating High-Res Binary Spiral Image */}
+                {/* The Rotating High-Res Binary Spiral Image - fully seamless, no clipping boundary */}
                 <div
                     className="relative w-full h-full flex items-center justify-center animate-spiral-vortex"
                     style={{
@@ -296,9 +278,9 @@ export default function DynamicBinarySpiral() {
                         width={540}
                         height={540}
                         priority
-                        className="w-full h-full object-contain select-none pointer-events-none drop-shadow-sm transition-all duration-500"
+                        className="w-full h-full object-contain select-none pointer-events-none transition-all duration-500"
                         style={{
-                            filter: isHovered ? 'contrast(1.08) drop-shadow(0 4px 16px rgba(225,29,72,0.15))' : 'none',
+                            filter: isHovered ? 'drop-shadow(0 4px 14px rgba(225,29,72,0.12))' : 'none',
                         }}
                     />
                 </div>
@@ -311,30 +293,13 @@ export default function DynamicBinarySpiral() {
 
                 {/* Central Digital Vortex Core (Singularity Pulsar) */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20 flex items-center justify-center">
-                    {/* Expanding energy pulse */}
+                    {/* Soft expanding energy ping */}
                     <div
-                        className="w-8 h-8 rounded-full bg-brand-red/20 blur-xs animate-ping"
-                        style={{ animationDuration: isHovered ? '1.2s' : '2.4s' }}
+                        className="w-6 h-6 rounded-full bg-brand-red/20 blur-[1px] animate-ping"
+                        style={{ animationDuration: isHovered ? '1.2s' : '2.2s' }}
                     />
-                    {/* Glowing outer halo */}
-                    <div
-                        className="absolute w-4 h-4 rounded-full bg-brand-red/40 blur-[1px] transition-transform duration-300"
-                        style={{ transform: isHovered ? 'scale(1.4)' : 'scale(1)' }}
-                    />
-                    {/* Sharp core pulsar node */}
-                    <div className="absolute w-2.5 h-2.5 rounded-full bg-brand-red shadow-md shadow-brand-red/80" />
-                </div>
-            </div>
-
-            {/* Interactive Status Tooltip / Badge on Hover */}
-            <div
-                className={`absolute bottom-2 inset-x-0 flex items-center justify-center pointer-events-none transition-all duration-300 ${
-                    isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                }`}
-            >
-                <div className="inline-flex items-center gap-2 bg-slate-900/90 text-white text-[11px] font-mono font-bold px-3 py-1 rounded-full shadow-lg backdrop-blur-sm border border-slate-700/60">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-red animate-pulse" />
-                    <span>ALGO_STREAM // CLICK_BURST</span>
+                    {/* Glowing node core */}
+                    <div className="absolute w-2 h-2 rounded-full bg-brand-red shadow-sm shadow-brand-red" />
                 </div>
             </div>
         </div>
