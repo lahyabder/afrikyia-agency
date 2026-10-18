@@ -42,7 +42,7 @@ const Works = () => {
                         alt={title}
                         loading="lazy"
                         onError={() => setBrokenImages(prev => new Set(prev).add(item.id))}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
                     />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-rose-50 to-slate-100">

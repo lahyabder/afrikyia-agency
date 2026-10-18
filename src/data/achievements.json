@@ -1,5 +1,71 @@
 [
     {
+        "id": "dar-mauritanie",
+        "category": "websites",
+        "link": "https://www.darmauritanie.art/",
+        "image": "/works/dar-mauritanie.png",
+        "en": {
+            "title": "Dar Mauritanie — Integrated Cultural Solutions",
+            "categoryLabel": "Cultural Platform",
+            "desc": "A specialized digital platform dedicated to the arts and creative economy, providing integrated solutions for cultural events, visual branding, and digital interfaces.",
+            "challenge": "The creative and cultural sector required an integrated, modern platform combining event administration and digital design services under one institutional umbrella.",
+            "solution": "Engineered an interactive web platform utilizing modern design standards to present creative solutions and manage artistic partnerships.",
+            "result": "Launched a premier platform strengthening the creative economy and presenting a modern digital face for cultural initiatives in Mauritania."
+        },
+        "fr": {
+            "title": "Dar Mauritanie — Écosystème Créatif & Culturel",
+            "categoryLabel": "Plateforme Culturelle",
+            "desc": "Une plateforme institutionnelle dédiée à l'économie des arts et de la culture, offrant une gamme intégrée de solutions : gestion d'événements, design d'identités et interfaces numériques.",
+            "challenge": "Nécessité de structurer les initiatives culturelles et artistiques à travers une plateforme digitale moderne et attractive.",
+            "solution": "Conception d'un portail web interactif valorisant les industries créatives et facilitant la gestion d'événements culturels d'envergure.",
+            "result": "Valorisation du patrimoine culturel mauritanien et accompagnement efficace des acteurs des industries créatives."
+        },
+        "ar": {
+            "title": "دار موريتانيا — منظومة متكاملة من الحلول",
+            "categoryLabel": "مشاريع المواقع والمنصات",
+            "desc": "منصة رقمية متخصصة باقتصاد الفنون والثقافة، تقدم منظومة متكاملة للمشاريع الثقافية والفنية، تشمل إدارة الفعاليات وتصميم الهويات البصرية والواجهات الرقمية.",
+            "challenge": "حاجة القطاع الإبداعي والثقافي إلى منصة رقمية متطورة تجمع بين إدارة المشاريع والفعاليات وتقديم خدمات التصميم الرقمي تحت مظلة مؤسسية موحدة.",
+            "solution": "تصميم وتطوير بوابة رقمية تفاعلية تعتمد معايير الويب الحديثة لتقديم باقة الحلول الإبداعية وتنظيم الشراكات الفنية والمؤسسية.",
+            "result": "إطلاق منصة رائدة تعزز الاقتصاد الإبداعي وتوفر واجهة عصرية للمشاريع الفنية والثقافية في موريتانيا."
+        },
+        "year": "2024",
+        "client": "Dar Mauritanie",
+        "projectType": "Platform"
+    },
+    {
+        "id": "nagha-festival",
+        "category": "websites",
+        "link": "https://nagha.art/ar",
+        "image": "/works/nagha-festival.png",
+        "en": {
+            "title": "Festival NAGHA for Desert Culture — Tamchekett",
+            "categoryLabel": "Website & Events",
+            "desc": "The official digital platform for the Nagha Camel Festival in Tamchekett, showcasing Saharan heritage, interactive festival schedules, and partner portals.",
+            "challenge": "The festival required an engaging, responsive digital presence to attract visitors, highlight Tamchekett's desert heritage, and coordinate event schedules.",
+            "solution": "Delivered an optimized multi-lingual web portal featuring dynamic schedules, guest listings, and multimedia cultural archives.",
+            "result": "Significant surge in festival engagement and seamless public access to schedules and event details for local and international attendees."
+        },
+        "fr": {
+            "title": "Festival NAGHA pour la Culture du Sahara — Tamchekett",
+            "categoryLabel": "Site Web & Événement",
+            "desc": "La plateforme numérique officielle du Festival Nagha à Tamchekett : célébration du patrimoine saharien, calendrier des festivités et communication internationale.",
+            "challenge": "Nécessité d'une vitrine numérique bilingue et dynamique pour valoriser l'événement et guider les festivaliers et partenaires.",
+            "solution": "Développement d'un portail événementiel réactif intégrant agenda culturel, fiches invités et archives patrimoniales.",
+            "result": "Rayonnement médiatique accru et accès instantané à la programmation pour les visiteurs nationaux et internationaux."
+        },
+        "ar": {
+            "title": "مهرجان الناقة لثقافة الصحراء — بلدية تامشكط",
+            "categoryLabel": "مشاريع المواقع والفعاليات",
+            "desc": "المنصة الرقمية الرسمية لمهرجان الناقة لثقافة الصحراء في تامشكط، تقدم دليلاً للبرامج والفعاليات واستعراض التراث الصحراوي العريق والتواصل مع الضيوف والشركاء.",
+            "challenge": "الحاجة إلى منصة رقمية سريعة ومتجاوبة تواكب فعاليات المهرجان وتبرز سحر الصحراء وتراث تامشكط العريق للجمهور المحلي والدولي.",
+            "solution": "تطوير منصة رقمية متعددة اللغات تتضمن الجداول التفاعلية، ودليل الضيوف والشركاء، ومعرض التراث الصحراوي.",
+            "result": "تغطية رقمية واسعة للمهرجان، وسهولة وصول آلاف الزوار لبرنامج التظاهرة الثقافية وتفاصيلها."
+        },
+        "year": "2024",
+        "client": "Festival NAGHA",
+        "projectType": "Website"
+    },
+    {
         "id": "accespan",
         "category": "works",
         "link": "https://www.accespan.com/",
