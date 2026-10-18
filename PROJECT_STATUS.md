@@ -17,4 +17,6 @@
 - [x] ربط القسم بشريط التنقل في الترويسة (`/#applications`)
 - [x] تتبع التفاعل مع أزرار التطبيقات عبر حدث `application_click`
 - [x] اجتياز الاختبارات التقنية وبناء الإنتاج (`npm run build`) بنجاح تام
+- [x] مزامنة التغييرات ودفعها إلى المستودع الرئيسي (`git push origin main`)
+- [x] نشر التحديث بنجاح إلى بيئة الإنتاج الحية (Vercel Production) على الرابط: https://www.afrikyia.com
 - [x] إنشاء التقرير الشامل في [AFRIKYIA_APPLICATIONS_INTEGRATION.md](file:///Users/lahyabderrahmane/Desktop/Web-Projects/Perso/Afrikyia/AFRIKYIA_APPLICATIONS_INTEGRATION.md)
