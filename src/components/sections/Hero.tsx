@@ -1,6 +1,6 @@
 "use client";
 
-import Image from 'next/image';
+import DynamicBinarySpiral from './DynamicBinarySpiral';
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
@@ -81,37 +81,9 @@ const Hero = () => {
                         </div>
                     </div>
 
-                    {/* Right Column (in RTL: Left side): Animated Binary Spiral */}
+                    {/* Right Column (in RTL: Left side): Dynamic Interactive Binary Spiral */}
                     <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center">
-                        <div className="relative w-full max-w-[420px] sm:max-w-[460px] lg:max-w-[500px] xl:max-w-[540px] aspect-square flex items-center justify-center select-none group">
-                            {/* Subtle Ambient Radial Glow */}
-                            <div 
-                                className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(225,29,72,0.07)_0%,rgba(15,23,42,0.02)_45%,transparent_72%)] pointer-events-none scale-125" 
-                                aria-hidden="true"
-                            />
-
-                            {/* Counter-rotating subtle orbital ring */}
-                            <div 
-                                className="absolute w-[94%] h-[94%] rounded-full border border-slate-200/40 border-dashed animate-spiral-spin-reverse pointer-events-none" 
-                                aria-hidden="true"
-                            />
-
-                            {/* Animated Hypnotic Binary Spiral */}
-                            <div className="relative w-full h-full flex items-center justify-center animate-spiral-vortex transition-transform duration-700 ease-out group-hover:scale-[1.03]">
-                                <Image
-                                    src="/binary-spiral.png"
-                                    alt="AFRIKYIA Binary Architecture Spiral"
-                                    width={540}
-                                    height={540}
-                                    priority
-                                    className="w-full h-full object-contain animate-spiral-spin select-none pointer-events-none drop-shadow-xs"
-                                />
-
-                                {/* Central Digital Vortex Core (Pulsar) */}
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-brand-red/25 blur-xs animate-ping pointer-events-none" />
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-brand-red shadow-sm shadow-brand-red pointer-events-none" />
-                            </div>
-                        </div>
+                        <DynamicBinarySpiral />
                     </div>
                 </div>
 
