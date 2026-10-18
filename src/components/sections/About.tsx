@@ -1,60 +1,127 @@
 "use client";
 
-import { Layers, Users } from 'lucide-react';
+import { ShieldCheck, Zap, Maximize2, Building, FileCheck2, Hash, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
-import { useSiteContent } from '@/lib/useSiteContent';
 
-// "About" and "Vision" are edited separately in the admin panel and shown together here.
 const About = () => {
-    const { t } = useLanguage();
-    const { content: about } = useSiteContent('about', {
-        tag: t.about.tag,
-        title: t.about.title,
-        desc1: t.about.desc1,
-        desc2: t.about.desc2,
-    });
-    const { content: vision } = useSiteContent('vision', {
-        tag: t.vision.tag,
-        title: t.vision.title,
-        desc1: t.vision.desc1,
-        desc2: t.vision.desc2,
-        whatWeBuild: t.vision.whatWeBuild,
-        whatWeBuildDesc: t.vision.whatWeBuildDesc,
-        forWhom: t.vision.forWhom,
-        forWhomDesc: t.vision.forWhomDesc,
-    });
+    const { t, isRTL } = useLanguage();
+    const about = t.about;
+    const legal = about.legal;
+
+    const corePillars = [
+        {
+            icon: ShieldCheck,
+            title: isRTL ? 'البساطة والوضوح' : 'Simplicité & Clarté',
+            desc: isRTL
+                ? 'واجهات وتجارب استخدام مباشرة تبتعد عن التعقيد وتضع سهولة الوصول وتجربة المستخدم في المقام الأول.'
+                : 'Des interfaces intuitives et épurées éliminant toute complexité inutile pour l’utilisateur.',
+        },
+        {
+            icon: Zap,
+            title: isRTL ? 'الكفاءة والسرعة' : 'Efficacité & Rapidité',
+            desc: isRTL
+                ? 'برمجيات محسنة للأداء بأعلى درجات الاستجابة، مع استهلاك أمثل لموارد الخوادم والشبكة.'
+                : 'Des architectures optimisées garantissant des temps de réponse ultra-rapides et une haute disponibilité.',
+        },
+        {
+            icon: Maximize2,
+            title: isRTL ? 'قابلية التوسع' : 'Évolutivité & Scalabilité',
+            desc: isRTL
+                ? 'أنظمة هندسية صلبة قادرة على النمو مع توسع أعمالك وزيادة أعداد المستخدمين دون انقطاع.'
+                : 'Des socles techniques pérennes capables d’accompagner la croissance de votre activité sans friction.',
+        },
+    ];
 
     return (
-        <section id="about" className="site-section bg-white scroll-mt-16 lg:scroll-mt-[88px]">
-            <span id="vision" className="sr-only" aria-hidden="true" />
-            <div className="site-container grid lg:grid-cols-12 gap-10 lg:gap-16">
-                <div className="lg:col-span-5">
-                    <p className="text-brand-red text-sm font-bold">{about.tag}</p>
-                    <h2 className="mt-4 text-ink text-3xl lg:text-5xl font-bold leading-tight">{about.title}</h2>
-                    <p className="mt-6 text-muted text-base lg:text-lg leading-loose">{about.desc1}</p>
-                    <p className="mt-4 text-muted text-base lg:text-lg leading-loose">{about.desc2}</p>
+        <section id="about" className="py-20 lg:py-28 bg-white border-t border-slate-200/80 scroll-mt-16 lg:scroll-mt-24">
+            <div className="site-container">
+                <div className="max-w-3xl mb-12 lg:mb-16">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 border border-slate-200/80 px-3.5 py-1 text-xs font-bold text-brand-red mb-4 shadow-2xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-red" />
+                        <span>{about.tag || (isRTL ? 'عن AFRIKYIA' : 'À propos d’AFRIKYIA')}</span>
+                    </div>
+                    <h2 className="text-slate-900 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+                        {about.title}
+                    </h2>
                 </div>
 
-                <div className="lg:col-span-7 grid sm:grid-cols-2 gap-4 lg:gap-5 content-start">
-                    <div className="sm:col-span-2 rounded-2xl bg-night p-7 lg:p-10">
-                        <p className="text-[#FB7185] text-sm font-bold">{vision.tag}</p>
-                        <h3 className="mt-3 text-white text-2xl lg:text-3xl font-bold leading-snug">{vision.title}</h3>
-                        <p className="mt-4 text-[#C9CED6] leading-loose">{vision.desc1}</p>
-                        {vision.desc2 && <p className="mt-3 text-[#A3A9B3] text-sm leading-loose">{vision.desc2}</p>}
+                {/* Primary Corporate Statement — Executive Light Design */}
+                <div className="rounded-3xl bg-slate-50/80 border border-slate-200/90 p-8 sm:p-10 lg:p-14 relative overflow-hidden shadow-xs border-s-4 border-s-brand-red">
+                    <div className="max-w-4xl relative z-10">
+                        <div className="flex items-center gap-2 text-brand-red font-mono text-xs font-bold uppercase tracking-wider mb-4">
+                            <Sparkles className="w-4 h-4" />
+                            <span>Corporate Identity • AFRIKYIA</span>
+                        </div>
+
+                        <blockquote className="text-xl sm:text-2xl lg:text-3xl font-bold leading-relaxed sm:leading-relaxed text-slate-900">
+                            «{about.desc1}»
+                        </blockquote>
+
+                        {about.desc2 && (
+                            <p className="mt-6 text-slate-600 text-base sm:text-lg leading-relaxed max-w-3xl font-normal">
+                                {about.desc2}
+                            </p>
+                        )}
                     </div>
-                    {[
-                        { icon: Layers, title: vision.whatWeBuild, desc: vision.whatWeBuildDesc },
-                        { icon: Users, title: vision.forWhom, desc: vision.forWhomDesc },
-                    ].map(card => (
-                        <div key={card.title} className="rounded-2xl border border-line bg-ground p-6 lg:p-7">
-                            <div className="w-11 h-11 rounded-lg bg-red-tint text-brand-red flex items-center justify-center">
-                                <card.icon className="w-5 h-5" />
+                </div>
+
+                {/* Core Pillars: Simplicity, Efficiency, Scalability */}
+                <div className="mt-8 lg:mt-12 grid sm:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+                    {corePillars.map((p, idx) => (
+                        <div
+                            key={idx}
+                            className="rounded-2xl border border-slate-200/80 bg-white p-7 lg:p-8 hover:border-slate-300 hover:shadow-xl hover:shadow-slate-200/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                        >
+                            <div>
+                                <div className="w-12 h-12 rounded-xl bg-rose-50 text-brand-red border border-rose-100/70 flex items-center justify-center shadow-2xs mb-6">
+                                    <p.icon className="w-6 h-6 stroke-[1.8]" />
+                                </div>
+                                <h3 className="text-slate-900 text-xl font-bold tracking-tight">{p.title}</h3>
+                                <p className="mt-3 text-slate-600 text-sm sm:text-[15px] leading-relaxed font-normal">{p.desc}</p>
                             </div>
-                            <h4 className="mt-5 text-ink text-lg font-bold">{card.title}</h4>
-                            <p className="mt-2 text-muted text-[15px] leading-relaxed">{card.desc}</p>
                         </div>
                     ))}
                 </div>
+
+                {/* Official Legal & Institutional Registry Card */}
+                {legal && (
+                    <div className="mt-8 lg:mt-12 rounded-2xl border border-slate-200/80 bg-slate-50/70 p-6 sm:p-8">
+                        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                            <div>
+                                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                                    {isRTL ? 'البيانات الرسمية والقانونية' : 'Informations légales & institutionnelles'}
+                                </span>
+                                <h4 className="mt-1 text-slate-900 font-extrabold text-lg sm:text-xl">
+                                    AFRIKYIA Software & Digital Solutions
+                                </h4>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-xs font-medium text-slate-600">
+                                <div className="flex items-center gap-3 bg-white border border-slate-200/80 px-4 py-3 rounded-xl shadow-2xs">
+                                    <Building className="w-4 h-4 text-brand-red shrink-0" />
+                                    <div>
+                                        <span className="block text-[10px] text-slate-400 font-semibold uppercase">{legal.addressTitle}</span>
+                                        <span className="font-bold text-slate-800">{legal.address}</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 bg-white border border-slate-200/80 px-4 py-3 rounded-xl shadow-2xs">
+                                    <FileCheck2 className="w-4 h-4 text-brand-red shrink-0" />
+                                    <div>
+                                        <span className="block text-[10px] text-slate-400 font-semibold uppercase">{legal.rcTitle}</span>
+                                        <span className="font-mono font-bold text-slate-800" dir="ltr">{legal.rc}</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3 bg-white border border-slate-200/80 px-4 py-3 rounded-xl shadow-2xs">
+                                    <Hash className="w-4 h-4 text-brand-red shrink-0" />
+                                    <div>
+                                        <span className="block text-[10px] text-slate-400 font-semibold uppercase">{legal.nifTitle}</span>
+                                        <span className="font-mono font-bold text-slate-800" dir="ltr">{legal.nif}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );

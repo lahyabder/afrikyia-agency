@@ -1,69 +1,77 @@
 {
     "nav": {
-        "vision": "Vision",
-        "services": "Services",
-        "applications": "Nos applications",
+        "home": "Accueil",
+        "solutions": "Solutions",
+        "products": "Produits",
+        "works": "Réalisations",
+        "methodology": "Méthode",
+        "about": "À propos",
+        "contact": "Contact",
+        "services": "Solutions",
+        "applications": "Produits",
         "achievements": "Réalisations",
-        "casting": "Casting",
-        "impact": "Impact",
-        "discover": "Découvrir Notre Vision",
-        "about": "À propos"
+        "vision": "Vision",
+        "discover": "Explorer nos solutions"
     },
     "hero": {
-        "slogan": "Solutions Intelligentes",
-        "desc": "Une entreprise numérique qui fait converger connaissances et technologies d'avenir.",
-        "cta": "Découvrir Notre Vision",
+        "badge": "Développement logiciel & Solutions numériques",
+        "slogan": "Nous développons des solutions numériques qui font la différence.",
+        "desc": "Nous concevons et développons des applications, des plateformes et des systèmes numériques qui permettent aux entreprises, aux organisations et aux particuliers de simplifier leurs opérations et de concrétiser leurs projets.",
+        "exploreSolutions": "Explorer nos solutions",
+        "discussProject": "Discuter de votre projet",
+        "cta": "Explorer nos solutions",
         "scroll": "Défiler"
     },
     "vision": {
-        "tag": "Notre Philosophie",
-        "title": "Solutions Intelligentes : au-delà de l'Intelligence Artificielle.",
-        "desc1": "Chez Afrikyia, les « Solutions Intelligentes » ne sont pas un simple produit d'algorithmes : elles sont un acte délibéré de formulation cognitive, qui met la technologie au service de l'humain et des institutions.",
-        "desc2": "C'est l'utilisation intentionnelle des forces techniques et créatives pour remodeler notre réalité numérique à travers le prisme de l'identité, du patrimoine et de l'action humaine, pour transformer la technologie en un véhicule culturel.",
-        "whatWeBuild": "Ce Que Nous Construisons",
-        "whatWeBuildDesc": "Nous concevons des solutions numériques tangibles : plateformes web intégrées, portails numériques et applications SaaS complexes pour répondre aux besoins modernes de transformation numérique.",
+        "tag": "Vision Ingénierie",
+        "title": "Des solutions logicielles conçues pour la performance et l'évolutivité.",
+        "desc1": "Chez AFRIKYIA, nous développons des architectures logicielles combinant rigueur technique, clarté d'interface et robustesse d'infrastructure.",
+        "desc2": "Nous transformons les défis opérationnels en plateformes logicielles pérennes, scalables et créatrices de valeur mesurable.",
+        "whatWeBuild": "Ce Que Nous Développons",
+        "whatWeBuildDesc": "Applications web & mobiles, plateformes cloud interactives et systèmes de gestion d'entreprise performants.",
         "forWhom": "Pour Qui",
-        "forWhomDesc": "Nous servons les gouvernements, les institutions, les entreprises privées et les personnalités cherchant à consolider leur souveraineté numérique et à mettre en valeur leur identité à l'échelle locale et mondiale."
+        "forWhomDesc": "Entreprises, institutions, agents de paiement et porteurs de projets ambitieux exigeant fiabilité et sécurité."
     },
     "services": {
-        "tag": "Notre Expertise",
-        "title": "Solutions pour une Culture Numérique",
+        "tag": "Nos solutions",
+        "title": "Des solutions logicielles complètes et évolutives",
+        "desc": "Six pôles d'ingénierie couvrant l'ensemble du cycle de vie logiciel, de la conception initiale à la mise en production et au suivi évolutif.",
         "list": [
             {
-                "title": "Production et Développement de Contenu Culturel",
-                "desc": "Nous créons un contenu numérique engageant qui relie le patrimoine traditionnel aux publics modernes."
+                "num": "01",
+                "title": "Développement d'applications",
+                "subtitle": "Web & Mobile",
+                "desc": "Conception et développement d'applications web et mobiles, avec une attention rigoureuse portée à la performance et à la simplicité d'utilisation."
             },
             {
-                "title": "Documentation de la Mémoire et de l'Identité",
-                "desc": "Préservation des récits culturels et des données historiques grâce à des techniques d'archivage avancées."
+                "num": "02",
+                "title": "Plateformes numériques",
+                "subtitle": "Portails & Écosystèmes",
+                "desc": "Bâtir des plateformes en ligne sur mesure pour les services, le commerce et les transactions entre utilisateurs."
             },
             {
-                "title": "Solutions IA & Plateformes",
-                "desc": "Exploitation de l'intelligence artificielle pour créer des plateformes intelligentes adaptées aux clients."
+                "num": "03",
+                "title": "Systèmes de gestion",
+                "subtitle": "ERP, Processus & Tableaux de bord",
+                "desc": "Développement de systèmes de gestion d'entreprise, ressources, processus, rapports et tableaux de bord de pilotage."
             },
             {
-                "title": "Bibliothèques Audiovisuelles",
-                "desc": "Numérisation et organisation de riches archives multimédias pour un accès public et académique fluide."
+                "num": "04",
+                "title": "Automatisation et intégration",
+                "subtitle": "APIs & Flux de travail",
+                "desc": "Interconnexion de services, intégration d'APIs et automatisation intelligente des flux de travail récurrents."
             },
             {
-                "title": "Conseil Stratégique",
-                "desc": "Un accompagnement d'experts pour transformer votre vision en une réalité numérique durable."
+                "num": "05",
+                "title": "Solutions d'intelligence artificielle",
+                "subtitle": "IA appliquée & Données",
+                "desc": "Intégration de briques d'intelligence artificielle dans les applications, traitement automatisé de données et optimisation opérationnelle."
             },
             {
-                "title": "Expositions & Événements",
-                "desc": "Conception d'expériences physiques et numériques immersives pour des expositions, des forums, des festivals et des rencontres."
-            },
-            {
-                "title": "Édition Numérique & Papier",
-                "desc": "Réduire l'écart entre les supports imprimés traditionnels et les publications numériques interactives."
-            },
-            {
-                "title": "Formation et Éducation Créative",
-                "desc": "Doter les équipes des compétences numériques nécessaires pour exceller dans l'économie du savoir moderne."
-            },
-            {
-                "title": "Gestion de Projet",
-                "desc": "Assurer l'exécution sans faille de projets de transformation culturelle et numérique, du concept à l'achèvement."
+                "num": "06",
+                "title": "Maintenance et évolution",
+                "subtitle": "Support continu & Optimisation",
+                "desc": "Maintenance continue des applications, optimisation de leurs performances et ajout régulier de fonctionnalités post-lancement."
             }
         ]
     },
@@ -145,8 +153,8 @@
         ]
     },
     "footer": {
-        "motto": "Solutions Intelligentes",
-        "rights": "© 2026 AFRIKYia – TOUS DROITS RÉSERVÉS",
+        "motto": "Développement logiciel & Solutions numériques",
+        "rights": "© 2026 AFRIKYIA – Tous droits réservés",
         "privacy": "Politique de Confidentialité",
         "terms": "Mentions Légales",
         "phone": "0022230609040",
@@ -965,34 +973,97 @@
         }
     },
     "metadata": {
-        "title": "AFRIKYia | Solutions Intelligentes - Plateforme Culturelle Numérique",
-        "description": "Afrikyia est une plateforme culturelle numérique mondiale qui redéfinit l'intelligence à travers la fusion de la culture, de la créativité et de la technologie."
+        "title": "AFRIKYIA — Développement logiciel & Solutions numériques",
+        "description": "Nous concevons et développons des applications, des plateformes et des systèmes numériques qui permettent aux entreprises, aux organisations et aux particuliers de simplifier leurs opérations et de concrétiser leurs projets."
     },
     "about": {
-        "tag": "À Propos de Nous",
-        "title": "Qui Sommes-Nous",
-        "desc1": "Fondée en 2025, Afrikyia est animée par une équipe passionnée de consultants stratégiques, de technologues et de conservateurs culturels. Notre mission est de combler le fossé entre l'innovation numérique et le patrimoine culturel.",
-        "desc2": "Nous fournissons des conseils stratégiques de haut niveau pour aider les organisations à naviguer dans le paysage numérique. En combinant des connaissances culturelles approfondies avec une expertise technologique avancée, nous donnons aux créateurs et aux institutions les moyens de façonner le récit mondial et d'établir une véritable souveraineté numérique."
+        "tag": "À propos d'AFRIKYIA",
+        "title": "Développement logiciel & Solutions numériques",
+        "desc1": "AFRIKYIA est une entreprise spécialisée dans le développement logiciel et les solutions numériques. Elle conçoit et réalise des applications, des plateformes et des systèmes adaptés aux besoins des utilisateurs et des organisations, en privilégiant la simplicité, l'efficacité et l'évolutivité.",
+        "desc2": "Nous aidons les organisations et entreprises à simplifier leurs opérations complexes grâce à des solutions techniques sur mesure, conçues selon des critères stricts de robustesse, d'évolutivité et de sécurité.",
+        "legal": {
+            "addressTitle": "Siège social",
+            "address": "Tevragh-Zeina – Lot Z, 0003P – Nouakchott, Mauritanie",
+            "rcTitle": "Registre du Commerce",
+            "rc": "136293/1270",
+            "nifTitle": "Identifiant Fiscal (NIF)",
+            "nif": "01697101"
+        }
     },
     "trusted": {
-        "tag": "Ils Nous Font Confiance",
-        "title": "Nos Partenaires & Clients"
+        "tag": "Partenaires de confiance",
+        "title": "Nos partenaires & références"
     },
     "contact": {
-        "tag": "Contactez-nous",
-        "title": "Démarrons Votre Prochain Projet",
-        "desc": "Vous avez une idée ou un défi numérique ? Notre équipe est prête à transformer votre vision en réalité. Contactez-nous pour une consultation gratuite.",
-        "name": "Nom Complet",
-        "email": "Adresse Email",
-        "message": "Comment pouvons-nous vous aider ?",
-        "submit": "Envoyer le Message",
-        "sticky": "Réserver une Consultation",
-        "success": "Votre message a bien été envoyé. Nous vous répondrons très bientôt.",
-        "error": "Une erreur s'est produite lors de l'envoi. Veuillez réessayer plus tard."
+        "tag": "Contact",
+        "title": "Vous avez un projet numérique ? Parlons-en.",
+        "desc": "Partagez avec nous les grandes lignes de votre projet. Notre équipe d'ingénieurs étudiera votre besoin et reviendra vers vous avec des solutions adaptées et une estimation claire.",
+        "name": "Nom complet",
+        "email": "Adresse e-mail",
+        "projectType": "Type de projet",
+        "projectTypes": {
+            "app": "Développement d'application web ou mobile",
+            "platform": "Plateforme numérique sur mesure",
+            "system": "Système de gestion d'entreprise (ERP / Tableaux de bord)",
+            "automation": "Automatisation & intégration d'APIs",
+            "ai": "Solution d'intelligence artificielle & traitement de données",
+            "maintenance": "Maintenance & évolution d'un système existant",
+            "other": "Conseil en ingénierie logicielle / Autre"
+        },
+        "message": "Description concise de votre besoin ou projet",
+        "submit": "Envoyer la demande",
+        "sticky": "Discuter de votre projet",
+        "success": "Votre message a été transmis avec succès. Notre équipe vous répondra dans les plus brefs délais.",
+        "error": "Une erreur s'est produite lors de l'envoi. Veuillez réessayer ou utiliser nos canaux directs.",
+        "whatsappChannel": "Chaîne WhatsApp officielle AFRIKYIA",
+        "whatsappChannelDesc": "Suivez les actualités de nos solutions et mises à jour de nos produits logiciels"
+    },
+    "methodology": {
+        "tag": "Notre méthode",
+        "title": "Le cycle de développement : de l'idée au déploiement",
+        "desc": "Une démarche d'ingénierie rigoureuse en six étapes pour concevoir des produits logiciels fiables, performants et pérennes.",
+        "steps": [
+            {
+                "num": "01",
+                "title": "Analyse des besoins",
+                "subtitle": "Cadrage & Spécifications",
+                "desc": "Étude approfondie du cahier des charges, cadrage des objectifs métiers et définition de l'architecture technique."
+            },
+            {
+                "num": "02",
+                "title": "Conception UX/UI",
+                "subtitle": "Ergonomie & Design",
+                "desc": "Création d'une expérience utilisateur fluide, structuration des parcours et design d'interfaces modernes et claires."
+            },
+            {
+                "num": "03",
+                "title": "Développement",
+                "subtitle": "Frontend, Backend & APIs",
+                "desc": "Implémentation technique selon les standards de code propre, développement d'APIs robustes et de bases de données sécurisées."
+            },
+            {
+                "num": "04",
+                "title": "Tests et assurance qualité",
+                "subtitle": "Fiabilité & Sécurité",
+                "desc": "Validation rigoureuse des fonctionnalités, tests de performance, de charge, de sécurité et compatibilité multi-écrans."
+            },
+            {
+                "num": "05",
+                "title": "Déploiement",
+                "subtitle": "Mise en production Cloud",
+                "desc": "Configuration des environnements de production sécurisés, orchestration cloud et mise en ligne avec haute disponibilité."
+            },
+            {
+                "num": "06",
+                "title": "Maintenance et évolution",
+                "subtitle": "Suivi & Mises à niveau",
+                "desc": "Supervision proactive des performances, correctifs de sécurité et enrichissement continu des fonctionnalités."
+            }
+        ]
     },
     "applications": {
-        "tag": "Nos solutions numériques",
-        "title": "Nos applications",
+        "tag": "Nos produits",
+        "title": "Nos produits numériques",
         "intro": "Chez AFRIKYIA, nous développons des solutions numériques pratiques adaptées aux besoins des particuliers, des professionnels et des organisations, alliant simplicité d'utilisation et innovation.",
         "openApp": "Accéder à l'application",
         "pwa": "Application Web Progressive (PWA)",
@@ -1007,7 +1078,7 @@
                 "name": "سند",
                 "latinName": "SANAD",
                 "badge": "Reçus & relevés bancaires",
-                "desc": "Une application permettant d'organiser les reçus de virements bancaires, d'extraire automatiquement les données à partir des images, de classer les opérations financières et de produire des relevés structurés, consultables et exportables."
+                "desc": "Une application permettant d'organiser les reçus de virements bancaires, d'en extraire les données à partir des images, de classer les opérations financières et de produire des relevés structurés, consultables et exportables."
             },
             "elbet": {
                 "name": "البت",
@@ -1025,40 +1096,45 @@
     },
     "home": {
         "nav": {
-            "about": "À propos",
-            "services": "Services",
-            "applications": "Nos applications",
+            "home": "Accueil",
+            "solutions": "Solutions",
+            "products": "Produits",
             "works": "Réalisations",
-            "partners": "Partenaires",
+            "methodology": "Méthode",
+            "about": "À propos",
             "contact": "Contact",
-            "cta": "Démarrer un projet",
+            "services": "Solutions",
+            "applications": "Produits",
+            "achievements": "Réalisations",
+            "partners": "Partenaires",
+            "cta": "Discuter de votre projet",
             "menu": "Menu"
         },
         "hero": {
-            "tag": "Entreprise numérique · Nouakchott, Mauritanie",
-            "primary": "Démarrer un projet",
-            "secondary": "Voir nos réalisations"
+            "tag": "Développement logiciel & Solutions numériques",
+            "primary": "Explorer nos solutions",
+            "secondary": "Discuter de votre projet"
         },
         "stats": {
-            "works": "réalisations publiées",
-            "services": "domaines d’expertise",
-            "languages": "langues",
-            "founded": "année de création"
+            "solutions": "pôles d'ingénierie",
+            "products": "produits numériques actifs",
+            "stages": "étapes méthodologiques",
+            "languages": "langues prises en charge"
         },
         "about": {
-            "philosophy": "Notre philosophie"
+            "philosophy": "Notre vision"
         },
         "works": {
             "tag": "Réalisations",
-            "title": "Des projets menés avec soin",
-            "desc": "Plateformes, sites et applications numériques conçus et développés pour des institutions et partenaires en Mauritanie et au-delà.",
+            "title": "Projets et systèmes numériques déployés",
+            "desc": "Une sélection de plateformes logicielles, de systèmes de gestion et de portails institutionnels conçus et déployés par nos équipes.",
             "all": "Tout",
-            "websites": "Sites & plateformes",
-            "works": "Applications",
-            "activities": "Activités",
-            "projects": "Projets",
-            "visit": "Visiter le site",
-            "watch": "Voir la vidéo",
+            "websites": "Portails & Plateformes",
+            "works": "Systèmes & Applications",
+            "activities": "Initiatives numériques",
+            "projects": "Projets institutionnels",
+            "visit": "Voir le projet",
+            "watch": "Voir la présentation",
             "showAll": "Voir toutes les réalisations",
             "showLess": "Voir moins",
             "close": "Fermer"
@@ -1067,8 +1143,9 @@
             "tag": "Ils nous font confiance"
         },
         "contact": {
-            "emailLabel": "E-mail",
-            "phoneLabel": "Téléphone",
+            "emailLabel": "E-mail direct",
+            "phoneLabel": "Ligne téléphonique",
+            "whatsappLabel": "Chaîne WhatsApp officielle",
             "follow": "Suivez-nous"
         }
     }

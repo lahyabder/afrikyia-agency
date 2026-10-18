@@ -21,20 +21,20 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { href: '/#about', label: h.about },
-    { href: '/#services', label: h.services },
-    { href: '/#applications', label: h.applications || 'تطبيقاتنا' },
-    { href: '/#works', label: h.works },
-    { href: '/#partners', label: h.partners },
-    { href: '/#contact', label: h.contact },
+    { href: '/', label: h.home || 'الرئيسية' },
+    { href: '/#solutions', label: h.solutions || 'حلولنا' },
+    { href: '/#products', label: h.products || 'منتجاتنا' },
+    { href: '/#works', label: h.works || 'مشاريعنا' },
+    { href: '/#about', label: h.about || 'عن الشركة' },
+    { href: '/#contact', label: h.contact || 'تواصل معنا' },
   ];
 
   const close = () => setIsMenuOpen(false);
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur border-b transition-shadow ${
-        scrolled ? 'border-line shadow-[0_1px_12px_rgba(20,22,26,0.06)]' : 'border-transparent'
+      className={`fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-b transition-all ${
+        scrolled ? 'border-slate-200/80 shadow-xs' : 'border-transparent'
       }`}
     >
       <div className="site-container h-16 lg:h-[88px] flex items-center justify-between gap-6">
@@ -42,7 +42,7 @@ const Header = () => {
           <Image src="/logo.png" alt="Afrikyia" width={180} height={50} priority className="h-8 lg:h-10 w-auto" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-9 text-[15px] font-bold text-ink">
+        <nav className="hidden lg:flex items-center gap-9 text-[15px] font-bold text-slate-800">
           {navLinks.map(link => (
             <Link key={link.href} href={link.href} className="hover:text-brand-red transition-colors">
               {link.label}
@@ -54,7 +54,7 @@ const Header = () => {
           <LanguageSwitcher />
           <Link
             href="/#contact"
-            className="hidden lg:inline-flex items-center h-11 px-6 rounded-lg bg-brand-red hover:bg-red-dark text-white text-sm font-bold transition-colors"
+            className="hidden lg:inline-flex items-center h-11 px-6 rounded-xl bg-brand-red hover:bg-red-dark text-white text-sm font-bold shadow-2xs hover:shadow-sm transition-all"
           >
             {h.cta}
           </Link>
@@ -85,7 +85,7 @@ const Header = () => {
             <Link
               href="/#contact"
               onClick={close}
-              className="mt-4 h-12 rounded-lg bg-brand-red text-white font-bold flex items-center justify-center"
+              className="mt-4 h-12 rounded-xl bg-brand-red text-white font-bold flex items-center justify-center shadow-sm"
             >
               {h.cta}
             </Link>

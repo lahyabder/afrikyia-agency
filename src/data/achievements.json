@@ -1,327 +1,200 @@
 [
     {
-        "id": "nagha-festival",
-        "category": "websites",
-        "link": "https://nagha.art/ar",
-        "image": "https://images.unsplash.com/photo-1542317148-8b4bdccb33ea?q=80&w=2000&auto=format&fit=crop",
-        "gallery": [
-            "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2000&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2000&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1504198458649-3128b932f49e?q=80&w=2000&auto=format&fit=crop"
-        ],
+        "id": "accespan",
+        "category": "works",
+        "link": "https://www.accespan.com/",
+        "image": "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2000&auto=format&fit=crop",
         "en": {
-            "title": "Festival NAGHA",
-            "categoryLabel": "Website",
-            "desc": "The Camel Festival of Desert Culture — a vibrant celebration of Saharan heritage, traditional arts, and the cultural identity of the desert world.",
-            "challenge": "The rich cultural heritage of the Saharan desert was facing a decline in youth engagement and lacked a centralized digital presence to attract global tourism.",
-            "solution": "We designed a comprehensive digital platform and branding strategy for the Nagha Festival, integrating interactive schedules, virtual tours, and a multimedia archive of desert traditions.",
-            "result": "The festival saw a 150% increase in international attendees and the digital platform reached over 50,000 unique visitors in its first month, successfully reviving interest in Saharan culture."
+            "title": "AcceSpan — Smart Access & Badge System",
+            "categoryLabel": "Enterprise System",
+            "desc": "An enterprise smart badge and access management system for the Autonomous Port of Nouadhibou, streamlining biometric identity verification and secure entry logging.",
+            "challenge": "The port required a modernized, tamper-proof administrative system to manage access permits and security badging across sensitive industrial and maritime zones.",
+            "solution": "Developed a dedicated management system for smart badge generation, user credentialing, role-based access control, and audited entry logging.",
+            "result": "Streamlined access workflows, reduced processing delays by 70%, and established automated real-time verification records."
         },
         "fr": {
-            "title": "Festival NAGHA",
-            "categoryLabel": "Site Web",
-            "desc": "Le Festival du Chameau pour la Culture du Désert — une célébration vivante du patrimoine saharien, des arts traditionnels et de l'identité culturelle du monde désertique.",
-            "challenge": "Le riche patrimoine culturel du désert du Sahara faisait face à un déclin de l'engagement des jeunes et manquait d'une présence numérique centralisée pour attirer le tourisme mondial.",
-            "solution": "Nous avons conçu une plateforme numérique complète et une stratégie de marque pour le Festival Nagha, intégrant des programmes interactifs, des visites virtuelles et des archives multimédias des traditions du désert.",
-            "result": "Le festival a connu une augmentation de 150 % du nombre de participants internationaux et la plateforme numérique a atteint plus de 50 000 visiteurs uniques dès son premier mois, ravivant ainsi l'intérêt pour la culture saharienne."
+            "title": "AcceSpan — Système de Badges & Contrôle d'Accès",
+            "categoryLabel": "Système de Gestion",
+            "desc": "Un système intelligent de gestion des badges et cartes d'accès pour le Port Autonome de Nouadhibou, facilitant le contrôle sécurisé des entrées et la vérification des identités.",
+            "challenge": "Le port avait besoin d'un système administratif moderne pour encadrer l'accès aux zones logistiques sensibles et automatiser l'octroi des titres d'accès.",
+            "solution": "Développement d'un système complet de gestion des badges intelligents, vérification d'identité et traçabilité sécurisée des entrées.",
+            "result": "Fluidification des contrôles aux accès portuaires, réduction de 70% des délais d'émission et traçabilité administrative totale."
         },
         "ar": {
-            "title": "مهرجان الناقة",
-            "categoryLabel": "موقع ويب",
-            "desc": "مهرجان الناقة لثقافة الصحراء — احتفاء بالموروث الصحراوي والفنون التقليدية والهوية الثقافية لعالم الصحراء الكبرى.",
-            "challenge": "كان التراث الثقافي الغني للصحراء الكبرى يواجه تراجعاً في اهتمام الشباب، وافتقر إلى حضور رقمي مركزي لجذب السياحة العالمية وتسليط الضوء على هويته الأصيلة.",
-            "solution": "قمنا بتصميم منصة رقمية شاملة واستراتيجية هوية بصرية لمهرجان الناقة، تتضمن جداول تفاعلية، جولات افتراضية، وأرشيفاً متعدد الوسائط للتقاليد الصحراوية.",
-            "result": "شهد المهرجان زيادة بنسبة 150% في الحضور الدولي، ووصلت المنصة الرقمية إلى أكثر من 50,000 زائر فريد في شهرها الأول، مما أدى بنجاح إلى إحياء الاهتمام بالثقافة الصحراوية."
+            "title": "AcceSpan — نظام بطاقات وتصاريح الوصول الذكية",
+            "categoryLabel": "الأنظمة المؤسسية",
+            "desc": "نظام ذكي لإدارة بطاقات الوصول والشارات الأمنية للميناء المستقل لنواذيبو، يضمن التحكم الآمن في الدخول والتحقق الرقمي من هويات الموظفين والمتعاملين.",
+            "challenge": "حاجة الميناء لمنظومة إدارية مركزية ومحكمة لإصدار ومراقبة تصاريح الدخول إلى المناطق اللوجستية والمينائية الحساسة.",
+            "solution": "تطوير نظام إداري متكامل لإدارة الشارات الذكية، والتحقق الفوري من الصلاحيات، وحفظ سجلات تدفق الأشخاص والمركبات بأعلى معايير الأمان.",
+            "result": "تسريع إجراءات إصدار التصاريح بنسبة 70%، وتعزيز الانضباط الأمني وتوفير تقارير تدقيق رقمية فورية لإدارة الميناء."
         },
         "year": "2023",
-        "client": "NAGHA Organizers",
-        "projectType": "Website"
-    },
-    {
-        "id": "maatamoulana",
-        "category": "websites",
-        "link": "https://maatamoulana.net/",
-        "en": {
-            "title": "Maatamoulana",
-            "categoryLabel": "Website",
-            "desc": "An integrated educational city in Mauritania combining Quranic education, academic learning, and professional development under one vision."
-        },
-        "fr": {
-            "title": "Maatamoulana",
-            "categoryLabel": "Site Web",
-            "desc": "Une cité éducative intégrée en Mauritanie alliant éducation coranique, enseignement académique et formation professionnelle sous une vision commune."
-        },
-        "ar": {
-            "title": "معطى مولانا",
-            "categoryLabel": "موقع ويب",
-            "desc": "مدينة تربوية متكاملة في موريتانيا تجمع بين التربية القرآنية والتعليم والعمل في منظومة واحدة متكاملة."
-        },
-        "year": "2024",
-        "client": "Maatamoulana Org",
-        "projectType": "Website"
-    },
-    {
-        "id": "dar-mauritanie",
-        "category": "websites",
-        "link": "https://www.darmauritanie.art/",
-        "en": {
-            "title": "Dar Mauritanie",
-            "categoryLabel": "Platform",
-            "desc": "A specialized institution dedicated to the arts and cultural economy, promoting Mauritanian artistic heritage and supporting local creative industries."
-        },
-        "fr": {
-            "title": "Dar Mauritanie",
-            "categoryLabel": "Plateforme",
-            "desc": "Une institution spécialisée dans l'économie des arts et de la culture, valorisant le patrimoine artistique mauritanien et soutenant les industries créatives locales."
-        },
-        "ar": {
-            "title": "دار موريتانيا",
-            "categoryLabel": "منصة رقمية",
-            "desc": "مؤسسة متخصصة باقتصاد الفنون والثقافة، تُعنى بتعزيز الموروث الفني الموريتاني ودعم الصناعات الإبداعية المحلية."
-        },
-        "year": "2024",
-        "client": "Dar Mauritanie",
-        "projectType": "Platform"
-    },
-    {
-        "id": "cinemasa",
-        "category": "websites",
-        "link": "https://cinemasa.darmauritanie.art/",
-        "en": {
-            "title": "Saudi Cinema Gateway",
-            "categoryLabel": "Digital Portal",
-            "desc": "The first dedicated platform for documenting Saudi cinema: films, filmmakers, production companies, theaters, and market statistics.",
-            "challenge": "The Saudi cultural scene lacked a centralized, reliable platform to document and archive the rapidly growing cinema industry.",
-            "solution": "Developed an integrated digital portal with advanced cataloging features, enabling researchers to explore the cinematic archive and visually track statistics with high performance.",
-            "result": "The portal became the primary reference for Saudi cinema, with a massive increase in user engagement and ease of access to cultural data.",
-            "stats": [
-                {
-                    "value": "+1000",
-                    "label": "Documented Films"
-                },
-                {
-                    "value": "+50",
-                    "label": "Production Companies"
-                },
-                {
-                    "value": "3 Months",
-                    "label": "Execution Time"
-                }
-            ],
-            "quote": {
-                "text": "The Saudi Cinema Gateway is a historic step to preserve our cultural memory and present it to the world in a modern, professional manner.",
-                "author": "Project Management"
-            }
-        },
-        "fr": {
-            "title": "Portail du Cinéma Saoudien",
-            "categoryLabel": "Portail Numérique",
-            "desc": "La première plateforme dédiée à la documentation du cinéma saoudien : films, cinéastes, sociétés de production, salles de cinéma et statistiques du marché.",
-            "challenge": "La scène culturelle saoudienne manquait d'une plateforme centralisée pour documenter et archiver l'industrie cinématographique en pleine croissance.",
-            "solution": "Développement d'un portail numérique intégré avec des fonctionnalités de catalogage avancées, permettant aux chercheurs d'explorer l'archive et de suivre visuellement les statistiques.",
-            "result": "Le portail est devenu la référence première pour le cinéma saoudien, avec une augmentation massive de l'engagement des utilisateurs.",
-            "stats": [
-                {
-                    "value": "+1000",
-                    "label": "Films Documentés"
-                },
-                {
-                    "value": "+50",
-                    "label": "Sociétés de Production"
-                },
-                {
-                    "value": "3 Mois",
-                    "label": "Délai d'exécution"
-                }
-            ],
-            "quote": {
-                "text": "Le Portail du Cinéma Saoudien est une étape historique pour préserver notre mémoire culturelle et la présenter au monde de manière moderne.",
-                "author": "Direction du Projet"
-            }
-        },
-        "ar": {
-            "title": "بوابة السينما السعودية",
-            "categoryLabel": "بوابة رقمية",
-            "desc": "المنصة الأولى لتوثيق السينما السعودية: أفلام، صناع أفلام، شركات إنتاج، دور عرض، وإحصائيات السوق.",
-            "challenge": "افتقار الساحة الثقافية السعودية لمنصة مركزية موثوقة لتوثيق وأرشفة صناعة السينما المتنامية بسرعة، مما يصعب وصول الباحثين للمعلومات.",
-            "solution": "تطوير بوابة رقمية متكاملة بخصائص الفهرسة المتقدمة، تتيح استكشاف الأرشيف السينمائي وتتبع الإحصائيات بصرياً بأداء فائق.",
-            "result": "أصبحت البوابة المرجع الأول للسينما السعودية مع زيادة هائلة في التفاعل وسهولة الوصول للبيانات الثقافية.",
-            "stats": [
-                {
-                    "value": "+1000",
-                    "label": "فيلم موثق"
-                },
-                {
-                    "value": "+50",
-                    "label": "شركة إنتاج"
-                },
-                {
-                    "value": "3 أشهر",
-                    "label": "مدة التنفيذ"
-                }
-            ],
-            "quote": {
-                "text": "بوابة السينما السعودية خطوة تاريخية لحفظ ذاكرتنا الثقافية وعرضها للعالم بأسلوب عصري واحترافي.",
-                "author": "إدارة المشروع"
-            }
-        },
-        "year": "2024",
-        "client": "Saudi Ministry of Culture",
-        "projectType": "Platform"
+        "client": "Port de Nouadhibou",
+        "projectType": "Enterprise System"
     },
     {
         "id": "pan-mauritania",
         "category": "websites",
         "link": "https://www.pan.mr/fr",
+        "image": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=2000&auto=format&fit=crop",
         "en": {
-            "title": "Port of Nouadhibou — PAN",
-            "categoryLabel": "Website",
-            "desc": "The official digital platform of the Autonomous Port of Nouadhibou, offering port services, infrastructure information, and institutional communication.",
-            "challenge": "The port's old website lacked interactive digital services, suffered from slow loading times, and poorly organized information flow for investors.",
-            "solution": "Completely rebuilt the platform using modern web technologies (Next.js) to deliver a fast, interactive, and multi-lingual interface supporting the port's strategic needs.",
-            "result": "A 300% improvement in load speed and easier access to logistics information, significantly boosting the confidence of international investors and partners.",
-            "stats": [
-                {
-                    "value": "300%",
-                    "label": "Performance Boost"
-                },
-                {
-                    "value": "+20K",
-                    "label": "Monthly Visitors"
-                },
-                {
-                    "value": "2 Months",
-                    "label": "Execution Time"
-                }
-            ],
-            "quote": {
-                "text": "The new platform perfectly reflects the modern vision of the Port of Nouadhibou as a global logistics hub.",
-                "author": "Port Authority"
-            }
+            "title": "Autonomous Port of Nouadhibou — PAN Portal",
+            "categoryLabel": "Institutional Platform",
+            "desc": "The official multi-lingual digital platform of the Port of Nouadhibou, integrating infrastructure intelligence, maritime logistics services, and partner communications.",
+            "challenge": "The port's legacy site lacked interactive operational information, had high latency, and lacked clear navigation for international logistics operators and investors.",
+            "solution": "Engineered a high-performance, modern web platform using Next.js, featuring optimized content delivery, interactive service directories, and responsive multi-language support.",
+            "result": "300% improvement in load speed, enhanced international visibility, and seamless access to critical port infrastructure data."
         },
         "fr": {
-            "title": "Port de Nouadhibou — PAN",
-            "categoryLabel": "Site Web",
-            "desc": "La plateforme numérique officielle du Port Autonome de Nouadhibou, offrant les services portuaires, les informations sur les infrastructures et la communication institutionnelle.",
-            "challenge": "L'ancien site du port manquait de services numériques interactifs, souffrait de lenteurs et d'une mauvaise organisation de l'information pour les investisseurs.",
-            "solution": "Reconstruction complète de la plateforme avec des technologies modernes (Next.js) pour offrir une interface rapide, interactive et multilingue.",
-            "result": "Une amélioration de 300 % de la vitesse de chargement et un accès facilité aux informations logistiques, renforçant la confiance des investisseurs internationaux.",
-            "stats": [
-                {
-                    "value": "300%",
-                    "label": "Gain de Performance"
-                },
-                {
-                    "value": "+20K",
-                    "label": "Visiteurs Mensuels"
-                },
-                {
-                    "value": "2 Mois",
-                    "label": "Délai d'exécution"
-                }
-            ],
-            "quote": {
-                "text": "La nouvelle plateforme reflète parfaitement la vision moderne du Port de Nouadhibou en tant que hub logistique mondial.",
-                "author": "Autorité Portuaire"
-            }
+            "title": "Port Autonome de Nouadhibou — Portail Officiel PAN",
+            "categoryLabel": "Plateforme Institutionnelle",
+            "desc": "La plateforme numérique officielle du Port Autonome de Nouadhibou, offrant services maritimes, données sur les infrastructures et communication institutionnelle.",
+            "challenge": "L'ancien portail souffrait de lenteurs, d'une structure d'information confuse et d'un manque d'interactivité pour les investisseurs et partenaires logistiques.",
+            "solution": "Reconstruction architecturale complète sous Next.js : chargement instantané, structure d'information optimisée et support multilingue intégral.",
+            "result": "Gain de performance de 300 %, navigation fluide et accessibilité immédiate aux données logistiques pour les opérateurs internationaux."
         },
         "ar": {
-            "title": "ميناء نواذيبو المستقل — PAN",
-            "categoryLabel": "موقع ويب",
-            "desc": "المنصة الرقمية الرسمية للميناء المستقل لنواذيبو، تتضمن الخدمات الميناوية، معلومات البنية التحتية، والتواصل المؤسسي.",
-            "challenge": "كان الموقع القديم للميناء يفتقر للخدمات الرقمية التفاعلية ويعاني من بطء التحميل وضعف في تنظيم تدفق المعلومات للمستثمرين.",
-            "solution": "إعادة بناء المنصة بالكامل باستخدام تقنيات الويب الحديثة (Next.js) لتقديم واجهة سريعة، تفاعلية، ومتعددة اللغات تدعم احتياجات الميناء الاستراتيجية.",
-            "result": "تحسن ملحوظ بنسبة 300% في سرعة التحميل، وتسهيل الوصول للمعلومات اللوجستية، مما زاد من ثقة المستثمرين والشركاء الدوليين.",
-            "stats": [
-                {
-                    "value": "300%",
-                    "label": "تحسن الأداء"
-                },
-                {
-                    "value": "+20K",
-                    "label": "زائر شهرياً"
-                },
-                {
-                    "value": "شهران",
-                    "label": "مدة التنفيذ"
-                }
-            ],
-            "quote": {
-                "text": "المنصة الجديدة تعكس الرؤية العصرية لميناء نواذيبو كمحور لوجستي عالمي.",
-                "author": "سلطة الميناء"
-            }
+            "title": "ميناء نواذيبو المستقل — البوابة الرقمية الرسمية PAN",
+            "categoryLabel": "مشاريع المواقع المؤسسية",
+            "desc": "المنصة الرقمية المؤسسية الرسمية للميناء المستقل لنواذيبو، تقدم دليلاً للخدمات المينائية، وبيانات البنية التحتية، والتواصل المؤسسي للشركاء الدوليين.",
+            "challenge": "بطء المنصة السابقة وصعوبة وصول المستثمرين وشركات الملاحة الدولية للمعلومات اللوجستية وخدمات الميناء بكفاءة.",
+            "solution": "إعادة هندسة وبناء المنصة بالكامل باستخدام تقنيات Next.js الحديثة لتوفير سرعة تحميل فائقة، وتجربة تصفح تفاعلية متعددة اللغات.",
+            "result": "تحسن سرعة التصفح بنسبة 300%، وتسهيل تتبع مؤشرات البنية التحتية، وتعزيز موثوقية التواصل المؤسسي مع الفاعلين الاقتصاديين."
         },
         "year": "2023",
         "client": "Port de Nouadhibou",
-        "projectType": "Website"
-    },
-    {
-        "id": "accespan",
-        "category": "websites",
-        "link": "https://www.accespan.com/",
-        "en": {
-            "title": "AcceSpan — Access Card System",
-            "categoryLabel": "System",
-            "desc": "A smart badge and access card management system for the Port of Nouadhibou, streamlining secure entry and identity verification for port personnel."
-        },
-        "fr": {
-            "title": "AcceSpan — Système de Badges",
-            "categoryLabel": "Système",
-            "desc": "Un système intelligent de gestion des badges et cartes d'accès pour le Port Autonome de Nouadhibou, facilitant le contrôle sécurisé des entrées et la vérification des identités."
-        },
-        "ar": {
-            "title": "AcceSpan — نظام بطاقات الوصول",
-            "categoryLabel": "نظام تشغيل",
-            "desc": "نظام ذكي لإدارة بطاقات الوصول والشارات الأمنية للميناء المستقل لنواذيبو، يضمن التحكم الآمن في الدخول والتحقق من هوية الموظفين."
-        },
-        "year": "2023",
-        "client": "Port de Nouadhibou",
-        "projectType": "System"
+        "projectType": "Institutional Platform"
     },
     {
         "id": "cultural-map",
         "category": "websites",
         "link": "https://culturalmap.org",
+        "image": "https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop",
         "en": {
-            "title": "Cultural Heritage Map",
-            "categoryLabel": "Platform",
-            "desc": "An interactive digital mapping platform documenting historical sites and cultural heritage using advanced GIS technologies."
+            "title": "GIS Interactive Land & Sites Platform",
+            "categoryLabel": "GIS Platform",
+            "desc": "An interactive digital mapping platform for geo-referenced data visualization, multi-layer spatial analysis, and site documentation utilizing modern GIS technologies.",
+            "challenge": "Scattered spatial datasets and the absence of a unified, high-speed interactive map engine for exploring coordinates and geographical assets.",
+            "solution": "Engineered a GIS-enabled mapping architecture with custom vector tiling, multi-layer attribute filtering, and spatial search capabilities.",
+            "result": "Centralized spatial repository allowing users to query, analyze, and inspect geo-located datasets with sub-second responsiveness."
         },
         "fr": {
-            "title": "Carte du Patrimoine Culturel",
-            "categoryLabel": "Plateforme",
-            "desc": "Une plateforme de cartographie numérique interactive documentant les sites historiques et le patrimoine culturel à l'aide de technologies SIG avancées."
+            "title": "Plateforme SIG de Gestion Cartographique & Spatiale",
+            "categoryLabel": "Plateforme SIG",
+            "desc": "Une plateforme de cartographie numérique interactive permettant la visualisation de données géoréférencées et l'analyse spatiale à l'aide de technologies SIG avancées.",
+            "challenge": "Dispersion des données spatiales et absence d'un outil cartographique interactif moderne permettant de visualiser et d'interroger les coordonnées géographiques.",
+            "solution": "Développement d'une plateforme SIG interactive avec tuilage vectoriel performant, filtres par couches thématiques et requêtes spatiales instantanées.",
+            "result": "Centralisation efficace des données géographiques avec une expérience utilisateur fluide et une grande précision cartographique."
         },
         "ar": {
-            "title": "خريطة التراث الثقافي",
-            "categoryLabel": "منصة رقمية",
-            "desc": "منصة خرائطية رقمية تفاعلية لتوثيق المواقع التاريخية والتراث الثقافي باستخدام تقنيات نظم المعلومات الجغرافية المتقدمة."
+            "title": "منصة SIG لإدارة الخرائط والمواقع الجغرافية",
+            "categoryLabel": "منصات SIG والبنية التحتية",
+            "desc": "منصة رقمية تفاعلية تعتمد نظم المعلومات الجغرافية المتقدمة (GIS) لتوثيق المواقع ورسم الخرائط الطبقية واستعراض البيانات المكانية بدقة عالية.",
+            "challenge": "تشتت البيانات المكانية وغياب منصة خرائط تفاعلية سريعة تتيح فرز وتتبع المواقع الجغرافية وإدارتها بصرياً.",
+            "solution": "تطوير محرك خرائط تفاعلي مدعوم بنظم GIS يتيح البحث المكاني، وتصفية الطبقات الجغرافية، والاطلاع على تفاصيل كل نقطة جغرافية بسلاسة.",
+            "result": "توحيد قواعد البيانات المكانية في واجهة واحدة موثوقة وسريعة الاستجابة على الحواسيب والأجهزة اللوحية."
         },
         "year": "2024",
-        "client": "Cultural Map Project",
-        "projectType": "Platform"
+        "client": "GIS Infrastructure Project",
+        "projectType": "GIS Platform"
+    },
+    {
+        "id": "cinemasa",
+        "category": "websites",
+        "link": "https://cinemasa.darmauritanie.art/",
+        "image": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2000&auto=format&fit=crop",
+        "en": {
+            "title": "Data & Media Archiving Portal",
+            "categoryLabel": "Digital Portal",
+            "desc": "A large-scale digital cataloging and archiving portal with advanced taxonomy, entity relationship models, search indexing, and real-time statistics.",
+            "challenge": "Lack of a centralized structured database to categorize thousands of multimedia records, industry entities, and statistical market metrics.",
+            "solution": "Designed and deployed a high-capacity indexing portal with faceted search, automated metadata extraction, and visual analytics dashboards.",
+            "result": "Cataloged over 1,000 entities and 50+ enterprise organizations, providing researchers and professionals with instant structured query access."
+        },
+        "fr": {
+            "title": "Portail d'Archivage & Base de Données Numérique",
+            "categoryLabel": "Portail Numérique",
+            "desc": "Un portail de référencement et d'archivage numérique à grande échelle avec indexation avancée, recherche à facettes et tableaux de bord statistiques.",
+            "challenge": "Absence d'une base de données centralisée et structurée pour classifier des milliers d'enregistrements, d'acteurs institutionnels et d'indicateurs de marché.",
+            "solution": "Conception d'une architecture d'indexation avec recherche multicritères, relations d'entités structurées et visualisation de données statistiques.",
+            "result": "Plus de 1 000 entrées indexées et plus de 50 structures répertoriées avec une vitesse d'interrogation optimale."
+        },
+        "ar": {
+            "title": "بوابة قواعد البيانات والفهرسة الرقمية",
+            "categoryLabel": "المنصات وقواعد البيانات",
+            "desc": "منصة رقمية متكاملة بخصائص الفهرسة المتقدمة، وتصنيف السجلات والكيانات، وتتبع الإحصائيات التفاعلية بأداء فائق وتجربة مستخدم عصرية.",
+            "challenge": "غياب نظام موحد لفهرسة وحفظ السجلات والبيانات الكبرى، وصعوبة الوصول للبيانات المنظمة والمؤشرات الإحصائية.",
+            "solution": "بناء بوابة بيانات متطورة تعتمد محرك بحث متعدد المعايير، ونظام إدارة محتوى مهيكل، ولوحات تفاعلية لعرض الرسوم البيانية والإحصائيات.",
+            "result": "فهرسة أكثر من 1000 عمل وكيان مع توفير وصول فوري للبيانات بأعلى درجات الموثوقية والسرعة."
+        },
+        "year": "2024",
+        "client": "Data Documentation Entity",
+        "projectType": "Digital Portal"
+    },
+    {
+        "id": "maatamoulana",
+        "category": "websites",
+        "link": "https://maatamoulana.net/",
+        "image": "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2000&auto=format&fit=crop",
+        "en": {
+            "title": "Integrated Institutional & Educational Platform",
+            "categoryLabel": "Institutional Platform",
+            "desc": "An institutional digital platform unifying educational curricula, administrative communications, and student progress tracking.",
+            "challenge": "Fragmented communication across multiple educational tracks and the need for a cohesive digital gateway.",
+            "solution": "Built a structured institutional platform that centralizes programs, admissions information, and institutional resources.",
+            "result": "Unified institutional presence with improved digital onboarding and communication for students and partners."
+        },
+        "fr": {
+            "title": "Plateforme Numérique Institutionnelle & Éducative",
+            "categoryLabel": "Plateforme Institutionnelle",
+            "desc": "Une plateforme institutionnelle unifiant les cursus éducatifs, la communication administrative et le suivi des filières de formation.",
+            "challenge": "Dispersion des canaux d'information et besoin d'une vitrine numérique structurée pour piloter la communication institutionnelle.",
+            "solution": "Développement d'une plateforme web organisée présentant les filières, les actualités et les ressources académiques en un point centralisé.",
+            "result": "Harmonisation complète de la présence numérique institutionnelle et accessibilité accrue pour les étudiants et partenaires."
+        },
+        "ar": {
+            "title": "المنصة المؤسسية الرقمية — معطى مولانا",
+            "categoryLabel": "مشاريع المنصات المؤسسية",
+            "desc": "منصة رقمية مؤسسية تجمع بين إدارة المحتوى التعليمي والبرامج التدريبية والتواصل المؤسسي المباشر مع المستفيدين والشركاء.",
+            "challenge": "تشتت قنوات التواصل والحاجة إلى منصة إلكترونية مركزية تقدم دليلاً للبرامج والأنشطة الأكاديمية والمؤسسية.",
+            "solution": "تصميم وتطوير بوابة رقمية متكاملة بهيكلية واضحة تدعم عرض البرامج ومتابعة الأخبار والتسجيل والتفاعل المؤسسي.",
+            "result": "ربط منظومة التواصل المؤسسي وإتاحة المحتوى والبيانات للمتابعين في موريتانيا وخارجها بسلاسة."
+        },
+        "year": "2024",
+        "client": "Maatamoulana Org",
+        "projectType": "Institutional Platform"
     },
     {
         "id": "bankily-ledger",
         "category": "works",
-        "link": "https://diftar.online/",
+        "link": "https://www.diftar.online/",
+        "image": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2000&auto=format&fit=crop",
         "en": {
-            "title": "Diftar",
-            "categoryLabel": "Web App",
-            "desc": "An all-in-one platform to log transactions, auto-calculate commissions, and track profits in real time. Say goodbye to paper ledgers and calculation errors."
+            "title": "DIFTAR — Offline-First Payment Ledger Engine",
+            "categoryLabel": "Web Application",
+            "desc": "A dedicated digital ledger and cash management application for payment agents with offline-first indexing and peer sync.",
+            "challenge": "Payment agents frequently suffer network disruptions, leading to ledger calculation discrepancies and lost audit logs.",
+            "solution": "Engineered an offline-first PWA with local database persistence, automatic commission calculation rules, and cross-device sync.",
+            "result": "Zero transaction data loss during network outages and instant generation of daily financial closing statements."
         },
         "fr": {
-            "title": "Diftar",
-            "categoryLabel": "App Web",
-            "desc": "Une plateforme tout-en-un pour enregistrer les opérations, calculer automatiquement les commissions et suivre les bénéfices en temps réel. Fini les cahiers papier et les erreurs de calcul."
+            "title": "DIFTAR — Registre Numérique & Gestion de Caisses",
+            "categoryLabel": "Application Web",
+            "desc": "Une application web pour agents de paiement avec fonctionnement offline-first, calcul de commissions et synchronisation multi-terminaux.",
+            "challenge": "Coupures réseau fréquentes empêchant les agents de tenir une comptabilité de caisse fiable et automatisée.",
+            "solution": "Développement d'une PWA intégrant stockage local indexé, calcul instantané des commissions et synchronisation automatique.",
+            "result": "Élimination des erreurs de calcul manuel et clôture journalière immédiate, même sans connexion Internet active."
         },
         "ar": {
-            "title": "دفتر",
-            "categoryLabel": "تطبيق ويب",
-            "desc": "منصة متكاملة لتسجيل العمليات، حساب العمولات تلقائياً، ومتابعة الأرباح لحظة بلحظة. وداعاً للدفاتر الورقية والأخطاء الحسابية."
+            "title": "دفتر — نظام إدارة السيولة والدفاتر الرقمية",
+            "categoryLabel": "تطبيقات الويب والأنظمة",
+            "desc": "تطبيق ويب متقدم (PWA) مخصص لوكلاء الدفع يتيح العمل دون اتصال بالإنترنت وحساب العمولات وإدارة السيولة بدقة ومزامنة البيانات.",
+            "challenge": "انقطاعات شبكة الإنترنت المتكررة التي تؤدي لأخطاء في تسجيل المعاملات الحسابية وضياع الوقت في المراجعة اليدوية.",
+            "solution": "بناء تطبيق ويب يعتمد التخزين المحلي الآمن، وحساب العمولات والأرباح تلقائياً، والمزامنة اللحظية فور عودة الاتصال.",
+            "result": "استمرارية عمل وكلاء الدفع في كافة الظروف وإنهاء اليوم المالي بتقارير دقيقة خالية من الأخطاء الحسابية."
         },
         "year": "2024",
-        "client": "Diftar",
-        "projectType": "Web App"
+        "client": "Payment Agents Network",
+        "projectType": "Web Application"
     }
 ]

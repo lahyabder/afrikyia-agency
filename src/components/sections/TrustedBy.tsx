@@ -19,24 +19,24 @@ const TrustedBy = () => {
     if (partners.length === 0) return null;
 
     return (
-        <section id="partners" className="bg-white border-t border-line py-12 lg:py-16 scroll-mt-16 lg:scroll-mt-[88px]">
+        <section id="partners" className="bg-white border-t border-slate-200/80 py-12 lg:py-16 scroll-mt-16 lg:scroll-mt-24">
             <div className="site-container flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-14">
                 <div className="shrink-0 lg:w-56">
-                    <p className="text-brand-red text-sm font-bold">{content.tag}</p>
-                    <h2 className="mt-2 text-ink text-xl font-bold">{content.title}</h2>
+                    <p className="text-brand-red text-xs font-bold uppercase tracking-wider">{content.tag}</p>
+                    <h2 className="mt-2 text-slate-900 text-xl font-bold">{content.title}</h2>
                 </div>
                 <ul className="flex-1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
                     {partners.map(p => (
                         <li
                             key={p.id}
-                            className="h-20 rounded-xl border border-line bg-ground flex items-center justify-center px-4 text-center"
+                            className="h-20 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-white hover:border-slate-300 hover:shadow-xs transition-all flex items-center justify-center px-4 text-center"
                             title={p.name}
                         >
                             {p.logoUrl ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img src={p.logoUrl} alt={p.name} loading="lazy" className="max-h-12 max-w-full object-contain" />
                             ) : (
-                                <span className="text-ink text-sm font-bold leading-snug line-clamp-2">{p.name}</span>
+                                <span className="text-slate-800 text-sm font-bold leading-snug line-clamp-2">{p.name}</span>
                             )}
                         </li>
                     ))}

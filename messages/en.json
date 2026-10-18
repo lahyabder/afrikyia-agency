@@ -1,70 +1,77 @@
 {
     "nav": {
+        "home": "Home",
+        "solutions": "Solutions",
+        "products": "Products",
+        "works": "Projects",
+        "methodology": "Methodology",
+        "about": "About",
+        "contact": "Contact",
+        "services": "Solutions",
+        "applications": "Products",
+        "achievements": "Projects",
         "vision": "Vision",
-        "services": "Services",
-        "applications": "Our Applications",
-        "achievements": "Achievements",
-        "projects": "Projects",
-        "casting": "Casting",
-        "impact": "Impact",
-        "discover": "Discover Our Vision",
-        "about": "About"
+        "discover": "Explore Our Solutions"
     },
     "hero": {
-        "slogan": "Smart Solutions",
-        "desc": "A digital company bridging knowledge and future technologies.",
-        "cta": "Discover Our Vision",
-        "scroll": "Scroll"
+        "badge": "Software & Digital Solutions",
+        "slogan": "We develop digital solutions that make a difference.",
+        "desc": "We design and develop applications, platforms, and digital systems that help businesses, organizations, and individuals streamline their operations and transform their ideas into scalable technological solutions.",
+        "exploreSolutions": "Explore Our Solutions",
+        "discussProject": "Discuss Your Project",
+        "cta": "Explore Our Solutions",
+        "scroll": "Scroll Down"
     },
     "vision": {
-        "tag": "Our Philosophy",
-        "title": "Smart Solutions: Beyond Artificial Intelligence.",
-        "desc1": "At Afrikyia, \"Smart Solutions\" are not merely a product of algorithms; they are a deliberate act of cognitive formulation that puts technology at the service of people and institutions.",
-        "desc2": "It is the intentional use of technical and creative forces to reshape our digital reality through the lens of identity, heritage, and human action, transforming technology into a cultural vessel.",
-        "whatWeBuild": "What We Actually Build",
-        "whatWeBuildDesc": "We engineer tangible digital solutions: integrated web platforms, digital portals, and complex SaaS applications that meet modern digital transformation needs.",
-        "forWhom": "Who We Serve",
-        "forWhomDesc": "We serve governments, institutions, private companies, and personalities seeking to consolidate their digital sovereignty and highlight their identity locally and globally."
+        "tag": "Engineering Vision",
+        "title": "Advanced software solutions built for performance and growth.",
+        "desc1": "At AFRIKYIA, we build software architectures that combine technical precision, intuitive user experience, and resilient infrastructure.",
+        "desc2": "We transform complex operational workflows into unified, scalable software platforms that deliver measurable efficiency and enduring value.",
+        "whatWeBuild": "What We Build",
+        "whatWeBuildDesc": "High-performance web and mobile apps, scalable cloud platforms, and mission-critical enterprise systems.",
+        "forWhom": "Who We Build For",
+        "forWhomDesc": "Enterprises, institutions, payment networks, and forward-looking leaders requiring rock-solid reliability and speed."
     },
     "services": {
-        "tag": "Our Expertise",
-        "title": "Solutions for a Digital Culture",
+        "tag": "Our Solutions",
+        "title": "Comprehensive & Scalable Software Solutions",
+        "desc": "Six core engineering domains covering the entire software lifecycle from ideation and architecture to production deployment and continuous evolution.",
         "list": [
             {
-                "title": "Cultural Content Production & Development",
-                "desc": "We create engaging digital content that bridges traditional heritage with modern audiences."
+                "num": "01",
+                "title": "Application Development",
+                "subtitle": "Web & Mobile",
+                "desc": "Designing and building high-performance web and mobile applications with an uncompromising focus on usability and responsiveness."
             },
             {
-                "title": "Memory & Identity Documentation",
-                "desc": "Preserving cultural narratives and historical data through advanced digital archiving techniques."
+                "num": "02",
+                "title": "Digital Platforms",
+                "subtitle": "Portals & Multi-User Systems",
+                "desc": "Architecting bespoke digital platforms for commerce, online services, and seamless multi-sided user interactions."
             },
             {
-                "title": "AI & Platform Solutions",
-                "desc": "Leveraging artificial intelligence to build smart platforms tailored for clients."
+                "num": "03",
+                "title": "Enterprise Systems",
+                "subtitle": "ERP, Operations & Dashboards",
+                "desc": "Developing robust management systems, ERP workflows, operational tooling, and executive analytics dashboards."
             },
             {
-                "title": "Audiovisual Libraries",
-                "desc": "Curating and digitizing rich multimedia archives for seamless public and academic access."
+                "num": "04",
+                "title": "Automation & Integration",
+                "subtitle": "APIs & Workflow Pipelines",
+                "desc": "Interconnecting disparate services via modern APIs and automating repetitive business operations."
             },
             {
-                "title": "Strategic Consulting",
-                "desc": "Providing expert guidance to transform your vision into a sustainable digital reality."
+                "num": "05",
+                "title": "Artificial Intelligence",
+                "subtitle": "Applied AI & Data Systems",
+                "desc": "Embedding smart AI capabilities into applications for automated document processing, classification, and process optimization."
             },
             {
-                "title": "Exhibitions & Events",
-                "desc": "Designing immersive physical and digital experiences for exhibitions, forums, festivals, and meetings."
-            },
-            {
-                "title": "Digital & Print Publishing",
-                "desc": "Bridging the gap between traditional print media and interactive digital publications."
-            },
-            {
-                "title": "Capacity Building",
-                "desc": "Empowering teams with the digital skills needed to excel in the modern knowledge economy."
-            },
-            {
-                "title": "Project Management",
-                "desc": "Ensuring the seamless execution of complex cultural and digital transformation projects from concept to completion."
+                "num": "06",
+                "title": "Maintenance & Evolution",
+                "subtitle": "Continuous Support & Upgrades",
+                "desc": "Proactive application maintenance, performance fine-tuning, and ongoing feature rollouts post-launch."
             }
         ]
     },
@@ -152,8 +159,8 @@
         ]
     },
     "footer": {
-        "motto": "Smart Solutions",
-        "rights": "© 2026 AFRIKYia – ALL RIGHTS RESERVED",
+        "motto": "Software & Digital Solutions",
+        "rights": "© 2026 AFRIKYIA – All Rights Reserved",
         "privacy": "Privacy Policy",
         "terms": "Legal Terms",
         "phone": "0022230609040",
@@ -984,34 +991,97 @@
         }
     },
     "metadata": {
-        "title": "AFRIKYia | Smart Solutions - Digital Cultural Platform",
-        "description": "Afrikyia is a global digital cultural platform that redefines intelligence through the fusion of culture, creativity, and technology."
+        "title": "AFRIKYIA — Software & Digital Solutions",
+        "description": "We design and develop applications, platforms, and digital systems that help businesses, organizations, and individuals streamline their operations and transform their ideas into scalable technological solutions."
     },
     "about": {
-        "tag": "About Us",
-        "title": "Who We Are",
-        "desc1": "Founded in 2025, Afrikyia is driven by a passionate team of strategic consultants, technologists, and cultural curators. Our mission is to bridge the gap between digital innovation and cultural heritage.",
-        "desc2": "We provide high-level strategic consulting to help organizations navigate the digital landscape. By combining deep cultural insights with advanced technological expertise, we empower creators and institutions to shape the global narrative and establish true digital sovereignty."
+        "tag": "About AFRIKYIA",
+        "title": "Software & Digital Solutions",
+        "desc1": "AFRIKYIA is a company specializing in software development and digital solutions. We design and build applications, platforms, and systems tailored to the needs of users and organizations, prioritizing simplicity, efficiency, and scalability.",
+        "desc2": "We empower businesses and organizations to modernize their operations and transform ideas into high-impact software systems, engineered to the highest standards of reliability and security.",
+        "legal": {
+            "addressTitle": "Headquarters",
+            "address": "Tevragh-Zeina – Lot Z, 0003P – Nouakchott, Mauritania",
+            "rcTitle": "Commercial Registry",
+            "rc": "136293/1270",
+            "nifTitle": "Tax ID (NIF)",
+            "nif": "01697101"
+        }
     },
     "trusted": {
-        "tag": "Trusted By",
+        "tag": "Trusted Partners",
         "title": "Our Partners & Clients"
     },
     "contact": {
         "tag": "Contact Us",
-        "title": "Let's Start Your Next Project",
-        "desc": "Have an idea or a digital challenge? Our team is ready to turn your vision into reality. Contact us to book a free consultation.",
+        "title": "Have a digital project? Let's talk.",
+        "desc": "Tell us about your digital project or operational challenge. Our engineering team will review your requirements and provide tailored software solutions.",
         "name": "Full Name",
         "email": "Email Address",
-        "message": "How can we help you?",
-        "submit": "Send Message",
-        "sticky": "Book Consultation",
-        "success": "Your message has been sent successfully. We will get back to you soon.",
-        "error": "Something went wrong. Please try again later."
+        "projectType": "Project Type",
+        "projectTypes": {
+            "app": "Web or Mobile App Development",
+            "platform": "Custom Digital Platform",
+            "system": "Enterprise Management System (ERP / Dashboards)",
+            "automation": "Automation & API Integration",
+            "ai": "Artificial Intelligence & Data Processing",
+            "maintenance": "System Maintenance & Evolution",
+            "other": "Software Consulting / Other"
+        },
+        "message": "Brief description of your requirements or project",
+        "submit": "Submit Request",
+        "sticky": "Discuss Your Project",
+        "success": "Your message has been sent successfully. Our team will get back to you shortly.",
+        "error": "Something went wrong while sending. Please try again or reach out through our direct channels.",
+        "whatsappChannel": "Official AFRIKYIA WhatsApp Channel",
+        "whatsappChannelDesc": "Follow updates on our software solutions and digital products via the official channel"
+    },
+    "methodology": {
+        "tag": "Our Methodology",
+        "title": "Software Development Lifecycle: From Concept to Launch",
+        "desc": "A disciplined, six-stage engineering methodology designed to deliver reliable, high-performance, and scalable software solutions.",
+        "steps": [
+            {
+                "num": "01",
+                "title": "Needs Analysis",
+                "subtitle": "Scoping & Blueprinting",
+                "desc": "Thorough assessment of business requirements, technical scoping, and software architecture design."
+            },
+            {
+                "num": "02",
+                "title": "UX/UI Design",
+                "subtitle": "User Flows & Interfaces",
+                "desc": "Crafting intuitive user journeys, wireframing, and designing sleek, modern, accessible interfaces."
+            },
+            {
+                "num": "03",
+                "title": "Development",
+                "subtitle": "Frontend, Backend & APIs",
+                "desc": "Engineering clean, maintainable codebases with robust APIs and secure, high-concurrency database models."
+            },
+            {
+                "num": "04",
+                "title": "Testing & QA",
+                "subtitle": "Reliability & Security",
+                "desc": "Exhaustive functional, performance, security, and responsive cross-device testing before launch."
+            },
+            {
+                "num": "05",
+                "title": "Deployment",
+                "subtitle": "Production Cloud Launch",
+                "desc": "Hardened cloud infrastructure setup, continuous delivery pipeline orchestration, and zero-downtime release."
+            },
+            {
+                "num": "06",
+                "title": "Maintenance & Evolution",
+                "subtitle": "Monitoring & Continuous Iteration",
+                "desc": "Proactive 24/7 uptime monitoring, critical security patching, and ongoing feature rollouts as your business expands."
+            }
+        ]
     },
     "applications": {
-        "tag": "Our Digital Solutions",
-        "title": "Our Applications",
+        "tag": "Our Products",
+        "title": "Our Digital Products",
         "intro": "At AFRIKYIA, we develop practical digital solutions tailored to the needs of individuals, professionals, and organizations, combining ease of use and innovation.",
         "openApp": "Open Application",
         "pwa": "Progressive Web App (PWA)",
@@ -1044,51 +1114,57 @@
     },
     "home": {
         "nav": {
+            "home": "Home",
+            "solutions": "Solutions",
+            "products": "Products",
+            "works": "Projects",
+            "methodology": "Methodology",
             "about": "About",
-            "services": "Services",
-            "applications": "Our Applications",
-            "works": "Work",
-            "partners": "Partners",
             "contact": "Contact",
-            "cta": "Start a project",
+            "services": "Solutions",
+            "applications": "Products",
+            "achievements": "Projects",
+            "partners": "Partners",
+            "cta": "Discuss Your Project",
             "menu": "Menu"
         },
         "hero": {
-            "tag": "Digital company · Nouakchott, Mauritania",
-            "primary": "Start a project",
-            "secondary": "See our work"
+            "tag": "Software & Digital Solutions",
+            "primary": "Explore Our Solutions",
+            "secondary": "Discuss Your Project"
         },
         "stats": {
-            "works": "published works",
-            "services": "areas of expertise",
-            "languages": "languages",
-            "founded": "founded"
+            "solutions": "core software solutions",
+            "products": "active digital products",
+            "stages": "methodology stages",
+            "languages": "supported languages"
         },
         "about": {
-            "philosophy": "Our philosophy"
+            "philosophy": "Our Vision"
         },
         "works": {
-            "tag": "Our work",
-            "title": "Projects delivered with care",
-            "desc": "Digital platforms, websites and applications we designed and built for institutions and partners in Mauritania and beyond.",
+            "tag": "Projects",
+            "title": "Digital Projects & Deployed Systems",
+            "desc": "A curated selection of software platforms, management systems, and institutional digital portals engineered by our team.",
             "all": "All",
-            "websites": "Websites & platforms",
-            "works": "Applications",
-            "activities": "Activities",
-            "projects": "Projects",
-            "visit": "Visit site",
-            "watch": "Watch video",
-            "showAll": "View all work",
-            "showLess": "Show less",
+            "websites": "Portals & Platforms",
+            "works": "Systems & Apps",
+            "activities": "Digital Initiatives",
+            "projects": "Institutional Projects",
+            "visit": "Explore Project",
+            "watch": "Watch Overview",
+            "showAll": "View All Projects",
+            "showLess": "Show Less",
             "close": "Close"
         },
         "partners": {
-            "tag": "Trusted by"
+            "tag": "Trusted By"
         },
         "contact": {
-            "emailLabel": "Email",
-            "phoneLabel": "Phone",
-            "follow": "Follow us"
+            "emailLabel": "Direct Email",
+            "phoneLabel": "Phone Line",
+            "whatsappLabel": "Official WhatsApp Channel",
+            "follow": "Follow Us"
         }
     }
 }

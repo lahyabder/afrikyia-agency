@@ -91,49 +91,33 @@ export default function Applications() {
 
     return (
         <section
-            id="applications"
+            id="products"
             aria-labelledby="applications-heading"
-            className="py-16 md:py-24 bg-white border-t border-slate-200/80 relative overflow-hidden selection:bg-brand-red selection:text-white"
+            className="py-20 lg:py-28 bg-white border-t border-slate-200/80 relative overflow-hidden scroll-mt-16 lg:scroll-mt-24"
         >
-            <div className="container mx-auto px-6 relative z-10">
+            {/* Backward compatibility anchor */}
+            <span id="applications" className="sr-only" aria-hidden="true" />
+            <div className="site-container relative z-10">
                 {/* Section Header */}
-                <div className={`mb-16 md:mb-20 max-w-4xl ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                        transition={{ duration: 0.5 }}
-                        className="inline-flex items-center gap-2 mb-4"
-                    >
-                        <span className="w-2 h-2 rounded-full bg-brand-red"></span>
-                        <h2 className="text-brand-red text-xs md:text-sm font-bold uppercase tracking-[0.35em]">
-                            {appSection.tag || (isRTL ? 'حلولنا الرقمية' : 'Nos solutions numériques')}
-                        </h2>
-                    </motion.div>
+                <div className="max-w-3xl mb-14 lg:mb-20">
+                    <div className="inline-flex items-center gap-2 rounded-full bg-slate-50 border border-slate-200/80 px-3.5 py-1 text-xs font-bold text-brand-red mb-4 shadow-2xs">
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-red" />
+                        <span>{appSection.tag || (isRTL ? 'منتجاتنا' : 'Nos produits')}</span>
+                    </div>
 
-                    <motion.h3
+                    <h2
                         id="applications-heading"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                        transition={{ delay: 0.1, duration: 0.6 }}
-                        className="text-slate-900 text-3xl sm:text-4xl md:text-6xl font-light tracking-tight mb-6"
+                        className="text-slate-900 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight"
                     >
-                        {appSection.title || (isRTL ? 'تطبيقاتنا' : 'Nos applications')}
-                    </motion.h3>
+                        {appSection.title || (isRTL ? 'منتجاتنا الرقمية' : 'Nos produits numériques')}
+                    </h2>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "0px 0px -50px 0px", amount: 0.1 }}
-                        transition={{ delay: 0.2, duration: 0.6 }}
-                        className="text-slate-600 text-base sm:text-lg md:text-xl font-normal leading-relaxed"
-                    >
+                    <p className="mt-4 text-slate-600 text-base sm:text-lg lg:text-xl leading-relaxed font-normal">
                         {appSection.intro ||
                             (isRTL
                                 ? 'نطور في AFRIKYIA حلولا رقمية عملية تستجيب لاحتياجات الأفراد والمهنيين والمؤسسات، وتجمع بين سهولة الاستخدام والابتكار.'
                                 : "Chez AFRIKYIA, nous développons des solutions numériques pratiques adaptées aux besoins des particuliers, des professionnels et des organisations, alliant simplicité d'utilisation et innovation.")}
-                    </motion.p>
+                    </p>
                 </div>
 
                 {/* Applications 4-Card Responsive Grid */}
