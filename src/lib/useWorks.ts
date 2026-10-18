@@ -38,11 +38,21 @@ async function getJson(url: string): Promise<unknown[] | null> {
     }
 }
 
+const IMAGE_OVERRIDES: Record<string, string> = {
+    'dar-mauritanie': '/works/dar-mauritanie.png',
+    'nagha-festival': '/works/nagha-festival.png',
+};
+
 async function loadWorks(): Promise<WorkItem[]> {
     const [achievements, projects] = await Promise.all([getJson('/api/achievements'), getJson('/api/projects')]);
     const fromAchievements = (achievements ?? fallbackAchievements) as WorkItem[];
     const fromProjects = ((projects ?? []) as WorkItem[]).map(p => ({ ...p, category: 'projects' as const }));
-    return [...fromAchievements, ...fromProjects].filter(item => item && item.id);
+    return [...fromAchievements, ...fromProjects]
+        .filter(item => item && item.id)
+        .map(item => ({
+            ...item,
+            image: IMAGE_OVERRIDES[item.id] || item.image,
+        }));
 }
 
 // One request per page load, shared by the hero tiles, the stats strip and the works grid.

@@ -18,13 +18,19 @@ function readLocalData() {
     }
 }
 
+const IMAGE_OVERRIDES: Record<string, string> = {
+    'dar-mauritanie': '/works/dar-mauritanie.png',
+    'nagha-festival': '/works/nagha-festival.png',
+};
+
 // Transform DB row to frontend format
 function transformRow(row: any) {
+    const image = IMAGE_OVERRIDES[row.id] || row.image;
     return {
         id: row.id,
         category: row.category,
         link: row.link,
-        image: row.image,
+        image,
         video: row.video || undefined,
         gallery: row.gallery || [],
         en: row.en || {},
