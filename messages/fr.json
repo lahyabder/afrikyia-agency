@@ -2,6 +2,7 @@
     "nav": {
         "vision": "Vision",
         "services": "Services",
+        "applications": "Nos applications",
         "achievements": "Réalisations",
         "casting": "Casting",
         "impact": "Impact",
@@ -989,10 +990,44 @@
         "success": "Votre message a bien été envoyé. Nous vous répondrons très bientôt.",
         "error": "Une erreur s'est produite lors de l'envoi. Veuillez réessayer plus tard."
     },
+    "applications": {
+        "tag": "Nos solutions numériques",
+        "title": "Nos applications",
+        "intro": "Chez AFRIKYIA, nous développons des solutions numériques pratiques adaptées aux besoins des particuliers, des professionnels et des organisations, alliant simplicité d'utilisation et innovation.",
+        "openApp": "Accéder à l'application",
+        "pwa": "Application Web Progressive (PWA)",
+        "items": {
+            "diftar": {
+                "name": "دفتر",
+                "latinName": "DIFTAR",
+                "badge": "Gestion de caisse & agents de paiement",
+                "desc": "Une plateforme de gestion numérique destinée aux agents de paiement, permettant d'enregistrer les opérations de dépôt et de retrait, de suivre la liquidité des caisses, de calculer les commissions et les bénéfices, et de générer des rapports de clôture quotidiens, avec un fonctionnement hors ligne et une synchronisation entre appareils."
+            },
+            "sanad": {
+                "name": "سند",
+                "latinName": "SANAD",
+                "badge": "Reçus & relevés bancaires",
+                "desc": "Une application permettant d'organiser les reçus de virements bancaires, d'extraire automatiquement les données à partir des images, de classer les opérations financières et de produire des relevés structurés, consultables et exportables."
+            },
+            "elbet": {
+                "name": "البت",
+                "latinName": "ELBET",
+                "badge": "Plateforme de poésie mauritanienne",
+                "desc": "Une plateforme numérique mettant en relation les clients avec des poètes de tradition populaire et de poésie classique arabe, pour commander des poèmes, des « Atlaa » et des « Guivane »."
+            },
+            "badila": {
+                "name": "بديلة",
+                "latinName": "BADILA",
+                "badge": "Troc direct sans argent",
+                "desc": "Une plateforme numérique permettant aux utilisateurs d'échanger directement des biens et des objets sans utiliser d'argent, grâce à la publication d'annonces, aux propositions d'échange et à la communication entre les parties."
+            }
+        }
+    },
     "home": {
         "nav": {
             "about": "À propos",
             "services": "Services",
+            "applications": "Nos applications",
             "works": "Réalisations",
             "partners": "Partenaires",
             "contact": "Contact",

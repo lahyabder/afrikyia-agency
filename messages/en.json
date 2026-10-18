@@ -2,6 +2,7 @@
     "nav": {
         "vision": "Vision",
         "services": "Services",
+        "applications": "Our Applications",
         "achievements": "Achievements",
         "projects": "Projects",
         "casting": "Casting",
@@ -1008,10 +1009,44 @@
         "success": "Your message has been sent successfully. We will get back to you soon.",
         "error": "Something went wrong. Please try again later."
     },
+    "applications": {
+        "tag": "Our Digital Solutions",
+        "title": "Our Applications",
+        "intro": "At AFRIKYIA, we develop practical digital solutions tailored to the needs of individuals, professionals, and organizations, combining ease of use and innovation.",
+        "openApp": "Open Application",
+        "pwa": "Progressive Web App (PWA)",
+        "items": {
+            "diftar": {
+                "name": "دفتر",
+                "latinName": "DIFTAR",
+                "badge": "Liquidity & Payment Agents Management",
+                "desc": "A digital ledger platform designed for payment agents, enabling the recording of cash-in and cash-out transactions, monitoring cash box liquidity, calculating commissions and profits, and generating daily closing reports, with offline functionality and multi-device synchronization."
+            },
+            "sanad": {
+                "name": "سند",
+                "latinName": "SANAD",
+                "badge": "Receipts & Bank Statements Organization",
+                "desc": "An application for organizing bank transfer receipts, automatically extracting data from images, categorizing financial transactions, and generating structured, auditable, and exportable statements."
+            },
+            "elbet": {
+                "name": "البت",
+                "latinName": "ELBET",
+                "badge": "Mauritanian Poetry Platform",
+                "desc": "A digital platform connecting clients with folk and classical Arabic poets to commission custom poems, \"Atlaa\", and \"Guivane\"."
+            },
+            "badila": {
+                "name": "بديلة",
+                "latinName": "BADILA",
+                "badge": "Cashless Direct Barter Platform",
+                "desc": "A digital platform enabling users to directly barter and exchange goods and items cashless, through listing items, proposing exchanges, and communicating between parties."
+            }
+        }
+    },
     "home": {
         "nav": {
             "about": "About",
             "services": "Services",
+            "applications": "Our Applications",
             "works": "Work",
             "partners": "Partners",
             "contact": "Contact",

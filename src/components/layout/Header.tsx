@@ -23,6 +23,7 @@ const Header = () => {
   const navLinks = [
     { href: '/#about', label: h.about },
     { href: '/#services', label: h.services },
+    { href: '/#applications', label: h.applications || 'تطبيقاتنا' },
     { href: '/#works', label: h.works },
     { href: '/#partners', label: h.partners },
     { href: '/#contact', label: h.contact },
