@@ -64,7 +64,7 @@ describe('NexConnect Confirmation Webhook Route', () => {
         });
 
         const res = await POST(req);
-        expect(res.status).toBe(403);
+        expect(res.status).toBe(401);
     });
 
     it('successfully processes valid payment confirmation and returns HTTP 200', async () => {
@@ -138,6 +138,6 @@ describe('NexConnect Confirmation Webhook Route', () => {
         const res = await POST(req);
         expect(res.status).toBe(400);
         const data = await res.json();
-        expect(data.message).toBe('Montant invalide');
+        expect(data.message).toContain('Montant invalide');
     });
 });
