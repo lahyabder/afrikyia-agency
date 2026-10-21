@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, ShoppingBag } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import CheckoutModal from '@/components/store/CheckoutModal';
+import { getProduct, type ProductItem } from '@/data/catalog';
 
 interface WindowWithAnalytics extends Window {
     gtag?: (command: string, eventName: string, eventParams: Record<string, string>) => void;
@@ -61,9 +64,19 @@ const APPLICATIONS_CONFIG: ApplicationItem[] = [
 
 export default function Applications() {
     const { t, isRTL } = useLanguage();
+    const [checkoutProduct, setCheckoutProduct] = useState<ProductItem | null>(null);
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
     const appSection = t?.applications || {};
     const appItems = appSection?.items || {};
+
+    const handleBuyClick = (appId: string) => {
+        const p = getProduct(appId);
+        if (p) {
+            setCheckoutProduct(p);
+            setIsCheckoutOpen(true);
+        }
+    };
 
     const trackAppClick = (appName: string, appUrl: string) => {
         if (typeof window !== 'undefined') {
@@ -128,7 +141,6 @@ export default function Applications() {
                         const displayLatinName = itemData.latinName || app.latinName;
                         const displayBadge = itemData.badge;
                         const displayDesc = itemData.desc;
-
                         return (
                             <motion.article
                                 key={app.id}
@@ -159,8 +171,19 @@ export default function Applications() {
                                             />
                                         </div>
 
-                                        <span className="text-[11px] font-semibold text-slate-500 bg-white border border-slate-200/70 px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0">
-                                            {appSection.pwa || (isRTL ? 'تطبيق ويب' : 'App Web')}
+                                        <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 border ${
+                                            app.id === 'sanad' 
+                                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+                                                : app.id === 'diftar'
+                                                ? 'bg-blue-50 text-blue-700 border-blue-200'
+                                                : 'bg-white text-slate-500 border-slate-200/70'
+                                        }`}>
+                                            {app.id === 'sanad' 
+                                                ? (isRTL ? 'ترخيص دائم' : 'Licence à vie')
+                                                : app.id === 'diftar'
+                                                ? (isRTL ? 'اشتراك مرن' : 'Abonnement')
+                                                : (appSection.pwa || (isRTL ? 'تطبيق مجاني' : 'App Web'))
+                                            }
                                         </span>
                                     </div>
 
@@ -188,27 +211,90 @@ export default function Applications() {
                                     </p>
                                 </div>
 
-                                {/* Card Footer: Direct Open Button & Domain Indicator */}
-                                <div className="pt-4 border-t border-slate-200/70 mt-auto">
-                                    <a
-                                        id={`btn-open-${app.id}`}
-                                        href={app.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={() => trackAppClick(app.name, app.url)}
-                                        aria-label={`${appSection.openApp || (isRTL ? 'فتح تطبيق' : 'Accéder à')} ${displayName}`}
-                                        className="inline-flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white hover:bg-slate-900 text-slate-800 hover:text-white border border-slate-200 hover:border-slate-900 font-semibold text-sm transition-all duration-200 group/btn shadow-2xs"
-                                    >
-                                        <span>
-                                            {appSection.openApp || (isRTL ? 'فتح التطبيق' : "Accéder à l'application")}
-                                        </span>
-                                        <ExternalLink
-                                            className={`w-4 h-4 text-slate-400 group-hover/btn:text-white transition-all transform ${isRTL ? 'group-hover/btn:-translate-x-1' : 'group-hover/btn:translate-x-1'}`}
-                                            aria-hidden="true"
-                                        />
-                                    </a>
+                                {/* Card Footer: Direct Open Button & Store Action */}
+                                <div className="pt-4 border-t border-slate-200/70 mt-auto space-y-2.5">
+                                    {app.id === 'sanad' ? (
+                                        <>
+                                            <button
+                                                id="btn-buy-sanad"
+                                                type="button"
+                                                onClick={() => handleBuyClick('sanad')}
+                                                className="inline-flex items-center justify-between w-full px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all duration-200 shadow-2xs group/btn cursor-pointer"
+                                            >
+                                                <span className="flex items-center gap-2">
+                                                    <ShoppingBag className="w-4 h-4 text-emerald-400" />
+                                                    <span>{isRTL ? 'شراء ترخيص دائم' : 'Acheter licence'}</span>
+                                                </span>
+                                                <span className="text-xs bg-slate-800 text-emerald-300 px-2 py-0.5 rounded-full font-mono font-bold">
+                                                    1,000 MRU
+                                                </span>
+                                            </button>
 
-                                    <div className="mt-3 flex items-center justify-between text-[11px] text-slate-400">
+                                            <a
+                                                id="btn-preview-sanad"
+                                                href="https://sanadrim.com/app"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => trackAppClick(app.name, 'https://sanadrim.com/app')}
+                                                className="inline-flex items-center justify-center w-full px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 font-medium text-xs transition-colors"
+                                            >
+                                                <span>{isRTL ? 'تجربة مجانية في المتصفح' : 'Essai gratuit dans le navigateur'}</span>
+                                                <ExternalLink className="w-3.5 h-3.5 ms-1 text-slate-400" />
+                                            </a>
+                                        </>
+                                    ) : app.id === 'diftar' ? (
+                                        <>
+                                            <button
+                                                id="btn-buy-diftar"
+                                                type="button"
+                                                onClick={() => handleBuyClick('diftar')}
+                                                className="inline-flex items-center justify-between w-full px-4 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm transition-all duration-200 shadow-2xs group/btn cursor-pointer"
+                                            >
+                                                <span className="flex items-center gap-2">
+                                                    <ShoppingBag className="w-4 h-4 text-brand-red" />
+                                                    <span>{isRTL ? 'اشتراك واختيار الباقة' : 'Choisir forfait'}</span>
+                                                </span>
+                                                <span className="text-xs bg-slate-800 text-slate-300 px-2 py-0.5 rounded-full font-mono font-bold">
+                                                    {isRTL ? 'من 1,000 MRU' : 'Dès 1,000 MRU'}
+                                                </span>
+                                            </button>
+
+                                            <a
+                                                id="btn-preview-diftar"
+                                                href={app.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => trackAppClick(app.name, app.url)}
+                                                className="inline-flex items-center justify-center w-full px-3 py-1.5 rounded-lg text-slate-500 hover:text-slate-900 font-medium text-xs transition-colors"
+                                            >
+                                                <span>{isRTL ? 'تجربة مجانية 30 يوماً' : 'Essai gratuit 30 jours'}</span>
+                                                <ExternalLink className="w-3.5 h-3.5 ms-1 text-slate-400" />
+                                            </a>
+                                        </>
+                                    ) : (
+                                        <a
+                                            id={`btn-open-${app.id}`}
+                                            href={app.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={() => trackAppClick(app.name, app.url)}
+                                            aria-label={`${appSection.openApp || (isRTL ? 'فتح تطبيق' : 'Accéder à')} ${displayName}`}
+                                            className="inline-flex items-center justify-between w-full px-4 py-3 rounded-xl bg-white hover:bg-slate-900 text-slate-800 hover:text-white border border-slate-200 hover:border-slate-900 font-semibold text-sm transition-all duration-200 group/btn shadow-2xs"
+                                        >
+                                            <span>
+                                                {app.id === 'elbet' 
+                                                    ? (isRTL ? 'دخول المنصة وتصفح الشعراء' : 'Accéder à Elbet')
+                                                    : (appSection.openApp || (isRTL ? 'فتح التطبيق والتبادل' : "Accéder à l'application"))
+                                                }
+                                            </span>
+                                            <ExternalLink
+                                                className={`w-4 h-4 text-slate-400 group-hover/btn:text-white transition-all transform ${isRTL ? 'group-hover/btn:-translate-x-1' : 'group-hover/btn:translate-x-1'}`}
+                                                aria-hidden="true"
+                                            />
+                                        </a>
+                                    )}
+
+                                    <div className="pt-1 flex items-center justify-between text-[11px] text-slate-400">
                                         <span className="inline-flex items-center gap-1.5 font-medium">
                                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                                             {isRTL ? 'منصة نشطة' : 'Plateforme active'}
@@ -223,6 +309,13 @@ export default function Applications() {
                     })}
                 </div>
             </div>
+
+            {/* Unified Checkout Drawer Modal */}
+            <CheckoutModal
+                isOpen={isCheckoutOpen}
+                product={checkoutProduct}
+                onClose={() => setIsCheckoutOpen(false)}
+            />
         </section>
     );
 }

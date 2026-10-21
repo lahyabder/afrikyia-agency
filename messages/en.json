@@ -428,7 +428,8 @@
                 "expenses": "Expenses",
                 "bank": "Bank",
                 "company": "Company details",
-                "documentsVault": "Company documents"
+                "documentsVault": "Company documents",
+                "storeOrders": "Digital Store Orders"
             },
             "common": {
                 "save": "Save",

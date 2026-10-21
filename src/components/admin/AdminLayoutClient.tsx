@@ -31,7 +31,8 @@ import {
     FolderLock,
     Building2,
     UserRound,
-    Banknote
+    Banknote,
+    ShoppingBag
 } from 'lucide-react';
 import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
 import { AdminSessionContext, type AdminSession } from '@/components/admin/AdminSession';
@@ -214,6 +215,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
             items: [
                 { name: t.admin.biz.menu.finance, icon: Wallet, path: '/admin/finance', area: 'finance' },
                 { name: t.admin.biz.menu.documents, icon: Receipt, path: '/admin/invoices', area: 'finance' },
+                { name: t.admin.biz.menu.storeOrders || (isRTL ? 'مبيعات المتجر' : 'Ventes Boutique'), icon: ShoppingBag, path: '/admin/orders', area: 'finance' },
                 { name: t.admin.biz.letters.menu, icon: Mails, path: '/admin/letters', area: 'finance' },
                 { name: t.admin.biz.menu.expenses, icon: ArrowUpRight, path: '/admin/expenses', area: 'finance' },
                 { name: t.admin.biz.menu.bank, icon: Landmark, path: '/admin/bank', area: 'finance' },

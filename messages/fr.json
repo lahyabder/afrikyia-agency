@@ -410,7 +410,8 @@
                 "expenses": "Dépenses",
                 "bank": "Banque",
                 "company": "Informations de l'entreprise",
-                "documentsVault": "Documents de l'entreprise"
+                "documentsVault": "Documents de l'entreprise",
+                "storeOrders": "Ventes Boutique"
             },
             "common": {
                 "save": "Enregistrer",

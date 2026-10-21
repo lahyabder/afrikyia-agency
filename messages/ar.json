@@ -428,7 +428,8 @@
                 "expenses": "المصاريف",
                 "bank": "البنك",
                 "company": "بيانات الشركة",
-                "documentsVault": "وثائق الشركة"
+                "documentsVault": "وثائق الشركة",
+                "storeOrders": "مبيعات المتجر الإلكتروني"
             },
             "common": {
                 "save": "حفظ",
