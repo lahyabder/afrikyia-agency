@@ -52,6 +52,7 @@ const Footer = () => {
                 <div className="site-container flex flex-col sm:flex-row gap-3 justify-between text-xs text-slate-400">
                     <span>{t.footer.rights}</span>
                     <span className="flex gap-6 font-medium">
+                        <Link href="/security" className="hover:text-slate-700 transition-colors">{t.footer.security || 'Sécurité & Confiance'}</Link>
                         <Link href="/privacy" className="hover:text-slate-700 transition-colors">{t.footer.privacy}</Link>
                         <Link href="/terms" className="hover:text-slate-700 transition-colors">{t.footer.terms}</Link>
                     </span>

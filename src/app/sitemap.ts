@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const sitemapUrls: MetadataRoute.Sitemap = [];
   
   // Base routes for each locale
-  const routes = ['', '/privacy', '/terms'];
+  const routes = ['', '/privacy', '/terms', '/security'];
   
   routes.forEach((route) => {
     routing.locales.forEach((locale) => {

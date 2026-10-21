@@ -1,0 +1,100 @@
+name: Afrikyia Security & CI Gates
+
+on:
+  push:
+    branches: [main, claude/**]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security-audit:
+    name: Dependency & Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Dependency Vulnerability Audit
+        run: npm audit --audit-level=high
+
+      - name: Secret Scanning (Gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+  static-analysis:
+    name: TypeCheck & Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: TypeScript TypeCheck
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npx eslint . --max-warnings=10
+
+  automated-tests:
+    name: Security & Regression Tests (TDD)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Payment & Platform Tests
+        run: npm test
+
+  build-verification:
+    name: Production Build Verification
+    needs: [security-audit, static-analysis, automated-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Next.js Production Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: "https://mock.supabase.co"
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: "mock-anon-key"
+          SUPABASE_SERVICE_ROLE_KEY: "mock-service-key"
+          NEXCONNECT_API_KEY: "mock-api-key"
+          NEXCONNECT_WEBHOOK_SECRET: "mock-secret"

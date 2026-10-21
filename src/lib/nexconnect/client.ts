@@ -98,22 +98,17 @@ export function getNexConnectHeaders(apiKey: string): Record<string, string> {
     };
 }
 
+import { verifyTimingSafeWebhookAuth } from './security';
+
 /**
- * Verifies that the Authorization header in incoming webhooks matches the configured API key.
+ * Verifies that the Authorization header in incoming webhooks matches the configured API key
+ * using constant-time comparison to prevent side-channel timing attacks.
  */
 export function verifyWebhookAuth(
     authHeader: string | null | undefined, 
     expectedSecret: string
 ): boolean {
-    if (!authHeader || !expectedSecret) return false;
-
-    const trimmed = authHeader.trim();
-    // Allow case-insensitive 'Api-Key ' or 'api-key '
-    const match = trimmed.match(/^api-key\s+(.+)$/i);
-    if (!match) return false;
-
-    const providedKey = match[1].trim();
-    return providedKey === expectedSecret.trim();
+    return verifyTimingSafeWebhookAuth(authHeader, expectedSecret);
 }
 
 /**

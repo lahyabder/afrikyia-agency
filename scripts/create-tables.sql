@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS store_orders (
     payment_method TEXT,
     code_abonnement TEXT,
     payment_code TEXT,
-    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'failed', 'expired')),
+    status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'paid', 'failed', 'expired', 'disputed', 'cancelled', 'manual_review')),
     id_transaction TEXT,
     numero_recu TEXT,
     paid_at TIMESTAMPTZ,
@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS store_orders (
 CREATE INDEX IF NOT EXISTS store_orders_created_at_idx ON store_orders (created_at DESC);
 CREATE INDEX IF NOT EXISTS store_orders_customer_phone_idx ON store_orders (customer_phone);
 CREATE INDEX IF NOT EXISTS store_orders_status_idx ON store_orders (status);
+CREATE UNIQUE INDEX IF NOT EXISTS store_orders_numero_recu_unique_idx ON store_orders (numero_recu) WHERE numero_recu IS NOT NULL;
 ALTER TABLE store_orders ENABLE ROW LEVEL SECURITY;
 
 -- 8. Store issued licenses
@@ -116,6 +117,24 @@ CREATE TABLE IF NOT EXISTS store_licenses (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 ALTER TABLE store_licenses ENABLE ROW LEVEL SECURITY;
+
+-- 9. Store payment audit logs & webhook trace (Immutable Audit Trail)
+CREATE TABLE IF NOT EXISTS store_payment_audit_logs (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    order_id TEXT REFERENCES store_orders(id) ON DELETE SET NULL,
+    provider TEXT NOT NULL DEFAULT 'nexconnect',
+    event_type TEXT NOT NULL, -- 'verification', 'confirmation', 'idempotent_replay', 'tamper_attempt', 'reconciliation'
+    payload_sha256 TEXT,
+    raw_payload JSONB,
+    verification_status TEXT NOT NULL, -- 'success', 'rejected', 'disputed', 'verified'
+    ip_address TEXT,
+    user_agent TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS store_payment_audit_logs_order_id_idx ON store_payment_audit_logs (order_id);
+CREATE INDEX IF NOT EXISTS store_payment_audit_logs_created_at_idx ON store_payment_audit_logs (created_at DESC);
+CREATE INDEX IF NOT EXISTS store_payment_audit_logs_payload_hash_idx ON store_payment_audit_logs (payload_sha256);
+ALTER TABLE store_payment_audit_logs ENABLE ROW LEVEL SECURITY;
 
 -- No RLS policies on purpose: these tables are read and written only by the
 -- website server with the secret key, which bypasses RLS. The public key has no access.
