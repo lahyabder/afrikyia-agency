@@ -14,16 +14,41 @@ export async function GET(request: Request) {
         .order('created_at', { ascending: false });
 
     if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        console.warn('[admin/store/orders] Supabase table notice:', error.message);
+        return NextResponse.json({
+            orders: [],
+            stats: {
+                totalRevenue: 0,
+                paidOrdersCount: 0,
+                pendingOrdersCount: 0,
+                productStats: {},
+            },
+            notice: 'لم يتم إنشاء جدول الطلبات store_orders في قاعدة البيانات بعد. يرجى تنفيذ سكربت scripts/create-tables.sql في Supabase.',
+        });
     }
 
     type OrderRow = {
+        id?: string;
+        invoice_id?: string;
         status?: string | null;
+        amount?: number | null;
         amount_mru?: number | null;
         product_id?: string | null;
+        customer_name?: string | null;
+        customer_phone?: string | null;
+        customer_email?: string | null;
+        payment_method?: string | null;
+        numero_recu?: string | null;
+        created_at?: string | null;
     };
 
-    const orderList = (orders || []) as OrderRow[];
+    const rawList = (orders || []) as OrderRow[];
+    const orderList = rawList.map(o => ({
+        ...o,
+        id: o.id || o.invoice_id || '',
+        invoice_id: o.invoice_id || o.id || '',
+        amount_mru: Number(o.amount_mru ?? o.amount ?? 0),
+    }));
     
     // Calculate aggregate summary metrics
     const paidOrders = orderList.filter(o => o.status === 'paid');

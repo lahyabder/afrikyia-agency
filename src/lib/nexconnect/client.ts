@@ -153,7 +153,7 @@ export class NexConnectClient {
 
     constructor(baseUrl?: string, apiKey?: string) {
         this.baseUrl = (baseUrl || process.env.NEXCONNECT_BASE_URL || 'https://nexpay-653e0b7d7b24.herokuapp.com/api').replace(/\/+$/, '');
-        this.apiKey = apiKey || process.env.NEXCONNECT_API_KEY || '';
+        this.apiKey = apiKey || process.env.NEXCONNECT_API_KEY || 'amkEsKSS.ILbUR5XFS54kmAtaFpy5F8sZU2miACQc';
     }
 
     private get headers(): Record<string, string> {

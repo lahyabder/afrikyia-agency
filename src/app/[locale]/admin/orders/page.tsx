@@ -54,6 +54,7 @@ function OrdersMonitor() {
     const [stats, setStats] = useState<OrderStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [notice, setNotice] = useState('');
     const [search, setSearch] = useState('');
     const [selectedStatus, setSelectedStatus] = useState<'all' | 'paid' | 'pending'>('all');
     const [selectedProduct, setSelectedProduct] = useState<'all' | 'sanad' | 'diftar'>('all');
@@ -61,14 +62,17 @@ function OrdersMonitor() {
     const loadData = async () => {
         setLoading(true);
         setError('');
+        setNotice('');
         try {
             const res = await fetch('/api/admin/store/orders', { cache: 'no-store' });
             if (!res.ok) throw new Error('فشل تحميل بيانات الطلبات');
             const data = await res.json();
             setOrders(data.orders || []);
             setStats(data.stats || null);
-        } catch (err: any) {
-            setError(err.message || 'حدث خطأ أثناء الاتصال بالخادم');
+            if (data.notice) setNotice(data.notice);
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : 'حدث خطأ أثناء الاتصال بالخادم';
+            setError(msg);
         } finally {
             setLoading(false);
         }
@@ -159,6 +163,13 @@ function OrdersMonitor() {
             </PageHeader>
 
             <ErrorBox message={error} />
+
+            {notice && (
+                <div className="flex items-center gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-300">
+                    <Clock className="w-5 h-5 shrink-0 text-amber-400" />
+                    <span>{notice}</span>
+                </div>
+            )}
 
             {/* KPI Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

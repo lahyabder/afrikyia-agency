@@ -68,8 +68,8 @@ export async function POST(req: Request) {
         const pricing = calculateProductPrice(productId, variantKey);
         const invoiceId = generateInvoiceId(productId);
 
-        // Fallback default subscription code if not explicitly passed by UI
-        const effectiveAbonnement = codeAbonnement || process.env.NEXCONNECT_DEFAULT_ABONNEMENT || 'ba60ee21-2944-4f22-818e-de75470a7c4e';
+        // Fallback default subscription code from NexConnect merchant account
+        const effectiveAbonnement = codeAbonnement || process.env.NEXCONNECT_DEFAULT_ABONNEMENT || 'bb91c0b3-f6a4-44be-8dd3-5227201c2dfb';
 
         // Call NexConnect payment initiation
         const nexClient = new NexConnectClient();

@@ -22,10 +22,10 @@ interface WalletOption {
 }
 
 const WALLET_OPTIONS: WalletOption[] = [
-    { id: 'bankily', name: 'بنكيلي (Bankily)', codeAbonnement: 'ba60ee21-2944-4f22-818e-de75470a7c4e' },
-    { id: 'masrvi', name: 'مصرفي (Masrvi)', codeAbonnement: 'ba60ee21-2944-4f22-818e-de75470a7c4e' },
-    { id: 'seddad', name: 'سداد (Seddad)', codeAbonnement: 'ba60ee21-2944-4f22-818e-de75470a7c4e' },
-    { id: 'click', name: 'كليك (Click)', codeAbonnement: 'ba60ee21-2944-4f22-818e-de75470a7c4e' },
+    { id: 'bankily', name: 'بنكيلي (Bankily)', codeAbonnement: 'bb91c0b3-f6a4-44be-8dd3-5227201c2dfb' },
+    { id: 'masrvi', name: 'مصرفي (Masrvi)', codeAbonnement: 'bb91c0b3-f6a4-44be-8dd3-5227201c2dfb' },
+    { id: 'seddad', name: 'سداد (Seddad)', codeAbonnement: 'bb91c0b3-f6a4-44be-8dd3-5227201c2dfb' },
+    { id: 'click', name: 'كليك (Click)', codeAbonnement: 'bb91c0b3-f6a4-44be-8dd3-5227201c2dfb' },
 ];
 
 export default function CheckoutModal({
