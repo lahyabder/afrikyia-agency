@@ -14,14 +14,20 @@ const Footer = () => {
     const [socials, setSocials] = useState<SocialAccount[]>(DEFAULT_SOCIAL_ACCOUNTS);
 
     useEffect(() => {
-        fetch('/api/company/socials')
-            .then(res => (res.ok ? res.json() : null))
-            .then(data => {
-                if (data?.socials && Array.isArray(data.socials) && data.socials.length > 0) {
-                    setSocials(data.socials);
-                }
-            })
-            .catch(() => {});
+        const loadSocials = () => {
+            fetch(`/api/company/socials?t=${Date.now()}`, { cache: 'no-store' })
+                .then(res => (res.ok ? res.json() : null))
+                .then(data => {
+                    if (data?.socials && Array.isArray(data.socials) && data.socials.length > 0) {
+                        setSocials(data.socials);
+                    }
+                })
+                .catch(() => {});
+        };
+
+        loadSocials();
+        window.addEventListener('afrikyia-socials-updated', loadSocials);
+        return () => window.removeEventListener('afrikyia-socials-updated', loadSocials);
     }, []);
 
     const links = [

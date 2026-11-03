@@ -52,44 +52,47 @@ export default function CompanyPage() {
     if (!company) return <div className="space-y-4"><PageHeader title={c.title} subtitle={c.subtitle} /><ErrorBox message={error} /></div>;
 
     return (
-        <form onSubmit={save} className="space-y-6 max-w-4xl">
-            <PageHeader title={c.title} subtitle={c.subtitle}>
-                <button type="submit" disabled={saving} className={primaryBtn}><Save className="w-4 h-4" />{saving ? '…' : b.common.save}</button>
-            </PageHeader>
-            <ErrorBox message={error} />
-            {saved && <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">{c.saved}</div>}
+        <div className="space-y-6 max-w-4xl">
+            <form onSubmit={save} className="space-y-6">
+                <PageHeader title={c.title} subtitle={c.subtitle}>
+                    <button type="submit" disabled={saving} className={primaryBtn}><Save className="w-4 h-4" />{saving ? '…' : b.common.save}</button>
+                </PageHeader>
+                <ErrorBox message={error} />
+                {saved && <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-300">{c.saved}</div>}
 
-            {SECTIONS.map(section => (
-                <fieldset key={section.key} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                    <legend className="px-2 text-sm font-bold text-yellow-400">{c[section.key]}</legend>
+                {SECTIONS.map(section => (
+                    <fieldset key={section.key} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                        <legend className="px-2 text-sm font-bold text-yellow-400">{c[section.key]}</legend>
+                        <div className="grid sm:grid-cols-2 gap-4">
+                            {section.fields.map(key => (
+                                <Field key={key} label={f[key]}>
+                                    <input
+                                        value={company[key]}
+                                        onChange={e => setCompany(v => v && { ...v, [key]: e.target.value })}
+                                        dir={LTR.has(key) ? 'ltr' : key === 'addressAr' || key === 'cityAr' || key === 'signatoryAr' || key === 'signatoryTitleAr' ? 'rtl' : undefined}
+                                        className={inputClass}
+                                    />
+                                </Field>
+                            ))}
+                        </div>
+                    </fieldset>
+                ))}
+
+                <fieldset className="bg-white/5 border border-white/10 rounded-2xl p-5">
+                    <legend className="px-2 text-sm font-bold text-yellow-400">{c.bankTitle}</legend>
                     <div className="grid sm:grid-cols-2 gap-4">
-                        {section.fields.map(key => (
+                        {BANK_FIELDS.map(key => (
                             <Field key={key} label={f[key]}>
-                                <input
-                                    value={company[key]}
-                                    onChange={e => setCompany(v => v && { ...v, [key]: e.target.value })}
-                                    dir={LTR.has(key) ? 'ltr' : key === 'addressAr' || key === 'cityAr' || key === 'signatoryAr' || key === 'signatoryTitleAr' ? 'rtl' : undefined}
-                                    className={inputClass}
-                                />
+                                <input value={(bank[key] as string) ?? ''} onChange={e => setBank(v => ({ ...v, [key]: e.target.value }))} dir={LTR.has(key) ? 'ltr' : undefined} className={inputClass} />
                             </Field>
                         ))}
                     </div>
                 </fieldset>
-            ))}
+                <SealsEditor />
+            </form>
 
-            <fieldset className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                <legend className="px-2 text-sm font-bold text-yellow-400">{c.bankTitle}</legend>
-                <div className="grid sm:grid-cols-2 gap-4">
-                    {BANK_FIELDS.map(key => (
-                        <Field key={key} label={f[key]}>
-                            <input value={(bank[key] as string) ?? ''} onChange={e => setBank(v => ({ ...v, [key]: e.target.value }))} dir={LTR.has(key) ? 'ltr' : undefined} className={inputClass} />
-                        </Field>
-                    ))}
-                </div>
-            </fieldset>
             <SocialAccountsManager isRTL={b.common.save === 'حفظ'} />
-            <SealsEditor />
-        </form>
+        </div>
     );
 }
 

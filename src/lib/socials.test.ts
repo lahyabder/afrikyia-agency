@@ -40,6 +40,20 @@ describe('Company Social Accounts Model & Validation', () => {
             expect(Object.keys(result.errors).length).toBe(0);
         });
 
+        it('accepts handle or domain without https:// and auto-formats it', () => {
+            const resultTiktok = validateSocialAccount({
+                platform: 'tiktok',
+                url: 'tiktok.com/@myuser',
+            });
+            expect(resultTiktok.valid).toBe(true);
+
+            const resultHandle = validateSocialAccount({
+                platform: 'tiktok',
+                url: '@myuser',
+            });
+            expect(resultHandle.valid).toBe(true);
+        });
+
         it('rejects missing or invalid platform', () => {
             const invalidPlatform = {
                 platform: 'invalid-platform' as any,

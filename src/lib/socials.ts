@@ -153,15 +153,40 @@ export function isSupportedPlatform(val: unknown): val is SocialPlatform {
     return typeof val === 'string' && (SUPPORTED_PLATFORMS as readonly string[]).includes(val);
 }
 
+export function cleanAndFormatSocialUrl(rawUrl: string, platform?: SocialPlatform): string {
+    let trimmed = (rawUrl || '').trim();
+    if (!trimmed) return '';
+
+    if (trimmed.startsWith('@') && platform) {
+        const username = trimmed.replace(/^@+/, '');
+        switch (platform) {
+            case 'tiktok': return `https://www.tiktok.com/@${username}`;
+            case 'instagram': return `https://www.instagram.com/${username}`;
+            case 'x': return `https://x.com/${username}`;
+            case 'threads': return `https://www.threads.net/@${username}`;
+            case 'github': return `https://github.com/${username}`;
+            case 'youtube': return `https://www.youtube.com/@${username}`;
+            default: break;
+        }
+    }
+
+    if (!/^https?:\/\//i.test(trimmed)) {
+        trimmed = `https://${trimmed}`;
+    }
+    return trimmed;
+}
+
 export function isValidUrl(url: string): boolean {
     if (!url || typeof url !== 'string') return false;
     const trimmed = url.trim();
     if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:') || trimmed.startsWith('vbscript:')) {
         return false;
     }
+    const candidate = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
     try {
-        const parsed = new URL(trimmed);
-        return parsed.protocol === 'https:' || parsed.protocol === 'http:';
+        const parsed = new URL(candidate);
+        if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+        return parsed.hostname.includes('.') || parsed.hostname === 'localhost';
     } catch {
         return false;
     }
@@ -177,7 +202,8 @@ export function validateSocialAccount(account: Partial<SocialAccount>): {
         errors.platform = 'Invalid or missing social platform';
     }
 
-    if (!account.url || !isValidUrl(account.url)) {
+    const formattedUrl = cleanAndFormatSocialUrl(account.url || '', account.platform);
+    if (!formattedUrl || !isValidUrl(formattedUrl)) {
         errors.url = 'Valid HTTP/HTTPS URL is required';
     }
 
@@ -194,7 +220,8 @@ export function normalizeSocialAccount(raw: unknown): SocialAccount | null {
     if (!isSupportedPlatform(r.platform)) return null;
     const platform = r.platform;
 
-    const url = typeof r.url === 'string' ? r.url.trim() : '';
+    const rawUrl = typeof r.url === 'string' ? r.url.trim() : '';
+    const url = cleanAndFormatSocialUrl(rawUrl, platform);
     if (!isValidUrl(url)) return null;
 
     const id = typeof r.id === 'string' && r.id.trim().length > 0

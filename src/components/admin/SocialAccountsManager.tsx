@@ -30,6 +30,7 @@ import {
     type SocialAccount,
     type SocialPlatform,
     isValidUrl,
+    cleanAndFormatSocialUrl,
 } from '@/lib/socials';
 
 // Custom X / Twitter icon
@@ -155,10 +156,12 @@ export default function SocialAccountsManager({
 
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
+        e.stopPropagation();
         setFormError('');
 
-        if (!isValidUrl(formUrl)) {
-            setFormError('يرجى إدخال رابط صحيح يبدأ بـ http:// أو https://');
+        const formattedUrl = cleanAndFormatSocialUrl(formUrl, formPlatform);
+        if (!isValidUrl(formattedUrl)) {
+            setFormError('يرجى إدخال رابط صحيح (مثال: tiktok.com/@username أو https://...)');
             return;
         }
 
@@ -172,7 +175,7 @@ export default function SocialAccountsManager({
                     body: JSON.stringify({
                         id: editingAccount.id,
                         platform: formPlatform,
-                        url: formUrl.trim(),
+                        url: formattedUrl,
                         handle: formHandle.trim() || undefined,
                         label: formLabel.trim() || PLATFORM_METADATA[formPlatform]?.name,
                         isActive: formIsActive,
@@ -184,6 +187,9 @@ export default function SocialAccountsManager({
                     setAccounts(data.accounts || []);
                     closeModal();
                     setSuccess('تم تعديل الحساب بنجاح');
+                    if (typeof window !== 'undefined') {
+                        window.dispatchEvent(new CustomEvent('afrikyia-socials-updated', { detail: data.accounts }));
+                    }
                     setTimeout(() => setSuccess(''), 4000);
                 } else {
                     const data = await res.json().catch(() => ({}));
@@ -196,7 +202,7 @@ export default function SocialAccountsManager({
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         platform: formPlatform,
-                        url: formUrl.trim(),
+                        url: formattedUrl,
                         handle: formHandle.trim() || undefined,
                         label: formLabel.trim() || PLATFORM_METADATA[formPlatform]?.name,
                         isActive: formIsActive,
@@ -209,6 +215,9 @@ export default function SocialAccountsManager({
                     setAccounts(data.accounts || []);
                     closeModal();
                     setSuccess('تمت إضافة الحساب بنجاح');
+                    if (typeof window !== 'undefined') {
+                        window.dispatchEvent(new CustomEvent('afrikyia-socials-updated', { detail: data.accounts }));
+                    }
                     setTimeout(() => setSuccess(''), 4000);
                 } else {
                     const data = await res.json().catch(() => ({}));
@@ -235,6 +244,9 @@ export default function SocialAccountsManager({
                 const data = await res.json();
                 setAccounts(data.accounts || []);
                 setSuccess('تم حذف الحساب بنجاح');
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('afrikyia-socials-updated', { detail: data.accounts }));
+                }
                 setTimeout(() => setSuccess(''), 4000);
             } else {
                 setError('تعذر حذف الحساب');
@@ -257,6 +269,9 @@ export default function SocialAccountsManager({
             if (res.ok) {
                 const data = await res.json();
                 setAccounts(data.accounts || []);
+                if (typeof window !== 'undefined') {
+                    window.dispatchEvent(new CustomEvent('afrikyia-socials-updated', { detail: data.accounts }));
+                }
             }
         } catch {
             setError('تعذر تحديث حالة الحساب');
