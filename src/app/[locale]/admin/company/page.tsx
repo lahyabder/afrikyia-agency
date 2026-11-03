@@ -5,6 +5,7 @@ import { Save } from 'lucide-react';
 import { Field, PageHeader, ErrorBox, inputClass, primaryBtn, api, useBiz } from '@/components/admin/biz/ui';
 import type { BankInfo, CompanyInfo } from '@/lib/company';
 import { useAccessTexts } from '@/components/admin/AdminSession';
+import SocialAccountsManager from '@/components/admin/SocialAccountsManager';
 
 const SECTIONS: { key: 'identity' | 'contact' | 'signature'; fields: (keyof CompanyInfo)[] }[] = [
     { key: 'identity', fields: ['legalName', 'tradeName', 'tagline', 'legalForm', 'capital', 'rc', 'nif', 'cnss', 'manager'] },
@@ -86,6 +87,7 @@ export default function CompanyPage() {
                     ))}
                 </div>
             </fieldset>
+            <SocialAccountsManager isRTL={b.common.save === 'حفظ'} />
             <SealsEditor />
         </form>
     );

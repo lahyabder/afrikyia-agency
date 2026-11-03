@@ -243,6 +243,27 @@
             "noMessages": "Aucun nouveau message.",
             "viewAll": "Tout voir"
         },
+        "socials": {
+            "title": "Réseaux Sociaux de l'entreprise",
+            "subtitle": "Gérer, ajouter, modifier et supprimer les comptes sociaux officiels de l'entreprise",
+            "add": "Ajouter un compte",
+            "edit": "Modifier le compte",
+            "delete": "Supprimer le compte",
+            "platform": "Plateforme",
+            "url": "URL du compte",
+            "handle": "Identifiant / Handle",
+            "label": "Libellé d'affichage",
+            "isActive": "Activer ce compte et l'afficher aux visiteurs",
+            "active": "Actif",
+            "inactive": "Inactif",
+            "save": "Enregistrer",
+            "saveChanges": "Enregistrer les modifications",
+            "cancel": "Annuler",
+            "confirmDelete": "Voulez-vous vraiment supprimer ce compte ?",
+            "savedSuccess": "Compte enregistré avec succès",
+            "deletedSuccess": "Compte supprimé avec succès",
+            "empty": "Aucun compte social configuré pour le moment."
+        },
         "clients": {
             "title": "Clients",
             "addClient": "Ajouter un Client",

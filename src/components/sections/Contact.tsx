@@ -1,14 +1,27 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { Send, Mail, Phone, CheckCircle2, AlertCircle, Facebook, Radio } from 'lucide-react';
-import { TiktokIcon } from '@/components/icons/TiktokIcon';
+import { Send, Mail, Phone, CheckCircle2, AlertCircle, Radio } from 'lucide-react';
+import { DEFAULT_SOCIAL_ACCOUNTS, type SocialAccount } from '@/lib/socials';
+import { getPlatformIcon } from '@/components/admin/SocialAccountsManager';
 
 const Contact = () => {
     const { t, isRTL, language } = useLanguage();
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [socials, setSocials] = useState<SocialAccount[]>(DEFAULT_SOCIAL_ACCOUNTS);
+
+    useEffect(() => {
+        fetch('/api/company/socials')
+            .then(res => (res.ok ? res.json() : null))
+            .then(data => {
+                if (data?.socials && Array.isArray(data.socials) && data.socials.length > 0) {
+                    setSocials(data.socials);
+                }
+            })
+            .catch(() => {});
+    }, []);
 
     const c = t.contact;
     const h = t.home.contact;
@@ -95,11 +108,6 @@ const Contact = () => {
         },
     ];
 
-    const socials = [
-        { href: 'https://www.facebook.com/profile.php?id=61594179056891', icon: Facebook, label: 'Facebook' },
-        { href: 'https://www.tiktok.com/@afrikyiadeveloper', icon: TiktokIcon, label: 'TikTok' },
-    ];
-
     return (
         <section id="contact" className="py-20 lg:py-28 bg-[#F8FAFC] border-t border-slate-200/80 scroll-mt-16 lg:scroll-mt-24 relative overflow-hidden">
             <div className="site-container grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -150,14 +158,14 @@ const Contact = () => {
                         <span className="text-sm font-semibold text-slate-500">{h.follow || (isRTL ? 'تابعنا' : 'Suivez-nous')}</span>
                         {socials.map(s => (
                             <a
-                                key={s.href}
-                                href={s.href}
+                                key={s.id || s.url}
+                                href={s.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                aria-label={s.label}
+                                aria-label={s.label || s.platform}
                                 className="w-10 h-10 rounded-xl bg-white border border-slate-200/80 text-slate-600 hover:text-brand-red hover:border-slate-300 flex items-center justify-center transition-colors shadow-2xs"
                             >
-                                <s.icon className="w-4 h-4" />
+                                {getPlatformIcon(s.platform, 'w-4 h-4')}
                             </a>
                         ))}
                     </div>

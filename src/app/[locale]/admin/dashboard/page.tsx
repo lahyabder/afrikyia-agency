@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Globe, Briefcase, Files, PenLine, Activity, Wallet, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox } from 'lucide-react';
+import { Globe, Briefcase, Files, PenLine, Activity, Wallet, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox, Share2 } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAdminSession } from '@/components/admin/AdminSession';
+import SocialAccountsManager from '@/components/admin/SocialAccountsManager';
 
 type Overview = {
     counts: { achievements: number | null; projects: number | null; files: number | null; newMessages: number | null };
@@ -14,7 +15,7 @@ type Overview = {
 };
 
 export default function DashboardPage() {
-    const { t, language } = useLanguage();
+    const { t, language, isRTL } = useLanguage();
     const [overview, setOverview] = useState<Overview | null>(null);
     const [loadError, setLoadError] = useState(false);
     const [finance, setFinance] = useState<{ income: number; expenses: number; receivable: number } | null>(null);
@@ -61,6 +62,7 @@ export default function DashboardPage() {
         { name: menu.trusted, icon: Users, href: '/admin/trusted' },
         { name: menu.contact, icon: Mail, href: '/admin/contact' },
         { name: menu.files, icon: Files, href: '/admin/files' },
+        { name: isRTL ? 'الحسابات الاجتماعية' : 'Réseaux sociaux', icon: Share2, href: '#company-socials' },
     ];
 
     const formatDate = (iso: string) =>
@@ -222,6 +224,13 @@ export default function DashboardPage() {
                 </div>
                 )}
             </div>
+
+            {/* Company Social Media Accounts Management */}
+            {canPublish && (
+                <div id="company-socials">
+                    <SocialAccountsManager isRTL={isRTL} />
+                </div>
+            )}
         </div>
     );
 }
