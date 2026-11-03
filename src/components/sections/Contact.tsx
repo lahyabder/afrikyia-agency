@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
-import { Send, Mail, Phone, CheckCircle2, AlertCircle, Radio } from 'lucide-react';
+import { Send, Mail, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
+import { WhatsappIcon } from '@/components/icons/WhatsappIcon';
 import { DEFAULT_SOCIAL_ACCOUNTS, type SocialAccount } from '@/lib/socials';
 import { getPlatformIcon } from '@/components/admin/SocialAccountsManager';
 
@@ -106,7 +107,7 @@ const Contact = () => {
         },
         {
             href: 'https://whatsapp.com/channel/0029VbDnuKB5Ui2eXs8BZn1O',
-            icon: Radio,
+            icon: WhatsappIcon,
             iconBg: 'bg-emerald-50 text-emerald-600',
             label: h.whatsappLabel || (isRTL ? 'قناة واتساب الرسمية' : 'Chaîne WhatsApp officielle'),
             value: 'AFRIKYIA Channel',

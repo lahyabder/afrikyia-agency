@@ -50,7 +50,7 @@ export const PLATFORM_METADATA: Record<SocialPlatform, PlatformMeta> = {
         color: 'text-slate-900',
         bgColor: 'bg-slate-100',
         borderColor: 'border-slate-300',
-        placeholder: 'https://tiktok.com/@afrikyiadeveloper',
+        placeholder: 'https://tiktok.com/@afrikyai',
         prefix: 'https://tiktok.com/@',
     },
     linkedin: {
@@ -132,8 +132,8 @@ export const DEFAULT_SOCIAL_ACCOUNTS: SocialAccount[] = [
     {
         id: 'soc-tiktok-default',
         platform: 'tiktok',
-        url: 'https://www.tiktok.com/@afrikyiadeveloper',
-        handle: '@afrikyiadeveloper',
+        url: 'https://www.tiktok.com/@afrikyai',
+        handle: '@afrikyai',
         label: 'TikTok',
         isActive: true,
         order: 2,

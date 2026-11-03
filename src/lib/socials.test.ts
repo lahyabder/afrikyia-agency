@@ -6,6 +6,7 @@ import {
     normalizeSocialAccountsList,
     validateSocialAccount,
     type SocialAccount,
+    type SocialPlatform,
 } from './socials';
 
 describe('Company Social Accounts Model & Validation', () => {

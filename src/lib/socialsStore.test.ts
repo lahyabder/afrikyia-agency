@@ -45,6 +45,24 @@ describe('Social Accounts Store (site_content)', () => {
         expect(accounts[0].platform).toBe('linkedin');
     });
 
+    it('self-heals inactive or legacy TikTok accounts to active @afrikyai handle', async () => {
+        const stored = [
+            { id: 'tt-1', platform: 'tiktok', url: 'https://tiktok.com/@afrikyiadeveloper', isActive: false, order: 2 },
+        ];
+        const mockMaybeSingle = vi.fn().mockResolvedValueOnce({ data: { data: stored }, error: null });
+        const mockEq = vi.fn().mockReturnValue({ maybeSingle: mockMaybeSingle });
+        const mockSelect = vi.fn().mockReturnValue({ eq: mockEq });
+        const mockUpsert = vi.fn().mockResolvedValue({ error: null });
+        vi.mocked(supabaseAdmin.from).mockReturnValue({ select: mockSelect, upsert: mockUpsert } as any);
+
+        const accounts = await loadSocialAccounts();
+        expect(accounts.length).toBe(1);
+        expect(accounts[0].platform).toBe('tiktok');
+        expect(accounts[0].isActive).toBe(true);
+        expect(accounts[0].url).toBe('https://www.tiktok.com/@afrikyai');
+        expect(accounts[0].handle).toBe('@afrikyai');
+    });
+
     it('saves accounts successfully into site_content', async () => {
         const mockUpsert = vi.fn().mockResolvedValueOnce({ error: null });
         vi.mocked(supabaseAdmin.from).mockReturnValue({ upsert: mockUpsert } as any);

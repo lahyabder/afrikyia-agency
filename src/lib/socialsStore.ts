@@ -21,7 +21,21 @@ export async function loadSocialAccounts(): Promise<SocialAccount[]> {
             return DEFAULT_SOCIAL_ACCOUNTS;
         }
 
-        return normalizeSocialAccountsList(data.data);
+        const accounts = normalizeSocialAccountsList(data.data);
+        const ttIdx = accounts.findIndex(a => a.platform === 'tiktok');
+        if (ttIdx !== -1) {
+            const tt = accounts[ttIdx];
+            if (!tt.isActive || tt.url.includes('afrikyiadeveloper')) {
+                accounts[ttIdx] = {
+                    ...tt,
+                    url: 'https://www.tiktok.com/@afrikyai',
+                    handle: '@afrikyai',
+                    isActive: true,
+                };
+                saveSocialAccounts(accounts).catch(() => {});
+            }
+        }
+        return accounts;
     } catch (e) {
         console.error('Failed to load company social accounts:', e);
         return DEFAULT_SOCIAL_ACCOUNTS;

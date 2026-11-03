@@ -6,7 +6,6 @@ import {
     Linkedin,
     Instagram,
     Youtube,
-    Radio,
     Github,
     AtSign,
     Globe,
@@ -24,6 +23,7 @@ import {
     Loader2,
 } from 'lucide-react';
 import { TiktokIcon } from '@/components/icons/TiktokIcon';
+import { WhatsappIcon } from '@/components/icons/WhatsappIcon';
 import {
     SUPPORTED_PLATFORMS,
     PLATFORM_METADATA,
@@ -55,7 +55,7 @@ export function getPlatformIcon(platform: SocialPlatform, className = 'w-4 h-4')
         case 'youtube':
             return <Youtube className={className} />;
         case 'whatsapp':
-            return <Radio className={className} />;
+            return <WhatsappIcon className={className} />;
         case 'github':
             return <Github className={className} />;
         case 'threads':
@@ -132,7 +132,7 @@ export default function SocialAccountsManager({
         setFormUrl(account.url);
         setFormHandle(account.handle || '');
         setFormLabel(account.label || '');
-        setFormIsActive(account.isActive);
+        setFormIsActive(account.isActive !== false);
         setFormError('');
         setModalOpen(true);
     };
@@ -368,13 +368,24 @@ export default function SocialAccountsManager({
                                         {getPlatformIcon(acc.platform, 'w-5 h-5')}
                                     </div>
                                     <div className="min-w-0">
-                                        <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-2 flex-wrap">
                                             <span className="text-sm font-bold text-white truncate">
                                                 {acc.label || meta.name}
                                             </span>
                                             {acc.handle && (
                                                 <span className="text-xs text-yellow-400/90 font-mono" dir="ltr">
                                                     {acc.handle}
+                                                </span>
+                                            )}
+                                            {acc.isActive ? (
+                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                                                    ظاهر في الموقع
+                                                </span>
+                                            ) : (
+                                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                                                    مخفي من الموقع
                                                 </span>
                                             )}
                                         </div>
@@ -396,12 +407,12 @@ export default function SocialAccountsManager({
                                     <button
                                         type="button"
                                         onClick={() => handleToggleActive(acc)}
-                                        title={acc.isActive ? 'تعطيل الحساب' : 'تفعيل الحساب'}
-                                        aria-label={acc.isActive ? 'تعطيل' : 'تفعيل'}
+                                        title={acc.isActive ? 'إخفاء من الموقع للجمهور' : 'إظهار في الموقع للجمهور'}
+                                        aria-label={acc.isActive ? 'إخفاء من الموقع' : 'إظهار في الموقع'}
                                         className={`p-2 rounded-lg border transition-all cursor-pointer ${
                                             acc.isActive
                                                 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20'
-                                                : 'bg-white/5 border-white/10 text-white/40 hover:text-white'
+                                                : 'bg-amber-500/10 border-amber-500/20 text-amber-400 hover:bg-amber-500/20'
                                         }`}
                                     >
                                         {acc.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
@@ -568,17 +579,41 @@ export default function SocialAccountsManager({
                             </div>
 
                             {/* Active toggle */}
-                            <div className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/10">
-                                <input
-                                    type="checkbox"
-                                    id="social-is-active"
-                                    checked={formIsActive}
-                                    onChange={e => setFormIsActive(e.target.checked)}
-                                    className="w-4 h-4 rounded text-yellow-400 focus:ring-yellow-400 accent-yellow-400 cursor-pointer"
-                                />
-                                <label htmlFor="social-is-active" className="text-xs font-bold text-white cursor-pointer select-none">
-                                    تفعيل هذا الحساب وعرضه للجمهور على الموقع
-                                </label>
+                            <div
+                                onClick={() => setFormIsActive(!formIsActive)}
+                                className={`flex items-center justify-between p-3.5 rounded-xl border cursor-pointer transition-all select-none ${
+                                    formIsActive
+                                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
+                                        : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+                                }`}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="social-is-active"
+                                        checked={formIsActive}
+                                        onChange={e => setFormIsActive(e.target.checked)}
+                                        className="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-400 accent-emerald-500 cursor-pointer"
+                                        onClick={e => e.stopPropagation()}
+                                    />
+                                    <div>
+                                        <label htmlFor="social-is-active" className="text-xs font-bold block cursor-pointer">
+                                            {formIsActive ? 'الحساب مفعّل: ظاهر للجمهور على الموقع' : 'الحساب معطّل: مخفي من الموقع'}
+                                        </label>
+                                        <span className="text-[11px] opacity-70 block">
+                                            {formIsActive
+                                                ? 'سيتم عرض أيقونة الحساب في تذييل الموقع وقسم التواصل للزوار.'
+                                                : 'لن يتم عرض هذا الحساب للزوار في الموقع.'}
+                                        </span>
+                                    </div>
+                                </div>
+                                <span className={`text-xs font-bold px-2.5 py-1 rounded-lg border ${
+                                    formIsActive
+                                        ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-300'
+                                        : 'bg-amber-500/20 border-amber-500/40 text-amber-300'
+                                }`}>
+                                    {formIsActive ? 'ظاهر' : 'مخفي'}
+                                </span>
                             </div>
 
                             {/* Actions */}
