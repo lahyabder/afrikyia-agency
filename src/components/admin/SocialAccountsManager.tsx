@@ -160,9 +160,20 @@ export default function SocialAccountsManager({
         setFormError('');
 
         const formattedUrl = cleanAndFormatSocialUrl(formUrl, formPlatform);
+        setFormUrl(formattedUrl);
+
         if (!isValidUrl(formattedUrl)) {
-            setFormError('يرجى إدخال رابط صحيح (مثال: tiktok.com/@username أو https://...)');
+            setFormError('يرجى إدخال رابط صالح (مثال: tiktok.com/@user أو https://...)');
             return;
+        }
+
+        // Auto-extract handle if handle field is empty
+        let finalHandle = formHandle.trim();
+        if (!finalHandle) {
+            const match = formattedUrl.match(/@([a-zA-Z0-9_.-]+)/);
+            if (match) {
+                finalHandle = `@${match[1]}`;
+            }
         }
 
         setSaving(true);
@@ -176,7 +187,7 @@ export default function SocialAccountsManager({
                         id: editingAccount.id,
                         platform: formPlatform,
                         url: formattedUrl,
-                        handle: formHandle.trim() || undefined,
+                        handle: finalHandle || undefined,
                         label: formLabel.trim() || PLATFORM_METADATA[formPlatform]?.name,
                         isActive: formIsActive,
                     }),
@@ -462,7 +473,7 @@ export default function SocialAccountsManager({
                             </div>
                         )}
 
-                        <form onSubmit={handleSave} className="space-y-4">
+                        <form onSubmit={handleSave} noValidate className="space-y-4">
                             {/* Platform selector */}
                             <div>
                                 <label className="block text-xs font-bold text-white/80 mb-2">
@@ -496,16 +507,32 @@ export default function SocialAccountsManager({
                                     رابط الحساب (URL) <span className="text-red-400">*</span>
                                 </label>
                                 <input
-                                    type="url"
+                                    type="text"
+                                    inputMode="url"
+                                    autoCapitalize="none"
+                                    autoCorrect="off"
+                                    spellCheck={false}
                                     required
                                     value={formUrl}
                                     onChange={e => setFormUrl(e.target.value)}
+                                    onBlur={() => {
+                                        if (formUrl.trim()) {
+                                            const formatted = cleanAndFormatSocialUrl(formUrl, formPlatform);
+                                            setFormUrl(formatted);
+                                            if (!formHandle.trim()) {
+                                                const match = formatted.match(/@([a-zA-Z0-9_.-]+)/);
+                                                if (match) {
+                                                    setFormHandle(`@${match[1]}`);
+                                                }
+                                            }
+                                        }
+                                    }}
                                     placeholder={PLATFORM_METADATA[formPlatform]?.placeholder || 'https://...'}
-                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400 transition-all"
+                                    className="w-full bg-black/40 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-yellow-400 transition-all font-mono"
                                     dir="ltr"
                                 />
-                                <span className="text-[11px] text-white/40 mt-1 block">
-                                    يجب أن يبدأ بـ https:// أو http://
+                                <span className="text-[11px] text-white/50 mt-1 block">
+                                    يمكنك إدخال الرابط كاملاً، أو اسم النطاق، أو المعرف (مثال: <span className="font-mono text-yellow-400/80">www.tiktok.com/@user</span> أو <span className="font-mono text-yellow-400/80">@user</span>)
                                 </span>
                             </div>
 

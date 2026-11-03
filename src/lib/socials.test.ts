@@ -47,6 +47,12 @@ describe('Company Social Accounts Model & Validation', () => {
             });
             expect(resultTiktok.valid).toBe(true);
 
+            const resultWwwTiktok = validateSocialAccount({
+                platform: 'tiktok',
+                url: 'www.tiktok.com/@afrikyai',
+            });
+            expect(resultWwwTiktok.valid).toBe(true);
+
             const resultHandle = validateSocialAccount({
                 platform: 'tiktok',
                 url: '@myuser',
@@ -56,7 +62,7 @@ describe('Company Social Accounts Model & Validation', () => {
 
         it('rejects missing or invalid platform', () => {
             const invalidPlatform = {
-                platform: 'invalid-platform' as any,
+                platform: 'invalid-platform' as unknown as SocialPlatform,
                 url: 'https://example.com',
             };
             const result = validateSocialAccount(invalidPlatform);
