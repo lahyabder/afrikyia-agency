@@ -9,7 +9,7 @@ import { DEFAULT_SOCIAL_ACCOUNTS, type SocialAccount } from '@/lib/socials';
 import { getPlatformIcon } from '@/components/admin/SocialAccountsManager';
 
 const Footer = () => {
-    const { t } = useLanguage();
+    const { t, isRTL } = useLanguage();
     const nav = t.home.nav;
     const [socials, setSocials] = useState<SocialAccount[]>(DEFAULT_SOCIAL_ACCOUNTS);
 
@@ -34,6 +34,7 @@ const Footer = () => {
         { href: '/#solutions', label: nav.solutions || nav.services },
         { href: '/#products', label: nav.products || nav.applications },
         { href: '/#works', label: nav.works },
+        { href: '/blog', label: nav.blog || (isRTL ? 'المدونة' : 'Blog') },
         { href: '/#methodology', label: nav.methodology || (nav.about ? 'منهجيتنا' : 'Méthode') },
         { href: '/#about', label: nav.about },
         { href: '/#contact', label: nav.contact },

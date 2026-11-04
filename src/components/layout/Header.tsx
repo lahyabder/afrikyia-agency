@@ -25,6 +25,7 @@ const Header = () => {
     { href: '/#solutions', label: h.solutions || 'حلولنا' },
     { href: '/#products', label: h.products || 'منتجاتنا' },
     { href: '/#works', label: h.works || 'مشاريعنا' },
+    { href: '/blog', label: h.blog || 'مدونة' },
     { href: '/#about', label: h.about || 'عن الشركة' },
     { href: '/#contact', label: h.contact || 'تواصل معنا' },
   ];
