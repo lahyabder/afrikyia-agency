@@ -8,7 +8,6 @@ import {
     getFeaturedArticles,
     getCategoryMetadata,
     BLOG_CATEGORIES,
-    type BlogCategory,
 } from './blog';
 
 describe('Blog Data Model and Query Helpers', () => {

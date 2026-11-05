@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Globe, Briefcase, Files, PenLine, Activity, Wallet, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox, Share2 } from 'lucide-react';
+import { Globe, Briefcase, Files, PenLine, Activity, Wallet, ExternalLink, AlertTriangle, FileText, LayoutDashboard, Users, Mail, Inbox, Share2, BookOpen } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { useLanguage } from '@/context/LanguageContext';
 import { useAdminSession } from '@/components/admin/AdminSession';
@@ -46,6 +46,7 @@ export default function DashboardPage() {
         services: menu.services,
         contact: menu.contact,
         trusted: menu.trusted,
+        blog: (menu as any).blog || (isRTL ? 'المدونة والمقالات' : 'Blog & Articles'),
     };
 
     const statCards = [
@@ -55,6 +56,7 @@ export default function DashboardPage() {
     ];
 
     const quickLinks = [
+        { name: (menu as any).blog || (isRTL ? 'المدونة والمقالات' : 'Blog & Articles'), icon: BookOpen, href: '/admin/blog' },
         { name: menu.achievements, icon: Globe, href: '/admin/achievements' },
         { name: menu.about, icon: FileText, href: '/admin/about' },
         { name: menu.vision, icon: LayoutDashboard, href: '/admin/vision' },

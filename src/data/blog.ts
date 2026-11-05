@@ -34,9 +34,12 @@ export interface BlogPost {
     publishedAt: string; // ISO YYYY-MM-DD
     readTime: Record<Locale, string>;
     featured?: boolean;
+    isPublished?: boolean; // Defaults to true if undefined
     tags: string[];
     coverGradient: string; // Tailwind gradient for modern visual header
     iconName?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface CategoryMetadata {
@@ -525,3 +528,32 @@ export function getCategoryMetadata(category: BlogCategory, locale: Locale = 'ar
         borderColor: def.borderColor,
     };
 }
+
+export function validateBlogPost(post: Partial<BlogPost>): {
+    valid: boolean;
+    errors: Record<string, string>;
+} {
+    const errors: Record<string, string> = {};
+
+    if (!post.slug || typeof post.slug !== 'string' || !/^[a-z0-9-]+$/.test(post.slug.trim())) {
+        errors.slug = 'Valid slug is required (lowercase letters, numbers, and hyphens only)';
+    }
+
+    if (!post.category || !BLOG_CATEGORIES.includes(post.category as BlogCategory)) {
+        errors.category = 'Valid category is required';
+    }
+
+    if (!post.title || typeof post.title !== 'object' || (!post.title.ar && !post.title.en && !post.title.fr)) {
+        errors.title = 'Title is required in at least one language';
+    }
+
+    if (!post.excerpt || typeof post.excerpt !== 'object' || (!post.excerpt.ar && !post.excerpt.en && !post.excerpt.fr)) {
+        errors.excerpt = 'Excerpt is required in at least one language';
+    }
+
+    return {
+        valid: Object.keys(errors).length === 0,
+        errors,
+    };
+}
+

@@ -32,7 +32,8 @@ import {
     Building2,
     UserRound,
     Banknote,
-    ShoppingBag
+    ShoppingBag,
+    BookOpen
 } from 'lucide-react';
 import { MESSAGES_UPDATED_EVENT } from '@/lib/adminEvents';
 import { AdminSessionContext, type AdminSession } from '@/components/admin/AdminSession';
@@ -201,6 +202,7 @@ export default function AdminLayoutClient({ children }: { children: React.ReactN
         {
             title: t.admin.menu.groupPublishing,
             items: [
+                { name: (t.admin.menu as any)?.blog || (isRTL ? 'المدونة والمقالات' : 'Blog & Articles'), icon: BookOpen, path: '/admin/blog', area: 'publishing' },
                 { name: t.admin.menu.achievements, icon: Globe, path: '/admin/achievements', area: 'publishing' },
                 { name: t.admin.menu.about, icon: FileText, path: '/admin/about', area: 'publishing' },
                 { name: t.admin.menu.vision, icon: LayoutDashboard, path: '/admin/vision', area: 'publishing' },

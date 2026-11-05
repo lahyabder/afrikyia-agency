@@ -193,7 +193,12 @@
             "localTag": "local",
             "openMenu": "Open menu",
             "closeMenu": "Close menu",
-            "messages": "Messages"
+            "messages": "Messages",
+            "blog": "Blog & Articles"
+        },
+        "blog": {
+            "title": "Blog & Articles Management",
+            "subtitle": "Add, edit, delete, and publish technical and knowledge articles on Afrikyia"
         },
         "common": {
             "search": "Search...",

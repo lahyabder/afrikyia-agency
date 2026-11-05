@@ -187,7 +187,12 @@
             "openMenu": "Ouvrir le menu",
             "closeMenu": "Fermer le menu",
             "projects": "Projets",
-            "messages": "Messages"
+            "messages": "Messages",
+            "blog": "Blog & Articles"
+        },
+        "blog": {
+            "title": "Gestion du Blog & Articles",
+            "subtitle": "Ajouter, modifier, supprimer et publier des articles techniques et de connaissances sur Afrikyia"
         },
         "common": {
             "search": "Rechercher...",

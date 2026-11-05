@@ -1,6 +1,29 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+
+const { mockPosts } = vi.hoisted(() => ({
+    mockPosts: [
+        {
+            slug: 'cloud-native-architecture-africa',
+            category: 'technology',
+            title: { ar: 'هندسة النظم السحابية الموزعة', en: 'Cloud', fr: 'Cloud' },
+            excerpt: { ar: 'ملخص تجريبي', en: 'Excerpt', fr: 'Extrait' },
+            content: { ar: [{ body: ['محتوى'] }], en: [], fr: [] },
+            author: { name: 'فريق الهندسة في AFRIKYIA', role: 'Dev' },
+            publishedAt: '2026-11-04',
+            readTime: { ar: '5 دقائق', en: '5 min', fr: '5 min' },
+            tags: ['Cloud'],
+            coverGradient: 'from-blue-600 to-indigo-900',
+            isPublished: true,
+        },
+    ],
+}));
+
+vi.mock('@/lib/blogStore', () => ({
+    loadBlogArticles: vi.fn().mockImplementation(() => Promise.resolve(mockPosts)),
+}));
+
 import BlogPage from './page';
 
 // Mock Header & Footer

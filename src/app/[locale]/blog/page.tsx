@@ -2,8 +2,9 @@ import React from 'react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import BlogList from '@/components/blog/BlogList';
-import { getAllArticles, type Locale } from '@/data/blog';
-import { Sparkles, BookOpen } from 'lucide-react';
+import { type Locale } from '@/data/blog';
+import { loadBlogArticles } from '@/lib/blogStore';
+import { Sparkles } from 'lucide-react';
 
 interface Props {
     params: Promise<{ locale: string }>;
@@ -41,7 +42,7 @@ export default async function BlogPage({ params }: Props) {
     const { locale } = await params;
     const currentLocale = (locale as Locale) || 'ar';
     const isRTL = currentLocale === 'ar';
-    const articles = getAllArticles();
+    const articles = await loadBlogArticles(false);
 
     const t = {
         badge: isRTL

@@ -5,7 +5,6 @@ import { Link } from '@/i18n/routing';
 import {
     Sparkles,
     Clock,
-    Calendar,
     ArrowLeft,
     ArrowRight,
     Tag,

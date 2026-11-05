@@ -11,6 +11,7 @@ import {
     CATEGORY_DEFINITIONS,
     type Locale,
 } from '@/data/blog';
+import { loadBlogArticles } from '@/lib/blogStore';
 import {
     Clock,
     Calendar,
@@ -29,7 +30,7 @@ interface Props {
 
 export async function generateStaticParams() {
     const locales = ['ar', 'en', 'fr'];
-    const articles = getAllArticles();
+    const articles = await loadBlogArticles(false);
     const params: { locale: string; slug: string }[] = [];
 
     for (const locale of locales) {
@@ -46,7 +47,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
     const { locale, slug } = await params;
-    const article = getArticleBySlug(slug);
+    const articles = await loadBlogArticles(false);
+    const article = articles.find(a => a.slug === slug);
 
     if (!article) {
         return {
@@ -77,7 +79,8 @@ export default async function BlogPostPage({ params }: Props) {
     const currentLocale = (locale as Locale) || 'ar';
     const isRTL = currentLocale === 'ar';
 
-    const article = getArticleBySlug(slug);
+    const articles = await loadBlogArticles(false);
+    const article = articles.find(a => a.slug === slug);
     if (!article) {
         notFound();
     }

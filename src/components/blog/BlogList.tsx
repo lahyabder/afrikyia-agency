@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState, useMemo } from 'react';
-import { Search, X, BookOpen, AlertCircle } from 'lucide-react';
+import { Search, X, AlertCircle } from 'lucide-react';
 import {
     type BlogPost,
     type BlogCategory,
     type Locale,
-    BLOG_CATEGORIES,
     searchArticles,
 } from '@/data/blog';
 import CategoryFilter from './CategoryFilter';
